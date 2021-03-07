@@ -1,11 +1,11 @@
 package Client.CLI.Pages;
 
 import Client.CLI.ConsoleColors;
+import Server.Validators;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -42,6 +42,28 @@ public class Main {
     }
 
     public static void register() {
-
+        while (true) {
+            String mail;
+            while (true) {
+                System.out.println(ConsoleColors.YELLOW + "Enter email:");
+                mail = scanner.next();
+                if (!Validators.isValidMail(mail))
+                    System.out.println(ConsoleColors.RED + "Email is not valid.");
+                else
+                    break;
+            }
+            System.out.println(ConsoleColors.YELLOW + "Enter username:");
+            String username = scanner.next();
+            System.out.println(ConsoleColors.YELLOW + "Enter password:");
+            String password = scanner.next();
+            System.out.println(ConsoleColors.YELLOW + "Enter your name:");
+            String name = scanner.next();
+            System.out.println(ConsoleColors.YELLOW + "Enter your surname:");
+            String surname = scanner.next();
+            if (Server.Requests.register(username, password, mail, name, surname))
+                break;
+            else
+                System.out.println(ConsoleColors.RED + "Registration failed.");
+        }
     }
 }

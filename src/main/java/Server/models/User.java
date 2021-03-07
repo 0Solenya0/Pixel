@@ -1,5 +1,6 @@
 package Server.models;
 
+import Server.Validators;
 import Server.models.Fields.AccessLevel;
 import Server.models.Fields.UserField;
 import Server.models.Filters.UserFilter;
@@ -72,20 +73,37 @@ public class User extends Model {
         user.put("lastseen", lastseen.getJSON());
         return user;
     }
-    public boolean isValid() {
+    public boolean isValid() throws Exception {
         if (mail.get() == null) {
-            logger.info(String.format("Email Validation Failed - mail is null. UserId: %d ", id));
-            return false;
+            logger.debug(String.format("Email Validation Failed - mail is null. UserId: %d ", id));
+            throw new Exception("Email field is empty.");
         }
-        if (!mail.get().isEmpty() && !Validators.isValidMail(mail.get())) {
-            logger.info(String.format("Email Validation Failed - bad format. UserId: %d , Input: %s", id, mail.get()));
-            return false;
+        if (!Validators.isValidMail(mail.get())) {
+            logger.debug(String.format("Email Validation Failed - bad format. UserId: %d , Input: %s", id, mail.get()));
+            throw new Exception("Email bad format.");
+        }
+        if (getFilter().getMail(mail.get()) != null) {
+            logger.debug("Email already exists.");
+            throw new Exception("Email already exists");
+        }
+        if (getFilter().getUsername(username) != null) {
+            logger.debug("User already exists.");
+            throw new Exception("User already exists.");
+        }
+        if (!phone.get().equals("") && getFilter().getPhone(phone.get()) != null) {
+            logger.debug("Phone number already exists.");
+            throw new Exception("Phone number already exists");
+        }
+        if (!Validators.isValidPhone(phone.get())) {
+            logger.debug("Phone number already exists.");
+            throw new Exception("Phone number is not valid.");
         }
         return true;
     }
     public void updateLastSeen() throws Exception {
         lastseen.set(LocalDateTime.now());
         save();
+        logger.info(String.format("Lastseen for user %s updated.", username));
     }
 
     public static User get(int id) throws IOException {
@@ -116,7 +134,7 @@ public class User extends Model {
         u.birthdate.set(LocalDate.parse(obj.getString("value")));
         u.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
-        logger.debug(String.format("UserId %s fetched successfully. %s", id, u.getJSON()));
+        logger.info(String.format("UserId %s fetched successfully. %s", id, u.getJSON()));
         return u;
     }
     public static UserFilter getFilter() throws IOException {

@@ -1,6 +1,8 @@
 package Server.models;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -8,10 +10,11 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 public abstract class Model {
+    private static final Logger logger = LogManager.getLogger(User.class);
 
     public abstract String getdatasrc();
     public abstract JSONObject getJSON();
-    public boolean isValid() {
+    public boolean isValid() throws Exception {
         return true;
     }
     public void save() throws Exception {
@@ -35,6 +38,7 @@ public abstract class Model {
         PrintStream printStream = new PrintStream(path);
         printStream.print(data.toString());
         printStream.close();
+        logger.info(String.format("%s got saved.", this.getClass()));
     }
 
     public static JSONObject loadJSON(int id, String datasrc) throws IOException {
@@ -49,5 +53,4 @@ public abstract class Model {
         path.mkdirs();
         return path.list().length;
     }
-
 }
