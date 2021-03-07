@@ -13,10 +13,7 @@ public class Main {
 
     public static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException {
-        logger.info("hi");
-        logger.error("hi");
-        System.out.println(User.getFilter().getUsername("Solenya"));
+    public static void main(String[] args) {
         while (true) {
             System.out.println(ConsoleColors.YELLOW + "Already have an account? (y/n)");
             String response = scanner.next();

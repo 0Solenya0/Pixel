@@ -54,7 +54,7 @@ public class User extends Model {
     }
 
     public boolean checkPassword(String password) {
-        return this.password == password;
+        return this.password.equals(password);
     }
 
     public JSONObject getJSON() {
@@ -116,7 +116,7 @@ public class User extends Model {
         u.birthdate.set(LocalDate.parse(obj.getString("value")));
         u.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
-        logger.info(String.format("UserId %s fetched successfully", id));
+        logger.debug(String.format("UserId %s fetched successfully. %s", id, u.getJSON()));
         return u;
     }
     public static UserFilter getFilter() throws IOException {

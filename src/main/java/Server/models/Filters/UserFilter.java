@@ -19,7 +19,7 @@ public class UserFilter {
     }
     public User getUsername(String username) {
         for (int i = 0; i < list.size(); i++)
-            if (list.get(i).username != username) {
+            if (!list.get(i).username.equals(username)) {
                 list.remove(i);
                 i--;
             }
@@ -29,7 +29,7 @@ public class UserFilter {
     }
     public User getMail(String mail) {
         for (int i = 0; i < list.size(); i++)
-            if (list.get(i).mail.get() != mail) {
+            if (!list.get(i).mail.get().equals(mail)) {
                 list.remove(i);
                 i--;
             }
@@ -39,7 +39,7 @@ public class UserFilter {
     }
     public User getPhone(String phone) {
         for (int i = 0; i < list.size(); i++)
-            if (list.get(i).phone.get() != phone) {
+            if (!list.get(i).phone.get().equals(phone)) {
                 list.remove(i);
                 i--;
             }

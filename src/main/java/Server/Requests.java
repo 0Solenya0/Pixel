@@ -10,6 +10,7 @@ public class Requests {
     public static boolean login(String username, String password) {
         try {
             User u = User.getFilter().getUsername(username);
+            logger.debug("Login request for target user : " + u.getJSON());
             if (u == null)
                 throw new Exception("Username does not exist.");
             if (u.checkPassword(password))
