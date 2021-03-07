@@ -1,6 +1,7 @@
 package Client.CLI.Pages;
 
 import Client.CLI.ConsoleColors;
+import Client.RequestSender;
 import Server.Validators;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
@@ -17,10 +18,8 @@ public class Main {
         while (true) {
             System.out.println(ConsoleColors.YELLOW + "Already have an account? (y/n)");
             String response = scanner.next();
-            if (response.equals("y")) {
+            if (response.equals("y"))
                 login();
-                break;
-            }
             else if (response.equals("n"))
                 register();
             else
@@ -29,20 +28,32 @@ public class Main {
     }
 
     public static void login() {
+        logger.info("directed to login page.");
         while (true) {
             System.out.println(ConsoleColors.YELLOW + "Enter your username:");
             String username = scanner.next();
             System.out.println(ConsoleColors.YELLOW + "Enter your password:");
             String password = scanner.next();
-            if (Server.Requests.login(username, password))
+            try {
+                RequestSender.config(username, password);
+                RequestSender.login();
                 System.out.println(ConsoleColors.GREEN + "Logged in successfully.");
-            else
-                System.out.println(ConsoleColors.RED + "Username or password is wrong.");
+                break;
+            }
+            catch (Exception e) {
+                System.out.println(ConsoleColors.RED + "Login failed - " + e.getMessage());
+            }
         }
     }
 
     public static void register() {
+        logger.info("directed to registration page.");
         while (true) {
+            System.out.println(ConsoleColors.YELLOW + "Enter your full name in separate lines:");
+            String name = scanner.next();
+            String surname = scanner.next();
+            System.out.println(ConsoleColors.YELLOW + "Enter username:");
+            String username = scanner.next();
             String mail;
             while (true) {
                 System.out.println(ConsoleColors.YELLOW + "Enter email:");
@@ -52,18 +63,16 @@ public class Main {
                 else
                     break;
             }
-            System.out.println(ConsoleColors.YELLOW + "Enter username:");
-            String username = scanner.next();
             System.out.println(ConsoleColors.YELLOW + "Enter password:");
             String password = scanner.next();
-            System.out.println(ConsoleColors.YELLOW + "Enter your name:");
-            String name = scanner.next();
-            System.out.println(ConsoleColors.YELLOW + "Enter your surname:");
-            String surname = scanner.next();
-            if (Server.Requests.register(username, password, mail, name, surname))
+            try {
+                RequestSender.register(username, password, mail, name, surname);
+                System.out.println(ConsoleColors.GREEN + "User have been registered.");
                 break;
-            else
-                System.out.println(ConsoleColors.RED + "Registration failed.");
+            }
+            catch (Exception e) {
+                System.out.println(ConsoleColors.RED + "Registration failed - " + e.getMessage());
+            }
         }
     }
 }
