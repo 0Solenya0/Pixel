@@ -1,10 +1,11 @@
 package Client;
 
 import Server.Requests;
+import Server.models.User;
 
 public class RequestSender {
     private static RequestSender instance;
-    String username, password;
+    private String username, password;
 
     public static RequestSender getInstance() {
         if (instance == null)
@@ -16,6 +17,9 @@ public class RequestSender {
         getInstance().password = password;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
     public static void login() throws Exception {
         Server.Requests.login(getInstance().username, getInstance().password);
@@ -24,6 +28,15 @@ public class RequestSender {
         if (Requests.register(username, password, mail, name, surname)) {
             getInstance().username = username;
             getInstance().password = password;
+        }
+    }
+
+    public static User getProfile(String targetuser) {
+        try {
+            return Server.Requests.getProfile(getInstance().username, getInstance().password, targetuser);
+        }
+        catch (Exception e) {
+            return null;
         }
     }
 }

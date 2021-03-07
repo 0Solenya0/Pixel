@@ -4,6 +4,8 @@ import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+
 public class Requests {
     private static final Logger logger = LogManager.getLogger(User.class);
 
@@ -24,5 +26,12 @@ public class Requests {
         user.save();
         logger.info(String.format("new user created - %s", user.getJSON()));
         return true;
+    }
+
+    public static User getProfile(String username, String password, String targetUser) throws Exception {
+        User user = User.getFilter().getUsername(targetUser);
+        if (username.equals(targetUser))
+            return user;
+        return null;
     }
 }
