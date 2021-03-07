@@ -38,6 +38,7 @@ public class Main {
                 RequestSender.config(username, password);
                 RequestSender.login();
                 System.out.println(ConsoleColors.GREEN + "Logged in successfully.");
+                Index.showMenu();
                 break;
             }
             catch (Exception e) {
@@ -45,7 +46,6 @@ public class Main {
             }
         }
     }
-
     public static void register() {
         logger.info("directed to registration page.");
         while (true) {
