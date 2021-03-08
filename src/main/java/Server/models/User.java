@@ -67,37 +67,36 @@ public class User extends Model {
         this.mail.set(mail);
         this.password = password;
         this.isActive = true;
-        logger.debug(String.format("new user instance created - %s", getJSON().toString()));
     }
     public User(int id) throws IOException {
-        JSONObject user = loadJSON(id, datasrc);
-        User u = new User(
-                user.getString("name"),
-                user.getString("surname"),
-                user.getString("username"),
+        this(
+                loadJSON(id, datasrc).getString("name"),
+                loadJSON(id, datasrc).getString("surname"),
+                loadJSON(id, datasrc).getString("username"),
                 "",
-                user.getString("password")
+                loadJSON(id, datasrc).getString("password")
         );
-        u.id = id;
-        u.bio = user.getString("bio");
+        JSONObject user = loadJSON(id, datasrc);
+        this.id = id;
+        this.bio = user.getString("bio");
 
         JSONObject obj = (JSONObject) user.get("phone");
-        u.phone.set(obj.getString("value"));
-        u.phone.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+        this.phone.set(obj.getString("value"));
+        this.phone.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
         obj = (JSONObject) user.get("mail");
-        u.mail.set(obj.getString("value"));
-        u.mail.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+        this.mail.set(obj.getString("value"));
+        this.mail.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
         obj = (JSONObject) user.get("lastseen");
-        u.lastseen.set(LocalDateTime.parse(obj.getString("value")));
-        u.lastseen.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+        this.lastseen.set(LocalDateTime.parse(obj.getString("value")));
+        this.lastseen.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
         obj = (JSONObject) user.get("birthdate");
-        u.birthdate.set(LocalDate.parse(obj.getString("value")));
-        u.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+        this.birthdate.set(LocalDate.parse(obj.getString("value")));
+        this.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
-        logger.info(String.format("UserId %s fetched successfully. %s", id, u.getJSON()));
+        logger.info(String.format("UserId %s fetched successfully. %s", id, this.getJSON()));
     }
 
     public boolean checkPassword(String password) {
