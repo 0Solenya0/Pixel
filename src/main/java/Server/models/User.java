@@ -53,11 +53,55 @@ public class User extends Model {
         this.isActive = true;
         logger.debug(String.format("new user instance created - %s", getJSON().toString()));
     }
+    public User(int id) throws IOException {
+        JSONObject user = loadJSON(id, datasrc);
+        User u = new User(
+                user.getString("name"),
+                user.getString("surname"),
+                user.getString("username"),
+                "",
+                user.getString("password")
+        );
+        u.id = id;
+        u.bio = user.getString("bio");
+
+        JSONObject obj = (JSONObject) user.get("phone");
+        u.phone.set(obj.getString("value"));
+        u.phone.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+
+        obj = (JSONObject) user.get("mail");
+        u.mail.set(obj.getString("value"));
+        u.mail.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+
+        obj = (JSONObject) user.get("lastseen");
+        u.lastseen.set(LocalDateTime.parse(obj.getString("value")));
+        u.lastseen.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+
+        obj = (JSONObject) user.get("birthdate");
+        u.birthdate.set(LocalDate.parse(obj.getString("value")));
+        u.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+
+        logger.info(String.format("UserId %s fetched successfully. %s", id, u.getJSON()));
+    }
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
     }
+    public void updateLastSeen() throws Exception {
+        lastseen.set(LocalDateTime.now());
+        save();
+        logger.info(String.format("Lastseen for user %s updated.", username));
+    }
 
+    /** Must be in every model section **/
+    public static User get(int id) throws IOException {
+        return new User(id);
+    }
+    public static UserFilter getFilter() throws IOException {
+        return new UserFilter();
+    }
+
+    /** Inherited **/
     public JSONObject getJSON() {
         JSONObject user = new JSONObject();
         user.put("id", id);
@@ -99,48 +143,5 @@ public class User extends Model {
             throw new Exception("Phone number is not valid.");
         }
         return true;
-    }
-    public void updateLastSeen() throws Exception {
-        lastseen.set(LocalDateTime.now());
-        save();
-        logger.info(String.format("Lastseen for user %s updated.", username));
-    }
-
-    public static User get(int id) throws IOException {
-        JSONObject user = loadJSON(id, datasrc);
-        User u = new User(
-                user.getString("name"),
-                user.getString("surname"),
-                user.getString("username"),
-                "",
-                user.getString("password")
-                );
-        u.id = id;
-        u.bio = user.getString("bio");
-
-        JSONObject obj = (JSONObject) user.get("phone");
-        u.phone.set(obj.getString("value"));
-        u.phone.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        obj = (JSONObject) user.get("mail");
-        u.mail.set(obj.getString("value"));
-        u.mail.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        obj = (JSONObject) user.get("lastseen");
-        u.lastseen.set(LocalDateTime.parse(obj.getString("value")));
-        u.lastseen.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        obj = (JSONObject) user.get("birthdate");
-        u.birthdate.set(LocalDate.parse(obj.getString("value")));
-        u.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        logger.info(String.format("UserId %s fetched successfully. %s", id, u.getJSON()));
-        return u;
-    }
-    public static UserFilter getFilter() throws IOException {
-        ArrayList<User> res = new ArrayList<>();
-        for (int i = 1; i <= getLastId(datasrc); i++)
-            res.add(get(i));
-        return new UserFilter(res);
     }
 }

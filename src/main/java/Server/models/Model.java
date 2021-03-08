@@ -12,11 +12,6 @@ import java.io.PrintStream;
 public abstract class Model {
     private static final Logger logger = LogManager.getLogger(User.class);
 
-    public abstract String getdatasrc();
-    public abstract JSONObject getJSON();
-    public boolean isValid() throws Exception {
-        return true;
-    }
     public void save() throws Exception {
         if (!isValid())
             throw new Exception("Validation Failed.");
@@ -40,6 +35,12 @@ public abstract class Model {
         printStream.close();
         logger.info(String.format("%s got saved.", this.getClass()));
     }
+    public boolean isValid() throws Exception {
+        return true;
+    }
+
+    public abstract String getdatasrc();
+    public abstract JSONObject getJSON();
 
     public static JSONObject loadJSON(int id, String datasrc) throws IOException {
         File file = new File(datasrc + "/" + id + ".json");
@@ -48,7 +49,6 @@ public abstract class Model {
         return new JSONObject(content);
     }
     public static int getLastId(String datasrc) {
-
         File path = new File(datasrc + "/");
         path.mkdirs();
         return path.list().length;
