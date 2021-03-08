@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class TweetFilter {
     private ArrayList<Tweet> list;
     public TweetFilter() throws IOException {
+        list = new ArrayList<>();
         for (int i = 1; i <= Tweet.getLastId(Tweet.datasrc); i++)
             list.add(Tweet.get(i));
     }
