@@ -4,6 +4,8 @@ import Server.Requests;
 import Server.models.Tweet;
 import Server.models.User;
 
+import java.util.ArrayList;
+
 public class RequestSender {
     private static RequestSender instance;
     private User client;
@@ -33,9 +35,20 @@ public class RequestSender {
             return null;
         }
     }
+    public static User getProfile(int id) {
+        try {
+            return Server.Requests.getProfile(getInstance().client, id);
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
 
     public static Tweet postTweet(String content) throws Exception {
         Tweet tweet = new Tweet(getInstance().client, content);
         return Server.Requests.postTweet(getInstance().client, tweet);
+    }
+    public static ArrayList<Tweet> getUserTweets(String username) throws Exception {
+        return Requests.getUserTweets(getInstance().client, username);
     }
 }

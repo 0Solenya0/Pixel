@@ -17,7 +17,7 @@ public class Index {
     public void show() {
         while (true) {
             Scanner scanner = new Scanner(System.in);
-            System.out.println(ConsoleColors.PURPLE + "\tPress desired key for target page.");
+            System.out.println(ConsoleColors.PURPLE + "\t" + username + "'s Personal page");
             System.out.print(ConsoleColors.YELLOW);
             boolean isOwner = RequestSender.getInstance().getUsername().equals(username);
             if (isOwner)
@@ -40,6 +40,9 @@ public class Index {
                     break;
                 case "a":
                     Tweets.postTweet();
+                    break;
+                case "b":
+                    Tweets.showUserTweets(username);
                     break;
             }
         }

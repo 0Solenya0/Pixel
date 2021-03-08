@@ -19,5 +19,18 @@ public class TweetFilter {
         list.stream().filter(p).collect(Collectors.toList());
         return this;
     }
+    public TweetFilter getByUser(String username) {
+        userCustomFilter(tweet -> {
+            try {
+                return tweet.getAuthor().username.equals(username);
+            } catch (Exception e) {
+                return false;
+            }
+        });
+        return this;
+    }
 
+    public ArrayList<Tweet> getList() {
+        return list;
+    }
 }

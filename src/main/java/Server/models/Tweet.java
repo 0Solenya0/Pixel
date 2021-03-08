@@ -19,8 +19,14 @@ public class Tweet extends Model {
     private int author;
     private String content;
 
+    public String getContent() {
+        return content;
+    }
     public int getAuthorId() {
         return author;
+    }
+    public User getAuthor() throws Exception {
+        return User.get(author);
     }
 
     public Tweet(User author, String text) {
@@ -30,7 +36,7 @@ public class Tweet extends Model {
     public Tweet(int id) throws IOException {
         JSONObject tweet = loadJSON(id, datasrc);
         this.id = id;
-        this.author = Integer.parseInt(tweet.getString("author"));
+        this.author = Integer.parseInt(tweet.get("author").toString());
         this.content = tweet.getString("content");
 
         logger.info(String.format("TweetId %s fetched successfully. %s", id, this.getJSON()));

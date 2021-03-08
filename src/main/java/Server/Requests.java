@@ -6,9 +6,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Requests {
     private static final Logger logger = LogManager.getLogger(User.class);
+
+    public static void CheckLogin(User client) throws Exception {
+        if (!User.getFilter().getUsername(client.username).checkPassword(client.getPassword())) {
+            logger.debug("Authentication failed - " + client.getJSON());
+            throw new Exception("Authentication failed.");
+        }
+    }
 
     public static User login(String username, String password) throws Exception {
         User u = User.getFilter().getUsername(username);
@@ -29,21 +37,22 @@ public class Requests {
     }
 
     public static User getProfile(User client, String targetUser) throws Exception {
-        if (!User.getFilter().getUsername(client.username).checkPassword(client.getPassword())) {
-            logger.debug("Authentication failed - " + client.getJSON());
-            throw new Exception("Authentication failed.");
-        }
+        CheckLogin(client);
         User user = User.getFilter().getUsername(targetUser);
         if (client.username.equals(targetUser))
             return user;
         return null;
     }
+    public static User getProfile(User client, int targetid) throws Exception {
+        CheckLogin(client);
+        User user = User.get(targetid);
+        if (client.id == targetid)
+            return user;
+        return null;
+    }
 
     public static Tweet postTweet(User client, Tweet tweet) throws Exception {
-        if (!User.getFilter().getUsername(client.username).checkPassword(client.getPassword())) {
-            logger.debug("Authentication failed - " + client.getJSON());
-            throw new Exception("Authentication failed.");
-        }
+        CheckLogin(client);
         if (tweet.getAuthorId() == client.id) {
             tweet.save();
             return tweet;
@@ -52,5 +61,9 @@ public class Requests {
             logger.warn("Illegal access user created a tweet with different author - " + client.username + " - " + tweet.getJSON());
             throw new Exception("User and tweets author doesn't match.");
         }
+    }
+    public static ArrayList<Tweet> getUserTweets(User client, String user) throws Exception {
+        CheckLogin(client);
+        return Tweet.getFilter().getByUser(user).getList();
     }
 }
