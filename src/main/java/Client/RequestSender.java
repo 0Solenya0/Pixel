@@ -5,35 +5,28 @@ import Server.models.User;
 
 public class RequestSender {
     private static RequestSender instance;
-    private String username, password;
+    private User client;
 
     public static RequestSender getInstance() {
         if (instance == null)
             instance = new RequestSender();
         return instance;
     }
-    public static void config(String username, String password) {
-        getInstance().username = username;
-        getInstance().password = password;
-    }
 
     public String getUsername() {
-        return username;
+        return client.username;
     }
 
-    public static void login() throws Exception {
-        Server.Requests.login(getInstance().username, getInstance().password);
+    public static void login(String username, String password) throws Exception {
+        getInstance().client = Server.Requests.login(username, password);
     }
     public static void register(String username, String password, String mail, String name, String surname) throws Exception {
-        if (Requests.register(username, password, mail, name, surname)) {
-            getInstance().username = username;
-            getInstance().password = password;
-        }
+        Requests.register(username, password, mail, name, surname);
     }
 
     public static User getProfile(String targetuser) {
         try {
-            return Server.Requests.getProfile(getInstance().username, getInstance().password, targetuser);
+            return Server.Requests.getProfile(getInstance().client, targetuser);
         }
         catch (Exception e) {
             return null;

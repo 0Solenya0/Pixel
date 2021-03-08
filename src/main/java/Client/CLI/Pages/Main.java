@@ -35,8 +35,7 @@ public class Main {
             System.out.println(ConsoleColors.YELLOW + "Enter your password:");
             String password = scanner.next();
             try {
-                RequestSender.config(username, password);
-                RequestSender.login();
+                RequestSender.login(username, password);
                 System.out.println(ConsoleColors.GREEN + "Logged in successfully.");
                 Index.main();
                 break;
@@ -73,7 +72,6 @@ public class Main {
             }
             catch (Exception e) {
                 System.out.println(ConsoleColors.RED + "Registration failed - " + e.getMessage());
-                e.printStackTrace();
             }
         }
     }

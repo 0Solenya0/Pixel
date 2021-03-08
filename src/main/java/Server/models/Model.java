@@ -32,6 +32,7 @@ public abstract class Model {
         catch (Exception e) { }
         PrintStream printStream = new PrintStream(path);
         printStream.print(data.toString());
+        printStream.flush();
         printStream.close();
         logger.info(String.format("%s got saved.", this.getClass()));
     }
