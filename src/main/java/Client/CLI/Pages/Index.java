@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class Index {
     public static void main() {
-        Scanner scanner = Main.scanner;
         while (true) {
+            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.PURPLE + "\tPress desired key for target page.");
             System.out.print(ConsoleColors.YELLOW);
             System.out.println("a. New tweet!");

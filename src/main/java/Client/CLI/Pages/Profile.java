@@ -6,9 +6,11 @@ import Server.models.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class Profile {
     public static void main(String username) {
+        Scanner scanner = new Scanner(System.in);
         User user = RequestSender.getProfile(username);
         System.out.println(ConsoleColors.PURPLE + '\t' + user.name + "'s Profile");
         System.out.print(ConsoleColors.YELLOW);
@@ -24,6 +26,6 @@ public class Profile {
         System.out.println("Biography: \n\t" + user.bio);
 
         System.out.println("Type b and press enter to go back");
-        String response = Main.scanner.next();
+        String response = scanner.next();
     }
 }

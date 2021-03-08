@@ -12,10 +12,9 @@ import java.util.Scanner;
 public class Main {
     private static final Logger logger = LogManager.getLogger(User.class);
 
-    public static Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
         while (true) {
+            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.YELLOW + "Already have an account? (y/n)");
             String response = scanner.next();
             if (response.equals("y"))
@@ -30,6 +29,7 @@ public class Main {
     public static void login() {
         logger.info("directed to login page.");
         while (true) {
+            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.YELLOW + "Enter your username:");
             String username = scanner.next();
             System.out.println(ConsoleColors.YELLOW + "Enter your password:");
@@ -49,6 +49,7 @@ public class Main {
     public static void register() {
         logger.info("directed to registration page.");
         while (true) {
+            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.YELLOW + "Enter your full name in separate lines:");
             String name = scanner.next();
             String surname = scanner.next();
@@ -72,6 +73,7 @@ public class Main {
             }
             catch (Exception e) {
                 System.out.println(ConsoleColors.RED + "Registration failed - " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }
