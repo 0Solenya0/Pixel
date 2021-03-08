@@ -16,9 +16,9 @@ public class Tweet extends Model {
         return datasrc;
     }
 
-    public int id;
-    public int author;
-    public String content;
+    protected int id;
+    private int author;
+    private String content;
 
     public Tweet(User author, String text) {
         this.author = author.id;
