@@ -15,12 +15,12 @@ public class Profile {
         System.out.println("Username: " + user.username);
         System.out.println("Full name: " + user.name + " " + user.surname);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
-        if (user.birthdate.get() != null && !user.birthdate.get().equals(LocalDate.MIN))
-            System.out.println("Birthday: " + user.birthdate.get().format(formatter));
-        if (user.phone.get() != null && !user.phone.get().isEmpty())
-            System.out.println("Phone number: " + user.phone.get());
-        if (user.mail.get() != null)
-            System.out.println("Email: " + user.mail.get());
+        if (user.getBirthdate().get() != null && !user.getBirthdate().get().equals(LocalDate.MIN))
+            System.out.println("Birthday: " + user.getBirthdate().get().format(formatter));
+        if (user.getPhone().get() != null && !user.getPhone().get().isEmpty())
+            System.out.println("Phone number: " + user.getPhone().get());
+        if (user.getMail().get() != null)
+            System.out.println("Email: " + user.getMail().get());
         System.out.println("Biography: \n\t" + user.bio);
 
         System.out.println("Type b and press enter to go back");

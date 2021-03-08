@@ -27,13 +27,13 @@ public class UserFilter {
         return list.get(0);
     }
     public User getMail(String mail) {
-        this.userCustomFilter(user -> user.mail.get() == mail);
+        this.userCustomFilter(user -> user.getMail().get() == mail);
         if (list.isEmpty())
             return null;
         return list.get(0);
     }
     public User getPhone(String phone) {
-        this.userCustomFilter(user -> user.phone.get() == phone);
+        this.userCustomFilter(user -> user.getPhone().get() == phone);
         if (list.isEmpty())
             return null;
         return list.get(0);

@@ -16,18 +16,34 @@ import java.util.ArrayList;
 public class User extends Model {
     private static final Logger logger = LogManager.getLogger(User.class);
 
-    public static final String datasrc = "./User";
+    public static final String datasrc = "./db/Users";
     public String getdatasrc() {
         return datasrc;
     }
 
-    public int id;
+    protected int id;
     public String name, surname, username, bio;
-    public UserField<String> mail, phone;
-    public UserField<LocalDateTime> lastseen;
-    public UserField<LocalDate> birthdate;
+    private UserField<String> mail, phone;
+    private UserField<LocalDateTime> lastseen;
+    private UserField<LocalDate> birthdate;
     private String password;
     public boolean isActive;
+
+    public UserField<String> getMail() {
+        return mail;
+    }
+
+    public UserField<String> getPhone() {
+        return phone;
+    }
+
+    public UserField<LocalDateTime> getLastseen() {
+        return lastseen;
+    }
+
+    public UserField<LocalDate> getBirthdate() {
+        return birthdate;
+    }
 
     public User(String name, String surname, String username, String mail, String password) {
         this.birthdate = new UserField<>();
