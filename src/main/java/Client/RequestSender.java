@@ -1,6 +1,7 @@
 package Client;
 
 import Server.Requests;
+import Server.models.Tweet;
 import Server.models.User;
 
 public class RequestSender {
@@ -31,5 +32,10 @@ public class RequestSender {
         catch (Exception e) {
             return null;
         }
+    }
+
+    public static Tweet postTweet(String content) throws Exception {
+        Tweet tweet = new Tweet(getInstance().client, content);
+        return Server.Requests.postTweet(getInstance().client, tweet);
     }
 }

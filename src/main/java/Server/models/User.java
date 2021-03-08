@@ -21,13 +21,16 @@ public class User extends Model {
         return datasrc;
     }
 
-    protected int id;
     public String name, surname, username, bio;
     private UserField<String> mail, phone;
     private UserField<LocalDateTime> lastseen;
     private UserField<LocalDate> birthdate;
     private String password;
     public boolean isActive;
+
+    public String getPassword() {
+        return password;
+    }
 
     public UserField<String> getMail() {
         return mail;
@@ -95,8 +98,6 @@ public class User extends Model {
         obj = (JSONObject) user.get("birthdate");
         this.birthdate.set(LocalDate.parse(obj.getString("value")));
         this.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        logger.info(String.format("UserId %s fetched successfully. %s", id, this.getJSON()));
     }
 
     public boolean checkPassword(String password) {

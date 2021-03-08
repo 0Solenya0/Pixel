@@ -16,9 +16,12 @@ public class Tweet extends Model {
         return datasrc;
     }
 
-    protected int id;
     private int author;
     private String content;
+
+    public int getAuthorId() {
+        return author;
+    }
 
     public Tweet(User author, String text) {
         this.author = author.id;
@@ -42,7 +45,7 @@ public class Tweet extends Model {
     }
 
     public boolean isValid() throws Exception {
-        if (id == 0)
+        if (author == 0)
             throw new Exception("Tweet author is not valid.");
         if (content == null || content.isEmpty())
             throw new Exception("Tweet doesn't have any content.");
@@ -50,7 +53,8 @@ public class Tweet extends Model {
     }
     public JSONObject getJSON() {
         JSONObject tweet = new JSONObject();
-        tweet.put("author", id);
+        tweet.put("id", id);
+        tweet.put("author", author);
         tweet.put("content", content);
         return tweet;
     }

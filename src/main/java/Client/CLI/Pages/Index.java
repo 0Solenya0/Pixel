@@ -2,6 +2,7 @@ package Client.CLI.Pages;
 
 import Client.CLI.ConsoleColors;
 import Client.RequestSender;
+import Server.models.Tweet;
 
 import java.util.Scanner;
 
@@ -23,6 +24,9 @@ public class Index {
             switch (response) {
                 case "g":
                     Profile.main(RequestSender.getInstance().getUsername());
+                    break;
+                case "a":
+                    Tweets.postTweet();
                     break;
             }
         }

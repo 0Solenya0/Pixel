@@ -1,5 +1,6 @@
 package Server;
 
+import Server.models.Tweet;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +21,6 @@ public class Requests {
         else
             throw new Exception("Password is incorrect.");
     }
-
     public static User register(String username, String password, String mail, String name, String surname) throws Exception{
         User user = new User(name, surname, username, mail, password);
         user.save();
@@ -29,9 +29,28 @@ public class Requests {
     }
 
     public static User getProfile(User client, String targetUser) throws Exception {
+        if (!User.getFilter().getUsername(client.username).checkPassword(client.getPassword())) {
+            logger.debug("Authentication failed - " + client.getJSON());
+            throw new Exception("Authentication failed.");
+        }
         User user = User.getFilter().getUsername(targetUser);
         if (client.username.equals(targetUser))
             return user;
         return null;
+    }
+
+    public static Tweet postTweet(User client, Tweet tweet) throws Exception {
+        if (!User.getFilter().getUsername(client.username).checkPassword(client.getPassword())) {
+            logger.debug("Authentication failed - " + client.getJSON());
+            throw new Exception("Authentication failed.");
+        }
+        if (tweet.getAuthorId() == client.id) {
+            tweet.save();
+            return tweet;
+        }
+        else {
+            logger.warn("Illegal access user created a tweet with different author - " + client.username + " - " + tweet.getJSON());
+            throw new Exception("User and tweets author doesn't match.");
+        }
     }
 }

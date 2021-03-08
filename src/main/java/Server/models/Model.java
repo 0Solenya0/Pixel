@@ -12,6 +12,7 @@ import java.io.PrintStream;
 public abstract class Model {
     private static final Logger logger = LogManager.getLogger(User.class);
 
+    public int id;
     public void save() throws Exception {
         if (!isValid())
             throw new Exception("Validation Failed.");
@@ -34,6 +35,7 @@ public abstract class Model {
         printStream.print(data.toString());
         printStream.flush();
         printStream.close();
+        this.id = id;
         logger.info(String.format("%s got saved.", this.getClass()));
     }
     public boolean isValid() throws Exception {
