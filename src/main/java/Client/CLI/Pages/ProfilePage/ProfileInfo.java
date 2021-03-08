@@ -1,4 +1,4 @@
-package Client.CLI.Pages;
+package Client.CLI.Pages.ProfilePage;
 
 import Client.CLI.ConsoleColors;
 import Client.RequestSender;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class Profile {
+public class ProfileInfo {
     public static void main(String username) {
         Scanner scanner = new Scanner(System.in);
         User user = RequestSender.getProfile(username);

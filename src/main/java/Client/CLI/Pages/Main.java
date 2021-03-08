@@ -37,7 +37,7 @@ public class Main {
             try {
                 RequestSender.login(username, password);
                 System.out.println(ConsoleColors.GREEN + "Logged in successfully.");
-                Index.main();
+                Menu.show();
                 break;
             }
             catch (Exception e) {
