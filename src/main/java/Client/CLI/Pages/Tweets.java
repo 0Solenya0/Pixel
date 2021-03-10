@@ -1,7 +1,7 @@
 package Client.CLI.Pages;
 
 import Client.CLI.ConsoleColors;
-import Client.RequestSender;
+import Client.CLI.UserUtility;
 import Server.models.Tweet;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +16,7 @@ public class Tweets {
     public static void showUserTweets(String username) {
         System.out.println(ConsoleColors.PURPLE + "\t\t\t" + username + "'s tweets");
         try {
-            ArrayList<Tweet> tweets = RequestSender.getUserTweets(username);
+            ArrayList<Tweet> tweets = Tweet.getFilter().getByUser(UserUtility.user.username).getList();
             for (int i = 0; i < tweets.size(); i++) {
                 System.out.println(ConsoleColors.PURPLE + "----------Start-of-tweet------------");
                 showTweet(tweets.get(i), false);
@@ -32,9 +32,10 @@ public class Tweets {
 
     public static void postTweet() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println(ConsoleColors.PURPLE + "\t ---Post tweet---");
         System.out.println(ConsoleColors.PURPLE + "Type ^ in a new line and press enter to save");
         System.out.println(ConsoleColors.PURPLE + "Type ~ in a new line and press enter to go back");
-        System.out.println(ConsoleColors.PURPLE + "\t" + "Write your tweet content");
+        System.out.println(ConsoleColors.PURPLE + "Write your tweet:");
         StringBuilder content = new StringBuilder();
         while (true) {
             String line = scanner.nextLine();
@@ -45,8 +46,8 @@ public class Tweets {
             content.append(line + "\n");
         }
         try {
-            Tweet tweet = RequestSender.postTweet(content.toString());
-            System.out.println(ConsoleColors.GREEN + "Saved successfully.");
+            Tweet tweet = new Tweet(UserUtility.user, content.toString());
+            System.out.println(ConsoleColors.GREEN + "Saved successfully");
             logger.info("New tweet saved - " + tweet.getJSON());
         }
         catch (Exception e) {
@@ -54,11 +55,16 @@ public class Tweets {
         }
     }
     public static void showTweet(Tweet tweet, boolean showSender) {
-        if (showSender)
-            System.out.println(ConsoleColors.PURPLE + "Sent by " + RequestSender.getProfile(tweet.getAuthorId()).username + ":");
-        if (showSender)
-            System.out.println("\t" + ConsoleColors.YELLOW + tweet.getContent().trim().replace("\n", "\n\t"));
-        else
-            System.out.println(ConsoleColors.YELLOW + tweet.getContent().trim());
+        try {
+            if (showSender)
+                System.out.println(ConsoleColors.PURPLE + "Sent by " + tweet.getAuthor().username + ":");
+            if (showSender)
+                System.out.println("\t" + ConsoleColors.YELLOW + tweet.getContent().trim().replace("\n", "\n\t"));
+            else
+                System.out.println(ConsoleColors.YELLOW + tweet.getContent().trim());
+        }
+        catch (Exception e) {
+            System.out.println(ConsoleColors.RED + "Loading tweet failed");
+        }
     }
 }

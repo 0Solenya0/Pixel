@@ -97,6 +97,7 @@ public class User extends Model {
 
         obj = (JSONObject) user.get("birthdate");
         this.birthdate.set(LocalDate.parse(obj.getString("value")));
+        logger.debug(this.getBirthdate().get());
         this.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
     }
 
@@ -136,27 +137,27 @@ public class User extends Model {
     public boolean isValid() throws Exception {
         if (mail.get() == null) {
             logger.debug(String.format("Email Validation Failed - mail is null. UserId: %d ", id));
-            throw new Exception("Email field is empty.");
+            throw new Exception("Email field is empty");
         }
         if (!Validators.isValidMail(mail.get())) {
             logger.debug(String.format("Email Validation Failed - bad format. UserId: %d , Input: %s", id, mail.get()));
-            throw new Exception("Email bad format.");
-        }
-        if (getFilter().getMail(mail.get()) != null) {
-            logger.debug("Email already exists.");
-            throw new Exception("Email already exists");
-        }
-        if (getFilter().getUsername(username) != null) {
-            logger.debug("User already exists.");
-            throw new Exception("User already exists.");
-        }
-        if (!phone.get().equals("") && getFilter().getPhone(phone.get()) != null) {
-            logger.debug("Phone number already exists.");
-            throw new Exception("Phone number already exists");
+            throw new Exception("Email bad format");
         }
         if (!Validators.isValidPhone(phone.get())) {
-            logger.debug("Phone number already exists.");
-            throw new Exception("Phone number is not valid.");
+            logger.debug("Phone number is not valid");
+            throw new Exception("Phone number is not valid");
+        }
+        if (getFilter().getMail(mail.get()) != null && getFilter().getMail(mail.get()).id != this.id) {
+            logger.debug("Email already exists");
+            throw new Exception("Email already exists");
+        }
+        if (getFilter().getUsername(username) != null && getFilter().getUsername(username).id != this.id) {
+            logger.debug("User already exists");
+            throw new Exception("User already exists");
+        }
+        if (!phone.get().equals("") && getFilter().getPhone(phone.get()) != null && getFilter().getPhone(phone.get()).id != this.id) {
+            logger.debug("Phone number already exists");
+            throw new Exception("Phone number already exists");
         }
         return true;
     }

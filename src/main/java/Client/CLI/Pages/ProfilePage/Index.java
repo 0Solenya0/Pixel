@@ -2,10 +2,7 @@ package Client.CLI.Pages.ProfilePage;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.Pages.Tweets;
-import Client.RequestSender;
-import Server.models.Tweet;
-
-import java.util.Scanner;
+import Client.CLI.UserUtility;
 
 public class Index {
     public String username;
@@ -16,14 +13,14 @@ public class Index {
 
     public void show() {
         while (true) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.PURPLE + "\t" + username + "'s Personal page");
             System.out.print(ConsoleColors.YELLOW);
-            boolean isOwner = RequestSender.getInstance().getUsername().equals(username);
+            boolean isOwner = UserUtility.user.username.equals(username);
             if (isOwner)
                 System.out.println("a. New tweet!");
             System.out.println("b. Past tweets");
-            System.out.println("c. Edit profile");
+            if (isOwner)
+                System.out.println("c. Edit profile");
             System.out.println("d. Followers");
             System.out.println("e. Following");
             if (isOwner)
@@ -33,16 +30,21 @@ public class Index {
                 System.out.println("h. Notifications");
             System.out.print(ConsoleColors.RESET);
 
-            String response = scanner.next();
+            String response = UserUtility.scanner.nextLine();
             switch (response) {
                 case "g":
-                    ProfileInfo.main(RequestSender.getInstance().getUsername());
+                    ProfileInfo.main(UserUtility.user.username);
                     break;
                 case "a":
-                    Tweets.postTweet();
+                    if (isOwner)
+                        Tweets.postTweet();
                     break;
                 case "b":
                     Tweets.showUserTweets(username);
+                    break;
+                case "c":
+                    if (isOwner)
+                        EditProfile.show();
                     break;
             }
         }

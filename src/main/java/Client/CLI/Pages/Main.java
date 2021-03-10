@@ -1,22 +1,19 @@
 package Client.CLI.Pages;
 
 import Client.CLI.ConsoleColors;
-import Client.RequestSender;
+import Client.CLI.UserUtility;
 import Server.Validators;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Scanner;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(User.class);
 
     public static void main(String[] args) {
         while (true) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.YELLOW + "Already have an account? (y/n)");
-            String response = scanner.next();
+            String response = UserUtility.scanner.nextLine();
             if (response.equals("y"))
                 login();
             else if (response.equals("n"))
@@ -27,51 +24,52 @@ public class Main {
     }
 
     public static void login() {
-        logger.info("directed to login page.");
+        logger.info("directed to login page");
+        System.out.println(ConsoleColors.PURPLE + "\t---Login Page---");
         while (true) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println(ConsoleColors.YELLOW + "Enter your username:");
-            String username = scanner.next();
+            String username = UserUtility.scanner.nextLine();
             System.out.println(ConsoleColors.YELLOW + "Enter your password:");
-            String password = scanner.next();
+            String password = UserUtility.scanner.nextLine();
             try {
-                RequestSender.login(username, password);
-                System.out.println(ConsoleColors.GREEN + "Logged in successfully.");
+                UserUtility.login(username, password);
+                System.out.println(ConsoleColors.GREEN + "Logged in successfully");
                 Menu.show();
                 break;
             }
             catch (Exception e) {
-                System.out.println(ConsoleColors.RED + "Login failed - " + e.getMessage());
+                System.out.println(ConsoleColors.RED + "Login failed please try again - " + e.getMessage());
             }
         }
     }
     public static void register() {
-        logger.info("directed to registration page.");
+        logger.info("directed to registration page");
+        System.out.println(ConsoleColors.PURPLE + "\t\t---Registration Page---");
         while (true) {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println(ConsoleColors.YELLOW + "Enter your full name in separate lines:");
-            String name = scanner.next();
-            String surname = scanner.next();
+            System.out.println(ConsoleColors.YELLOW + "Enter your name and surname in separate lines:");
+            String name = UserUtility.scanner.nextLine();
+            String surname = UserUtility.scanner.nextLine();
             System.out.println(ConsoleColors.YELLOW + "Enter username:");
-            String username = scanner.next();
+            String username = UserUtility.scanner.nextLine();
             String mail;
             while (true) {
                 System.out.println(ConsoleColors.YELLOW + "Enter email:");
-                mail = scanner.next();
+                mail = UserUtility.scanner.nextLine();
                 if (!Validators.isValidMail(mail))
-                    System.out.println(ConsoleColors.RED + "Email is not valid.");
+                    System.out.println(ConsoleColors.RED + "Email is not valid");
                 else
                     break;
             }
             System.out.println(ConsoleColors.YELLOW + "Enter password:");
-            String password = scanner.next();
+            String password = UserUtility.scanner.nextLine();
             try {
-                RequestSender.register(username, password, mail, name, surname);
-                System.out.println(ConsoleColors.GREEN + "User have been registered.");
+                User user = new User(name, surname, username, mail, password);
+                user.save();
+                System.out.println(ConsoleColors.GREEN + "User have been registered");
                 break;
             }
             catch (Exception e) {
-                System.out.println(ConsoleColors.RED + "Registration failed - " + e.getMessage());
+                System.out.println(ConsoleColors.RED + "Registration failed please try again - " + e.getMessage());
             }
         }
     }
