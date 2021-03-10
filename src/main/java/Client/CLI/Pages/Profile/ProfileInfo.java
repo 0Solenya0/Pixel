@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class ProfileInfo {
     public static void main(String username) {
         try {
-            User user = User.getFilter().getUsername(username);
+            User user = User.getFilter().getByUsername(username);
             System.out.println(ConsoleColors.PURPLE + "\t---" + user.name + "'s Profile---");
             System.out.print(ConsoleColors.YELLOW);
             System.out.println("Username: " + user.username);

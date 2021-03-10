@@ -21,25 +21,25 @@ public class UserFilter {
     public UserFilter getActive() {
         return this.userCustomFilter(user -> user.isActive);
     }
-    public User getUsername(String username) {
+    public User getByUsername(String username) {
         this.userCustomFilter(user -> user.username.equals(username));
         if (list.isEmpty())
             return null;
         return list.get(0);
     }
-    public User getMail(String mail) {
+    public User getByMail(String mail) {
         this.userCustomFilter(user -> user.getMail().get().equals(mail));
         if (list.isEmpty())
             return null;
         return list.get(0);
     }
-    public User getPhone(String phone) {
+    public User getByPhone(String phone) {
         this.userCustomFilter(user -> user.getPhone().get().equals(phone));
         if (list.isEmpty())
             return null;
         return list.get(0);
     }
-    public UserFilter getUsernamePrefix(String username) {
+    public UserFilter getByUsernamePrefix(String username) {
         return this.userCustomFilter(user -> user.username.startsWith(username));
     }
 

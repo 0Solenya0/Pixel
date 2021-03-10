@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class User extends Model {
     private static final Logger logger = LogManager.getLogger(User.class);
@@ -146,15 +145,15 @@ public class User extends Model {
             logger.debug("Phone number is not valid");
             throw new Exception("Phone number is not valid");
         }
-        if (getFilter().getMail(mail.get()) != null && getFilter().getMail(mail.get()).id != this.id) {
+        if (getFilter().getByMail(mail.get()) != null && getFilter().getByMail(mail.get()).id != this.id) {
             logger.debug("Email already exists");
             throw new Exception("Email already exists");
         }
-        if (getFilter().getUsername(username) != null && getFilter().getUsername(username).id != this.id) {
+        if (getFilter().getByUsername(username) != null && getFilter().getByUsername(username).id != this.id) {
             logger.debug("User already exists");
             throw new Exception("User already exists");
         }
-        if (!phone.get().equals("") && getFilter().getPhone(phone.get()) != null && getFilter().getPhone(phone.get()).id != this.id) {
+        if (!phone.get().equals("") && getFilter().getByPhone(phone.get()) != null && getFilter().getByPhone(phone.get()).id != this.id) {
             logger.debug("Phone number already exists");
             throw new Exception("Phone number already exists");
         }

@@ -1,7 +1,6 @@
 package Client.CLI.Pages.Explorer;
 
 import Client.CLI.ConsoleColors;
-import Client.CLI.Pages.Main;
 import Client.CLI.UserUtility;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +21,7 @@ public class SearchUser {
             if (response == "~")
                 break;
             try {
-                ArrayList<User> list = User.getFilter().getUsernamePrefix(response).getList();
+                ArrayList<User> list = User.getFilter().getByUsernamePrefix(response).getList();
                 for (int i = 0; i < Math.min(list.size(), 10); i++) {
                     System.out.println(ConsoleColors.BLUE + (i + 1) + ". " + list.get(i).username + " - " + list.get(i).getFullName());
                 }

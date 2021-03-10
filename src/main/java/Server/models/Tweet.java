@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class Tweet extends Model {
-    private static final Logger logger = LogManager.getLogger(User.class);
+    private static final Logger logger = LogManager.getLogger(Tweet.class);
 
     public static final String datasrc = "./db/Tweets";
     public String getdatasrc() {

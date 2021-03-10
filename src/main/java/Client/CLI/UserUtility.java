@@ -2,7 +2,6 @@ package Client.CLI;
 
 import Server.models.User;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class UserUtility {
@@ -10,8 +9,8 @@ public class UserUtility {
     public static User user;
 
     public static void login(String username, String password) throws Exception {
-        if (User.getFilter().getUsername(username).checkPassword(password)) {
-            user = User.getFilter().getUsername(username);
+        if (User.getFilter().getByUsername(username).checkPassword(password)) {
+            user = User.getFilter().getByUsername(username);
             return;
         }
         throw new Exception("Password is wrong");
