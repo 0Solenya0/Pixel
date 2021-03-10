@@ -16,7 +16,7 @@ public class Tweets {
     public static void showUserTweets(String username) {
         System.out.println(ConsoleColors.PURPLE + "\t\t\t" + username + "'s tweets");
         try {
-            ArrayList<Tweet> tweets = Tweet.getFilter().getByUser(UserUtility.user.username).getList();
+            ArrayList<Tweet> tweets = Tweet.getFilter().getByUser(username).getList();
             for (int i = 0; i < tweets.size(); i++) {
                 System.out.println(ConsoleColors.PURPLE + "----------Start-of-tweet------------");
                 showTweet(tweets.get(i), false);
@@ -47,6 +47,7 @@ public class Tweets {
         }
         try {
             Tweet tweet = new Tweet(UserUtility.user, content.toString());
+            tweet.save();
             System.out.println(ConsoleColors.GREEN + "Saved successfully");
             logger.info("New tweet saved - " + tweet.getJSON());
         }

@@ -1,4 +1,4 @@
-package Client.CLI.Pages.ProfilePage;
+package Client.CLI.Pages.Profile;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
@@ -6,7 +6,6 @@ import Server.models.User;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 public class ProfileInfo {
     public static void main(String username) {

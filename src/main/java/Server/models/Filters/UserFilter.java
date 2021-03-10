@@ -39,6 +39,9 @@ public class UserFilter {
             return null;
         return list.get(0);
     }
+    public UserFilter getUsernamePrefix(String username) {
+        return this.userCustomFilter(user -> user.username.startsWith(username));
+    }
 
     public ArrayList<User> getList() {
         return list;

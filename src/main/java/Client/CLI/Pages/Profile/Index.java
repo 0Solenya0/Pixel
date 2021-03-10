@@ -1,4 +1,4 @@
-package Client.CLI.Pages.ProfilePage;
+package Client.CLI.Pages.Profile;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.Pages.Tweets;

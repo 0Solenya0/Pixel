@@ -31,19 +31,18 @@ public class User extends Model {
     public String getPassword() {
         return password;
     }
-
+    public String getFullName() {
+        return this.name + " " + this.surname;
+    }
     public UserField<String> getMail() {
         return mail;
     }
-
     public UserField<String> getPhone() {
         return phone;
     }
-
     public UserField<LocalDateTime> getLastseen() {
         return lastseen;
     }
-
     public UserField<LocalDate> getBirthdate() {
         return birthdate;
     }
