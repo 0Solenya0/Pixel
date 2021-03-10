@@ -13,7 +13,7 @@ public class Index {
 
     public void show() {
         while (true) {
-            System.out.println(ConsoleColors.PURPLE + "\t" + username + "'s Personal page");
+            System.out.println(ConsoleColors.PURPLE + "\t---" + username + "'s Personal Page---");
             System.out.print(ConsoleColors.YELLOW);
             boolean isOwner = UserUtility.user.username.equals(username);
             if (isOwner)

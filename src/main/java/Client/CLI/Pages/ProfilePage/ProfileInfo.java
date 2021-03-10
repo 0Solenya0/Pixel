@@ -12,7 +12,7 @@ public class ProfileInfo {
     public static void main(String username) {
         try {
             User user = User.getFilter().getUsername(username);
-            System.out.println(ConsoleColors.PURPLE + '\t' + user.name + "'s Profile");
+            System.out.println(ConsoleColors.PURPLE + "\t---" + user.name + "'s Profile---");
             System.out.print(ConsoleColors.YELLOW);
             System.out.println("Username: " + user.username);
             System.out.println("Full name: " + user.name + " " + user.surname);
@@ -23,9 +23,9 @@ public class ProfileInfo {
                 System.out.println("Phone number: " + user.getPhone().get());
             if (user.getMail().get() != null)
                 System.out.println("Email: " + user.getMail().get());
-            System.out.println("Biography: \n\t" + user.bio);
+            System.out.println("Biography: \n\t" + ConsoleColors.YELLOW_BOLD + user.bio);
 
-            System.out.println("Type b and press enter to go back");
+            System.out.println(ConsoleColors.YELLOW + "(0) back");
             String response = UserUtility.scanner.nextLine();
         }
         catch (Exception e) {
