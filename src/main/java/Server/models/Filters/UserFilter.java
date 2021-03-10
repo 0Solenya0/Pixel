@@ -12,14 +12,15 @@ public class UserFilter {
     public UserFilter() throws IOException {
         list = new ArrayList<>();
         for (int i = 1; i <= User.getLastId(User.datasrc); i++)
-            list.add(User.get(i));
+            if (User.get(i).isActive)
+                list.add(User.get(i));
     }
     public UserFilter userCustomFilter(Predicate<User> p) {
         list = (ArrayList<User>) list.stream().filter(p).collect(Collectors.toList());
         return this;
     }
-    public UserFilter getActive() {
-        return this.userCustomFilter(user -> user.isActive);
+    public UserFilter getEnabled() {
+        return this.userCustomFilter(user -> user.isEnabled);
     }
     public User getByUsername(String username) {
         this.userCustomFilter(user -> user.username.equals(username));

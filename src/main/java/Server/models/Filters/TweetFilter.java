@@ -13,10 +13,11 @@ public class TweetFilter {
     public TweetFilter() throws IOException {
         list = new ArrayList<>();
         for (int i = 1; i <= Tweet.getLastId(Tweet.datasrc); i++)
-            list.add(Tweet.get(i));
+            if (Tweet.get(i).isActive)
+                list.add(Tweet.get(i));
     }
     public TweetFilter userCustomFilter(Predicate<Tweet> p) {
-        list.stream().filter(p).collect(Collectors.toList());
+        list = (ArrayList<Tweet>) list.stream().filter(p).collect(Collectors.toList());
         return this;
     }
     public TweetFilter getByUser(String username) {

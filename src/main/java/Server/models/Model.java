@@ -13,8 +13,9 @@ public abstract class Model {
     private static final Logger logger = LogManager.getLogger(User.class);
 
     public int id;
+    public boolean isActive;
     public void save() throws Exception {
-        if (!isValid())
+        if (isActive && !isValid())
             throw new Exception("Validation Failed.");
 
         JSONObject data = getJSON();
@@ -22,6 +23,10 @@ public abstract class Model {
         if (!data.get("id").toString().equals("0"))
             id = Integer.parseInt(getJSON().get("id").toString());
         data.put("id", id);
+        if (isActive)
+            data.put("isActive", true);
+        else
+            data.put("isActive", false);
 
         File path = new File(getdatasrc() + "/" + id + ".json");
         if (path.exists())
@@ -37,6 +42,12 @@ public abstract class Model {
         printStream.close();
         this.id = id;
         logger.info(String.format("%s got saved.", this.getClass()));
+    }
+    public void delete() throws Exception {
+        if (this.id == 0)
+            return;
+        isActive = false;
+        save();
     }
     public boolean isValid() throws Exception {
         return true;

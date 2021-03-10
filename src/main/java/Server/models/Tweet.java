@@ -38,6 +38,7 @@ public class Tweet extends Model {
         this.id = id;
         this.author = Integer.parseInt(tweet.get("author").toString());
         this.content = tweet.getString("content");
+        this.isActive = Boolean.parseBoolean(tweet.get("isActive").toString());
 
         logger.info(String.format("TweetId %s fetched successfully. %s", id, this.getJSON()));
     }

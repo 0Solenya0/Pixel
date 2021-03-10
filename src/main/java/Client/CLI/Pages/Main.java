@@ -3,6 +3,7 @@ package Client.CLI.Pages;
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
 import Server.Validators;
+import Server.models.Relation;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

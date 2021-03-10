@@ -14,28 +14,29 @@ public class SearchUser {
     public static void main() {
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---Explore Users---");
-            System.out.println("(~) back");
-            System.out.println(ConsoleColors.YELLOW + "Search username:");
+            System.out.println(ConsoleColors.BLUE + "(~) back");
+            System.out.println(ConsoleColors.YELLOW + "Enter username:");
 
             String response = UserUtility.scanner.nextLine();
-            if (response == "~")
+            if (response.equals("~"))
                 break;
             try {
                 ArrayList<User> list = User.getFilter().getByUsernamePrefix(response).getList();
                 for (int i = 0; i < Math.min(list.size(), 10); i++) {
                     System.out.println(ConsoleColors.BLUE + (i + 1) + ". " + list.get(i).username + " - " + list.get(i).getFullName());
                 }
-                System.out.println(ConsoleColors.YELLOW + "Enter user number to see profile");
-                System.out.println("(0) back");
+                System.out.println(ConsoleColors.YELLOW + "Enter row number to navigate to user's profile");
+                System.out.println("(b) back");
                 while (true) {
                     response = UserUtility.scanner.nextLine();
-                    if (response.equals("0"))
+                    if (response.equals("b"))
                         break;
                     try {
                         int num = Integer.parseInt(response);
                         if (num > list.size() || num > 10)
                             throw new Exception("");
                         (new Client.CLI.Pages.Profile.Index(list.get(num - 1).username)).show();
+                        break;
                     }
                     catch (Exception e) {
                         System.out.println(ConsoleColors.RED + "Please enter valid response");
@@ -43,7 +44,7 @@ public class SearchUser {
                 }
             }
             catch (Exception e) {
-                logger.warn("Failed to load users");
+                logger.warn("Failed to load users - " + e.getMessage());
                 System.out.println("Fetching users failed");
             }
         }

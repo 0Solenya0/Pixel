@@ -4,18 +4,22 @@ import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
 
 public class Index {
+
     public static void show() {
-        while (true) {
+        mainloop: while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---Explorer Page---");
-            System.out.println(ConsoleColors.YELLOW + "a. Search User");
-            System.out.println("b. Explore tweets");
-            System.out.println("(0) back");
+            System.out.print(ConsoleColors.YELLOW);
+            System.out.println("(f) Find friends!");
+            System.out.println("(e) Explore trending tweets");
+            System.out.println("(b) back");
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
-                case "a":
+                case "f":
                     SearchUser.main();
                     break;
+                case "b":
+                    break mainloop;
             }
         }
     }

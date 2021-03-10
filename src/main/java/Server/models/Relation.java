@@ -10,12 +10,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class Relation extends Model {
-    private static final Logger logger = LogManager.getLogger(Tweet.class);
+    private static final Logger logger = LogManager.getLogger(Relation.class);
 
     public int user1, user2;
     public RelType type;
 
-    public static final String datasrc = "./db/Tweets";
+    public static final String datasrc = "./db/Relations";
     public String getdatasrc() {
         return datasrc;
     }
@@ -24,6 +24,7 @@ public class Relation extends Model {
         this.user1 = user1;
         this.user2 = user2;
         this.type = type;
+        this.isActive = true;
     }
     public Relation(int id) throws Exception {
         JSONObject rel = loadJSON(id, datasrc);
@@ -31,6 +32,7 @@ public class Relation extends Model {
         this.user1 = Integer.parseInt(rel.get("user1").toString());
         this.user2 = Integer.parseInt(rel.get("user2").toString());
         this.type = RelType.valueOf(rel.getString("type"));
+        this.isActive = Boolean.parseBoolean(rel.get("isActive").toString());
     }
 
     /** Must be in every model section **/

@@ -2,6 +2,7 @@ package Server.models;
 
 import Server.Validators;
 import Server.models.Fields.AccessLevel;
+import Server.models.Fields.RelType;
 import Server.models.Fields.UserField;
 import Server.models.Filters.UserFilter;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +26,7 @@ public class User extends Model {
     private UserField<LocalDateTime> lastseen;
     private UserField<LocalDate> birthdate;
     private String password;
-    public boolean isActive;
+    public boolean isEnabled;
 
     public String getPassword() {
         return password;
@@ -68,6 +69,7 @@ public class User extends Model {
         this.mail.set(mail);
         this.password = password;
         this.isActive = true;
+        this.isEnabled = true;
     }
     public User(int id) throws IOException {
         this(
@@ -95,8 +97,9 @@ public class User extends Model {
 
         obj = (JSONObject) user.get("birthdate");
         this.birthdate.set(LocalDate.parse(obj.getString("value")));
-        logger.debug(this.getBirthdate().get());
         this.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
+
+        this.isActive = Boolean.parseBoolean(user.get("isActive").toString());
     }
 
     public boolean checkPassword(String password) {
@@ -106,6 +109,22 @@ public class User extends Model {
         lastseen.set(LocalDateTime.now());
         save();
         logger.info(String.format("Lastseen for user %s updated.", username));
+    }
+
+    public void follow(int id) throws Exception {
+        resetRel(id);
+        (new Relation(this.id, id, RelType.FOLLOW)).save();
+    }
+    public void block(int id) throws Exception {
+        resetRel(id);
+        (new Relation(this.id, id, RelType.BLOCKED)).save();
+    }
+    public void resetRel(int id) throws Exception {
+        if (getRel(id) != null)
+            getRel(id).delete();
+    }
+    public Relation getRel(int id) throws Exception {
+        return Relation.getFilter().getByTwoUser(this.id, id);
     }
 
     /** Must be in every model section **/
@@ -125,7 +144,7 @@ public class User extends Model {
         user.put("surname", surname);
         user.put("username", username);
         user.put("bio", bio);
-        user.put("isActive", isActive);
+        user.put("isEnabled", isEnabled);
         user.put("mail", mail.getJSON());
         user.put("phone", phone.getJSON());
         user.put("birthdate", birthdate.getJSON());
