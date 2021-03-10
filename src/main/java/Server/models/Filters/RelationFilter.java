@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class RelationFilter {
     private ArrayList<Relation> list;
-    public RelationFilter() throws IOException {
+    public RelationFilter() throws Exception {
         list = new ArrayList<>();
         for (int i = 1; i <= Tweet.getLastId(Tweet.datasrc); i++)
             list.add(Relation.get(i));
@@ -19,5 +19,18 @@ public class RelationFilter {
         list.stream().filter(p).collect(Collectors.toList());
         return this;
     }
-    
+    public Relation getByTwoUser(int user1, int user2) {
+        userCustomFilter(relation -> relation.user1 == user1 && relation.user2 == user2);
+        if (list.isEmpty())
+            return null;
+        return list.get(0);
+    }
+    public RelationFilter getByUser(int user1) {
+        userCustomFilter(relation -> relation.user1 == user1);
+        return this;
+    }
+
+    public ArrayList<Relation> getList() {
+        return list;
+    }
 }

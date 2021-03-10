@@ -37,7 +37,7 @@ public class Relation extends Model {
     public static Relation get(int id) throws Exception {
         return new Relation(id);
     }
-    public static RelationFilter getFilter() throws IOException {
+    public static RelationFilter getFilter() throws Exception {
         return new RelationFilter();
     }
 
@@ -46,6 +46,8 @@ public class Relation extends Model {
             throw new Exception("A user can't have relation with itself");
         if (user1 > User.getLastId(User.datasrc) || user2 > User.getLastId(User.datasrc))
             throw new Exception("User does not exist");
+        if (getFilter().getByTwoUser(user1, user2) != null && this.id != getFilter().getByTwoUser(user1, user2).id)
+            throw new Exception("Relationship exists");
         return true;
     }
     public JSONObject getJSON() {
