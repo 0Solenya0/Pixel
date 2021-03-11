@@ -138,14 +138,14 @@ public class User extends Model {
         ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user1 == this.id && relation.type == RelType.FOLLOW).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user1));
+            res.add(User.get(relation.user2));
         return res;
     }
     public ArrayList<User> getBlackList() throws Exception {
         ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user1 == this.id && relation.type == RelType.BLOCKED).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user1));
+            res.add(User.get(relation.user2));
         return res;
     }
 

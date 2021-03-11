@@ -34,15 +34,18 @@ public class Lists {
         while (true) {
             System.out.print(ConsoleColors.BLUE);
             for (int i = 0; i < list.size(); i++)
-                System.out.println((i + 1) + ". " + list.get(i).getFullName());
-            System.out.println(ConsoleColors.YELLOW + "Enter user's row number to enter profile");
-            System.out.println("(b) back");
+                System.out.println((i + 1) + ". " + list.get(i).username + " - " + list.get(i).getFullName());
+            if (list.size() > 0)
+                System.out.println(ConsoleColors.YELLOW + "Enter user's row number to enter profile");
+            else
+                System.out.println(ConsoleColors.RED + "List is empty :(");
+            System.out.println(ConsoleColors.YELLOW + "(b) back");
             String response = UserUtility.scanner.nextLine();
             if (response.equals("b"))
                 return;
             try {
                 int x = Integer.parseInt(response);
-                (new Client.CLI.Pages.Profile.Index(list.get(x).username)).show();
+                (new Client.CLI.Pages.Profile.Index(list.get(x - 1).username)).show();
             } catch (Exception e) {
                 logger.warn("List page response wasn't valid - " + e.getMessage());
                 System.out.println("Please enter a valid response");

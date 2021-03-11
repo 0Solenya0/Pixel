@@ -24,7 +24,7 @@ public class ProfileInfo {
                 System.out.println("Email: " + user.getMail().get());
             System.out.println("Biography: \n\t" + ConsoleColors.YELLOW_BOLD + user.bio);
 
-            System.out.println(ConsoleColors.YELLOW + "(0) back");
+            System.out.println(ConsoleColors.YELLOW + "(b) back");
             String response = UserUtility.scanner.nextLine();
         }
         catch (Exception e) {

@@ -89,10 +89,13 @@ public class Index {
             System.out.println("(i) Profile info");
             if (isOwner)
                 System.out.println("(n) Notifications");
+            System.out.println("(b) back");
             System.out.print(ConsoleColors.RESET);
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "b":
+                    return;
                 case "l":
                     if (isOwner) {
                         try {
@@ -102,6 +105,7 @@ public class Index {
                             System.out.println(ConsoleColors.RED + "Failed to load page");
                         }
                     }
+                    break;
                 case "y":
                     try {
                         Lists.showFollowing(User.getFilter().getByUsername(username).id);
@@ -110,6 +114,7 @@ public class Index {
                         logger.error("Failed loading lists - " + e.getMessage());
                         System.out.println(ConsoleColors.RED + "Failed to load page");
                     }
+                    break;
                 case "z":
                     try {
                         Lists.showFollowers(User.getFilter().getByUsername(username).id);
@@ -118,6 +123,7 @@ public class Index {
                         logger.error("Failed loading lists - " + e.getMessage());
                         System.out.println(ConsoleColors.RED + "Failed to load page");
                     }
+                    break;
                 case "1":
                     try {
                         if (!isOwner) {
