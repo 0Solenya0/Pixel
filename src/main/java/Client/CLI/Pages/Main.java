@@ -33,6 +33,8 @@ public class Main {
             System.out.println(ConsoleColors.YELLOW + "Enter your password:");
             String password = UserUtility.scanner.nextLine();
             try {
+                if (username.isEmpty() || password.isEmpty())
+                    break;
                 UserUtility.login(username, password);
                 System.out.println(ConsoleColors.GREEN + "Logged in successfully");
                 Menu.show();

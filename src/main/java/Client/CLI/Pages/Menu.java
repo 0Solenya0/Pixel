@@ -4,6 +4,8 @@ import Client.CLI.ConsoleColors;
 import Client.CLI.Pages.Profile.Index;
 import Client.CLI.UserUtility;
 
+import java.sql.ClientInfoStatus;
+
 public class Menu {
     public static void show() {
         mainloop: while (true) {
@@ -14,17 +16,20 @@ public class Menu {
             System.out.println("(e) Explorer");
             System.out.println("(m) Messages");
             System.out.println("(s) Settings");
-            System.out.println("(exit) Logout");
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
-                case "exit":
-                    break mainloop;
                 case "p":
                     (new Client.CLI.Pages.Profile.Index(UserUtility.user.username)).show();
                     break;
                 case "e":
                     Client.CLI.Pages.Explorer.Index.show();
+                    break;
+                case "s":
+                    if (!Client.CLI.Pages.Settings.Index.show()) {
+                        System.out.println(ConsoleColors.GREEN + "Logged out successfully");
+                        return;
+                    }
                     break;
             }
         }

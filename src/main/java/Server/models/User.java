@@ -22,6 +22,7 @@ public class User extends Model {
         return datasrc;
     }
 
+    public AccessLevel visibility;
     public String name, surname, username, bio;
     private UserField<String> mail, phone;
     private UserField<LocalDateTime> lastseen;
@@ -71,6 +72,7 @@ public class User extends Model {
         this.password = password;
         this.isActive = true;
         this.isEnabled = true;
+        this.visibility = AccessLevel.PUBLIC;
     }
     public User(int id) throws IOException {
         this(
@@ -101,10 +103,15 @@ public class User extends Model {
         this.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
         this.isActive = Boolean.parseBoolean(user.get("isActive").toString());
+        this.visibility = AccessLevel.valueOf(user.getString("visibility"));
     }
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
+    }
+    public void changePassword(String password) throws Exception {
+        this.password = password;
+        this.save();
     }
     public void updateLastSeen() throws Exception {
         lastseen.set(LocalDateTime.now());
@@ -173,6 +180,7 @@ public class User extends Model {
         user.put("phone", phone.getJSON());
         user.put("birthdate", birthdate.getJSON());
         user.put("lastseen", lastseen.getJSON());
+        user.put("visibility", visibility);
         return user;
     }
     public boolean isValid() throws Exception {
