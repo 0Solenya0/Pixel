@@ -5,6 +5,7 @@ import Client.CLI.Pages.Lists;
 import Client.CLI.Pages.Tweets;
 import Client.CLI.UserUtility;
 import Server.models.Fields.RelType;
+import Server.models.Notification;
 import Server.models.Relation;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
@@ -94,6 +95,9 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "n":
+                    Client.CLI.Pages.Notifications.Index.show();
+                    break;
                 case "b":
                     return;
                 case "l":

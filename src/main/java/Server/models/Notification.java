@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class Notification extends Model {
     private static final Logger logger = LogManager.getLogger(Relation.class);
 
@@ -23,21 +25,52 @@ public class Notification extends Model {
         this.user2 = user2;
         this.type = NotificationType.INFO;
         this.message = content;
+        this.isActive = true;
     }
     public Notification(int user1, int user2, NotificationType type) {
         this.user1 = user1;
         this.user2 = user2;
         this.type = type;
         this.message = "";
+        this.isActive = true;
     }
     public Notification(int id) throws Exception {
         JSONObject notif = loadJSON(id, datasrc);
         this.id = id;
         this.user1 = Integer.parseInt(notif.get("user1").toString());
-        this.user1 = Integer.parseInt(notif.get("user2").toString());
+        this.user2 = Integer.parseInt(notif.get("user2").toString());
         this.type = NotificationType.valueOf(notif.getString("type"));
         this.isActive = Boolean.parseBoolean(notif.get("isActive").toString());
         this.message = notif.getString("message");
+    }
+
+    public void accept() throws Exception {
+        (new Relation(user1, user2, RelType.FOLLOW)).save();
+        (new Notification(0, user1, User.get(user2).username + " has accepted your request")).save();
+        this.isActive = false;
+        this.save();
+    }
+    public void refuse() throws Exception {
+        (new Notification(0, user1, User.get(user2).username + " has refused your request")).save();
+        this.isActive = false;
+        this.save();
+    }
+    public void silentRefuse() throws Exception {
+        this.isActive = false;
+        this.save();
+    }
+
+    public String getMessage() throws IOException {
+        if (type == NotificationType.INFO)
+            return message;
+        else
+            return User.get(user1).username + " has requested to follow you";
+    }
+    public String getMessageForSender() throws IOException {
+        if (type == NotificationType.INFO)
+            return message;
+        else
+            return "your request to " + User.get(user2).username + "  is pending";
     }
 
     /** Must be in every model section **/
