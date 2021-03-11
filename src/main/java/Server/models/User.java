@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class User extends Model {
     private static final Logger logger = LogManager.getLogger(User.class);
@@ -126,6 +127,29 @@ public class User extends Model {
     public Relation getRel(int id) throws Exception {
         return Relation.getFilter().getByTwoUser(this.id, id);
     }
+    public ArrayList<User> getFollowers() throws Exception {
+        ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user2 == this.id && relation.type == RelType.FOLLOW).getList();
+        ArrayList<User> res = new ArrayList<>();
+        for (Relation relation : rel)
+            res.add(User.get(relation.user1));
+        return res;
+    }
+    public ArrayList<User> getFollowings() throws Exception {
+        ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user1 == this.id && relation.type == RelType.FOLLOW).getList();
+        ArrayList<User> res = new ArrayList<>();
+        for (Relation relation : rel)
+            res.add(User.get(relation.user1));
+        return res;
+    }
+    public ArrayList<User> getBlackList() throws Exception {
+        ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user1 == this.id && relation.type == RelType.BLOCKED).getList();
+        ArrayList<User> res = new ArrayList<>();
+        for (Relation relation : rel)
+            res.add(User.get(relation.user1));
+        return res;
+    }
+
+
 
     /** Must be in every model section **/
     public static User get(int id) throws IOException {

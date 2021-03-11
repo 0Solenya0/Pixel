@@ -1,6 +1,7 @@
 package Client.CLI.Pages.Profile;
 
 import Client.CLI.ConsoleColors;
+import Client.CLI.Pages.Lists;
 import Client.CLI.Pages.Tweets;
 import Client.CLI.UserUtility;
 import Server.models.Fields.RelType;
@@ -41,6 +42,7 @@ public class Index {
         boolean isOwner = UserUtility.user.username.equals(username);
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---" + username + "'s Personal Page---");
+            /** Follow status **/
             if (!isOwner) {
                 try {
                     Relation rel = UserUtility.user.getRel(User.getFilter().getByUsername(username).id);
@@ -73,6 +75,7 @@ public class Index {
                     e.printStackTrace();
                 }
             }
+
             System.out.print(ConsoleColors.YELLOW);
             if (isOwner)
                 System.out.println("(c) New tweet!");
@@ -90,6 +93,31 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "l":
+                    if (isOwner) {
+                        try {
+                            Lists.showBlackList(User.getFilter().getByUsername(username).id);
+                        } catch (Exception e) {
+                            logger.error("Failed loading lists - " + e.getMessage());
+                            System.out.println(ConsoleColors.RED + "Failed to load page");
+                        }
+                    }
+                case "y":
+                    try {
+                        Lists.showFollowing(User.getFilter().getByUsername(username).id);
+                    }
+                    catch (Exception e) {
+                        logger.error("Failed loading lists - " + e.getMessage());
+                        System.out.println(ConsoleColors.RED + "Failed to load page");
+                    }
+                case "z":
+                    try {
+                        Lists.showFollowers(User.getFilter().getByUsername(username).id);
+                    }
+                    catch (Exception e) {
+                        logger.error("Failed loading lists - " + e.getMessage());
+                        System.out.println(ConsoleColors.RED + "Failed to load page");
+                    }
                 case "1":
                     try {
                         if (!isOwner) {
