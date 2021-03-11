@@ -16,23 +16,23 @@ public class Privacy {
             System.out.print(ConsoleColors.YELLOW);
             switch (UserUtility.user.visibility) {
                 case PUBLIC:
-                    System.out.println("(a) Toggle page visibility " + ConsoleColors.GREEN + "PUBLIC" + ConsoleColors.YELLOW + "/PRIVATE");
+                    System.out.println("(a) Toggle page visibility " + ConsoleColors.GREEN_BOLD + "PUBLIC" + ConsoleColors.YELLOW + "/PRIVATE");
                     break;
                 case PRIVATE:
-                    System.out.println("(a) Toggle page visibility PUBLIC/" + ConsoleColors.GREEN + "PRIVATE");
+                    System.out.println("(a) Toggle page visibility PUBLIC/" + ConsoleColors.GREEN_BOLD + "PRIVATE");
                     break;
             }
             System.out.print(ConsoleColors.YELLOW);
             switch (UserUtility.user.getLastseen().getAccessLevel()) {
                 case PUBLIC:
-                    System.out.println("(b) Toggle last seen visibility " + ConsoleColors.GREEN + "PUBLIC" + ConsoleColors.YELLOW + "/PRIVATE/CONTACTS");
+                    System.out.println("(b) Toggle last seen visibility " + ConsoleColors.GREEN_BOLD + "PUBLIC" + ConsoleColors.YELLOW + "/PRIVATE/CONTACTS");
                     break;
                 case PRIVATE:
-                    System.out.println("(b) Toggle page visibility PUBLIC/" + ConsoleColors.GREEN + "PRIVATE" + ConsoleColors.YELLOW + "/CONTACTS");
+                    System.out.println("(b) Toggle last seen visibility PUBLIC/" + ConsoleColors.GREEN_BOLD + "PRIVATE" + ConsoleColors.YELLOW + "/CONTACTS");
                     break;
                 case CONTACTS:
-                    System.out.println("(b) Toggle page visibility PUBLIC/PRIVATE" + ConsoleColors.GREEN + "/CONTACTS");
-
+                    System.out.println("(b) Toggle last seen visibility PUBLIC/PRIVATE" + ConsoleColors.GREEN_BOLD + "/CONTACTS");
+                    break;
             }
             System.out.print(ConsoleColors.YELLOW);
             if (UserUtility.user.isEnabled)
@@ -44,8 +44,10 @@ public class Privacy {
             String response = UserUtility.scanner.nextLine();
             switch (response) {
                 case "a":
+                    toggleVisibility();
                     break;
                 case "b":
+                    toggleLastseen();
                     break;
                 case "c":
                     try {
@@ -69,6 +71,44 @@ public class Privacy {
                     }
                     break;
             }
+
+        }
+    }
+    public static void toggleLastseen() {
+        switch (UserUtility.user.getLastseen().getAccessLevel()) {
+            case PUBLIC:
+                    UserUtility.user.getLastseen().setAccessLevel(AccessLevel.PRIVATE);
+                break;
+            case PRIVATE:
+                UserUtility.user.getLastseen().setAccessLevel(AccessLevel.CONTACTS);
+                break;
+            case CONTACTS:
+                UserUtility.user.getLastseen().setAccessLevel(AccessLevel.PUBLIC);
+                break;
+        }
+        try {
+            UserUtility.user.save();
+        }
+        catch (Exception e) {
+            logger.error("Can't save changes to lastseen - " + e.getMessage());
+            System.out.println(ConsoleColors.RED + "Change failed");
+        }
+    }
+    public static void toggleVisibility() {
+        switch (UserUtility.user.visibility) {
+            case PUBLIC:
+                UserUtility.user.visibility = AccessLevel.PRIVATE;
+                break;
+            case PRIVATE:
+                UserUtility.user.visibility = AccessLevel.PUBLIC;
+                break;
+        }
+        try {
+            UserUtility.user.save();
+        }
+        catch (Exception e) {
+            logger.error("Can't save changes to lastseen - " + e.getMessage());
+            System.out.println(ConsoleColors.RED + "Change failed");
         }
     }
 }
