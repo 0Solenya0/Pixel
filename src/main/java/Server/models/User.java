@@ -2,6 +2,7 @@ package Server.models;
 
 import Server.Validators;
 import Server.models.Fields.AccessLevel;
+import Server.models.Fields.NotificationType;
 import Server.models.Fields.RelType;
 import Server.models.Fields.UserField;
 import Server.models.Filters.UserFilter;
@@ -30,6 +31,9 @@ public class User extends Model {
     private String password;
     public boolean isEnabled;
 
+    public AccessLevel getVisibility() {
+        return visibility;
+    }
     public String getPassword() {
         return password;
     }
@@ -120,16 +124,28 @@ public class User extends Model {
     }
 
     public void follow(int id) throws Exception {
+        if (getRel(id) != null && getRel(id).type == RelType.FOLLOW)
+            return;
         resetRel(id);
-        (new Relation(this.id, id, RelType.FOLLOW)).save();
+        if (User.get(id).getVisibility() == AccessLevel.PRIVATE)
+            (new Notification(this.id, id, NotificationType.REQUEST)).save();
+        else {
+            (new Relation(this.id, id, RelType.FOLLOW)).save();
+            (new Notification(0, id, username + " has started following you")).save();
+        }
     }
     public void block(int id) throws Exception {
+        if (User.get(id).getRel(this.id) != null && User.get(id).getRel(this.id).type == RelType.FOLLOW)
+            User.get(id).getRel(this.id).delete();
         resetRel(id);
         (new Relation(this.id, id, RelType.BLOCKED)).save();
     }
     public void resetRel(int id) throws Exception {
-        if (getRel(id) != null)
+        if (getRel(id) != null) {
+            if (getRel(id).type == RelType.FOLLOW)
+                (new Notification(0, id, username + " has stopped following you")).save();
             getRel(id).delete();
+        }
     }
     public Relation getRel(int id) throws Exception {
         return Relation.getFilter().getByTwoUser(this.id, id);
