@@ -16,6 +16,7 @@ public class Tweet extends Model {
         return datasrc;
     }
 
+    public int parentTweet;
     private int author;
     private String content;
 
@@ -32,10 +33,12 @@ public class Tweet extends Model {
     public Tweet(User author, String text) {
         this.author = author.id;
         this.content = text;
+        this.isActive = true;
     }
     public Tweet(int id) throws IOException {
         JSONObject tweet = loadJSON(id, datasrc);
         this.id = id;
+        this.parentTweet = Integer.parseInt(tweet.get("parentTweet").toString());
         this.author = Integer.parseInt(tweet.get("author").toString());
         this.content = tweet.getString("content");
         this.isActive = Boolean.parseBoolean(tweet.get("isActive").toString());
@@ -63,6 +66,7 @@ public class Tweet extends Model {
         tweet.put("id", id);
         tweet.put("author", author);
         tweet.put("content", content);
+        tweet.put("parentTweet", parentTweet);
         return tweet;
     }
 }

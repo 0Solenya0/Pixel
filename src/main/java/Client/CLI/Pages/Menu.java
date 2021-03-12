@@ -19,6 +19,9 @@ public class Menu {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "t":
+                    Client.CLI.Pages.TimeLine.Index.show();
+                    break;
                 case "p":
                     (new Client.CLI.Pages.Profile.Index(UserUtility.user.username)).show();
                     break;

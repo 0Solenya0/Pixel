@@ -46,6 +46,7 @@ public class Lists {
             try {
                 int x = Integer.parseInt(response);
                 (new Client.CLI.Pages.Profile.Index(list.get(x - 1).username)).show();
+                return;
             } catch (Exception e) {
                 logger.warn("List page response wasn't valid - " + e.getMessage());
                 System.out.println("Please enter a valid response");

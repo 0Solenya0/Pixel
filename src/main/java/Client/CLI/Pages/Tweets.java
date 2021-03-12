@@ -13,24 +13,7 @@ import java.util.Scanner;
 public class Tweets {
     private static final Logger logger = LogManager.getLogger(User.class);
 
-    public static void showUserTweets(String username) {
-        System.out.println(ConsoleColors.PURPLE + "\t\t\t" + username + "'s tweets");
-        try {
-            ArrayList<Tweet> tweets = Tweet.getFilter().getByUser(username).getList();
-            for (int i = 0; i < tweets.size(); i++) {
-                System.out.println(ConsoleColors.PURPLE + "----------Start-of-tweet------------");
-                showTweet(tweets.get(i), false);
-                System.out.println(ConsoleColors.PURPLE + "-----------End-of-tweet-------------");
-            }
-            System.out.println();
-        }
-        catch (Exception e) {
-            System.out.println(ConsoleColors.RED + "Loading tweets failed");
-            logger.debug("Loading tweets failed");
-        }
-    }
-
-    public static void postTweet() {
+    public static void postTweet(int parent) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(ConsoleColors.PURPLE + "\t ---Post tweet---");
         System.out.println(ConsoleColors.PURPLE + "Type ^ in a new line and press enter to save");
@@ -47,6 +30,7 @@ public class Tweets {
         }
         try {
             Tweet tweet = new Tweet(UserUtility.user, content.toString());
+            tweet.parentTweet = parent;
             tweet.save();
             System.out.println(ConsoleColors.GREEN + "Saved successfully");
             logger.info("New tweet saved - " + tweet.getJSON());
@@ -57,12 +41,14 @@ public class Tweets {
     }
     public static void showTweet(Tweet tweet, boolean showSender) {
         try {
+            if (tweet.parentTweet != 0)
+                System.out.println(ConsoleColors.PURPLE + "Replied to " + Tweet.get(tweet.parentTweet).getAuthor().username);
             if (showSender)
                 System.out.println(ConsoleColors.PURPLE + "Sent by " + tweet.getAuthor().username + ":");
             if (showSender)
-                System.out.println("\t" + ConsoleColors.YELLOW + tweet.getContent().trim().replace("\n", "\n\t"));
+                System.out.println("\t" + ConsoleColors.BLUE_BOLD + tweet.getContent().trim().replace("\n", "\n\t"));
             else
-                System.out.println(ConsoleColors.YELLOW + tweet.getContent().trim());
+                System.out.println(ConsoleColors.BLUE_BOLD + tweet.getContent().trim());
         }
         catch (Exception e) {
             System.out.println(ConsoleColors.RED + "Loading tweet failed");

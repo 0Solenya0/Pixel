@@ -7,6 +7,7 @@ import Client.CLI.UserUtility;
 import Server.models.Fields.RelType;
 import Server.models.Notification;
 import Server.models.Relation;
+import Server.models.Tweet;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -158,10 +159,16 @@ public class Index {
                     break;
                 case "c":
                     if (isOwner)
-                        Tweets.postTweet();
+                        Tweets.postTweet(0);
                     break;
                 case "p":
-                    Tweets.showUserTweets(username);
+                    try {
+                        Client.CLI.Pages.TimeLine.Index.showTweetList(Tweet.getFilter().getByUser(username).getList());
+                    }
+                    catch (Exception e) {
+                        System.out.println(ConsoleColors.RED + "Failed loading user tweets");
+                        logger.error("Failed loading user tweets - " + e.getMessage());
+                    }
                     break;
                 case "e":
                     if (isOwner)
