@@ -159,7 +159,7 @@ public class Index {
                     break;
                 case "c":
                     if (isOwner)
-                        Tweets.postTweet(0);
+                        Tweets.postTweet(0, 0);
                     break;
                 case "p":
                     try {

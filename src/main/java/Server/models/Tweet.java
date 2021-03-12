@@ -1,5 +1,6 @@
 package Server.models;
 
+import Client.CLI.ConsoleColors;
 import Server.models.Filters.TweetFilter;
 import Server.models.Filters.UserFilter;
 import org.apache.logging.log4j.LogManager;
@@ -17,10 +18,13 @@ public class Tweet extends Model {
     }
 
     public int parentTweet;
+    public int reTweet;
     private int author;
     private String content;
 
-    public String getContent() {
+    public String getContent() throws Exception {
+        if (reTweet != 0)
+            return content + "\nRetweeted from " + Tweet.get(reTweet).getAuthor().username  + ":\n" + Tweet.get(reTweet).content;
         return content;
     }
     public int getAuthorId() {
@@ -39,6 +43,7 @@ public class Tweet extends Model {
         JSONObject tweet = loadJSON(id, datasrc);
         this.id = id;
         this.parentTweet = Integer.parseInt(tweet.get("parentTweet").toString());
+        this.reTweet = Integer.parseInt(tweet.get("reTweet").toString());
         this.author = Integer.parseInt(tweet.get("author").toString());
         this.content = tweet.getString("content");
         this.isActive = Boolean.parseBoolean(tweet.get("isActive").toString());
@@ -67,6 +72,7 @@ public class Tweet extends Model {
         tweet.put("author", author);
         tweet.put("content", content);
         tweet.put("parentTweet", parentTweet);
+        tweet.put("reTweet", reTweet);
         return tweet;
     }
 }

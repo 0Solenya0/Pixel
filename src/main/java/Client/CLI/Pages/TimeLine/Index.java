@@ -43,9 +43,11 @@ public class Index {
             System.out.println(ConsoleColors.PURPLE + "\t\t---TimeLine---");
             Tweets.showTweet(tweets.get(cur), true);
             System.out.println(ConsoleColors.YELLOW + "(l)" + ConsoleColors.RED + " ❤" + ConsoleColors.YELLOW + " Like");
+            //TO DO: ♡
             System.out.println("(p) Go to user's personal page");
             System.out.println("(n) Add comment");
             System.out.println("(c) Comments");
+            System.out.println("(r) Retweet");
             System.out.println("(b) back");
             if (cur > 0)
                 System.out.print("(-) ← ");
@@ -55,6 +57,9 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "r":
+                    Tweets.postTweet(0, tweets.get(cur).id);
+                    break;
                 case "c":
                     try {
                         int tarId = tweets.get(cur).id;
@@ -66,7 +71,7 @@ public class Index {
                     }
                     break;
                 case "n":
-                    Tweets.postTweet(tweets.get(cur).id);
+                    Tweets.postTweet(tweets.get(cur).id, 0);
                     break;
                 case "b":
                     return;

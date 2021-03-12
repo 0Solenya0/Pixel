@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Tweets {
     private static final Logger logger = LogManager.getLogger(User.class);
 
-    public static void postTweet(int parent) {
+    public static void postTweet(int parent, int retweet) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(ConsoleColors.PURPLE + "\t ---Post tweet---");
         System.out.println(ConsoleColors.PURPLE + "Type ^ in a new line and press enter to save");
@@ -29,8 +29,9 @@ public class Tweets {
             content.append(line + "\n");
         }
         try {
-            Tweet tweet = new Tweet(UserUtility.user, content.toString());
+            Tweet tweet = new Tweet(UserUtility.user, content.toString().trim());
             tweet.parentTweet = parent;
+            tweet.reTweet = retweet;
             tweet.save();
             System.out.println(ConsoleColors.GREEN + "Saved successfully");
             logger.info("New tweet saved - " + tweet.getJSON());
