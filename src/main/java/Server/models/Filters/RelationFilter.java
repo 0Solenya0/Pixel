@@ -1,5 +1,6 @@
 package Server.models.Filters;
 
+import Server.models.Exceptions.ConnectionException;
 import Server.models.Relation;
 import Server.models.Tweet;
 import Server.models.User;
@@ -11,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class RelationFilter {
     private ArrayList<Relation> list;
-    public RelationFilter() throws Exception {
+    public RelationFilter() throws ConnectionException {
         list = new ArrayList<>();
         for (int i = 1; i <= Relation.getLastId(Relation.datasrc); i++)
-            if (Relation.get(i).isActive)
+            if (!Relation.get(i).isDeleted)
                 list.add(Relation.get(i));
     }
     public RelationFilter userCustomFilter(Predicate<Relation> p) {

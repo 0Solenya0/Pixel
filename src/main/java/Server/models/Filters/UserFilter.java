@@ -1,5 +1,6 @@
 package Server.models.Filters;
 
+import Server.models.Exceptions.ConnectionException;
 import Server.models.User;
 
 import java.io.IOException;
@@ -9,10 +10,10 @@ import java.util.stream.Collectors;
 
 public class UserFilter {
     private ArrayList<User> list;
-    public UserFilter() throws IOException {
+    public UserFilter() throws ConnectionException {
         list = new ArrayList<>();
         for (int i = 1; i <= User.getLastId(User.datasrc); i++)
-            if (User.get(i).isActive)
+            if (!User.get(i).isDeleted)
                 list.add(User.get(i));
     }
     public UserFilter userCustomFilter(Predicate<User> p) {

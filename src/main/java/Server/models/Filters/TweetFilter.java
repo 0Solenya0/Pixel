@@ -1,5 +1,6 @@
 package Server.models.Filters;
 
+import Server.models.Exceptions.ConnectionException;
 import Server.models.Tweet;
 import Server.models.User;
 
@@ -10,10 +11,10 @@ import java.util.stream.Collectors;
 
 public class TweetFilter {
     private ArrayList<Tweet> list;
-    public TweetFilter() throws IOException {
+    public TweetFilter() throws ConnectionException {
         list = new ArrayList<>();
         for (int i = 1; i <= Tweet.getLastId(Tweet.datasrc); i++)
-            if (Tweet.get(i).isActive)
+            if (!Tweet.get(i).isDeleted)
                 list.add(Tweet.get(i));
     }
     public TweetFilter userCustomFilter(Predicate<Tweet> p) {

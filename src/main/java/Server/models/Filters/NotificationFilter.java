@@ -1,5 +1,6 @@
 package Server.models.Filters;
 
+import Server.models.Exceptions.ConnectionException;
 import Server.models.Notification;
 import Server.models.Relation;
 
@@ -9,10 +10,10 @@ import java.util.stream.Collectors;
 
 public class NotificationFilter {
     private ArrayList<Notification> list;
-    public NotificationFilter() throws Exception {
+    public NotificationFilter() throws ConnectionException {
         list = new ArrayList<>();
         for (int i = 1; i <= Notification.getLastId(Notification.datasrc); i++)
-            if (Notification.get(i).isActive)
+            if (!Notification.get(i).isDeleted)
                 list.add(Notification.get(i));
     }
     public NotificationFilter userCustomFilter(Predicate<Notification> p) {

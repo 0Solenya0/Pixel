@@ -42,6 +42,7 @@ public class Main {
             }
             catch (Exception e) {
                 System.out.println(ConsoleColors.RED + "Login failed please try again - " + e.getMessage());
+                e.printStackTrace();
             }
         }
     }

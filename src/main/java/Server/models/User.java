@@ -1,6 +1,8 @@
 package Server.models;
 
 import Server.Validators;
+import Server.models.Exceptions.ConnectionException;
+import Server.models.Exceptions.ValidationException;
 import Server.models.Fields.AccessLevel;
 import Server.models.Fields.NotificationType;
 import Server.models.Fields.RelType;
@@ -17,11 +19,7 @@ import java.util.ArrayList;
 
 public class User extends Model {
     private static final Logger logger = LogManager.getLogger(User.class);
-
-    public static final String datasrc = "./db/Users";
-    public String getdatasrc() {
-        return datasrc;
-    }
+    public static final String datasrc = "./db/" + User.class.getName();
 
     public AccessLevel visibility;
     public String name, surname, username, bio;
@@ -34,9 +32,6 @@ public class User extends Model {
     public AccessLevel getVisibility() {
         return visibility;
     }
-    public String getPassword() {
-        return password;
-    }
     public String getFullName() {
         return this.name + " " + this.surname;
     }
@@ -46,7 +41,7 @@ public class User extends Model {
     public UserField<String> getPhone() {
         return phone;
     }
-    public UserField<LocalDateTime> getLastseen() {
+    public UserField<LocalDateTime> getLastSeen() {
         return lastseen;
     }
     public UserField<LocalDate> getBirthdate() {
@@ -54,6 +49,7 @@ public class User extends Model {
     }
 
     public User(String name, String surname, String username, String mail, String password) {
+        super();
         this.birthdate = new UserField<>();
         this.lastseen = new UserField<>();
         this.phone = new UserField<>();
@@ -74,11 +70,10 @@ public class User extends Model {
         this.username = username;
         this.mail.set(mail);
         this.password = password;
-        this.isActive = true;
         this.isEnabled = true;
         this.visibility = AccessLevel.PUBLIC;
     }
-    public User(int id) throws IOException {
+    public User(int id) throws ConnectionException {
         this(
                 loadJSON(id, datasrc).getString("name"),
                 loadJSON(id, datasrc).getString("surname"),
@@ -86,8 +81,10 @@ public class User extends Model {
                 "",
                 loadJSON(id, datasrc).getString("password")
         );
-        JSONObject user = loadJSON(id, datasrc);
         this.id = id;
+
+        JSONObject user = loadJSON(id, datasrc);
+        this.isDeleted = loadJSON(id, getDataSource()).getBoolean("isDeleted");
         this.bio = user.getString("bio");
 
         JSONObject obj = (JSONObject) user.get("phone");
@@ -106,21 +103,20 @@ public class User extends Model {
         this.birthdate.set(LocalDate.parse(obj.getString("value")));
         this.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
 
-        this.isActive = Boolean.parseBoolean(user.get("isActive").toString());
         this.visibility = AccessLevel.valueOf(user.getString("visibility"));
     }
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
     }
-    public void changePassword(String password) throws Exception {
+    public void changePassword(String password) throws ValidationException, ConnectionException {
         this.password = password;
         this.save();
     }
-    public void updateLastSeen() throws Exception {
+    public void updateLastSeen() throws ValidationException, ConnectionException {
         lastseen.set(LocalDateTime.now());
         save();
-        logger.info(String.format("Lastseen for user %s updated.", username));
+        logger.info(String.format("LastSeen for user %s with id %s updated.", username, id));
     }
 
     public void follow(int id) throws Exception {
@@ -172,20 +168,17 @@ public class User extends Model {
         return res;
     }
 
-
-
     /** Must be in every model section **/
-    public static User get(int id) throws IOException {
+    public static User get(int id) throws ConnectionException {
         return new User(id);
     }
-    public static UserFilter getFilter() throws IOException {
+    public static UserFilter getFilter() throws ConnectionException {
         return new UserFilter();
     }
 
     /** Inherited **/
     public JSONObject getJSON() {
         JSONObject user = new JSONObject();
-        user.put("id", id);
         user.put("name",  name);
         user.put("password", password);
         user.put("surname", surname);
@@ -199,31 +192,30 @@ public class User extends Model {
         user.put("visibility", visibility);
         return user;
     }
-    public boolean isValid() throws Exception {
+    public void isValid() throws ValidationException, ConnectionException {
         if (mail.get() == null) {
             logger.debug(String.format("Email Validation Failed - mail is null. UserId: %d ", id));
-            throw new Exception("Email field is empty");
+            throw new ValidationException("mail", "User", "Email field is empty");
         }
         if (!Validators.isValidMail(mail.get())) {
             logger.debug(String.format("Email Validation Failed - bad format. UserId: %d , Input: %s", id, mail.get()));
-            throw new Exception("Email bad format");
+            throw new ValidationException("mail", "User", "Email bad format");
         }
         if (!Validators.isValidPhone(phone.get())) {
             logger.debug("Phone number is not valid");
-            throw new Exception("Phone number is not valid");
+            throw new ValidationException("Phone Number", "User", "Phone number is not valid");
         }
         if (getFilter().getByMail(mail.get()) != null && getFilter().getByMail(mail.get()).id != this.id) {
             logger.debug("Email already exists");
-            throw new Exception("Email already exists");
+            throw new ValidationException("mail", "User", "Email already exists");
         }
         if (getFilter().getByUsername(username) != null && getFilter().getByUsername(username).id != this.id) {
             logger.debug("User already exists");
-            throw new Exception("User already exists");
+            throw new ValidationException("user", "User", "User already exists");
         }
         if (!phone.get().equals("") && getFilter().getByPhone(phone.get()) != null && getFilter().getByPhone(phone.get()).id != this.id) {
             logger.debug("Phone number already exists");
-            throw new Exception("Phone number already exists");
+            throw new ValidationException("Phone Number", "User", "Phone number already exists");
         }
-        return true;
     }
 }

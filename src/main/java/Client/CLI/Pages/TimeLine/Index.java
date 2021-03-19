@@ -33,14 +33,14 @@ public class Index {
         }
     }
 
-    public static void showTweetList(ArrayList<Tweet> tweets) {
-        if (tweets.isEmpty()) {
-            System.out.println(ConsoleColors.RED + "There are no tweets here :(");
-            return;
-        }
+    public static void showTweetList(ArrayList<Tweet> tweets) throws Exception {
         int cur = 0;
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t\t---TimeLine---");
+            if (tweets.isEmpty()) {
+                System.out.println(ConsoleColors.RED + "There are no tweets here :(");
+                return;
+            }
             Tweets.showTweet(tweets.get(cur), true);
             System.out.println(ConsoleColors.YELLOW + "(l)" + ConsoleColors.RED + " ❤" + ConsoleColors.YELLOW + " Like");
             //TO DO: ♡
@@ -48,6 +48,7 @@ public class Index {
             System.out.println("(n) Add comment");
             System.out.println("(c) Comments");
             System.out.println("(r) Retweet");
+            System.out.println("(block) Block author");
             System.out.println("(b) back");
             if (cur > 0)
                 System.out.print("(-) ← ");
@@ -57,6 +58,16 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "block":
+                    UserUtility.user.block(tweets.get(cur).id);
+                    int del = 0;
+                    for (int i = 0; i <= cur; i++) {
+                        if (tweets.get(i).id == tweets.get(cur).id)
+                            del += 1;
+                    }
+                    cur -= del;
+                    cur = Math.max(0, cur);
+                    return;
                 case "r":
                     Tweets.postTweet(0, tweets.get(cur).id);
                     break;

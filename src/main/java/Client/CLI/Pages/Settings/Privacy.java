@@ -3,7 +3,6 @@ package Client.CLI.Pages.Settings;
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
 import Server.models.Fields.AccessLevel;
-import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +22,7 @@ public class Privacy {
                     break;
             }
             System.out.print(ConsoleColors.YELLOW);
-            switch (UserUtility.user.getLastseen().getAccessLevel()) {
+            switch (UserUtility.user.getLastSeen().getAccessLevel()) {
                 case PUBLIC:
                     System.out.println("(b) Toggle last seen visibility " + ConsoleColors.GREEN_BOLD + "PUBLIC" + ConsoleColors.YELLOW + "/PRIVATE/CONTACTS");
                     break;
@@ -75,15 +74,15 @@ public class Privacy {
         }
     }
     public static void toggleLastseen() {
-        switch (UserUtility.user.getLastseen().getAccessLevel()) {
+        switch (UserUtility.user.getLastSeen().getAccessLevel()) {
             case PUBLIC:
-                    UserUtility.user.getLastseen().setAccessLevel(AccessLevel.PRIVATE);
+                    UserUtility.user.getLastSeen().setAccessLevel(AccessLevel.PRIVATE);
                 break;
             case PRIVATE:
-                UserUtility.user.getLastseen().setAccessLevel(AccessLevel.CONTACTS);
+                UserUtility.user.getLastSeen().setAccessLevel(AccessLevel.CONTACTS);
                 break;
             case CONTACTS:
-                UserUtility.user.getLastseen().setAccessLevel(AccessLevel.PUBLIC);
+                UserUtility.user.getLastSeen().setAccessLevel(AccessLevel.PUBLIC);
                 break;
         }
         try {

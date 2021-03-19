@@ -52,12 +52,6 @@ public class EditProfile {
                     changeBio();
                     break;
             }
-            try {
-                UserUtility.login(UserUtility.user.username, UserUtility.user.getPassword());
-            }
-            catch (Exception e) {
-
-            }
         }
     }
 
