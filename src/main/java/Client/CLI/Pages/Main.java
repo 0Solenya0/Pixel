@@ -3,15 +3,16 @@ package Client.CLI.Pages;
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
 import Server.Validators;
-import Server.models.Relation;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         while (true) {
             System.out.println(ConsoleColors.YELLOW + "Already have an account? (y/n)");
             String response = UserUtility.scanner.nextLine();
@@ -42,7 +43,6 @@ public class Main {
             }
             catch (Exception e) {
                 System.out.println(ConsoleColors.RED + "Login failed please try again - " + e.getMessage());
-                e.printStackTrace();
             }
         }
     }

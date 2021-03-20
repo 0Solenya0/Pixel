@@ -7,9 +7,6 @@ import Server.models.Fields.RelType;
 import Server.models.Filters.NotificationFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 public class Notification extends Model {
     private static final Logger logger = LogManager.getLogger(Relation.class);
@@ -35,17 +32,6 @@ public class Notification extends Model {
         this.user2 = user2;
         this.type = type;
         this.message = "";
-    }
-    public Notification(int id) throws ConnectionException {
-        this.id = id;
-        this.isDeleted = loadJSON(id, getDataSource()).getBoolean("isDeleted");
-
-        JSONObject notif = loadJSON(id, datasrc);
-        this.id = id;
-        this.user1 = Integer.parseInt(notif.get("user1").toString());
-        this.user2 = Integer.parseInt(notif.get("user2").toString());
-        this.type = NotificationType.valueOf(notif.getString("type"));
-        this.message = notif.getString("message");
     }
 
     public void accept() throws Exception {
@@ -76,7 +62,7 @@ public class Notification extends Model {
 
     /** Must be in every model section **/
     public static Notification get(int id) throws ConnectionException {
-        return new Notification(id);
+        return (Notification) loadObj(id, datasrc, Notification.class);
     }
     public static NotificationFilter getFilter() throws ConnectionException {
         return new NotificationFilter();
@@ -85,13 +71,5 @@ public class Notification extends Model {
     public void isValid() throws ValidationException {
         if (user1 > User.getLastId(User.datasrc) && user2 > User.getLastId(User.datasrc))
             throw new ValidationException("user", "User", "User does not exist");
-    }
-    public JSONObject getJSON() {
-        JSONObject rel = new JSONObject();
-        rel.put("user1", user1);
-        rel.put("user2", user2);
-        rel.put("message", message);
-        rel.put("type", type);
-        return rel;
     }
 }

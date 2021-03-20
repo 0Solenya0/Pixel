@@ -10,9 +10,7 @@ import Server.models.Fields.UserField;
 import Server.models.Filters.UserFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -72,38 +70,6 @@ public class User extends Model {
         this.password = password;
         this.isEnabled = true;
         this.visibility = AccessLevel.PUBLIC;
-    }
-    public User(int id) throws ConnectionException {
-        this(
-                loadJSON(id, datasrc).getString("name"),
-                loadJSON(id, datasrc).getString("surname"),
-                loadJSON(id, datasrc).getString("username"),
-                "",
-                loadJSON(id, datasrc).getString("password")
-        );
-        this.id = id;
-
-        JSONObject user = loadJSON(id, datasrc);
-        this.isDeleted = loadJSON(id, getDataSource()).getBoolean("isDeleted");
-        this.bio = user.getString("bio");
-
-        JSONObject obj = (JSONObject) user.get("phone");
-        this.phone.set(obj.getString("value"));
-        this.phone.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        obj = (JSONObject) user.get("mail");
-        this.mail.set(obj.getString("value"));
-        this.mail.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        obj = (JSONObject) user.get("lastseen");
-        this.lastseen.set(LocalDateTime.parse(obj.getString("value")));
-        this.lastseen.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        obj = (JSONObject) user.get("birthdate");
-        this.birthdate.set(LocalDate.parse(obj.getString("value")));
-        this.birthdate.setAccessLevel(AccessLevel.valueOf(obj.getString("access")));
-
-        this.visibility = AccessLevel.valueOf(user.getString("visibility"));
     }
 
     public boolean checkPassword(String password) {
@@ -170,28 +136,12 @@ public class User extends Model {
 
     /** Must be in every model section **/
     public static User get(int id) throws ConnectionException {
-        return new User(id);
+        return (User) loadObj(id, datasrc, User.class);
     }
     public static UserFilter getFilter() throws ConnectionException {
         return new UserFilter();
     }
 
-    /** Inherited **/
-    public JSONObject getJSON() {
-        JSONObject user = new JSONObject();
-        user.put("name",  name);
-        user.put("password", password);
-        user.put("surname", surname);
-        user.put("username", username);
-        user.put("bio", bio);
-        user.put("isEnabled", isEnabled);
-        user.put("mail", mail.getJSON());
-        user.put("phone", phone.getJSON());
-        user.put("birthdate", birthdate.getJSON());
-        user.put("lastseen", lastseen.getJSON());
-        user.put("visibility", visibility);
-        return user;
-    }
     public void isValid() throws ValidationException, ConnectionException {
         if (mail.get() == null) {
             logger.debug(String.format("Email Validation Failed - mail is null. UserId: %d ", id));

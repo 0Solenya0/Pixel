@@ -1,7 +1,5 @@
 package Server.models.Fields;
 
-import org.json.JSONObject;
-
 public class UserField<E> {
     public AccessLevel accessLevel;
     private E value;
@@ -20,12 +18,5 @@ public class UserField<E> {
 
     public void set(E value) {
         this.value = value;
-    }
-
-    public JSONObject getJSON() {
-        JSONObject obj = new JSONObject();
-        obj.put("value", value);
-        obj.put("access", accessLevel.toString());
-        return obj;
     }
 }

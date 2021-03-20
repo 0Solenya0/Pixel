@@ -34,7 +34,7 @@ public class Tweets {
             tweet.reTweet = retweet;
             tweet.save();
             System.out.println(ConsoleColors.GREEN + "Saved successfully");
-            logger.info("New tweet saved - " + tweet.getJSON());
+            logger.info("New tweet saved - Id: " + tweet.id);
         }
         catch (Exception e) {
             System.out.println(ConsoleColors.RED + "Tweet failed - " + e.getMessage());

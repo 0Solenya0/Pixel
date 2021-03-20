@@ -2,18 +2,18 @@ package Server.models;
 
 import Server.models.Exceptions.ConnectionException;
 import Server.models.Exceptions.ValidationException;
-import org.apache.commons.io.FileUtils;
+import Server.models.GsonAdapters.LocalDateAdapter;
+import Server.models.GsonAdapters.LocalDateTimeAdapter;
+import com.google.gson.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public abstract class Model {
-    private static final Logger logger = LogManager.getLogger(User.class);
+    private static final Logger logger = LogManager.getLogger(Model.class);
 
     public int id;
     public boolean isDeleted;
@@ -33,34 +33,24 @@ public abstract class Model {
     public void save() throws ValidationException, ConnectionException {
         if (!isDeleted)
             isValid();
-
-        JSONObject data = getJSON();
         if (id == 0)
             id = getLastId(getDataSource()) + 1;
-
-        data.put("id", id);
-        data.put("isDeleted", isDeleted);
 
         File path = new File(getDataSource() + "/" + id + ".json");
         if (path.exists())
             path.delete();
 
         try {
-            path.getParentFile().mkdirs();
-            path.createNewFile();
+            FileWriter writer = new FileWriter(getDataSource() + "/" + id + ".json");
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                    .create();
+            gson.toJson(this, writer);
+            writer.flush();
         }
-        catch(IOException e) {
-            logger.error("Creating New Database Record File Failed - " + e.getMessage());
-            throw new ConnectionException();
-        }
-
-        try {
-            PrintStream printStream = new PrintStream(path);
-            printStream.print(data.toString());
-            printStream.flush();
-            printStream.close();
-        }
-        catch (FileNotFoundException e) {
+        catch (IOException e) {
             logger.error("Database Record File Was Not Created - " + e.getMessage());
             throw new ConnectionException();
         }
@@ -79,13 +69,15 @@ public abstract class Model {
     }
     public void isValid() throws ValidationException, ConnectionException { }
 
-    public abstract JSONObject getJSON();
-
-    public static JSONObject loadJSON(int id, String datasrc) throws ConnectionException {
-        File file = new File(datasrc + "/" + id + ".json");
+    public static Model loadObj(int id, String datasrc, Class<? extends Model> x) throws ConnectionException {
         try {
-            String content = FileUtils.readFileToString(file, "utf-8");
-            return new JSONObject(content);
+            FileReader file = new FileReader(datasrc + "/" + id + ".json");
+            Gson gson = new GsonBuilder()
+                    .setPrettyPrinting()
+                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                    .create();
+            return gson.fromJson(file, x);
         }
         catch (IOException e) {
             logger.error("Can't Read Database Record File - " + e.getMessage());
