@@ -9,20 +9,14 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class TweetFilter {
-    private ArrayList<Tweet> list;
+public class TweetFilter extends ModelFilter<Tweet> {
+
     public TweetFilter() throws ConnectionException {
-        list = new ArrayList<>();
-        for (int i = 1; i <= Tweet.getLastId(Tweet.datasrc); i++)
-            if (!Tweet.get(i).isDeleted)
-                list.add(Tweet.get(i));
+        super(Tweet.class);
     }
-    public TweetFilter userCustomFilter(Predicate<Tweet> p) {
-        list = (ArrayList<Tweet>) list.stream().filter(p).collect(Collectors.toList());
-        return this;
-    }
+
     public TweetFilter getByUser(String username) {
-        userCustomFilter(tweet -> {
+        customFilter(tweet -> {
             try {
                 return tweet.getAuthor().username.equals(username);
             } catch (Exception e) {
@@ -31,8 +25,9 @@ public class TweetFilter {
         });
         return this;
     }
-
-    public ArrayList<Tweet> getList() {
-        return list;
+    public TweetFilter getByParentTweet(int id) {
+        customFilter(tweet -> tweet.parentTweet == id);
+        return this;
     }
+
 }

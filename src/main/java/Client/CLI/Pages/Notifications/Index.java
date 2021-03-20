@@ -47,9 +47,7 @@ public class Index {
             System.out.println(ConsoleColors.PURPLE + "\t---Follow Requests---");
             ArrayList<Notification> list;
             try {
-                list = Notification.getFilter().userCustomFilter(notification ->
-                                notification.user2 == UserUtility.user.id && notification.type == NotificationType.REQUEST).getList();
-
+                list = Notification.getFilter().getByUser2(UserUtility.user.id).getByType(NotificationType.REQUEST).getList();
             }
             catch (Exception e) {
                 logger.error("Loading follow requests failed - " + e.getMessage());
@@ -113,8 +111,7 @@ public class Index {
             System.out.println(ConsoleColors.PURPLE + "\t---Pending Requests---");
             ArrayList<Notification> list;
             try {
-                list = Notification.getFilter().userCustomFilter(notification ->
-                        notification.user1 == UserUtility.user.id && notification.type == NotificationType.REQUEST).getList();
+                list = Notification.getFilter().getByUser1(UserUtility.user.id).getByType(NotificationType.REQUEST).getList();
             }
             catch (Exception e) {
                 logger.error("Loading follow requests failed - " + e.getMessage());
@@ -146,11 +143,10 @@ public class Index {
             System.out.println(ConsoleColors.PURPLE + "\t---Pending Requests---");
             ArrayList<Notification> list;
             try {
-                list = Notification.getFilter().userCustomFilter(notification ->
-                        notification.user2 == UserUtility.user.id &&
-                                notification.type == NotificationType.INFO &&
-                                notification.user1 == 0
-                ).getList();
+                list = Notification.getFilter().getByUser2(UserUtility.user.id)
+                        .getByType(NotificationType.INFO)
+                        .getByUser1(0)
+                        .getList();
             }
             catch (Exception e) {
                 logger.error("Loading notifications failed - " + e.getMessage());

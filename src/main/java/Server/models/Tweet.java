@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 public class Tweet extends Model {
     private static final Logger logger = LogManager.getLogger(Tweet.class);
-    public static final String datasrc = "./db/" + Tweet.class.getName();
 
     public int parentTweet;
     public int reTweet;
@@ -35,7 +34,7 @@ public class Tweet extends Model {
 
     /** Must be in every model section **/
     public static Tweet get(int id) throws ConnectionException {
-        return (Tweet) loadObj(id, datasrc, Tweet.class);
+        return (Tweet) loadObj(id, Tweet.class);
     }
     public static TweetFilter getFilter() throws ConnectionException {
         return new TweetFilter();

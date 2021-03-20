@@ -17,7 +17,7 @@ public class Index {
     public static ArrayList<Tweet> getTweets() throws Exception {
         ArrayList<Tweet> tweets = new ArrayList<>();
         for (User u: UserUtility.user.getFollowings()) {
-            tweets.addAll(Tweet.getFilter().getByUser(u.username).userCustomFilter(tweet -> tweet.parentTweet == 0).getList());
+            tweets.addAll(Tweet.getFilter().getByUser(u.username).getByParentTweet(0).getList());
         }
         return tweets;
     }
@@ -74,7 +74,7 @@ public class Index {
                 case "c":
                     try {
                         int tarId = tweets.get(cur).id;
-                        showTweetList(Tweet.getFilter().userCustomFilter(tweet -> tweet.parentTweet == tarId).getList());
+                        showTweetList(Tweet.getFilter().getByParentTweet(tarId).getList());
                     }
                     catch (Exception e) {
                         System.out.println(ConsoleColors.RED + "Failed loading comments");

@@ -1,6 +1,7 @@
 package Server.models.Filters;
 
 import Server.models.Exceptions.ConnectionException;
+import Server.models.Fields.NotificationType;
 import Server.models.Notification;
 import Server.models.Relation;
 
@@ -8,24 +9,23 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class NotificationFilter {
-    private ArrayList<Notification> list;
+public class NotificationFilter extends ModelFilter<Notification> {
+
     public NotificationFilter() throws ConnectionException {
-        list = new ArrayList<>();
-        for (int i = 1; i <= Notification.getLastId(Notification.datasrc); i++)
-            if (!Notification.get(i).isDeleted)
-                list.add(Notification.get(i));
+        super(Notification.class);
     }
-    public NotificationFilter userCustomFilter(Predicate<Notification> p) {
-        list = (ArrayList<Notification>) list.stream().filter(p).collect(Collectors.toList());
+
+    public NotificationFilter getByType(NotificationType t) {
+        customFilter(notification -> notification.type == t);
         return this;
     }
-    public NotificationFilter getByUser(int user1) {
-        userCustomFilter(notif -> notif.user1 == user1);
+    public NotificationFilter getByUser1(int user1) {
+        customFilter(notification -> notification.user1 == user1);
+        return this;
+    }
+    public NotificationFilter getByUser2(int user2) {
+        customFilter(notification -> notification.user2 == user2);
         return this;
     }
 
-    public ArrayList<Notification> getList() {
-        return list;
-    }
 }

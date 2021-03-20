@@ -62,14 +62,14 @@ public class Notification extends Model {
 
     /** Must be in every model section **/
     public static Notification get(int id) throws ConnectionException {
-        return (Notification) loadObj(id, datasrc, Notification.class);
+        return (Notification) loadObj(id, Notification.class);
     }
     public static NotificationFilter getFilter() throws ConnectionException {
         return new NotificationFilter();
     }
 
     public void isValid() throws ValidationException {
-        if (user1 > User.getLastId(User.datasrc) && user2 > User.getLastId(User.datasrc))
+        if (user1 > User.getLastId(User.class) && user2 > User.getLastId(User.class))
             throw new ValidationException("user", "User", "User does not exist");
     }
 }

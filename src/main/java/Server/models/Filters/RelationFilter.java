@@ -1,6 +1,7 @@
 package Server.models.Filters;
 
 import Server.models.Exceptions.ConnectionException;
+import Server.models.Fields.RelType;
 import Server.models.Relation;
 import Server.models.Tweet;
 import Server.models.User;
@@ -10,30 +11,25 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class RelationFilter {
-    private ArrayList<Relation> list;
+public class RelationFilter extends ModelFilter<Relation> {
+
     public RelationFilter() throws ConnectionException {
-        list = new ArrayList<>();
-        for (int i = 1; i <= Relation.getLastId(Relation.datasrc); i++)
-            if (!Relation.get(i).isDeleted)
-                list.add(Relation.get(i));
-    }
-    public RelationFilter userCustomFilter(Predicate<Relation> p) {
-        list = (ArrayList<Relation>) list.stream().filter(p).collect(Collectors.toList());
-        return this;
-    }
-    public Relation getByTwoUser(int user1, int user2) {
-        userCustomFilter(relation -> relation.user1 == user1 && relation.user2 == user2);
-        if (list.isEmpty())
-            return null;
-        return list.get(0);
-    }
-    public RelationFilter getByUser(int user1) {
-        userCustomFilter(relation -> relation.user1 == user1);
-        return this;
+        super(Relation.class);
     }
 
-    public ArrayList<Relation> getList() {
-        return list;
+    public Relation getByTwoUser(int user1, int user2) {
+        return get(relation -> relation.user1 == user1 && relation.user2 == user2);
+    }
+    public RelationFilter getByUser1(int user1) {
+        customFilter(relation -> relation.user1 == user1);
+        return this;
+    }
+    public RelationFilter getByUser2(int user2) {
+        customFilter(relation -> relation.user2 == user2);
+        return this;
+    }
+    public RelationFilter getByType(RelType t) {
+        customFilter(relation -> relation.type == t);
+        return this;
     }
 }

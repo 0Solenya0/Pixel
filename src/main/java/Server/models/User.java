@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class User extends Model {
     private static final Logger logger = LogManager.getLogger(User.class);
-    public static final String datasrc = "./db/" + User.class.getName();
 
     public AccessLevel visibility;
     public String name, surname, username, bio;
@@ -113,21 +112,21 @@ public class User extends Model {
         return Relation.getFilter().getByTwoUser(this.id, id);
     }
     public ArrayList<User> getFollowers() throws Exception {
-        ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user2 == this.id && relation.type == RelType.FOLLOW).getList();
+        ArrayList<Relation> rel = Relation.getFilter().getByUser2(this.id).getByType(RelType.FOLLOW).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
             res.add(User.get(relation.user1));
         return res;
     }
     public ArrayList<User> getFollowings() throws Exception {
-        ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user1 == this.id && relation.type == RelType.FOLLOW).getList();
+        ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.FOLLOW).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
             res.add(User.get(relation.user2));
         return res;
     }
     public ArrayList<User> getBlackList() throws Exception {
-        ArrayList<Relation> rel = Relation.getFilter().userCustomFilter(relation -> relation.user1 == this.id && relation.type == RelType.BLOCKED).getList();
+        ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.BLOCKED).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
             res.add(User.get(relation.user2));
@@ -136,7 +135,7 @@ public class User extends Model {
 
     /** Must be in every model section **/
     public static User get(int id) throws ConnectionException {
-        return (User) loadObj(id, datasrc, User.class);
+        return (User) loadObj(id, User.class);
     }
     public static UserFilter getFilter() throws ConnectionException {
         return new UserFilter();

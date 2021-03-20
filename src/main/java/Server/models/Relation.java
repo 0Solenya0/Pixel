@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 public class Relation extends Model {
     private static final Logger logger = LogManager.getLogger(Relation.class);
-    public static final String datasrc = "./db/" + Relation.class.getName();
 
     public int user1, user2;
     public RelType type;
@@ -24,7 +23,7 @@ public class Relation extends Model {
 
     /** Must be in every model section **/
     public static Relation get(int id) throws ConnectionException {
-        return (Relation) loadObj(id, datasrc, Relation.class);
+        return (Relation) loadObj(id, Relation.class);
     }
     public static RelationFilter getFilter() throws ConnectionException {
         return new RelationFilter();
@@ -33,7 +32,7 @@ public class Relation extends Model {
     public void isValid() throws ValidationException, ConnectionException {
         if (user1 == user2)
             throw new ValidationException("user", "Relation", "A user can't have relation with itself");
-        if (user1 > User.getLastId(User.datasrc) || user2 > User.getLastId(User.datasrc))
+        if (user1 > User.getLastId(User.class) || user2 > User.getLastId(User.class))
             throw new ValidationException("user", "Relation", "User does not exist");
         if (getFilter().getByTwoUser(user1, user2) != null && this.id != getFilter().getByTwoUser(user1, user2).id)
             throw new ValidationException("Relation", "Relation", "Relationship already exists");
