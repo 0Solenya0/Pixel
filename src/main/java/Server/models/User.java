@@ -2,6 +2,7 @@ package Server.models;
 
 import Server.Validators;
 import Server.models.Exceptions.ConnectionException;
+import Server.models.Exceptions.InvalidRequestException;
 import Server.models.Exceptions.ValidationException;
 import Server.models.Fields.AccessLevel;
 import Server.models.Fields.NotificationType;
@@ -25,6 +26,7 @@ public class User extends Model {
     private UserField<LocalDate> birthdate;
     private String password;
     public boolean isEnabled;
+    public ArrayList<Integer> groups;
 
     public AccessLevel getVisibility() {
         return visibility;
@@ -84,7 +86,7 @@ public class User extends Model {
         logger.info(String.format("LastSeen for user %s with id %s updated.", username, id));
     }
 
-    public void follow(int id) throws Exception {
+    public void follow(int id) throws ConnectionException, ValidationException {
         if (getRel(id) != null && getRel(id).type == RelType.FOLLOW)
             return;
         resetRel(id);
@@ -95,42 +97,70 @@ public class User extends Model {
             (new Notification(0, id, username + " has started following you")).save();
         }
     }
-    public void block(int id) throws Exception {
+    public void block(int id) throws ConnectionException, ValidationException {
         if (User.get(id).getRel(this.id) != null && User.get(id).getRel(this.id).type == RelType.FOLLOW)
             User.get(id).getRel(this.id).delete();
         resetRel(id);
         (new Relation(this.id, id, RelType.BLOCKED)).save();
     }
-    public void resetRel(int id) throws Exception {
+    public void resetRel(int id) throws ConnectionException, ValidationException {
         if (getRel(id) != null) {
             if (getRel(id).type == RelType.FOLLOW)
                 (new Notification(0, id, username + " has stopped following you")).save();
             getRel(id).delete();
         }
     }
-    public Relation getRel(int id) throws Exception {
+    public Relation getRel(int id) throws ConnectionException {
         return Relation.getFilter().getByTwoUser(this.id, id);
     }
-    public ArrayList<User> getFollowers() throws Exception {
+    public ArrayList<User> getFollowers() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser2(this.id).getByType(RelType.FOLLOW).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
             res.add(User.get(relation.user1));
         return res;
     }
-    public ArrayList<User> getFollowings() throws Exception {
+    public ArrayList<User> getFollowings() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.FOLLOW).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
             res.add(User.get(relation.user2));
         return res;
     }
-    public ArrayList<User> getBlackList() throws Exception {
+    public ArrayList<User> getBlackList() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.BLOCKED).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
             res.add(User.get(relation.user2));
         return res;
+    }
+
+    public void sendMessage(int user, Message message) throws ValidationException, ConnectionException {
+        message.user1 = this.id;
+        message.user2 = user;
+        message.id = 0;
+        message.save();
+    }
+    public void sendGroupMessage(int groupId, Message message) throws InvalidRequestException, ConnectionException, ValidationException {
+        for (int user : getGroup(groupId).users)
+            sendMessage(user, message);
+    }
+
+    public Group makeNewGroup(String name) throws ValidationException, ConnectionException {
+        Group p = new Group(this.id, name);
+        p.save();
+        return p;
+    }
+    public void addToGroup(int groupid, int userid) throws ConnectionException, ValidationException, InvalidRequestException {
+        getGroup(groupid).addUser(userid);
+    }
+    public Group getGroup(int groupid) throws InvalidRequestException, ConnectionException {
+        for (int i = 0; i < groups.size(); i++) {
+            if (groups.get(i) == groupid)
+                return Group.get(groupid);
+        }
+        logger.debug("Invalid group was requested for user " + this.id + " and group " + groupid);
+        throw new InvalidRequestException("Chosen group does not exists");
     }
 
     /** Must be in every model section **/
