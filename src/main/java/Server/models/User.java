@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class User extends Model {
     private static final Logger logger = LogManager.getLogger(User.class);
@@ -25,6 +26,7 @@ public class User extends Model {
     private UserField<LocalDateTime> lastseen;
     private UserField<LocalDate> birthdate;
     private String password;
+    public TreeSet<Integer> Muted;
     public boolean isEnabled;
     public ArrayList<Integer> groups;
 
@@ -53,6 +55,7 @@ public class User extends Model {
         this.lastseen = new UserField<>();
         this.phone = new UserField<>();
         this.mail = new UserField<>();
+        this.Muted = new TreeSet<>();
 
         /** default access levels and values **/
         this.mail.setAccessLevel(AccessLevel.PUBLIC);
@@ -161,6 +164,36 @@ public class User extends Model {
         }
         logger.debug("Invalid group was requested for user " + this.id + " and group " + groupid);
         throw new InvalidRequestException("Chosen group does not exists");
+    }
+
+    public void muteUser(int user) throws ConnectionException {
+        Muted.add(user);
+        try {
+            save();
+        }
+        catch (ValidationException e) { }
+    }
+    public void unMuteUser(int user) throws ConnectionException {
+        Muted.remove(user);
+        try {
+            save();
+        }
+        catch (ValidationException e) { }
+    }
+
+    public void like(int tweet) throws ConnectionException {
+        Tweet.get(tweet).like(id);
+        try {
+            save();
+        }
+        catch (ValidationException e) { }
+    }
+    public void disLike(int tweet) throws ConnectionException {
+        Tweet.get(tweet).disLike(id);
+        try {
+            save();
+        }
+        catch (ValidationException e) { }
     }
 
     /** Must be in every model section **/

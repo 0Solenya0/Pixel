@@ -6,11 +6,14 @@ import Server.models.Filters.TweetFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.TreeSet;
+
 public class Tweet extends Model {
     private static final Logger logger = LogManager.getLogger(Tweet.class);
 
     public int parentTweet;
     public int reTweet;
+    public TreeSet<Integer> likes;
     private int author;
     private String content;
 
@@ -30,6 +33,21 @@ public class Tweet extends Model {
         super();
         this.author = author.id;
         this.content = text;
+    }
+
+    public void like(int user) throws ConnectionException {
+        likes.add(user);
+        try {
+            save();
+        }
+        catch (ValidationException e) { }
+    }
+    public void disLike(int user) throws ConnectionException {
+        likes.remove(user);
+        try {
+            save();
+        }
+        catch (ValidationException e) { }
     }
 
     /** Must be in every model section **/
