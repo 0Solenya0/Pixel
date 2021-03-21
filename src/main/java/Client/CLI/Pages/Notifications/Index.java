@@ -3,9 +3,11 @@ package Client.CLI.Pages.Notifications;
 import Client.CLI.ConsoleColors;
 import Client.CLI.Pages.Lists;
 import Client.CLI.UserUtility;
+import Server.models.Exceptions.ConnectionException;
 import Server.models.Fields.NotificationType;
 import Server.models.Filters.NotificationFilter;
 import Server.models.Notification;
+import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,12 +20,21 @@ public class Index {
 
 
     public static void show() {
+        logger.info("User opened Notifications page");
         UserUtility.updateStatus();
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---Notifications---");
-            System.out.println(ConsoleColors.YELLOW + "(a) Follow requests");
-            System.out.println("(r) Your requests");
-            System.out.println("(s) System Notifications");
+            try {
+                int cnt = Notification.getFilter().getByUser2(UserUtility.user.id).getByType(NotificationType.REQUEST).getList().size();
+                System.out.println(ConsoleColors.YELLOW + "(a) Follow requests " + ConsoleColors.RED + "(" + cnt + ")");
+                cnt = Notification.getFilter().getByUser1(UserUtility.user.id).getByType(NotificationType.REQUEST).getList().size();
+                System.out.println(ConsoleColors.YELLOW + "(r) Your requests " + ConsoleColors.RED + "(" + cnt + ")");
+                System.out.println(ConsoleColors.YELLOW + "(s) System Notifications");
+            }
+            catch (ConnectionException e) {
+                logger.error(e.getMessage());
+                System.out.println("Loading page failed - " + e.getMessage());
+            }
             System.out.println("(b) back");
 
             String response = UserUtility.scanner.nextLine();
