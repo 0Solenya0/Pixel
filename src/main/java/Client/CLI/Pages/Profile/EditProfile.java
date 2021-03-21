@@ -2,6 +2,8 @@ package Client.CLI.Pages.Profile;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
+import Server.models.Exceptions.ConnectionException;
+import Server.models.Exceptions.ValidationException;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -90,8 +92,12 @@ public class EditProfile {
         try {
             user.save();
         }
-        catch (Exception e) {
+        catch (ValidationException e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());
+        }
+        catch (ConnectionException e) {
+            logger.error("Saving edit profile changes failed for user " + UserUtility.user.id + " - " + e.getMessage());
+            System.out.println(ConsoleColors.RED + e.getMessage());
         }
     }
     private static void changePhonenumber() {
@@ -100,8 +106,12 @@ public class EditProfile {
         try {
             user.save();
         }
-        catch (Exception e) {
+        catch (ValidationException e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());
+        }
+        catch (ConnectionException e) {
+            logger.error("Saving edit profile changes failed for user " + UserUtility.user.id + " - " + e.getMessage());
+            System.out.println(ConsoleColors.RED + e.getMessage());
         }
     }
     private static void changeEmail() {
