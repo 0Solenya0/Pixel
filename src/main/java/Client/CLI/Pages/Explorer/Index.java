@@ -6,6 +6,7 @@ import Client.CLI.UserUtility;
 public class Index {
 
     public static void show() {
+        UserUtility.updateStatus();
         mainloop: while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---Explorer Page---");
             System.out.print(ConsoleColors.YELLOW);

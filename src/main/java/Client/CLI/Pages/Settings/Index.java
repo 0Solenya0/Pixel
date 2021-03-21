@@ -12,6 +12,7 @@ public class Index {
     private static final Logger logger = LogManager.getLogger(Client.CLI.Pages.Profile.Index.class);
 
     public static boolean show() {
+        UserUtility.updateStatus();
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---Settings---");
             System.out.print(ConsoleColors.YELLOW);

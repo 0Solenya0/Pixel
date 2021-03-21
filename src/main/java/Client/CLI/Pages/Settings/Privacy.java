@@ -39,6 +39,7 @@ public class Privacy {
             else
                 System.out.println("(c) Enable account");
             System.out.println("(d) Change password");
+            System.out.println("(back)");
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
@@ -69,6 +70,8 @@ public class Privacy {
                         System.out.println(ConsoleColors.RED + "Changing password failed");
                     }
                     break;
+                case "back":
+                    return;
             }
 
         }

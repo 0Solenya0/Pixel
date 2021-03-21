@@ -18,6 +18,7 @@ public class Index {
 
 
     public static void show() {
+        UserUtility.updateStatus();
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---Notifications---");
             System.out.println(ConsoleColors.YELLOW + "(a) Follow requests");
@@ -140,7 +141,7 @@ public class Index {
     }
     public static void showSystemNotif() {
         while (true) {
-            System.out.println(ConsoleColors.PURPLE + "\t---Pending Requests---");
+            System.out.println(ConsoleColors.PURPLE + "\t---System Notifications---");
             ArrayList<Notification> list;
             try {
                 list = Notification.getFilter().getByUser2(UserUtility.user.id)

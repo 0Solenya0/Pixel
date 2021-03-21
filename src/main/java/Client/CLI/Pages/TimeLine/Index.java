@@ -4,6 +4,7 @@ import Client.CLI.ConsoleColors;
 import Client.CLI.Pages.Profile.ProfileInfo;
 import Client.CLI.Pages.Tweets;
 import Client.CLI.UserUtility;
+import Server.models.Exceptions.ConnectionException;
 import Server.models.Tweet;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class Index {
     private static final Logger logger = LogManager.getLogger(Index.class);
 
-    public static ArrayList<Tweet> getTweets() throws Exception {
+    public static ArrayList<Tweet> getTweets() throws ConnectionException {
         ArrayList<Tweet> tweets = new ArrayList<>();
         for (User u: UserUtility.user.getFollowings()) {
             tweets.addAll(Tweet.getFilter().getByUser(u.username).getByParentTweet(0).getList());
@@ -23,17 +24,18 @@ public class Index {
     }
 
     public static void show() {
+        UserUtility.updateStatus();
         try {
             showTweetList(getTweets());
         }
         catch (Exception e) {
-            System.out.println(ConsoleColors.RED + "Failed fetchin tweets");
+            System.out.println(ConsoleColors.RED + "Failed fetching tweets");
             logger.error("Failed loading tweets - " + e.getMessage());
             return;
         }
     }
 
-    public static void showTweetList(ArrayList<Tweet> tweets) throws Exception {
+    public static void showTweetList(ArrayList<Tweet> tweets) throws ConnectionException {
         int cur = 0;
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t\t---TimeLine---");

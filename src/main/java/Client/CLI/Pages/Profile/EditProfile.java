@@ -3,14 +3,18 @@ package Client.CLI.Pages.Profile;
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
 import Server.models.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class EditProfile {
+    private static final Logger logger = LogManager.getLogger(EditProfile.class);
     private static User user;
 
     public static void show() {
+        logger.info("User opened edit profile page");
         mainloop: while (true) {
             user = UserUtility.user;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");

@@ -27,5 +27,7 @@ public class NotificationFilter extends ModelFilter<Notification> {
         customFilter(notification -> notification.user2 == user2);
         return this;
     }
-
+    public Notification getByTwoUser(int user1, int user2) {
+        return get(notification -> notification.user1 == user1 && notification.user2 == user2);
+    }
 }

@@ -2,6 +2,7 @@ package Client.CLI.Pages;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
+import Server.models.Exceptions.ConnectionException;
 import Server.models.Tweet;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
@@ -14,17 +15,17 @@ import java.util.Scanner;
 public class Lists {
     private static final Logger logger = LogManager.getLogger(Lists.class);
 
-    public static void showFollowers(int userid) throws Exception {
+    public static void showFollowers(int userid) throws ConnectionException {
         User target = User.get(userid);
         System.out.println(ConsoleColors.PURPLE + "\t---" + target.username + "'s Followers---");
         showUserList(target.getFollowers());
     }
-    public static void showFollowing(int userid) throws Exception {
+    public static void showFollowing(int userid) throws ConnectionException {
         User target = User.get(userid);
         System.out.println(ConsoleColors.PURPLE + "\t---" + target.username + "'s Followings---");
         showUserList(target.getFollowings());
     }
-    public static void showBlackList(int userid) throws Exception {
+    public static void showBlackList(int userid) throws ConnectionException {
         User target = User.get(userid);
         System.out.println(ConsoleColors.PURPLE + "\t---" + target.username + "'s Blacklist---");
         showUserList(target.getBlackList());

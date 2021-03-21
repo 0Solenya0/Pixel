@@ -2,8 +2,13 @@ package Client.CLI.Pages.Profile;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.Pages.Lists;
+import Client.CLI.Pages.Messages.DirectMessage;
 import Client.CLI.Pages.Tweets;
 import Client.CLI.UserUtility;
+import Server.models.Exceptions.ConnectionException;
+import Server.models.Exceptions.ValidationException;
+import Server.models.Fields.NotificationType;
+import Server.models.Fields.RelStatus;
 import Server.models.Fields.RelType;
 import Server.models.Notification;
 import Server.models.Relation;
@@ -20,6 +25,7 @@ public class Index {
     public String username;
 
     public Index(String username) {
+        UserUtility.updateStatus();
         this.username = username;
     }
 
@@ -42,39 +48,58 @@ public class Index {
 
     public void show() {
         boolean isOwner = UserUtility.user.username.equals(username);
+        logger.info("User opened " + username + "'s personal page");
+        if (!isOwner) {
+            try {
+                if (!User.getFilter().getByUsername(username).isEnabled) {
+                    System.out.println(ConsoleColors.RED + "User account is disabled");
+                    return;
+                }
+            } catch (ConnectionException e) {
+                logger.error(e.getMessage());
+                System.out.println("Loading page failed - " + e.getMessage());
+            }
+        }
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---" + username + "'s Personal Page---");
+            RelStatus rel;
+            RelStatus relr;
             /** Follow status **/
             if (!isOwner) {
                 try {
-                    Relation rel = UserUtility.user.getRel(User.getFilter().getByUsername(username).id);
-                    Relation relr = User.getFilter().getByUsername(username).getRel(UserUtility.user.id);
-                    if (relr != null && relr.type == RelType.BLOCKED) {
+                    rel = UserUtility.user.getRelationStatus(User.getFilter().getByUsername(username).id);
+                    relr = User.getFilter().getByUsername(username).getRelationStatus(UserUtility.user.id);
+
+                    if (relr == RelStatus.BLOCKED) {
                         System.out.println(ConsoleColors.RED + "User has blocked you");
-                        if (rel == null || rel.type != RelType.BLOCKED) {
+                        if (rel != RelStatus.BLOCKED) {
                             System.out.println(ConsoleColors.BLUE + "(!) Block");
                             if (UserUtility.scanner.nextLine().equals("!"))
                                 UserUtility.user.block(User.getFilter().getByUsername(username).id);
+                            else
+                                return;
                         }
                         else
                             unblock();
                         return;
                     }
-                    if (rel == null)
+                    if (rel == RelStatus.NORELATION)
                         System.out.println(ConsoleColors.BLUE + "(1) Follow (2) Block");
-                    else if (rel.type == RelType.FOLLOW)
+                    else if (rel == RelStatus.FOLLOW)
                         System.out.println(ConsoleColors.BLUE + "(1) Unfollow (2) Block");
-                    else if (rel.type == RelType.BLOCKED) {
+                    else if (rel == RelStatus.BLOCKED) {
                         System.out.println(ConsoleColors.RED + "You have blocked this user");
                         if (unblock())
                             continue;
                         else
                             return;
                     }
+                    else if (rel == RelStatus.REQUESTED)
+                        System.out.println(ConsoleColors.BLUE + "(1) Cancel Follow Request");
                 }
-                catch (Exception e) {
+                catch (ConnectionException e) {
                     logger.error("Failed to load relation status - " + e.getMessage());
-                    e.printStackTrace();
+                    System.out.println("Failed to load page - " + e.getMessage());
                 }
             }
 
@@ -91,11 +116,22 @@ public class Index {
             System.out.println("(i) Profile info");
             if (isOwner)
                 System.out.println("(n) Notifications");
+            if (!isOwner)
+                System.out.println("(m) Message");
             System.out.println("(b) back");
             System.out.print(ConsoleColors.RESET);
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "m":
+                    try {
+                        (new DirectMessage(User.getFilter().getByUsername(username).id)).show();
+                    }
+                    catch (ConnectionException e) {
+                        logger.error("Failed loading page - " + e.getMessage());
+                        System.out.println("Loading page failed - " + e.getMessage());
+                    }
+                    break;
                 case "n":
                     Client.CLI.Pages.Notifications.Index.show();
                     break;
@@ -105,7 +141,7 @@ public class Index {
                     if (isOwner) {
                         try {
                             Lists.showBlackList(User.getFilter().getByUsername(username).id);
-                        } catch (Exception e) {
+                        } catch (ConnectionException e) {
                             logger.error("Failed loading lists - " + e.getMessage());
                             System.out.println(ConsoleColors.RED + "Failed to load page");
                         }
@@ -115,7 +151,7 @@ public class Index {
                     try {
                         Lists.showFollowing(User.getFilter().getByUsername(username).id);
                     }
-                    catch (Exception e) {
+                    catch (ConnectionException e) {
                         logger.error("Failed loading lists - " + e.getMessage());
                         System.out.println(ConsoleColors.RED + "Failed to load page");
                     }
@@ -124,7 +160,7 @@ public class Index {
                     try {
                         Lists.showFollowers(User.getFilter().getByUsername(username).id);
                     }
-                    catch (Exception e) {
+                    catch (ConnectionException e) {
                         logger.error("Failed loading lists - " + e.getMessage());
                         System.out.println(ConsoleColors.RED + "Failed to load page");
                     }
@@ -133,13 +169,21 @@ public class Index {
                     try {
                         if (!isOwner) {
                             int x = User.getFilter().getByUsername(username).id;
-                            if (UserUtility.user.getRel(x) == null)
-                                UserUtility.user.follow(x);
-                            else
-                                UserUtility.user.resetRel(x);
+                            switch (UserUtility.user.getRelationStatus(x)) {
+                                case FOLLOW:
+                                    UserUtility.user.resetRel(x);
+                                    break;
+                                case NORELATION:
+                                    UserUtility.user.follow(x);
+                                    break;
+                                case REQUESTED:
+                                    Notification.getFilter().getByType(NotificationType.REQUEST)
+                                            .getByTwoUser(UserUtility.user.id, x).delete();
+                                    break;
+                            }
                         }
                     }
-                    catch (Exception e) {
+                    catch (ConnectionException e) {
                         logger.error("New relation request has failed - " + e.getMessage());
                         System.out.println(ConsoleColors.RED + "Request Failed");
                     }
@@ -149,13 +193,13 @@ public class Index {
                         if (!isOwner)
                             UserUtility.user.block(User.getFilter().getByUsername(username).id);
                     }
-                    catch (Exception e) {
+                    catch (ConnectionException e) {
                         logger.error("New relation request has failed - " + e.getMessage());
                         System.out.println(ConsoleColors.RED + "Request Failed");
                     }
                     break;
                 case "i":
-                    ProfileInfo.main(UserUtility.user.username);
+                    ProfileInfo.main(username);
                     break;
                 case "c":
                     if (isOwner)
@@ -165,7 +209,7 @@ public class Index {
                     try {
                         Client.CLI.Pages.TimeLine.Index.showTweetList(Tweet.getFilter().getByUser(username).getList());
                     }
-                    catch (Exception e) {
+                    catch (ConnectionException e) {
                         System.out.println(ConsoleColors.RED + "Failed loading user tweets");
                         logger.error("Failed loading user tweets - " + e.getMessage());
                     }

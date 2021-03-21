@@ -4,10 +4,7 @@ import Server.Validators;
 import Server.models.Exceptions.ConnectionException;
 import Server.models.Exceptions.InvalidRequestException;
 import Server.models.Exceptions.ValidationException;
-import Server.models.Fields.AccessLevel;
-import Server.models.Fields.NotificationType;
-import Server.models.Fields.RelType;
-import Server.models.Fields.UserField;
+import Server.models.Fields.*;
 import Server.models.Filters.UserFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -89,32 +86,50 @@ public class User extends Model {
         logger.info(String.format("LastSeen for user %s with id %s updated.", username, id));
     }
 
-    public void follow(int id) throws ConnectionException, ValidationException {
-        if (getRel(id) != null && getRel(id).type == RelType.FOLLOW)
-            return;
-        resetRel(id);
-        if (User.get(id).getVisibility() == AccessLevel.PRIVATE)
-            (new Notification(this.id, id, NotificationType.REQUEST)).save();
-        else {
-            (new Relation(this.id, id, RelType.FOLLOW)).save();
-            (new Notification(0, id, username + " has started following you")).save();
+    public void follow(int id) throws ConnectionException {
+        try {
+            if (getRel(id) != null && getRel(id).type == RelType.FOLLOW)
+                return;
+            resetRel(id);
+            if (User.get(id).getVisibility() == AccessLevel.PRIVATE)
+                (new Notification(this.id, id, NotificationType.REQUEST)).save();
+            else {
+                (new Relation(this.id, id, RelType.FOLLOW)).save();
+                (new Notification(0, id, username + " has started following you")).save();
+            }
         }
+        catch (ValidationException e) { }
     }
-    public void block(int id) throws ConnectionException, ValidationException {
-        if (User.get(id).getRel(this.id) != null && User.get(id).getRel(this.id).type == RelType.FOLLOW)
-            User.get(id).getRel(this.id).delete();
-        resetRel(id);
-        (new Relation(this.id, id, RelType.BLOCKED)).save();
-    }
-    public void resetRel(int id) throws ConnectionException, ValidationException {
-        if (getRel(id) != null) {
-            if (getRel(id).type == RelType.FOLLOW)
-                (new Notification(0, id, username + " has stopped following you")).save();
-            getRel(id).delete();
+    public void block(int id) throws ConnectionException {
+        try {
+            if (User.get(id).getRel(this.id) != null && User.get(id).getRel(this.id).type == RelType.FOLLOW)
+                User.get(id).getRel(this.id).delete();
+            resetRel(id);
+            (new Relation(this.id, id, RelType.BLOCKED)).save();
         }
+        catch (ValidationException e) { }
+    }
+    public void resetRel(int id) throws ConnectionException {
+        try {
+            if (getRel(id) != null) {
+                if (getRel(id).type == RelType.FOLLOW)
+                    (new Notification(0, id, username + " has stopped following you")).save();
+                getRel(id).delete();
+            }
+        }
+        catch (ValidationException e) { }
     }
     public Relation getRel(int id) throws ConnectionException {
         return Relation.getFilter().getByTwoUser(this.id, id);
+    }
+    public RelStatus getRelationStatus(int id) throws ConnectionException {
+        Notification x = Notification.getFilter().getByType(NotificationType.REQUEST).getByTwoUser(this.id, id);
+        Relation y = Relation.getFilter().getByTwoUser(this.id, id);
+        if (y != null)
+            return RelStatus.valueOf(y.type.toString());
+        if (x != null)
+            return RelStatus.REQUESTED;
+        return RelStatus.NORELATION;
     }
     public ArrayList<User> getFollowers() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser2(this.id).getByType(RelType.FOLLOW).getList();
