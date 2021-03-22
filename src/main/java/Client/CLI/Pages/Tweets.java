@@ -14,14 +14,13 @@ public class Tweets {
     private static final Logger logger = LogManager.getLogger(User.class);
 
     public static void postTweet(int parent, int retweet) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println(ConsoleColors.PURPLE + "\t ---Post tweet---");
         System.out.println(ConsoleColors.PURPLE + "Type ^ in a new line and press enter to save");
         System.out.println(ConsoleColors.PURPLE + "Type ~ in a new line and press enter to go back");
         System.out.println(ConsoleColors.PURPLE + "Write your tweet:");
         StringBuilder content = new StringBuilder();
         while (true) {
-            String line = scanner.nextLine();
+            String line = UserUtility.scanner.nextLine();
             if (line.equals("^"))
                 break;
             if (line.equals("~"))

@@ -62,8 +62,8 @@ public class Index {
         }
         while (true) {
             System.out.println(ConsoleColors.PURPLE + "\t---" + username + "'s Personal Page---");
-            RelStatus rel;
-            RelStatus relr;
+            RelStatus rel = RelStatus.NORELATION;
+            RelStatus relr = RelStatus.NORELATION;
             /** Follow status **/
             if (!isOwner) {
                 try {
@@ -116,7 +116,7 @@ public class Index {
             System.out.println("(i) Profile info");
             if (isOwner)
                 System.out.println("(n) Notifications");
-            if (!isOwner)
+            if (!isOwner && (rel == RelStatus.FOLLOW || relr == RelStatus.FOLLOW))
                 System.out.println("(m) Message");
             System.out.println("(b) back");
             System.out.print(ConsoleColors.RESET);

@@ -20,6 +20,7 @@ public abstract class Model {
 
     public int id;
     public boolean isDeleted;
+    public LocalDateTime createdAt;
 
     public String getDataSource() {
         return getDataSourceByClass(this.getClass());
@@ -36,8 +37,10 @@ public abstract class Model {
     public void save() throws ValidationException, ConnectionException {
         if (!isDeleted)
             isValid();
-        if (id == 0)
+        if (id == 0) {
             id = getLastId(this.getClass()) + 1;
+            createdAt = LocalDateTime.now();
+        }
 
         File path = new File(getDataSource() + "/" + id + ".json");
         if (path.exists())

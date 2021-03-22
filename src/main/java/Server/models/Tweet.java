@@ -17,7 +17,7 @@ public class Tweet extends Model {
     private int author;
     private String content;
 
-    public String getContent() throws Exception {
+    public String getContent() throws ConnectionException {
         if (reTweet != 0)
             return content + "\nRetweeted from " + Tweet.get(reTweet).getAuthor().username  + ":\n" + Tweet.get(reTweet).content;
         return content;
