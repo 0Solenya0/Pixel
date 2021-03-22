@@ -31,6 +31,7 @@ public class Index {
                     response = UserUtility.scanner.nextLine();
                     if (response.equals("y")) {
                         try {
+                            UserUtility.user.deleteUserDependencies();
                             UserUtility.user.delete();
                         } catch (Exception e) {
                             logger.error("User deletion failed");

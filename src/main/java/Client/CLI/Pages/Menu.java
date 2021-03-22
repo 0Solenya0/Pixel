@@ -19,6 +19,9 @@ public class Menu {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "m":
+                    Client.CLI.Pages.Messages.Index.show();
+                    break;
                 case "t":
                     Client.CLI.Pages.TimeLine.Index.show();
                     break;

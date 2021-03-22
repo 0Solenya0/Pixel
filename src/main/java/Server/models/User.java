@@ -135,21 +135,24 @@ public class User extends Model {
         ArrayList<Relation> rel = Relation.getFilter().getByUser2(this.id).getByType(RelType.FOLLOW).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user1));
+            if (User.get(relation.user1).isEnabled)
+                res.add(User.get(relation.user1));
         return res;
     }
     public ArrayList<User> getFollowings() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.FOLLOW).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user2));
+            if (User.get(relation.user2).isEnabled)
+                res.add(User.get(relation.user2));
         return res;
     }
     public ArrayList<User> getBlackList() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.BLOCKED).getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user2));
+            if (User.get(relation.user2).isEnabled)
+                res.add(User.get(relation.user2));
         return res;
     }
 
@@ -209,6 +212,19 @@ public class User extends Model {
             save();
         }
         catch (ValidationException e) { }
+    }
+
+    public void deleteUserDependencies() throws ConnectionException {
+        for (Relation rel : Relation.getFilter().getByUser1(id).getList())
+            rel.delete();
+        for (Relation rel : Relation.getFilter().getByUser2(id).getList())
+            rel.delete();
+        for (Notification notification : Notification.getFilter().getByUser1(id).getList())
+            notification.delete();
+        for (Notification notification : Notification.getFilter().getByUser2(id).getList())
+            notification.delete();
+        for (Tweet tweet : Tweet.getFilter().getByUser(username).getList())
+            tweet.delete();
     }
 
     /** Must be in every model section **/
