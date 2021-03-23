@@ -48,8 +48,11 @@ public class DirectMessage {
                     System.out.println("(o) Older messages");
                 if (l - onePageMessages >= 0)
                     System.out.println("(n) Newer messages");
-                System.out.println("(s) Send message");
-                System.out.println("(b) back");
+                if (UserUtility.user.canMessage(targetUser))
+                    System.out.println("(s) Send message");
+                else
+                    System.out.println(ConsoleColors.RED + "You can't message this user");
+                System.out.println(ConsoleColors.YELLOW + "(b) back");
                 String response = UserUtility.scanner.nextLine();
                 switch (response) {
                     case "o":
