@@ -31,6 +31,7 @@ public class Tweet extends Model {
 
     public Tweet(User author, String text) {
         super();
+        likes = new TreeSet<>();
         this.author = author.id;
         this.content = text;
     }

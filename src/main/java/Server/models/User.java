@@ -53,6 +53,7 @@ public class User extends Model {
         this.phone = new UserField<>();
         this.mail = new UserField<>();
         this.Muted = new TreeSet<>();
+        this.groups = new ArrayList<>();
 
         /** default access levels and values **/
         this.mail.setAccessLevel(AccessLevel.PUBLIC);

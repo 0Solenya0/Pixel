@@ -29,6 +29,7 @@ public class Index {
             showTweetList(getTweets());
         }
         catch (Exception e) {
+            e.printStackTrace();
             System.out.println(ConsoleColors.RED + "Failed fetching tweets");
             logger.error("Failed loading tweets - " + e.getMessage());
             return;
@@ -44,8 +45,12 @@ public class Index {
                 return;
             }
             Tweets.showTweet(tweets.get(cur), true);
-            System.out.println(ConsoleColors.YELLOW + "(l)" + ConsoleColors.RED + " ❤" + ConsoleColors.YELLOW + " Like");
-            //TO DO: ♡
+            if (tweets.get(cur).likes.contains(UserUtility.user.id))
+                System.out.print(ConsoleColors.YELLOW + "(l)" + ConsoleColors.RED + " ❤ " + ConsoleColors.YELLOW + " unLike");
+            else
+                System.out.print(ConsoleColors.YELLOW + "(l)" + ConsoleColors.RED + " ♡" + ConsoleColors.YELLOW + " Like");
+            System.out.println(ConsoleColors.RED + " (" + tweets.get(cur).likes.size() + ")" + ConsoleColors.YELLOW);
+
             System.out.println("(p) Go to user's personal page");
             System.out.println("(n) Add comment");
             System.out.println("(c) Comments");
@@ -60,6 +65,13 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "l":
+                    if (tweets.get(cur).likes.contains(UserUtility.user.id))
+                        UserUtility.user.disLike(tweets.get(cur).id);
+                    else
+                        UserUtility.user.like(tweets.get(cur).id);
+                    tweets.set(cur, Tweet.get(tweets.get(cur).id));
+                    break;
                 case "block":
                     UserUtility.user.block(tweets.get(cur).id);
                     int del = 0;
