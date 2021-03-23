@@ -139,7 +139,6 @@ public class Index {
                     System.out.println(ConsoleColors.BLUE + list.get(i).getMessageForSender());
                 }
                 catch (Exception e) {
-                    e.printStackTrace();
                     System.out.println(ConsoleColors.RED + "Failed to load");
                 }
             }

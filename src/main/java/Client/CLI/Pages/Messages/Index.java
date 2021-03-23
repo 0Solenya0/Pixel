@@ -56,7 +56,6 @@ public class Index {
                     }
                 }
             } catch (ConnectionException e) {
-                e.printStackTrace();
                 System.out.println(e.getMessage());
             }
 

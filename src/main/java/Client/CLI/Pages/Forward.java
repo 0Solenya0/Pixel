@@ -51,7 +51,6 @@ public class Forward {
                 System.out.println(ConsoleColors.GREEN + "Message sent to " + user.username + " successfully");
             }
             catch (Exception e) {
-                e.printStackTrace();
                 logger.warn("Message cannot be sent " + user.id + " - " + e.getMessage());
                 System.out.println(ConsoleColors.RED + "Message couldn't be sent to " + user.username);
             }

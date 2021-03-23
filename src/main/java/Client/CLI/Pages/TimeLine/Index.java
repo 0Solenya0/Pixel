@@ -32,7 +32,6 @@ public class Index {
             showTweetList(getTweets());
         }
         catch (Exception e) {
-            e.printStackTrace();
             System.out.println(ConsoleColors.RED + "Failed fetching tweets");
             logger.error("Failed loading tweets - " + e.getMessage());
             return;
