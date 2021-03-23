@@ -1,10 +1,12 @@
 package Client.CLI.Pages.TimeLine;
 
 import Client.CLI.ConsoleColors;
+import Client.CLI.Pages.Forward;
 import Client.CLI.Pages.Profile.ProfileInfo;
 import Client.CLI.Pages.Tweets;
 import Client.CLI.UserUtility;
 import Server.models.Exceptions.ConnectionException;
+import Server.models.Message;
 import Server.models.Tweet;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
@@ -55,6 +57,7 @@ public class Index {
             System.out.println("(n) Add comment");
             System.out.println("(c) Comments");
             System.out.println("(r) Retweet");
+            System.out.println("(f) Forward");
             System.out.println("(block) Block author");
             System.out.println("(b) back");
             if (cur > 0)
@@ -65,6 +68,10 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "f":
+                    Message m = new Message(tweets.get(cur).id);
+                    (new Forward(m)).show();
+                    break;
                 case "l":
                     if (tweets.get(cur).likes.contains(UserUtility.user.id))
                         UserUtility.user.disLike(tweets.get(cur).id);

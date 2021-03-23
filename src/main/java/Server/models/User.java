@@ -157,6 +157,10 @@ public class User extends Model {
         return res;
     }
 
+    public boolean canMessage(int user) throws ConnectionException {
+        return getRelationStatus(user) == RelStatus.FOLLOW
+                || User.get(user).getRelationStatus(id) == RelStatus.FOLLOW;
+    }
     public void sendMessage(int user, Message message) throws ValidationException, ConnectionException {
         message.user1 = this.id;
         message.user2 = user;
