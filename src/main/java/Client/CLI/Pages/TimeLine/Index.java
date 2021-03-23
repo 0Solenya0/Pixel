@@ -6,6 +6,7 @@ import Client.CLI.Pages.Profile.ProfileInfo;
 import Client.CLI.Pages.Tweets;
 import Client.CLI.UserUtility;
 import Server.models.Exceptions.ConnectionException;
+import Server.models.Exceptions.ValidationException;
 import Server.models.Message;
 import Server.models.Tweet;
 import Server.models.User;
@@ -58,6 +59,7 @@ public class Index {
             System.out.println("(c) Comments");
             System.out.println("(r) Retweet");
             System.out.println("(f) Forward");
+            System.out.println("(s) Save to saved messages");
             System.out.println("(block) Block author");
             System.out.println("(b) back");
             if (cur > 0)
@@ -68,6 +70,17 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "s":
+                    Message t = new Message(tweets.get(cur).id);
+                    try {
+                        UserUtility.user.sendMessage(UserUtility.user.id, t);
+                        System.out.println(ConsoleColors.GREEN + "Tweet saved successfully");
+                    }
+                    catch (ValidationException e) {
+                        logger.error("Failed to save a message " + " - tweet id " + tweets.get(cur).id + " user " + UserUtility.user.id + " - " + e.getMessage());
+                        System.out.println(ConsoleColors.RED + "Failed to save the message - " + e.getMessage());
+                    }
+                    break;
                 case "f":
                     Message m = new Message(tweets.get(cur).id);
                     (new Forward(m)).show();
