@@ -59,7 +59,8 @@ public class Index {
             System.out.println("(r) Retweet");
             System.out.println("(f) Forward");
             System.out.println("(s) Save to saved messages");
-            System.out.println("(block) Block author");
+            if (UserUtility.user.id != tweets.get(cur).getAuthorId())
+                System.out.println("(block) Block author");
             System.out.println("(b) back");
             if (cur > 0)
                 System.out.print("(-) ← ");
@@ -92,14 +93,16 @@ public class Index {
                     tweets.set(cur, Tweet.get(tweets.get(cur).id));
                     break;
                 case "block":
-                    UserUtility.user.block(tweets.get(cur).id);
-                    int del = 0;
-                    for (int i = 0; i <= cur; i++) {
-                        if (tweets.get(i).id == tweets.get(cur).id)
-                            del += 1;
+                    if (UserUtility.user.id != tweets.get(cur).getAuthorId()) {
+                        UserUtility.user.block(tweets.get(cur).id);
+                        int del = 0;
+                        for (int i = 0; i <= cur; i++) {
+                            if (tweets.get(i).id == tweets.get(cur).id)
+                                del += 1;
+                        }
+                        cur -= del;
+                        cur = Math.max(0, cur);
                     }
-                    cur -= del;
-                    cur = Math.max(0, cur);
                     return;
                 case "r":
                     Tweets.postTweet(0, tweets.get(cur).id);
