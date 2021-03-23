@@ -13,7 +13,7 @@ import javax.crypto.Mac;
 import java.util.ArrayList;
 
 public class DirectMessage {
-    private static final Logger logger = LogManager.getLogger(User.class);
+    private static final Logger logger = LogManager.getLogger(DirectMessage.class);
 
     private static final int onePageMessages = 10;
     private int targetUser;
@@ -29,7 +29,8 @@ public class DirectMessage {
                 messages.clear();
                 System.out.println(ConsoleColors.PURPLE + "\t---" + User.get(targetUser).username + "'s Messages---");
                 messages.addAll(Message.getFilter().getByTwoUser(UserUtility.user.id, targetUser).getList());
-                messages.addAll(Message.getFilter().getByTwoUser(targetUser, UserUtility.user.id).getList());
+                if (UserUtility.user.id != targetUser)
+                    messages.addAll(Message.getFilter().getByTwoUser(targetUser, UserUtility.user.id).getList());
                 for (Message message : Message.getFilter().getByTwoUser(targetUser, UserUtility.user.id).getList())
                     message.see();
 
@@ -91,12 +92,12 @@ public class DirectMessage {
     }
 
     public void showSingleMessage(Message m) throws ConnectionException {
-        if (m.user1 == targetUser) {
-            System.out.println(ConsoleColors.GREEN + User.get(targetUser).username + ": ");
+        if (m.user1 == UserUtility.user.id) {
+            System.out.println(ConsoleColors.CYAN + "ME: ");
             System.out.println(ConsoleColors.YELLOW + m.getContent());
         }
         else {
-            System.out.println(ConsoleColors.CYAN + "ME: ");
+            System.out.println(ConsoleColors.GREEN + User.get(targetUser).username + ": ");
             System.out.println(ConsoleColors.YELLOW + m.getContent());
         }
     }

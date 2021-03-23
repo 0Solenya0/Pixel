@@ -64,9 +64,13 @@ public class Index {
                 System.out.println(ConsoleColors.YELLOW + "Enter row number to enter chat");
             else
                 System.out.println(ConsoleColors.RED + "There are no message here :(");
+            System.out.println("(s) Saved Messages");
             System.out.println(ConsoleColors.YELLOW + "(b) back");
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "s":
+                    (new DirectMessage(UserUtility.user.id)).show();
+                    break;
                 case "b":
                     return;
                 default:
