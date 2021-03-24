@@ -34,10 +34,15 @@ public class Notification extends Model {
         this.message = "";
     }
 
-    public void accept() throws Exception {
-        (new Relation(user1, user2, RelType.FOLLOW)).save();
-        (new Notification(0, user1, User.get(user2).username + " has accepted your request")).save();
-        this.delete();
+    public void accept() throws ConnectionException {
+        try {
+            (new Relation(user1, user2, RelType.FOLLOW)).save();
+            (new Notification(0, user1, User.get(user2).username + " has accepted your request")).save();
+            this.delete();
+        }
+        catch (ValidationException e) {
+            logger.warn("Unexpected validation failed while accepting a request - " + e.getMessage());
+        }
     }
     public void refuse() throws Exception {
         (new Notification(0, user1, User.get(user2).username + " has refused your request")).save();

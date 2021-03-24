@@ -2,9 +2,14 @@ package Client.CLI.Pages.Settings;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
+import Server.models.Exceptions.ConnectionException;
 import Server.models.Fields.AccessLevel;
+import Server.models.Fields.NotificationType;
+import Server.models.Notification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
 
 public class Privacy {
     private static final Logger logger = LogManager.getLogger(Privacy.class);
@@ -173,6 +178,17 @@ public class Privacy {
                 break;
             case PRIVATE:
                 UserUtility.user.visibility = AccessLevel.PUBLIC;
+                try {
+                    ArrayList<Notification> notifs = Notification.getFilter().
+                            getByUser2(UserUtility.user.id)
+                            .getByType(NotificationType.REQUEST)
+                            .getList();
+                    for (Notification n: notifs)
+                        n.accept();
+                }
+                catch (ConnectionException e) {
+
+                }
                 break;
         }
         try {
