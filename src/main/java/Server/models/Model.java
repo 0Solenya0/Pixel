@@ -22,6 +22,7 @@ public abstract class Model {
     public int id;
     public boolean isDeleted;
     public LocalDateTime createdAt;
+    public LocalDateTime lastModified;
 
     public String getDataSource() {
         return getDataSourceByClass(this.getClass());
@@ -42,6 +43,7 @@ public abstract class Model {
             id = getLastId(this.getClass()) + 1;
             createdAt = LocalDateTime.now();
         }
+        lastModified = LocalDateTime.now();
 
         File path = new File(getDataSource() + "/" + id + ".json");
         if (path.exists())

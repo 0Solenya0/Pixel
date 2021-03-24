@@ -18,6 +18,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Index {
     private static final Logger logger = LogManager.getLogger(Index.class);
@@ -207,7 +209,10 @@ public class Index {
                     break;
                 case "p":
                     try {
-                        Client.CLI.Pages.TimeLine.Index.showTweetList(Tweet.getFilter().getByUser(username).getList(),
+                        ArrayList<Tweet> tmp = Tweet.getFilter().getByUser(username).getList();
+                        tmp.sort(Comparator.comparingInt(t -> -t.id));
+                        Client.CLI.Pages.TimeLine.Index.showTweetList(
+                                tmp,
                                 username + "'s Tweets");
                     }
                     catch (ConnectionException e) {

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Index {
     private static final Logger logger = LogManager.getLogger(Index.class);
@@ -23,6 +24,7 @@ public class Index {
         for (User u: UserUtility.user.getFollowings()) {
             tweets.addAll(Tweet.getFilter().getByUser(u.username).getByParentTweet(0).getList());
         }
+        tweets.sort(Comparator.comparingInt(t -> -t.id));
         return tweets;
     }
 
