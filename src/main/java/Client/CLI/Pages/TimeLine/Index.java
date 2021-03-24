@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class Index {
     private static final Logger logger = LogManager.getLogger(Index.class);
@@ -22,7 +23,8 @@ public class Index {
     public static ArrayList<Tweet> getTweets() throws ConnectionException {
         ArrayList<Tweet> tweets = new ArrayList<>();
         for (User u: UserUtility.user.getFollowings()) {
-            tweets.addAll(Tweet.getFilter().getByUser(u.username).getByParentTweet(0).getList());
+            if (!UserUtility.user.muted.contains(u.id))
+                tweets.addAll(Tweet.getFilter().getByUser(u.username).getByParentTweet(0).getList());
         }
         tweets.sort(Comparator.comparingInt(t -> -t.id));
         return tweets;
@@ -64,6 +66,7 @@ public class Index {
             if (UserUtility.user.id != tweets.get(cur).getAuthorId()) {
                 System.out.println("(block) Block author");
                 System.out.println("(report) Report author");
+                System.out.println("(mute) Mute author");
             }
             System.out.println("(b) back");
             if (cur > 0)
@@ -74,9 +77,22 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "mute":
+                    UserUtility.user.muteUser(tweets.get(cur).getAuthorId());
+                    System.out.println(ConsoleColors.GREEN + "Author has been muted");
+                    int aid1 = tweets.get(cur).getAuthorId();
+                    int del = 0;
+                    for (int i = 0; i <= cur; i++) {
+                        if (tweets.get(i).getAuthorId() == aid1)
+                            del += 1;
+                    }
+                    cur -= del;
+                    cur = Math.max(0, cur);
+                    tweets = (ArrayList<Tweet>) tweets.stream().filter(tweet -> tweet.id != aid1).collect(Collectors.toList());
+                    break;
                 case "report":
                     UserUtility.user.reportUser(tweets.get(cur).getAuthorId());
-                    System.out.println(ConsoleColors.GREEN + "User has been reported");
+                    System.out.println(ConsoleColors.GREEN + "Author has been reported");
                     break;
                 case "s":
                     Message t = new Message(tweets.get(cur).id);
@@ -102,14 +118,16 @@ public class Index {
                     break;
                 case "block":
                     if (UserUtility.user.id != tweets.get(cur).getAuthorId()) {
-                        UserUtility.user.block(tweets.get(cur).id);
-                        int del = 0;
+                        int aid = tweets.get(cur).getAuthorId();
+                        UserUtility.user.block(aid);
+                        int deli = 0;
                         for (int i = 0; i <= cur; i++) {
-                            if (tweets.get(i).id == tweets.get(cur).id)
-                                del += 1;
+                            if (tweets.get(i).getAuthorId() == aid)
+                                deli += 1;
                         }
-                        cur -= del;
+                        cur -= deli;
                         cur = Math.max(0, cur);
+                        tweets = (ArrayList<Tweet>) tweets.stream().filter(tweet -> tweet.id != aid).collect(Collectors.toList());
                     }
                     return;
                 case "r":

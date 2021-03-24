@@ -120,11 +120,38 @@ public class Index {
                 System.out.println("(n) Notifications");
             if (!isOwner && (rel == RelStatus.FOLLOW || relr == RelStatus.FOLLOW))
                 System.out.println("(m) Message");
+            if (!isOwner) {
+                try {
+                    if (!UserUtility.user.muted.contains(User.getFilter().getByUsername(username).id))
+                        System.out.println("(mute) Mute user");
+                    else
+                        System.out.println("(unmute) Unmute user");
+                }
+                catch (Exception e) {}
+            }
             System.out.println("(b) back");
             System.out.print(ConsoleColors.RESET);
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "unmute":
+                    try {
+                        UserUtility.user.unMuteUser(User.getFilter().getByUsername(username).id);
+                    }
+                    catch (ConnectionException e) {
+                        logger.error("request has failed - " + e.getMessage());
+                        System.out.println(ConsoleColors.RED + "Request Failed");
+                    }
+                    break;
+                case "mute":
+                    try {
+                        UserUtility.user.muteUser(User.getFilter().getByUsername(username).id);
+                    }
+                    catch (ConnectionException e) {
+                        logger.error("request has failed - " + e.getMessage());
+                        System.out.println(ConsoleColors.RED + "Request Failed");
+                    }
+                    break;
                 case "m":
                     try {
                         (new DirectMessage(User.getFilter().getByUsername(username).id)).show();

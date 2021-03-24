@@ -24,7 +24,7 @@ public class User extends Model {
     private UserField<LocalDateTime> lastseen;
     private UserField<LocalDate> birthdate;
     private String password;
-    public TreeSet<Integer> Muted;
+    public TreeSet<Integer> muted;
     public boolean isEnabled;
     public ArrayList<Integer> groups;
 
@@ -53,7 +53,7 @@ public class User extends Model {
         this.lastseen = new UserField<>();
         this.phone = new UserField<>();
         this.mail = new UserField<>();
-        this.Muted = new TreeSet<>();
+        this.muted = new TreeSet<>();
         this.groups = new ArrayList<>();
 
         /** default access levels and values **/
@@ -192,14 +192,14 @@ public class User extends Model {
     }
 
     public void muteUser(int user) throws ConnectionException {
-        Muted.add(user);
+        muted.add(user);
         try {
             save();
         }
         catch (ValidationException e) { }
     }
     public void unMuteUser(int user) throws ConnectionException {
-        Muted.remove(user);
+        muted.remove(user);
         try {
             save();
         }
