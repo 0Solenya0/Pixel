@@ -129,6 +129,8 @@ public class Index {
                 }
                 catch (Exception e) {}
             }
+            if (!isOwner)
+                System.out.println("(report) Report user");
             System.out.println("(b) back");
             System.out.print(ConsoleColors.RESET);
 
@@ -166,6 +168,14 @@ public class Index {
                     break;
                 case "b":
                     return;
+                case "report":
+                    try {
+                        UserUtility.user.reportUser(User.getFilter().getByUsername(username).id);
+                    }
+                    catch (Exception e) {
+
+                    }
+                    break;
                 case "l":
                     if (isOwner) {
                         try {
