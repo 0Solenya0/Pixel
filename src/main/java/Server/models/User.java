@@ -164,6 +164,8 @@ public class User extends Model {
         message.user1 = this.id;
         message.user2 = user;
         message.id = 0;
+        if (user == this.id)
+            message.seen = true;
         message.save();
     }
     public void sendGroupMessage(int groupId, Message message) throws InvalidRequestException, ConnectionException, ValidationException {

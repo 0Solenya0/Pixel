@@ -31,11 +31,10 @@ public class Index {
                     MessageGroup m = new MessageGroup(list.get(0).user1, new ArrayList<>());
                     for (int i = 0; i < list.size(); i++) {
                         if (i != 0 && list.get(i).user1 != list.get(i - 1).user1) {
-                            if (m.user != UserUtility.user.id) {
-                                users.add(m.user);
-                                showUnseenMessageGroup(m, users.size());
-                                unseenUsers.add(list.get(i).user1);
-                            }
+                            users.add(m.user);
+                            showUnseenMessageGroup(m, users.size());
+                            unseenUsers.add(list.get(i).user1);
+
                             m = new MessageGroup(list.get(i).user1, new ArrayList<>());
                         }
                         m.messages.add(list.get(i));
@@ -44,15 +43,13 @@ public class Index {
                     unseenUsers.add(m.user);
                     showUnseenMessageGroup(m, users.size());
                 }
-                TreeSet<Integer> tmp = new TreeSet<>();
-                list = Message.getFilter().getRelatedToUser(UserUtility.user.id).getList();
-                for (int i = list.size() - 1; i >= 0; i--) {
-                    if (tmp.contains(list.get(i).user1) || unseenUsers.contains(list.get(i).user1))
+                ArrayList<User> usr = Message.getFilter().getRelatedToUser(UserUtility.user.id).getUserList();
+                for (int i = 0; i < usr.size(); i++) {
+                    if (unseenUsers.contains(usr.get(i).id))
                         continue;
-                    if (list.get(i).user1 != UserUtility.user.id) {
-                        users.add(list.get(i).user1);
-                        tmp.add(list.get(i).user1);
-                        showMessageGroup(list.get(i).user1, users.size());
+                    if (usr.get(i).id != UserUtility.user.id) {
+                        users.add(usr.get(i).id);
+                        showMessageGroup(usr.get(i).id, users.size());
                     }
                 }
             } catch (ConnectionException e) {

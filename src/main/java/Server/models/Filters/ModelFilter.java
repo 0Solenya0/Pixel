@@ -32,7 +32,7 @@ public abstract class ModelFilter<T extends Model> {
         return null;
     }
 
-    public ArrayList<T> getList() throws ConnectionException {
+    public ArrayList<T> getList() {
         return list;
     }
 }
