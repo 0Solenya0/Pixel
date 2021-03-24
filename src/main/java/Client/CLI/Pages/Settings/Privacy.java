@@ -34,11 +34,35 @@ public class Privacy {
                     break;
             }
             System.out.print(ConsoleColors.YELLOW);
+            switch (UserUtility.user.getMail().getAccessLevel()) {
+                case PUBLIC:
+                    System.out.println("(c) Toggle mail visibility " + ConsoleColors.GREEN_BOLD + "PUBLIC" + ConsoleColors.YELLOW + "/PRIVATE/CONTACTS");
+                    break;
+                case PRIVATE:
+                    System.out.println("(c) Toggle mail visibility PUBLIC/" + ConsoleColors.GREEN_BOLD + "PRIVATE" + ConsoleColors.YELLOW + "/CONTACTS");
+                    break;
+                case CONTACTS:
+                    System.out.println("(c) Toggle mail visibility PUBLIC/PRIVATE" + ConsoleColors.GREEN_BOLD + "/CONTACTS");
+                    break;
+            }
+            System.out.print(ConsoleColors.YELLOW);
+            switch (UserUtility.user.getPhone().getAccessLevel()) {
+                case PUBLIC:
+                    System.out.println("(d) Toggle phone number visibility " + ConsoleColors.GREEN_BOLD + "PUBLIC" + ConsoleColors.YELLOW + "/PRIVATE/CONTACTS");
+                    break;
+                case PRIVATE:
+                    System.out.println("(d) Toggle phone number visibility PUBLIC/" + ConsoleColors.GREEN_BOLD + "PRIVATE" + ConsoleColors.YELLOW + "/CONTACTS");
+                    break;
+                case CONTACTS:
+                    System.out.println("(d) Toggle phone number visibility PUBLIC/PRIVATE" + ConsoleColors.GREEN_BOLD + "/CONTACTS");
+                    break;
+            }
+            System.out.print(ConsoleColors.YELLOW);
             if (UserUtility.user.isEnabled)
-                System.out.println("(c) Disable account");
+                System.out.println("(e) Disable account");
             else
-                System.out.println("(c) Enable account");
-            System.out.println("(d) Change password");
+                System.out.println("(e) Enable account");
+            System.out.println("(g) Change password");
             System.out.println("(back)");
 
             String response = UserUtility.scanner.nextLine();
@@ -50,6 +74,12 @@ public class Privacy {
                     toggleLastseen();
                     break;
                 case "c":
+                    toggleMail();
+                    break;
+                case "d":
+                    togglePhone();
+                    break;
+                case "e":
                     try {
                         UserUtility.user.isEnabled = !UserUtility.user.isEnabled;
                         UserUtility.user.save();
@@ -59,7 +89,7 @@ public class Privacy {
                         System.out.println(ConsoleColors.RED + "Disabling account failed");
                     }
                     break;
-                case "d":
+                case "g":
                     try {
                         System.out.println("Enter your new password:");
                         String pass = UserUtility.scanner.nextLine();
@@ -79,7 +109,7 @@ public class Privacy {
     public static void toggleLastseen() {
         switch (UserUtility.user.getLastSeen().getAccessLevel()) {
             case PUBLIC:
-                    UserUtility.user.getLastSeen().setAccessLevel(AccessLevel.PRIVATE);
+                UserUtility.user.getLastSeen().setAccessLevel(AccessLevel.PRIVATE);
                 break;
             case PRIVATE:
                 UserUtility.user.getLastSeen().setAccessLevel(AccessLevel.CONTACTS);
@@ -93,6 +123,46 @@ public class Privacy {
         }
         catch (Exception e) {
             logger.error("Can't save changes to lastseen - " + e.getMessage());
+            System.out.println(ConsoleColors.RED + "Change failed");
+        }
+    }
+    public static void toggleMail() {
+        switch (UserUtility.user.getMail().getAccessLevel()) {
+            case PUBLIC:
+                UserUtility.user.getMail().setAccessLevel(AccessLevel.PRIVATE);
+                break;
+            case PRIVATE:
+                UserUtility.user.getMail().setAccessLevel(AccessLevel.CONTACTS);
+                break;
+            case CONTACTS:
+                UserUtility.user.getMail().setAccessLevel(AccessLevel.PUBLIC);
+                break;
+        }
+        try {
+            UserUtility.user.save();
+        }
+        catch (Exception e) {
+            logger.error("Can't save changes to mail - " + e.getMessage());
+            System.out.println(ConsoleColors.RED + "Change failed");
+        }
+    }
+    public static void togglePhone() {
+        switch (UserUtility.user.getPhone().getAccessLevel()) {
+            case PUBLIC:
+                UserUtility.user.getPhone().setAccessLevel(AccessLevel.PRIVATE);
+                break;
+            case PRIVATE:
+                UserUtility.user.getPhone().setAccessLevel(AccessLevel.CONTACTS);
+                break;
+            case CONTACTS:
+                UserUtility.user.getPhone().setAccessLevel(AccessLevel.PUBLIC);
+                break;
+        }
+        try {
+            UserUtility.user.save();
+        }
+        catch (Exception e) {
+            logger.error("Can't save changes to phone - " + e.getMessage());
             System.out.println(ConsoleColors.RED + "Change failed");
         }
     }
