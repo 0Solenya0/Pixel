@@ -59,7 +59,7 @@ public class Index {
             System.out.println(ConsoleColors.PURPLE + "\t---Follow Requests---");
             ArrayList<Notification> list;
             try {
-                list = Notification.getFilter().getByUser2(UserUtility.user.id).getByType(NotificationType.REQUEST).getList();
+                list = Notification.getFilter().getByUser2(UserUtility.user.id).getByType(NotificationType.REQUEST).getEnabled().getList();
             }
             catch (Exception e) {
                 logger.error("Loading follow requests failed - " + e.getMessage());
@@ -123,7 +123,7 @@ public class Index {
             System.out.println(ConsoleColors.PURPLE + "\t---Pending Requests---");
             ArrayList<Notification> list;
             try {
-                list = Notification.getFilter().getByUser1(UserUtility.user.id).getByType(NotificationType.REQUEST).getList();
+                list = Notification.getFilter().getByUser1(UserUtility.user.id).getByType(NotificationType.REQUEST).getEnabled().getList();
             }
             catch (Exception e) {
                 logger.error("Loading follow requests failed - " + e.getMessage());
@@ -168,7 +168,7 @@ public class Index {
                 System.out.println(ConsoleColors.RED + "There are no notifications here");
                 return;
             }
-            for (int i = 0; i < list.size(); i++) {
+            for (int i = 0; i < Math.min(20, list.size()); i++) {
                 try {
                     System.out.println(ConsoleColors.BLUE + list.get(i).getMessageForSender());
                 }

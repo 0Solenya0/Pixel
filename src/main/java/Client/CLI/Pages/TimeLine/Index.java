@@ -29,19 +29,19 @@ public class Index {
     public static void show() {
         UserUtility.updateStatus();
         try {
-            showTweetList(getTweets());
+            showTweetList(getTweets(), "Timeline");
         }
-        catch (Exception e) {
+        catch (ConnectionException e) {
             System.out.println(ConsoleColors.RED + "Failed fetching tweets");
             logger.error("Failed loading tweets - " + e.getMessage());
             return;
         }
     }
 
-    public static void showTweetList(ArrayList<Tweet> tweets) throws ConnectionException {
+    public static void showTweetList(ArrayList<Tweet> tweets, String title) throws ConnectionException {
         int cur = 0;
         while (true) {
-            System.out.println(ConsoleColors.PURPLE + "\t\t---TimeLine---");
+            System.out.println(ConsoleColors.PURPLE + "\t\t---" + title + "---");
             if (tweets.isEmpty()) {
                 System.out.println(ConsoleColors.RED + "There are no tweets here :(");
                 return;
@@ -110,7 +110,7 @@ public class Index {
                 case "c":
                     try {
                         int tarId = tweets.get(cur).id;
-                        showTweetList(Tweet.getFilter().getByParentTweet(tarId).getList());
+                        showTweetList(Tweet.getFilter().getByParentTweet(tarId).getEnabled().getList(), "Comment Section");
                     }
                     catch (Exception e) {
                         System.out.println(ConsoleColors.RED + "Failed loading comments");

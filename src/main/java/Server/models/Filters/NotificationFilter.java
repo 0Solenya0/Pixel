@@ -4,6 +4,7 @@ import Server.models.Exceptions.ConnectionException;
 import Server.models.Fields.NotificationType;
 import Server.models.Notification;
 import Server.models.Relation;
+import Server.models.User;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
@@ -29,5 +30,16 @@ public class NotificationFilter extends ModelFilter<Notification> {
     }
     public Notification getByTwoUser(int user1, int user2) {
         return get(notification -> notification.user1 == user1 && notification.user2 == user2);
+    }
+    public NotificationFilter getEnabled() {
+        customFilter(notification -> {
+            try {
+                return User.get(notification.user1).isEnabled && User.get(notification.user2).isEnabled;
+            }
+            catch (Exception e) {
+                return false;
+            }
+        });
+        return this;
     }
 }

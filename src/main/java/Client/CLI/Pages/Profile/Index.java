@@ -207,7 +207,8 @@ public class Index {
                     break;
                 case "p":
                     try {
-                        Client.CLI.Pages.TimeLine.Index.showTweetList(Tweet.getFilter().getByUser(username).getList());
+                        Client.CLI.Pages.TimeLine.Index.showTweetList(Tweet.getFilter().getByUser(username).getList(),
+                                username + "'s Tweets");
                     }
                     catch (ConnectionException e) {
                         System.out.println(ConsoleColors.RED + "Failed loading user tweets");

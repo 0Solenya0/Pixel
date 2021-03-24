@@ -32,4 +32,15 @@ public class RelationFilter extends ModelFilter<Relation> {
         customFilter(relation -> relation.type == t);
         return this;
     }
+    public RelationFilter getEnabled() {
+        customFilter(relation -> {
+            try {
+                return User.get(relation.user1).isEnabled && User.get(relation.user2).isEnabled;
+            }
+            catch (Exception e) {
+                return false;
+            }
+        });
+        return this;
+    }
 }

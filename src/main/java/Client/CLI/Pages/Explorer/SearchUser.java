@@ -21,7 +21,7 @@ public class SearchUser {
             if (response.equals("~"))
                 break;
             try {
-                ArrayList<User> list = User.getFilter().getByUsernamePrefix(response).getList();
+                ArrayList<User> list = User.getFilter().getEnabled().getByUsernamePrefix(response).getList();
                 for (int i = 0; i < Math.min(list.size(), 10); i++) {
                     System.out.println(ConsoleColors.BLUE + (i + 1) + ". " + list.get(i).username + " - " + list.get(i).getFullName());
                 }

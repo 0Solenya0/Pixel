@@ -29,5 +29,15 @@ public class TweetFilter extends ModelFilter<Tweet> {
         customFilter(tweet -> tweet.parentTweet == id);
         return this;
     }
-
+    public TweetFilter getEnabled() {
+        customFilter(tweet -> {
+            try {
+                return tweet.getAuthor().isEnabled;
+            }
+            catch (Exception e) {
+                return false;
+            }
+        });
+        return this;
+    }
 }

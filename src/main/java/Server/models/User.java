@@ -133,31 +133,30 @@ public class User extends Model {
         return RelStatus.NORELATION;
     }
     public ArrayList<User> getFollowers() throws ConnectionException {
-        ArrayList<Relation> rel = Relation.getFilter().getByUser2(this.id).getByType(RelType.FOLLOW).getList();
+        ArrayList<Relation> rel = Relation.getFilter().getByUser2(this.id).getByType(RelType.FOLLOW).getEnabled().getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            if (User.get(relation.user1).isEnabled)
-                res.add(User.get(relation.user1));
+            res.add(User.get(relation.user1));
         return res;
     }
     public ArrayList<User> getFollowings() throws ConnectionException {
-        ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.FOLLOW).getList();
+        ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.FOLLOW).getEnabled().getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            if (User.get(relation.user2).isEnabled)
-                res.add(User.get(relation.user2));
+            res.add(User.get(relation.user2));
         return res;
     }
     public ArrayList<User> getBlackList() throws ConnectionException {
-        ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.BLOCKED).getList();
+        ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.BLOCKED).getEnabled().getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            if (User.get(relation.user2).isEnabled)
-                res.add(User.get(relation.user2));
+            res.add(User.get(relation.user2));
         return res;
     }
 
     public boolean canMessage(int user) throws ConnectionException {
+        if (!User.get(user).isEnabled)
+            return false;
         return getRelationStatus(user) == RelStatus.FOLLOW
                 || User.get(user).getRelationStatus(id) == RelStatus.FOLLOW;
     }
