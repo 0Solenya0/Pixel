@@ -1,5 +1,6 @@
 package Server.models;
 
+import Client.CLI.UserUtility;
 import Server.Validators;
 import Server.models.Exceptions.ConnectionException;
 import Server.models.Exceptions.InvalidRequestException;
@@ -201,6 +202,15 @@ public class User extends Model {
         Muted.remove(user);
         try {
             save();
+        }
+        catch (ValidationException e) { }
+    }
+
+    public void reportUser(int user) throws ConnectionException {
+        if (user == id)
+            return;
+        try {
+            (new Notification(id, user, NotificationType.REPORT)).save();
         }
         catch (ValidationException e) { }
     }

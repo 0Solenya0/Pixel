@@ -61,8 +61,10 @@ public class Index {
             System.out.println("(r) Retweet");
             System.out.println("(f) Forward");
             System.out.println("(s) Save to saved messages");
-            if (UserUtility.user.id != tweets.get(cur).getAuthorId())
+            if (UserUtility.user.id != tweets.get(cur).getAuthorId()) {
                 System.out.println("(block) Block author");
+                System.out.println("(report) Report author");
+            }
             System.out.println("(b) back");
             if (cur > 0)
                 System.out.print("(-) ← ");
@@ -72,6 +74,10 @@ public class Index {
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "report":
+                    UserUtility.user.reportUser(tweets.get(cur).getAuthorId());
+                    System.out.println(ConsoleColors.GREEN + "User has been reported");
+                    break;
                 case "s":
                     Message t = new Message(tweets.get(cur).id);
                     try {

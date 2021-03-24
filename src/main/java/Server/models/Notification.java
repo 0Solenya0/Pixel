@@ -50,6 +50,8 @@ public class Notification extends Model {
     public String getMessage() throws ConnectionException {
         if (type == NotificationType.INFO)
             return message;
+        else if (type == NotificationType.REPORT)
+            return "You have been reported please BEHAVE...";
         else
             return User.get(user1).username + " has requested to follow you";
     }
@@ -57,7 +59,7 @@ public class Notification extends Model {
         if (type == NotificationType.INFO)
             return message;
         else
-            return "your request to " + User.get(user2).username + "  is pending";
+            return "your request to " + User.get(user2).username + " is pending";
     }
 
     /** Must be in every model section **/

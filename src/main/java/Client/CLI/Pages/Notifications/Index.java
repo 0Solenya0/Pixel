@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.invoke.WrongMethodTypeException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Index {
@@ -158,6 +159,12 @@ public class Index {
                         .getByType(NotificationType.INFO)
                         .getByUser1(0)
                         .getList();
+                list.addAll(
+                        Notification.getFilter().getByUser2(UserUtility.user.id)
+                        .getByType(NotificationType.REPORT)
+                        .getList()
+                );
+                list.sort(Comparator.comparingInt(n -> -n.id));
             }
             catch (Exception e) {
                 logger.error("Loading notifications failed - " + e.getMessage());
@@ -170,7 +177,7 @@ public class Index {
             }
             for (int i = 0; i < Math.min(20, list.size()); i++) {
                 try {
-                    System.out.println(ConsoleColors.BLUE + list.get(i).getMessageForSender());
+                    System.out.println(ConsoleColors.BLUE + list.get(i).getMessage());
                 }
                 catch (Exception e) {
                     System.out.println(ConsoleColors.RED + "Failed to load");
