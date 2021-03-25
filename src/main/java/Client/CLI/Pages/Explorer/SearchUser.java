@@ -2,6 +2,7 @@ package Client.CLI.Pages.Explorer;
 
 import Client.CLI.ConsoleColors;
 import Client.CLI.UserUtility;
+import Server.models.Exceptions.ConnectionException;
 import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,9 +44,8 @@ public class SearchUser {
                     }
                 }
             }
-            catch (Exception e) {
-                logger.warn("Failed to load users - " + e.getMessage());
-                System.out.println("Fetching users failed");
+            catch (ConnectionException e) {
+                e.showError();
             }
         }
     }

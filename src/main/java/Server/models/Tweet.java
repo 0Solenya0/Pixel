@@ -54,14 +54,18 @@ public class Tweet extends Model {
         try {
             save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Like failed - " + e.getMessage());
+        }
     }
     public void disLike(int user) throws ConnectionException {
         likes.remove(user);
         try {
             save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("DisLike failed - " + e.getMessage());
+        }
     }
 
     /** Must be in every model section **/

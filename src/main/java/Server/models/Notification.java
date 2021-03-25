@@ -56,11 +56,16 @@ public class Notification extends Model {
             logger.warn("Unexpected validation failed while accepting a request - " + e.getMessage());
         }
     }
-    public void refuse() throws Exception {
-        (new Notification(0, user1, User.get(user2).username + " has refused your request")).save();
-        this.delete();
+    public void refuse() throws ConnectionException {
+        try {
+            (new Notification(0, user1, User.get(user2).username + " has refused your request")).save();
+            this.delete();
+        }
+        catch (ValidationException e) {
+            logger.warn("Failed while refusing notification - " + e.getMessage());
+        }
     }
-    public void silentRefuse() throws Exception {
+    public void silentRefuse() throws ConnectionException {
         this.delete();
     }
 

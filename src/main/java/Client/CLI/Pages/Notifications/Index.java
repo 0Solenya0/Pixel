@@ -33,8 +33,7 @@ public class Index {
                 System.out.println(ConsoleColors.YELLOW + "(s) System Notifications");
             }
             catch (ConnectionException e) {
-                logger.error(e.getMessage());
-                System.out.println("Loading page failed - " + e.getMessage());
+                e.showError();
             }
             System.out.println("(b) back");
 
@@ -62,9 +61,8 @@ public class Index {
             try {
                 list = Notification.getFilter().getByUser2(UserUtility.user.id).getByType(NotificationType.REQUEST).getEnabled().getList();
             }
-            catch (Exception e) {
-                logger.error("Loading follow requests failed - " + e.getMessage());
-                System.out.println(ConsoleColors.RED + "Failed loading requests");
+            catch (ConnectionException e) {
+                e.showError();
                 return;
             }
             if (list.isEmpty()) {
@@ -75,8 +73,8 @@ public class Index {
                 try {
                     System.out.println(ConsoleColors.BLUE + (i + 1) + ". " + list.get(i).getMessage());
                 }
-                catch (Exception e) {
-                    System.out.println(ConsoleColors.RED + "Failed to load");
+                catch (ConnectionException e) {
+                    e.showError();
                 }
             }
             System.out.println(ConsoleColors.YELLOW + "Choose notification row number and enter a response(+/-/*)");
@@ -113,9 +111,8 @@ public class Index {
                         break;
                 }
             }
-            catch (Exception e) {
-                System.out.println(ConsoleColors.RED + "Error while saving the request");
-                logger.error("Notification response wasn't saved - " + e.getMessage());
+            catch (ConnectionException e) {
+                e.showError();
             }
         }
     }
@@ -126,9 +123,8 @@ public class Index {
             try {
                 list = Notification.getFilter().getByUser1(UserUtility.user.id).getByType(NotificationType.REQUEST).getEnabled().getList();
             }
-            catch (Exception e) {
-                logger.error("Loading follow requests failed - " + e.getMessage());
-                System.out.println(ConsoleColors.RED + "Failed loading requests");
+            catch (ConnectionException e) {
+                e.showError();
                 return;
             }
             if (list.isEmpty()) {
@@ -139,8 +135,8 @@ public class Index {
                 try {
                     System.out.println(ConsoleColors.BLUE + list.get(i).getMessageForSender());
                 }
-                catch (Exception e) {
-                    System.out.println(ConsoleColors.RED + "Failed to load");
+                catch (ConnectionException e) {
+                    e.showError();
                 }
             }
             System.out.println(ConsoleColors.YELLOW + "(b) back");
@@ -166,9 +162,8 @@ public class Index {
                 );
                 list.sort(Comparator.comparingInt(n -> -n.id));
             }
-            catch (Exception e) {
-                logger.error("Loading notifications failed - " + e.getMessage());
-                System.out.println(ConsoleColors.RED + "Failed loading notifications");
+            catch (ConnectionException e) {
+                e.showError();
                 return;
             }
             if (list.isEmpty()) {
@@ -179,8 +174,8 @@ public class Index {
                 try {
                     System.out.println(ConsoleColors.BLUE + list.get(i).getMessage());
                 }
-                catch (Exception e) {
-                    System.out.println(ConsoleColors.RED + "Failed to load");
+                catch (ConnectionException e) {
+                    e.showError();
                 }
             }
             System.out.println(ConsoleColors.YELLOW + "(b) back");

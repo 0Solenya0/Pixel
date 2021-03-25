@@ -53,7 +53,7 @@ public class Index {
                     }
                 }
             } catch (ConnectionException e) {
-                System.out.println(e.getMessage());
+                e.showError();
             }
 
             if (!users.isEmpty())

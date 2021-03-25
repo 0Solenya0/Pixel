@@ -1,5 +1,7 @@
 package Server.models.Exceptions;
 
+import Client.CLI.ConsoleColors;
+
 public class ValidationException extends Exception {
     private String targetField;
     private String targetClass;
@@ -7,6 +9,9 @@ public class ValidationException extends Exception {
         super(message);
         this.targetField = tField;
         this.targetClass = tClass;
+    }
+    public void showError() {
+        System.out.println(ConsoleColors.RED + getMessage());
     }
 
     @Override

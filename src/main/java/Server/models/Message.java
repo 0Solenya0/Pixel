@@ -77,7 +77,9 @@ public class Message extends Model {
         try {
             save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Mark as seen failed - " + e.getMessage());
+        }
     }
 
     public static MessageFilter getFilter() throws ConnectionException {

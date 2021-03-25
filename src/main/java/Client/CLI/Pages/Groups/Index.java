@@ -23,7 +23,7 @@ public class Index {
             }
         }
         catch (ConnectionException e) {
-
+            e.showError();
         }
     }
 
@@ -60,11 +60,11 @@ public class Index {
             UserUtility.user.makeNewGroup(name);
         }
         catch (ConnectionException e) {
-            System.out.println(ConsoleColors.RED + "Connection to database failed");
+            e.showError();
             return;
         }
         catch (ValidationException e) {
-            System.out.println(ConsoleColors.RED + e.getMessage());
+            e.showError();
             return;
         }
         System.out.println(ConsoleColors.GREEN_BOLD + "Group created successfully");
@@ -92,8 +92,14 @@ public class Index {
             Message m = new Message(content.toString().trim());
             UserUtility.user.sendGroupMessage(g.id, m);
         }
-        catch (InvalidRequestException | ConnectionException | ValidationException e) {
-            System.out.println(e.getMessage());
+        catch (ConnectionException e) {
+            e.showError();
+        }
+        catch (ValidationException e) {
+            e.showError();
+        }
+        catch (InvalidRequestException e) {
+            e.showError();
         }
     }
 
@@ -108,7 +114,7 @@ public class Index {
                 }
         }
         catch (ConnectionException e) {
-            System.out.println(e.getMessage());
+            e.showError();
         }
     }
 

@@ -74,7 +74,9 @@ public abstract class Model {
             save();
             logger.info(String.format("An instance of %s with id %s got deleted", this.getClass(), this.id));
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Delete failed - " + e.getMessage());
+        }
     }
     public void isValid() throws ValidationException, ConnectionException { }
 

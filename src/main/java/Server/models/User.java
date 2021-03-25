@@ -121,7 +121,9 @@ public class User extends Model {
                 (new Notification(0, id, username + " has started following you")).save();
             }
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Follow failed - " + e.getMessage());
+        }
     }
     public void block(int id) throws ConnectionException {
         try {
@@ -130,7 +132,9 @@ public class User extends Model {
             resetRel(id);
             (new Relation(this.id, id, RelType.BLOCKED)).save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Block failed - " + e.getMessage());
+        }
     }
     public void resetRel(int id) throws ConnectionException {
         try {
@@ -140,7 +144,9 @@ public class User extends Model {
                 getRel(id).delete();
             }
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Reseting relation failed - " + e.getMessage());
+        }
     }
     public Relation getRel(int id) throws ConnectionException {
         return Relation.getFilter().getByTwoUser(this.id, id);
@@ -195,7 +201,9 @@ public class User extends Model {
             try {
                 sendMessage(user.id, message);
             }
-            catch (ValidationException e) { }
+            catch (ValidationException e) {
+                logger.warn("Send group message failed - " + e.getMessage());
+            }
         }
     }
 
@@ -232,14 +240,18 @@ public class User extends Model {
         try {
             save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Muting user failed - " + e.getMessage());
+        }
     }
     public void unMuteUser(int user) throws ConnectionException {
         muted.remove(user);
         try {
             save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Unmuting user failed - " + e.getMessage());
+        }
     }
     public boolean isMuted(int user) {
         return muted.contains(user);
@@ -251,7 +263,9 @@ public class User extends Model {
         try {
             (new Notification(id, user, NotificationType.REPORT)).save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Reporting user failed - " + e.getMessage());
+        }
     }
 
     public void like(int tweet) throws ConnectionException {
@@ -259,14 +273,18 @@ public class User extends Model {
         try {
             save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Like failed - " + e.getMessage());
+        }
     }
     public void disLike(int tweet) throws ConnectionException {
         Tweet.get(tweet).disLike(id);
         try {
             save();
         }
-        catch (ValidationException e) { }
+        catch (ValidationException e) {
+            logger.warn("Disliking failed - " + e.getMessage());
+        }
     }
 
     public void deleteUserDependencies() throws ConnectionException {

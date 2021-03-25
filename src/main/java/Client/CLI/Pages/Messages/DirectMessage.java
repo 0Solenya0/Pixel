@@ -68,10 +68,10 @@ public class DirectMessage {
                         return;
                 }
             } catch (ConnectionException e) {
-                System.out.println(ConsoleColors.RED + "Failed to load page - " + e.getMessage());
+                e.showError();
             } catch (ValidationException e) {
                 logger.warn("Invalid message was sent - " + e.getMessage());
-                System.out.println(ConsoleColors.RED + "Invalid message - " + e.getMessage());
+                e.showError();
             }
         }
     }

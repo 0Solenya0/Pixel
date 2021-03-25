@@ -38,8 +38,8 @@ public class Index {
             try {
                 UserUtility.user.resetRel(User.getFilter().getByUsername(username).id);
             }
-            catch (Exception e) {
-                logger.error("New relation request failed - " + e.getMessage());
+            catch (ConnectionException e) {
+                e.showError();
                 return false;
             }
             return true;
