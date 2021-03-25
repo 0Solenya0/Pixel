@@ -15,10 +15,14 @@ public class Menu {
             System.out.println("(t) Timeline");
             System.out.println("(e) Explorer");
             System.out.println("(m) Messages");
+            System.out.println("(g) Groups");
             System.out.println("(s) Settings");
 
             String response = UserUtility.scanner.nextLine();
             switch (response) {
+                case "g":
+                    Client.CLI.Pages.Groups.Index.show();
+                    break;
                 case "m":
                     Client.CLI.Pages.Messages.Index.show();
                     break;

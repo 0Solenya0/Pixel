@@ -26,7 +26,6 @@ public class User extends Model {
     private String password;
     public TreeSet<Integer> muted;
     public boolean isEnabled;
-    public ArrayList<Integer> groups;
 
     public AccessLevel getVisibility() {
         return visibility;
@@ -54,7 +53,7 @@ public class User extends Model {
         this.phone = new UserField<>();
         this.mail = new UserField<>();
         this.muted = new TreeSet<>();
-        this.groups = new ArrayList<>();
+
 
         /** default access levels and values **/
         this.mail.setAccessLevel(AccessLevel.PUBLIC);
@@ -170,10 +169,17 @@ public class User extends Model {
         message.save();
     }
     public void sendGroupMessage(int groupId, Message message) throws InvalidRequestException, ConnectionException, ValidationException {
-        for (int user : getGroup(groupId).users)
-            sendMessage(user, message);
+        for (User user : getGroup(groupId).getUsers()) {
+            try {
+                sendMessage(user.id, message);
+            }
+            catch (ValidationException e) { }
+        }
     }
 
+    public ArrayList<Group> getGroups() throws ConnectionException {
+        return Group.getFilter().getByOwner(this.id).getList();
+    }
     public Group makeNewGroup(String name) throws ValidationException, ConnectionException {
         Group p = new Group(this.id, name);
         p.save();
@@ -183,11 +189,19 @@ public class User extends Model {
         getGroup(groupid).addUser(userid);
     }
     public Group getGroup(int groupid) throws InvalidRequestException, ConnectionException {
-        for (int i = 0; i < groups.size(); i++) {
-            if (groups.get(i) == groupid)
+        for (int i = 0; i < getGroups().size(); i++) {
+            if (getGroups().get(i).id == groupid)
                 return Group.get(groupid);
         }
         logger.debug("Invalid group was requested for user " + this.id + " and group " + groupid);
+        throw new InvalidRequestException("Chosen group does not exists");
+    }
+    public Group getGroup(String groupName) throws InvalidRequestException, ConnectionException {
+        for (int i = 0; i < getGroups().size(); i++) {
+            if (getGroups().get(i).name.equals(groupName))
+                return getGroups().get(i);
+        }
+        logger.debug("Invalid group was requested for user " + this.id + " and group " + groupName);
         throw new InvalidRequestException("Chosen group does not exists");
     }
 
