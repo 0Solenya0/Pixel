@@ -15,23 +15,23 @@ public class MessageFilter extends ModelFilter<Message> {
     }
 
     public MessageFilter getByUser1(int user) {
-        customFilter(message -> message.user1 == user);
+        customFilter(message -> message.getSender() == user);
         return this;
     }
     public MessageFilter getByUser2(int user) {
-        customFilter(message -> message.user2 == user);
+        customFilter(message -> message.getReceiver() == user);
         return this;
     }
     public MessageFilter getByTwoUser(int user1, int user2) {
-        customFilter(message -> message.user2 == user2 && message.user1 == user1);
+        customFilter(message -> message.getReceiver() == user2 && message.getSender() == user1);
         return this;
     }
     public MessageFilter getBySeen(boolean seen) {
-        customFilter(message -> message.seen == seen);
+        customFilter(message -> message.isSeen() == seen);
         return this;
     }
     public MessageFilter getRelatedToUser(int user) {
-        customFilter(message -> message.user2 == user || message.user1 == user);
+        customFilter(message -> message.getReceiver() == user || message.getSender() == user);
         return this;
     }
 
@@ -41,13 +41,13 @@ public class MessageFilter extends ModelFilter<Message> {
         ArrayList<User> res = new ArrayList<>();
         ArrayList<Message> m = getList();
         for (int i = m.size() - 1; i >= 0; i--) {
-            if (!tmp.contains(m.get(i).user1)) {
-                tmp.add(m.get(i).user1);
-                res.add(User.get(m.get(i).user1));
+            if (!tmp.contains(m.get(i).getSender())) {
+                tmp.add(m.get(i).getSender());
+                res.add(User.get(m.get(i).getSender()));
             }
-            if (!tmp.contains(m.get(i).user2)) {
-                tmp.add(m.get(i).user2);
-                res.add(User.get(m.get(i).user2));
+            if (!tmp.contains(m.get(i).getReceiver())) {
+                tmp.add(m.get(i).getReceiver());
+                res.add(User.get(m.get(i).getReceiver()));
             }
         }
         return res;

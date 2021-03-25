@@ -13,9 +13,37 @@ import java.time.LocalDateTime;
 public class Message extends Model {
     private static final Logger logger = LogManager.getLogger(Message.class);
 
-    public int user1, user2, tweetId = 0;
-    public boolean seen = false;
+    private int user1, user2, tweetId = 0;
+    private boolean seen = false;
     private String content;
+
+    public int getSender() {
+        return user1;
+    }
+
+    public void setSender(int user1) {
+        this.user1 = user1;
+    }
+
+    public void setReceiver(int user2) {
+        this.user2 = user2;
+    }
+
+    public void setTweetId(int tweetId) {
+        this.tweetId = tweetId;
+    }
+
+    public int getReceiver() {
+        return user2;
+    }
+
+    public int getTweetId() {
+        return tweetId;
+    }
+
+    public boolean isSeen() {
+        return seen;
+    }
 
     public String getContent() throws ConnectionException {
         if (tweetId == 0)

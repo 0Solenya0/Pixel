@@ -64,10 +64,10 @@ public class Forward {
         for (Group g : list) {
             try {
                 Message m;
-                if (targetMessage.tweetId == 0)
+                if (targetMessage.getTweetId() == 0)
                     m = new Message(targetMessage.getContent());
                 else
-                    m = new Message(targetMessage.tweetId);
+                    m = new Message(targetMessage.getTweetId());
                 UserUtility.user.sendGroupMessage(g.id, m);
                 System.out.println(ConsoleColors.GREEN + "Message sent to " + g.name + " successfully");
             }
@@ -102,10 +102,10 @@ public class Forward {
         for (User user : list) {
             try {
                 Message m;
-                if (targetMessage.tweetId == 0)
+                if (targetMessage.getTweetId() == 0)
                     m = new Message(targetMessage.getContent());
                 else
-                    m = new Message(targetMessage.tweetId);
+                    m = new Message(targetMessage.getTweetId());
                 UserUtility.user.sendMessage(user.id, m);
                 System.out.println(ConsoleColors.GREEN + "Message sent to " + user.username + " successfully");
             }

@@ -38,7 +38,7 @@ public class DirectMessage {
                 int r = Math.min(l + onePageMessages, messages.size());
                 messages.sort((m1, m2) -> -(m1.id - m2.id));
                 for (int i = r - 1; i >= l; i--) {
-                    if (i < r - 1 && messages.get(i).user1 != messages.get(i + 1).user1)
+                    if (i < r - 1 && messages.get(i).getSender() != messages.get(i + 1).getSender())
                         System.out.println();
                     showSingleMessage(messages.get(i));
                 }
@@ -95,7 +95,7 @@ public class DirectMessage {
     }
 
     public void showSingleMessage(Message m) throws ConnectionException {
-        if (m.user1 == UserUtility.user.id) {
+        if (m.getSender() == UserUtility.user.id) {
             System.out.println(ConsoleColors.CYAN + "ME: ");
             System.out.println(ConsoleColors.YELLOW + m.getContent());
         }

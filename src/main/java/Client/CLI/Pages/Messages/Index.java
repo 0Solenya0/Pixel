@@ -21,21 +21,21 @@ public class Index {
             try {
                 ArrayList<Message> list = Message.getFilter().getBySeen(false).getByUser2(UserUtility.user.id).getList();
                 list.sort((m1, m2) -> {
-                    if (m1.user1 < m2.user2)
+                    if (m1.getSender() < m2.getReceiver())
                         return -1;
-                    if (m1.user1 == m2.user2)
+                    if (m1.getSender() == m2.getReceiver())
                         return m1.id - m2.id;
                     return 1;
                 });
                 if (!list.isEmpty()) {
-                    MessageGroup m = new MessageGroup(list.get(0).user1, new ArrayList<>());
+                    MessageGroup m = new MessageGroup(list.get(0).getSender(), new ArrayList<>());
                     for (int i = 0; i < list.size(); i++) {
-                        if (i != 0 && list.get(i).user1 != list.get(i - 1).user1) {
+                        if (i != 0 && list.get(i).getSender() != list.get(i - 1).getSender()) {
                             users.add(m.user);
                             showUnseenMessageGroup(m, users.size());
-                            unseenUsers.add(list.get(i).user1);
+                            unseenUsers.add(list.get(i).getSender());
 
-                            m = new MessageGroup(list.get(i).user1, new ArrayList<>());
+                            m = new MessageGroup(list.get(i).getSender(), new ArrayList<>());
                         }
                         m.messages.add(list.get(i));
                     }
