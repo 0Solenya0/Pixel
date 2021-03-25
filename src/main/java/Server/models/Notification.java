@@ -17,10 +17,14 @@ public class Notification extends Model {
     }
     private int user1, user2;
     protected String message;
-    public NotificationType type;
+    private NotificationType type;
 
     public int getSender() {
         return user1;
+    }
+
+    public NotificationType getType() {
+        return type;
     }
 
     public int getReceiver() {

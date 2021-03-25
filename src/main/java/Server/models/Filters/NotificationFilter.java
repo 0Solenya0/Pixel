@@ -17,7 +17,7 @@ public class NotificationFilter extends ModelFilter<Notification> {
     }
 
     public NotificationFilter getByType(NotificationType t) {
-        customFilter(notification -> notification.type == t);
+        customFilter(notification -> notification.getType() == t);
         return this;
     }
     public NotificationFilter getByUser1(int user1) {
