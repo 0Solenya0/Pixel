@@ -10,7 +10,7 @@ public class GroupFilter extends ModelFilter<Group> {
     }
 
     public GroupFilter getByOwner(int user) {
-        customFilter(group -> group.owner == user);
+        customFilter(group -> group.getOwner() == user);
         return this;
     }
 }

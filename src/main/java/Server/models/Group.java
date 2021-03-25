@@ -14,7 +14,11 @@ public class Group extends Model {
 
     public String name;
     private TreeSet<Integer> users;
-    public int owner;
+    private int owner;
+
+    public int getOwner() {
+        return owner;
+    }
 
     public ArrayList<User> getUsers() throws ConnectionException {
         ArrayList<User> res = new ArrayList<>();
