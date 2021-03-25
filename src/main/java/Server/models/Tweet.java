@@ -11,11 +11,24 @@ import java.util.TreeSet;
 public class Tweet extends Model {
     private static final Logger logger = LogManager.getLogger(Tweet.class);
 
-    public int parentTweet;
-    public int reTweet;
+    private int parentTweet, reTweet;
     public TreeSet<Integer> likes;
     private int author;
     private String content;
+
+    public int getParentTweetId() {
+        return parentTweet;
+    }
+    public void setParentTweetId(int parentTweet) {
+        this.parentTweet = parentTweet;
+    }
+
+    public int getReTweetId() {
+        return reTweet;
+    }
+    public void setReTweetId(int reTweet) {
+        this.reTweet = reTweet;
+    }
 
     public String getContent() throws ConnectionException {
         if (reTweet != 0)

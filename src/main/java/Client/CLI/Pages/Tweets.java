@@ -29,8 +29,8 @@ public class Tweets {
         }
         try {
             Tweet tweet = new Tweet(UserUtility.user, content.toString().trim());
-            tweet.parentTweet = parent;
-            tweet.reTweet = retweet;
+            tweet.setParentTweetId(parent);
+            tweet.setReTweetId(retweet);
             tweet.save();
             System.out.println(ConsoleColors.GREEN + "Saved successfully");
             logger.info("New tweet saved - Id: " + tweet.id);
@@ -41,8 +41,8 @@ public class Tweets {
     }
     public static void showTweet(Tweet tweet, boolean showSender) {
         try {
-            if (tweet.parentTweet != 0)
-                System.out.println(ConsoleColors.PURPLE + "Replied to " + Tweet.get(tweet.parentTweet).getAuthor().username);
+            if (tweet.getParentTweetId() != 0)
+                System.out.println(ConsoleColors.PURPLE + "Replied to " + Tweet.get(tweet.getParentTweetId()).getAuthor().username);
             if (showSender)
                 System.out.println(ConsoleColors.PURPLE + "Sent by " + tweet.getAuthor().username + ":");
             if (showSender)

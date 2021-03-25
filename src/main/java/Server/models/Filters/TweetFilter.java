@@ -26,7 +26,7 @@ public class TweetFilter extends ModelFilter<Tweet> {
         return this;
     }
     public TweetFilter getByParentTweet(int id) {
-        customFilter(tweet -> tweet.parentTweet == id);
+        customFilter(tweet -> tweet.getParentTweetId() == id);
         return this;
     }
     public TweetFilter getEnabled() {
