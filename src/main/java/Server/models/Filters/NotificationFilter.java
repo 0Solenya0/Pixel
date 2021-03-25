@@ -34,7 +34,7 @@ public class NotificationFilter extends ModelFilter<Notification> {
     public NotificationFilter getEnabled() {
         customFilter(notification -> {
             try {
-                return User.get(notification.user1).isEnabled && User.get(notification.user2).isEnabled;
+                return User.get(notification.user1).isEnabled() && User.get(notification.user2).isEnabled();
             }
             catch (Exception e) {
                 return false;

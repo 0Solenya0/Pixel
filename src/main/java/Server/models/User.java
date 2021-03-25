@@ -19,13 +19,35 @@ public class User extends Model {
     private static final Logger logger = LogManager.getLogger(User.class);
 
     public AccessLevel visibility;
-    public String name, surname, username, bio;
+    private String name, surname;
+    public String username, bio;
     private UserField<String> mail, phone;
     private UserField<LocalDateTime> lastseen;
     private UserField<LocalDate> birthdate;
     private String password;
-    public TreeSet<Integer> muted;
-    public boolean isEnabled;
+    private TreeSet<Integer> muted;
+    private boolean isEnabled;
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
 
     public AccessLevel getVisibility() {
         return visibility;
@@ -218,6 +240,9 @@ public class User extends Model {
             save();
         }
         catch (ValidationException e) { }
+    }
+    public boolean isMuted(int user) {
+        return muted.contains(user);
     }
 
     public void reportUser(int user) throws ConnectionException {

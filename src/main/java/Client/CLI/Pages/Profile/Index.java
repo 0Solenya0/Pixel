@@ -53,7 +53,7 @@ public class Index {
         logger.info("User opened " + username + "'s personal page");
         if (!isOwner) {
             try {
-                if (!User.getFilter().getByUsername(username).isEnabled) {
+                if (!User.getFilter().getByUsername(username).isEnabled()) {
                     System.out.println(ConsoleColors.RED + "User account is disabled");
                     return;
                 }
@@ -122,7 +122,7 @@ public class Index {
                 System.out.println("(m) Message");
             if (!isOwner) {
                 try {
-                    if (!UserUtility.user.muted.contains(User.getFilter().getByUsername(username).id))
+                    if (!UserUtility.user.isMuted(User.getFilter().getByUsername(username).id))
                         System.out.println("(mute) Mute user");
                     else
                         System.out.println("(unmute) Unmute user");

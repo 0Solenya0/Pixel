@@ -18,7 +18,7 @@ public class ProfileInfo {
         logger.info("User opened " + username + "'s profile info");
         if (!isOwner) {
             try {
-                if (!User.getFilter().getByUsername(username).isEnabled) {
+                if (!User.getFilter().getByUsername(username).isEnabled()) {
                     System.out.println(ConsoleColors.RED + "User account is disabled");
                     return;
                 }
@@ -31,10 +31,10 @@ public class ProfileInfo {
         DateTimeFormatter formatBirthday = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             User user = User.getFilter().getByUsername(username);
-            System.out.println(ConsoleColors.PURPLE + "\t---" + user.name + "'s Profile---");
+            System.out.println(ConsoleColors.PURPLE + "\t---" + user.username + "'s Profile---");
             System.out.print(ConsoleColors.YELLOW);
             System.out.println("Username: " + user.username);
-            System.out.println("Full name: " + user.name + " " + user.surname);
+            System.out.println("Full name: " + user.getFullName());
             if (user.getBirthdate().get() != null && !user.getBirthdate().get().equals(LocalDate.MIN)
                     && UserUtility.checkAccess(user, user.getBirthdate().accessLevel))
                         System.out.println("Birthday: " + user.getBirthdate().get().format(formatBirthday));

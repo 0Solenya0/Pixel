@@ -63,7 +63,7 @@ public class Privacy {
                     break;
             }
             System.out.print(ConsoleColors.YELLOW);
-            if (UserUtility.user.isEnabled)
+            if (UserUtility.user.isEnabled())
                 System.out.println("(e) Disable account");
             else
                 System.out.println("(e) Enable account");
@@ -86,7 +86,7 @@ public class Privacy {
                     break;
                 case "e":
                     try {
-                        UserUtility.user.isEnabled = !UserUtility.user.isEnabled;
+                        UserUtility.user.setEnabled(!UserUtility.user.isEnabled());
                         UserUtility.user.save();
                     }
                     catch (Exception e) {

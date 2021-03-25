@@ -32,7 +32,7 @@ public class TweetFilter extends ModelFilter<Tweet> {
     public TweetFilter getEnabled() {
         customFilter(tweet -> {
             try {
-                return tweet.getAuthor().isEnabled;
+                return tweet.getAuthor().isEnabled();
             }
             catch (Exception e) {
                 return false;

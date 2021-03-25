@@ -29,7 +29,7 @@ public class UserFilter extends ModelFilter<User> {
         return this;
     }
     public UserFilter getEnabled() {
-        customFilter(user -> user.isEnabled);
+        customFilter(user -> user.isEnabled());
         return this;
     }
 }

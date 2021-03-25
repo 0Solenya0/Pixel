@@ -35,7 +35,7 @@ public class RelationFilter extends ModelFilter<Relation> {
     public RelationFilter getEnabled() {
         customFilter(relation -> {
             try {
-                return User.get(relation.user1).isEnabled && User.get(relation.user2).isEnabled;
+                return User.get(relation.user1).isEnabled() && User.get(relation.user2).isEnabled();
             }
             catch (Exception e) {
                 return false;

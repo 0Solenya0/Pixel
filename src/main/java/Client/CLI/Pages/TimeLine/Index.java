@@ -23,7 +23,7 @@ public class Index {
     public static ArrayList<Tweet> getTweets() throws ConnectionException {
         ArrayList<Tweet> tweets = new ArrayList<>();
         for (User u: UserUtility.user.getFollowings()) {
-            if (!UserUtility.user.muted.contains(u.id))
+            if (!UserUtility.user.isMuted(u.id))
                 tweets.addAll(Tweet.getFilter().getByUser(u.username).getByParentTweet(0).getList());
         }
         tweets.sort(Comparator.comparingInt(t -> -t.id));

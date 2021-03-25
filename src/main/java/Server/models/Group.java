@@ -19,7 +19,7 @@ public class Group extends Model {
     public ArrayList<User> getUsers() throws ConnectionException {
         ArrayList<User> res = new ArrayList<>();
         for (int u: users) {
-            if (User.get(u).isEnabled)
+            if (User.get(u).isEnabled())
                 res.add(User.get(u));
         }
         return res;

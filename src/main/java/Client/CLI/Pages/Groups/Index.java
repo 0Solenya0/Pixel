@@ -104,7 +104,7 @@ public class Index {
                 System.out.println(ConsoleColors.RED + "Group has no members");
             }
             for (User u: g.getUsers()) {
-                    System.out.println(ConsoleColors.BLUE + u.name);
+                    System.out.println(ConsoleColors.BLUE + u.username + " - " + u.getFullName());
                 }
         }
         catch (ConnectionException e) {

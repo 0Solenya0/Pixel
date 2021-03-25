@@ -21,8 +21,8 @@ public class EditProfile {
             user = UserUtility.user;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
             System.out.println(ConsoleColors.BLUE_BRIGHT);
-            System.out.println("(a) Change name (" + user.name + ")");
-            System.out.println("(b) Change surname (" + user.surname + ")");
+            System.out.println("(a) Change name (" + user.getName() + ")");
+            System.out.println("(b) Change surname (" + user.getSurname() + ")");
             if (!user.getBirthdate().get().equals(LocalDate.MIN))
                 System.out.println("(c) Change Birthday (" + user.getBirthdate().get().format(formatter) + ")");
             else
@@ -63,7 +63,7 @@ public class EditProfile {
 
     private static void changeName() {
         System.out.println(ConsoleColors.YELLOW + "Enter your name:");
-        user.name = Client.CLI.UserUtility.scanner.nextLine();
+        user.setName(Client.CLI.UserUtility.scanner.nextLine());
         try {
             user.save();
         }
@@ -73,7 +73,7 @@ public class EditProfile {
     }
     private static void changeSurname() {
         System.out.println(ConsoleColors.YELLOW + "Enter your surname:");
-        user.surname = Client.CLI.UserUtility.scanner.nextLine();
+        user.setSurname(Client.CLI.UserUtility.scanner.nextLine());
         try {
             user.save();
         }
