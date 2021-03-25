@@ -111,7 +111,7 @@ public class User extends Model {
 
     public void follow(int id) throws ConnectionException {
         try {
-            if (getRel(id) != null && getRel(id).type == RelType.FOLLOW)
+            if (getRel(id) != null && getRel(id).getType() == RelType.FOLLOW)
                 return;
             resetRel(id);
             if (User.get(id).getVisibility() == AccessLevel.PRIVATE)
@@ -125,7 +125,7 @@ public class User extends Model {
     }
     public void block(int id) throws ConnectionException {
         try {
-            if (User.get(id).getRel(this.id) != null && User.get(id).getRel(this.id).type == RelType.FOLLOW)
+            if (User.get(id).getRel(this.id) != null && User.get(id).getRel(this.id).getType() == RelType.FOLLOW)
                 User.get(id).getRel(this.id).delete();
             resetRel(id);
             (new Relation(this.id, id, RelType.BLOCKED)).save();
@@ -135,7 +135,7 @@ public class User extends Model {
     public void resetRel(int id) throws ConnectionException {
         try {
             if (getRel(id) != null) {
-                if (getRel(id).type == RelType.FOLLOW)
+                if (getRel(id).getType() == RelType.FOLLOW)
                     (new Notification(0, id, username + " has stopped following you")).save();
                 getRel(id).delete();
             }
@@ -149,7 +149,7 @@ public class User extends Model {
         Notification x = Notification.getFilter().getByType(NotificationType.REQUEST).getByTwoUser(this.id, id);
         Relation y = Relation.getFilter().getByTwoUser(this.id, id);
         if (y != null)
-            return RelStatus.valueOf(y.type.toString());
+            return RelStatus.valueOf(y.getType().toString());
         if (x != null)
             return RelStatus.REQUESTED;
         return RelStatus.NORELATION;
@@ -158,21 +158,21 @@ public class User extends Model {
         ArrayList<Relation> rel = Relation.getFilter().getByUser2(this.id).getByType(RelType.FOLLOW).getEnabled().getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user1));
+            res.add(User.get(relation.getSender()));
         return res;
     }
     public ArrayList<User> getFollowings() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.FOLLOW).getEnabled().getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user2));
+            res.add(User.get(relation.getReceiver()));
         return res;
     }
     public ArrayList<User> getBlackList() throws ConnectionException {
         ArrayList<Relation> rel = Relation.getFilter().getByUser1(this.id).getByType(RelType.BLOCKED).getEnabled().getList();
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
-            res.add(User.get(relation.user2));
+            res.add(User.get(relation.getReceiver()));
         return res;
     }
 

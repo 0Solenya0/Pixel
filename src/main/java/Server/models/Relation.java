@@ -10,9 +10,20 @@ import org.apache.logging.log4j.Logger;
 public class Relation extends Model {
     private static final Logger logger = LogManager.getLogger(Relation.class);
 
-    public int user1, user2;
-    public RelType type;
+    private int user1, user2;
+    private RelType type;
 
+    public int getSender() {
+        return user1;
+    }
+
+    public int getReceiver() {
+        return user2;
+    }
+
+    public RelType getType() {
+        return type;
+    }
 
     public Relation(int user1, int user2, RelType type) {
         super();

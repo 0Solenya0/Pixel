@@ -18,24 +18,24 @@ public class RelationFilter extends ModelFilter<Relation> {
     }
 
     public Relation getByTwoUser(int user1, int user2) {
-        return get(relation -> relation.user1 == user1 && relation.user2 == user2);
+        return get(relation -> relation.getSender() == user1 && relation.getReceiver() == user2);
     }
     public RelationFilter getByUser1(int user1) {
-        customFilter(relation -> relation.user1 == user1);
+        customFilter(relation -> relation.getSender() == user1);
         return this;
     }
     public RelationFilter getByUser2(int user2) {
-        customFilter(relation -> relation.user2 == user2);
+        customFilter(relation -> relation.getReceiver() == user2);
         return this;
     }
     public RelationFilter getByType(RelType t) {
-        customFilter(relation -> relation.type == t);
+        customFilter(relation -> relation.getType() == t);
         return this;
     }
     public RelationFilter getEnabled() {
         customFilter(relation -> {
             try {
-                return User.get(relation.user1).isEnabled() && User.get(relation.user2).isEnabled();
+                return User.get(relation.getSender()).isEnabled() && User.get(relation.getReceiver()).isEnabled();
             }
             catch (Exception e) {
                 return false;

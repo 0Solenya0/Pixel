@@ -35,7 +35,7 @@ public class UserUtility {
                 return true;
             if (accessLevel == AccessLevel.PRIVATE)
                 return false;
-            RelType t = user.getRel(u.id).type;
+            RelType t = user.getRel(u.id).getType();
             if (accessLevel == AccessLevel.CONTACTS && t == RelType.FOLLOW)
                 return true;
             return false;
