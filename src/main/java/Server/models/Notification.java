@@ -15,9 +15,17 @@ public class Notification extends Model {
     public String getdatasrc() {
         return datasrc;
     }
-    public int user1, user2;
+    private int user1, user2;
     protected String message;
     public NotificationType type;
+
+    public int getSender() {
+        return user1;
+    }
+
+    public int getReceiver() {
+        return user2;
+    }
 
     public Notification(int user1, int user2, String content) {
         super();

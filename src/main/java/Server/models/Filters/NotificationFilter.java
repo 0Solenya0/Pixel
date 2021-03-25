@@ -21,20 +21,20 @@ public class NotificationFilter extends ModelFilter<Notification> {
         return this;
     }
     public NotificationFilter getByUser1(int user1) {
-        customFilter(notification -> notification.user1 == user1);
+        customFilter(notification -> notification.getSender() == user1);
         return this;
     }
     public NotificationFilter getByUser2(int user2) {
-        customFilter(notification -> notification.user2 == user2);
+        customFilter(notification -> notification.getReceiver() == user2);
         return this;
     }
     public Notification getByTwoUser(int user1, int user2) {
-        return get(notification -> notification.user1 == user1 && notification.user2 == user2);
+        return get(notification -> notification.getSender() == user1 && notification.getReceiver() == user2);
     }
     public NotificationFilter getEnabled() {
         customFilter(notification -> {
             try {
-                return User.get(notification.user1).isEnabled() && User.get(notification.user2).isEnabled();
+                return User.get(notification.getSender()).isEnabled() && User.get(notification.getReceiver()).isEnabled();
             }
             catch (Exception e) {
                 return false;
