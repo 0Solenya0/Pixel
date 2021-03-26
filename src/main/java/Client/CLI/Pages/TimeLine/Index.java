@@ -51,11 +51,11 @@ public class Index {
                 return;
             }
             Tweets.showTweet(tweets.get(cur), true);
-            if (tweets.get(cur).likes.contains(UserUtility.user.id))
+            if (tweets.get(cur).getLikes().contains(UserUtility.user.id))
                 System.out.print(ConsoleColors.YELLOW + "(l)" + ConsoleColors.RED + " ❤ " + ConsoleColors.YELLOW + " unLike");
             else
                 System.out.print(ConsoleColors.YELLOW + "(l)" + ConsoleColors.RED + " ♡" + ConsoleColors.YELLOW + " Like");
-            System.out.println(ConsoleColors.RED + " (" + tweets.get(cur).likes.size() + ")" + ConsoleColors.YELLOW);
+            System.out.println(ConsoleColors.RED + " (" + tweets.get(cur).getLikes().size() + ")" + ConsoleColors.YELLOW);
 
             System.out.println("(p) Go to user's personal page");
             System.out.println("(n) Add comment");
@@ -110,7 +110,7 @@ public class Index {
                     (new Forward(m)).show();
                     break;
                 case "l":
-                    if (tweets.get(cur).likes.contains(UserUtility.user.id))
+                    if (tweets.get(cur).getLikes().contains(UserUtility.user.id))
                         UserUtility.user.disLike(tweets.get(cur).id);
                     else
                         UserUtility.user.like(tweets.get(cur).id);

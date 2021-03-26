@@ -12,9 +12,17 @@ public class Tweet extends Model {
     private static final Logger logger = LogManager.getLogger(Tweet.class);
 
     private int parentTweet, reTweet;
-    public TreeSet<Integer> likes;
+    private TreeSet<Integer> likes;
     private int author;
     private String content;
+
+    public TreeSet<Integer> getLikes() {
+        return likes;
+    }
+
+    public int getLikeCount() {
+        return likes.size();
+    }
 
     public int getParentTweetId() {
         return parentTweet;
