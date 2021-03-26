@@ -66,6 +66,7 @@ public class EditProfile {
         user.setName(Client.CLI.UserUtility.scanner.nextLine());
         try {
             user.save();
+            logger.info("User changed name successfully - user id " + user.id);
         }
         catch (Exception e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());
@@ -76,6 +77,7 @@ public class EditProfile {
         user.setSurname(Client.CLI.UserUtility.scanner.nextLine());
         try {
             user.save();
+            logger.info("User changed surname successfully - user id " + user.id);
         }
         catch (Exception e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());
@@ -91,6 +93,7 @@ public class EditProfile {
         }
         try {
             user.save();
+            logger.info("User changed birthdate successfully - user id " + user.id);
         }
         catch (ValidationException e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());
@@ -105,6 +108,7 @@ public class EditProfile {
         user.getPhone().set(Client.CLI.UserUtility.scanner.nextLine());
         try {
             user.save();
+            logger.info("User changed phone number successfully - user id " + user.id);
         }
         catch (ValidationException e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());
@@ -119,6 +123,7 @@ public class EditProfile {
         user.getMail().set(Client.CLI.UserUtility.scanner.nextLine());
         try {
             user.save();
+            logger.info("User changed mail successfully - user id " + user.id);
         }
         catch (Exception e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());
@@ -129,6 +134,7 @@ public class EditProfile {
         user.bio = Client.CLI.UserUtility.scanner.nextLine();
         try {
             user.save();
+            logger.info("User changed bio successfully - user id " + user.id);
         }
         catch (Exception e) {
             System.out.println(ConsoleColors.RED + "Edit failed - " + e.getMessage());

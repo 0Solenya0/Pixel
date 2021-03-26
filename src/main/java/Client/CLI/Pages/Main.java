@@ -37,6 +37,7 @@ public class Main {
                 if (username.isEmpty() || password.isEmpty())
                     break;
                 UserUtility.login(username, password);
+                logger.info("User logged in successfully - user id " + UserUtility.user.id);
                 System.out.println(ConsoleColors.GREEN + "Logged in successfully");
                 Menu.show();
                 break;
@@ -69,6 +70,7 @@ public class Main {
             try {
                 User user = new User(name, surname, username, mail, password);
                 user.save();
+                logger.info("New user registered with id "  + user.id);
                 System.out.println(ConsoleColors.GREEN + "User have been registered");
                 break;
             }

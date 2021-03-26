@@ -37,6 +37,7 @@ public abstract class Model {
     }
 
     public void save() throws ValidationException, ConnectionException {
+        logger.info(String.format("Start saving a model to database - An instance of %s with id %s is getting saved.", this.getClass(), this.id));
         if (!isDeleted)
             isValid();
         if (id == 0) {
@@ -83,6 +84,7 @@ public abstract class Model {
     public static Model loadObj(int id, Class<? extends Model> x) throws ConnectionException {
         try {
             FileReader file = new FileReader(getDataSourceByClass(x) + "/" + id + ".json");
+            logger.info("File has been used - " + file);
             Gson gson = new GsonBuilder()
                     .setPrettyPrinting()
                     .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
