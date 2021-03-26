@@ -21,6 +21,8 @@ public class Index {
                 } catch (Exception e) {
                 }
             }
+            if (UserUtility.user.getGroups().isEmpty())
+                System.out.println(ConsoleColors.RED + "You have no group");
         }
         catch (ConnectionException e) {
             e.showError();
@@ -125,14 +127,18 @@ public class Index {
         String response = UserUtility.scanner.nextLine();
         try {
             Group g = UserUtility.user.getGroup(response);
-            while (true) {
+            mainLoop: while (true) {
                 showGroupDetail(g);
                 System.out.print(ConsoleColors.YELLOW);
                 System.out.println("(a) Add new user");
                 System.out.println("(d) Delete user");
+                System.out.println("(dg) Delete group");
                 System.out.println("(b) back");
                 String res = UserUtility.scanner.nextLine();
                 switch (res) {
+                    case "dg":
+                        g.delete();
+                        break mainLoop;
                     case "a":
                         System.out.println("Enter username:");
                         response = UserUtility.scanner.nextLine();

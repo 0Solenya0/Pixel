@@ -185,6 +185,8 @@ public class User extends Model {
     public boolean canMessage(int user) throws ConnectionException {
         if (!User.get(user).isEnabled)
             return false;
+        if (user == this.id)
+            return true;
         return getRelationStatus(user) == RelStatus.FOLLOW
                 || User.get(user).getRelationStatus(id) == RelStatus.FOLLOW;
     }
@@ -298,6 +300,10 @@ public class User extends Model {
             notification.delete();
         for (Tweet tweet : Tweet.getFilter().getByUser(username).getList())
             tweet.delete();
+        for (Message message : Message.getFilter().getRelatedToUser(this.id).getList())
+            message.delete();
+        for (Group group : Group.getFilter().getByOwner(this.id).getList())
+            group.delete();
     }
 
     /** Must be in every model section **/

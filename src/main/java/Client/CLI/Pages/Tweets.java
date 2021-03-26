@@ -7,6 +7,7 @@ import Server.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -49,6 +50,8 @@ public class Tweets {
                 System.out.println("\t" + ConsoleColors.BLUE_BOLD + tweet.getContent().trim().replace("\n", "\n\t"));
             else
                 System.out.println(ConsoleColors.BLUE_BOLD + tweet.getContent().trim());
+            DateTimeFormatter formatLastseen = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            System.out.println(ConsoleColors.CYAN + "Sent At " + tweet.createdAt.format(formatLastseen));
         }
         catch (Exception e) {
             System.out.println(ConsoleColors.RED + "Loading tweet failed");

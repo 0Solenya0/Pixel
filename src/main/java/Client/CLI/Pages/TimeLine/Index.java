@@ -59,8 +59,9 @@ public class Index {
 
             System.out.println("(p) Go to user's personal page");
             System.out.println("(n) Add comment");
-            System.out.println("(c) Comments");
-            System.out.println("(r) Retweet");
+            System.out.print("(c) Comments");
+            System.out.println(ConsoleColors.RED + " (" + Tweet.getFilter().getByParentTweet(tweets.get(cur).id).getEnabled().getList().size() + ")");
+            System.out.println(ConsoleColors.YELLOW + "(r) Retweet");
             System.out.println("(f) Forward");
             System.out.println("(s) Save to saved messages");
             if (UserUtility.user.id != tweets.get(cur).getAuthorId()) {
