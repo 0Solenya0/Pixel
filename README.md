@@ -26,11 +26,13 @@
 - UserUtility class be onvane database estefade shode, hamchenin tavabeyi ke dar kole code ziad estefade mishavad ra ham shamel mishavad
 <br />
 <br />
+
 ### Positive Points:
 - Sakht e Model kare ziadi nemibarad kafist ke az abstract class Model extend shavad
 - Taabe validation ghabl az save etminan hasel mikonad ke etelaat na motabar dar database save nashavad
 - customFilter dar ModelFilter emkane sakht filter haye az  mpish taarif nashode ra farahamikonad va mitavan az tavabe java dar an estefade kard
 - Exception ha daste bandi shodand be in soorat baraye ejad taaghirat dar exception va message an kafist class e marbote taghir dade shavad
+
 ### Negative Points:
 - Filter ha majboor be for zadan roye tamami id ha hastan
 - barkhi tavabe static manand `get()` dar User ers bari nemishavand
