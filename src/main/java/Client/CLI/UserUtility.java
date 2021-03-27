@@ -40,7 +40,7 @@ public class UserUtility {
                 return true;
             return false;
         }
-        catch (Exception e) {
+        catch (ConnectionException e) {
             logger.error("Checking access failed - " + e.getMessage());
             return false;
         }
