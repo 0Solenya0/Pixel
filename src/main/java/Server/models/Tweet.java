@@ -78,7 +78,7 @@ public class Tweet extends Model {
 
     /** Must be in every model section **/
     public static Tweet get(int id) throws ConnectionException {
-        return (Tweet) loadObj(id, Tweet.class);
+        return loadObj(id, Tweet.class);
     }
     public static TweetFilter getFilter() throws ConnectionException {
         return new TweetFilter();

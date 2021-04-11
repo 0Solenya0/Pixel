@@ -81,7 +81,7 @@ public abstract class Model {
     }
     public void isValid() throws ValidationException, ConnectionException { }
 
-    public static Model loadObj(int id, Class<? extends Model> x) throws ConnectionException {
+    public static <T extends Model> T loadObj(int id, Class<T> x) throws ConnectionException {
         try {
             FileReader file = new FileReader(getDataSourceByClass(x) + "/" + id + ".json");
             logger.info("File has been used - " + file);

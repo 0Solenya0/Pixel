@@ -34,7 +34,7 @@ public class Relation extends Model {
 
     /** Must be in every model section **/
     public static Relation get(int id) throws ConnectionException {
-        return (Relation) loadObj(id, Relation.class);
+        return loadObj(id, Relation.class);
     }
     public static RelationFilter getFilter() throws ConnectionException {
         return new RelationFilter();

@@ -308,7 +308,7 @@ public class User extends Model {
 
     /** Must be in every model section **/
     public static User get(int id) throws ConnectionException {
-        return (User) loadObj(id, User.class);
+        return loadObj(id, User.class);
     }
     public static UserFilter getFilter() throws ConnectionException {
         return new UserFilter();

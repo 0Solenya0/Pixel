@@ -86,7 +86,7 @@ public class Notification extends Model {
 
     /** Must be in every model section **/
     public static Notification get(int id) throws ConnectionException {
-        return (Notification) loadObj(id, Notification.class);
+        return loadObj(id, Notification.class);
     }
     public static NotificationFilter getFilter() throws ConnectionException {
         return new NotificationFilter();

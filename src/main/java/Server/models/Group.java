@@ -48,7 +48,7 @@ public class Group extends Model {
     }
 
     public static Group get(int id) throws ConnectionException {
-        return (Group) loadObj(id, Group.class);
+        return loadObj(id, Group.class);
     }
     public void isValid() throws ValidationException {
         if (users.contains(owner)) {
