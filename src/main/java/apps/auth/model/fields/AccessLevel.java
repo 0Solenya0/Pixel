@@ -1,4 +1,4 @@
-package Server.models.Fields;
+package apps.auth.model.fields;
 
 public enum AccessLevel {
     PUBLIC,

@@ -1,6 +1,6 @@
-package Server.models.Fields;
+package apps.auth.model.fields;
 
-public class UserField<E> {
+public class LockedField<E> {
     public AccessLevel accessLevel;
     private E value;
 
