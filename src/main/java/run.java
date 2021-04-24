@@ -1,5 +1,7 @@
+import view.ViewManager;
+
 public class run {
     public static void main(String[] args) {
-        Main.main(args);
+        ViewManager.main(args);
     }
 }
