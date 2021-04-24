@@ -1,10 +1,11 @@
-package db;
+package db.dbSet;
 
 import db.gsonAdapter.LocalDateAdapter;
 import db.gsonAdapter.LocalDateTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import db.exception.ConnectionException;
+import db.queryBuilder.QueryBuilder;
 import model.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public abstract class DBSet<T extends Model> {
     private static final Logger logger = LogManager.getLogger(DBSet.class);
@@ -49,6 +52,21 @@ public abstract class DBSet<T extends Model> {
             logger.error("Can't Read Database Record File - " + e.getMessage());
             throw new ConnectionException();
         }
+    }
+
+    public ArrayList<T> getAll(Predicate<T> query) throws ConnectionException {
+        ArrayList<T> res = new ArrayList<>();
+        for (int i = 1; i <= getLastId(); i++)
+            if (query.test(get(i)))
+                res.add(get(i));
+        return res;
+    }
+
+    public T getFirst(Predicate<T> query) throws ConnectionException {
+        for (int i = 1; i <= getLastId(); i++)
+            if (query.test(get(i)))
+                return get(i);
+        return null;
     }
 
     public void delete(T model) throws ConnectionException {
@@ -90,5 +108,9 @@ public abstract class DBSet<T extends Model> {
 
         logger.info(String.format("An instance of %s with id %s got saved.", modelClass.getClass(), model.id));
         return model;
+    }
+
+    public QueryBuilder<T> getQueryBuilder() {
+        return new QueryBuilder<T>();
     }
 }

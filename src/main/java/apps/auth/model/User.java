@@ -55,4 +55,52 @@ public class User extends Model {
     public void validate() {
 
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public LockedField<String> getMail() {
+        return mail;
+    }
+
+    public void setMail(LockedField<String> mail) {
+        this.mail = mail;
+    }
+
+    public LockedField<String> getPhone() {
+        return phone;
+    }
+
+    public void setPhone(LockedField<String> phone) {
+        this.phone = phone;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
 }

@@ -1,6 +1,6 @@
 package db;
 
-import apps.auth.model.User;
+import db.dbSet.UserDBSet;
 
 public class Context {
     public UserDBSet users = new UserDBSet();
