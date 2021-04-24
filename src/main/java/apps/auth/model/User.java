@@ -51,11 +51,6 @@ public class User extends Model {
         this.visibility = AccessLevel.PUBLIC;
     }
 
-    @Override
-    public void validate() {
-
-    }
-
     public String getName() {
         return name;
     }

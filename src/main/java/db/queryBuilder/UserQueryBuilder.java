@@ -4,6 +4,10 @@ import apps.auth.model.User;
 
 public class UserQueryBuilder extends QueryBuilder<User> {
 
+    public UserQueryBuilder() {
+        super();
+    }
+
     public UserQueryBuilder getByUsername(String username) {
         return (UserQueryBuilder) addCustomFilter(user -> user.getUsername().equals(username));
     }

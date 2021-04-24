@@ -12,5 +12,4 @@ public abstract class Model {
         isDeleted = false;
     }
 
-    public abstract void validate();
 }

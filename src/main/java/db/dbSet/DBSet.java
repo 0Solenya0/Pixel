@@ -1,5 +1,6 @@
 package db.dbSet;
 
+import db.exception.ValidationException;
 import db.gsonAdapter.LocalDateAdapter;
 import db.gsonAdapter.LocalDateTimeAdapter;
 import com.google.gson.Gson;
@@ -71,15 +72,21 @@ public abstract class DBSet<T extends Model> {
 
     public void delete(T model) throws ConnectionException {
         model.isDeleted = true;
-        save(model);
+        try {
+            save(model);
+        }
+        catch (ValidationException exception) {
+            logger.error("Unexpected validation error while deleting a model");
+            return;
+        }
         logger.info("Model successfully deleted - " + modelClass.getName() + " - id: " + model.id);
     }
 
-    public T save(T model) throws ConnectionException {
+    public T save(T model) throws ConnectionException, ValidationException {
         logger.info(String.format("Start saving model to database - An instance of %s with id %s is getting saved.", model.getClass(), model.id));
 
         if (!model.isDeleted)
-            model.validate();
+            validate(model);
 
         if (model.id == 0) {
             model.id = getLastId() + 1;
@@ -98,7 +105,7 @@ public abstract class DBSet<T extends Model> {
                     .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                     .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                     .create();
-            gson.toJson(this, writer);
+            gson.toJson(model, writer);
             writer.flush();
         }
         catch (IOException e) {
@@ -109,6 +116,8 @@ public abstract class DBSet<T extends Model> {
         logger.info(String.format("An instance of %s with id %s got saved.", modelClass.getClass(), model.id));
         return model;
     }
+
+    public abstract void validate(T model) throws ConnectionException, ValidationException;
 
     public QueryBuilder<T> getQueryBuilder() {
         return new QueryBuilder<T>();
