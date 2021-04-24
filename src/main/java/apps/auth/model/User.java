@@ -103,4 +103,8 @@ public class User extends Model {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
 }
