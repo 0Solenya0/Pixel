@@ -74,6 +74,11 @@ public class RegistrationController extends Controller implements Initializable 
             showErrors(validationException);
             return;
         }
+        if (txtPassword.getText().length() == 0) {
+            validationException.addError("PasswordRepeat", "Enter a password");
+            showErrors(validationException);
+            return;
+        }
         User user = new User(
                 txtName.getText(),
                 txtSurname.getText(),
