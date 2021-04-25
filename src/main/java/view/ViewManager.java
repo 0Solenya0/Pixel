@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ViewManager extends Application {
 
     private static Stage window;
-    public static Scene loginView, registrationView;
+    public static Scene loginView, registrationView, mainView;
 
     public static void main(String[] args) {
         launch(args);
@@ -24,10 +24,13 @@ public class ViewManager extends Application {
                     new Scene(FXMLLoader.load(getClass().getResource("/apps/auth/LoginView.fxml")));
             registrationView =
                     new Scene(FXMLLoader.load(getClass().getResource("/apps/auth/RegistrationView.fxml")));
+            mainView =
+                    new Scene(FXMLLoader.load(getClass().getResource("/view/MainPanel.fxml")));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addScene(loginView);
+        addScene(mainView);
     }
 
     public static void addScene(Scene scene) {

@@ -20,6 +20,8 @@ repositories {
 dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+    compile group: 'org.kordamp.ikonli', name: 'ikonli-materialdesign-pack', version: '11.3.5'
+    compile group: 'org.kordamp.ikonli', name: 'ikonli-javafx', version: '11.3.5'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.jfoenix:jfoenix:9.0.10'
     testCompile group: 'junit', name: 'junit', version: '4.12'
