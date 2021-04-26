@@ -10,14 +10,17 @@ import db.dbSet.UserDBSet;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.SuccessDialog;
 
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class TweetInputController extends Controller {
+public class TweetInputController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(TweetInputController.class);
 
     @FXML
@@ -37,6 +40,7 @@ public class TweetInputController extends Controller {
     }
 
     public void tweet() throws ConnectionException {
+        resetErrorFields();
         if (apps.auth.State.getUser() == null) {
             ValidationException validationException = new ValidationException();
             validationException.addError("Global", "You are not logged in");
@@ -53,5 +57,15 @@ public class TweetInputController extends Controller {
             return;
         }
         SuccessDialog.show("Tweeted successfully!");
+    }
+
+    public void resetErrorFields() {
+        lblContentErr.setText("");
+        lblGlobalErr.setText("");
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        resetErrorFields();
     }
 }

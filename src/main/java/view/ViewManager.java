@@ -33,16 +33,15 @@ public class ViewManager extends Application {
             registrationView =
                     new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(authConfig.getProperty("LOGIN_VIEW")))));
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Pane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(config.getProperty("MAIN_PANEL"))));
-            mainView = new Scene(p);
+            fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(config.getProperty("MAIN_PANEL"))));
+            Pane pane = fxmlLoader.load();
+            mainView = new Scene(pane);
             mainPanelController = fxmlLoader.getController();
-            Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(config.getProperty("TWEET_INPUT_VIEW"))));
-            //mainPanelController.changeCenterPane(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        setScene(mainView);
+        setScene(loginView);
     }
 
     public static void setScene(Scene scene) {

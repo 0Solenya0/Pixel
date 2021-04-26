@@ -53,9 +53,7 @@ public class RegistrationController extends Controller implements Initializable 
     }
 
     public void showErrors(ValidationException e) {
-        emailErr.setText("");
-        passwordErr.setText("");
-        usernameErr.setText("");
+        resetErrorFields();
         if (e.getErrors("Email") != null)
             emailErr.setText(e.getErrors("Email").get(0));
         if (e.getErrors("PasswordRepeat") != null)
@@ -65,9 +63,7 @@ public class RegistrationController extends Controller implements Initializable 
     }
 
     public void register() throws ConnectionException {
-        emailErr.setText("");
-        passwordErr.setText("");
-        usernameErr.setText("");
+        resetErrorFields();
         ValidationException validationException = new ValidationException();
         if (!txtPassword.getText().equals(txtPasswordRepeat.getText())) {
             validationException.addError("PasswordRepeat", "Passwords doesn't match");
@@ -98,10 +94,14 @@ public class RegistrationController extends Controller implements Initializable 
         switchToLogin();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void resetErrorFields() {
         emailErr.setText("");
         passwordErr.setText("");
         usernameErr.setText("");
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        resetErrorFields();
     }
 }

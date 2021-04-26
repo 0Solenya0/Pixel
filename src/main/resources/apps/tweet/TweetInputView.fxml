@@ -19,7 +19,7 @@
             <Font name="Gargi" size="18.0" />
          </font>
       </JFXButton>
-      <Label fx:id="lblContentErr" layoutX="21.0" layoutY="328.0" prefHeight="16.0" prefWidth="154.0" text="Content erros" textFill="RED" />
-      <Label fx:id="lblGlobalErr" layoutX="352.0" layoutY="421.0" prefHeight="10.0" prefWidth="227.0" text="Global errors" textFill="RED" />
+      <Label fx:id="lblContentErr" layoutX="21.0" layoutY="328.0" prefHeight="16.0" prefWidth="463.0" text="Content erros" textFill="RED" />
+      <Label fx:id="lblGlobalErr" layoutX="276.0" layoutY="421.0" prefHeight="16.0" prefWidth="303.0" text="Global errors" textFill="RED" />
    </children>
 </AnchorPane>
