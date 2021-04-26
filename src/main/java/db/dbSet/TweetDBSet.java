@@ -4,6 +4,7 @@ import apps.auth.model.User;
 import apps.tweet.model.Tweet;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
+import db.queryBuilder.TweetQueryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,5 +26,10 @@ public class TweetDBSet extends DBSet<Tweet> {
             logger.debug(validationException.getLog());
             throw validationException;
         }
+    }
+
+    @Override
+    public TweetQueryBuilder getQueryBuilder() {
+        return new TweetQueryBuilder();
     }
 }
