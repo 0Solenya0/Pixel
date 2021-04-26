@@ -1,16 +1,24 @@
 package view;
 
+import config.Config;
+import controller.MainPanelController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class ViewManager extends Application {
+    private Config authConfig = Config.getConfig("AUTH_APP_CONFIG");
+    private Config config = Config.getConfig("mainConfig");
 
     private static Stage window;
     public static Scene loginView, registrationView, mainView;
+    public static MainPanelController mainPanelController;
 
     public static void main(String[] args) {
         launch(args);
@@ -21,20 +29,28 @@ public class ViewManager extends Application {
         window = primaryStage;
         try {
             loginView =
-                    new Scene(FXMLLoader.load(getClass().getResource("/apps/auth/LoginView.fxml")));
+                    new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(authConfig.getProperty("LOGIN_VIEW")))));
             registrationView =
-                    new Scene(FXMLLoader.load(getClass().getResource("/apps/auth/RegistrationView.fxml")));
-            mainView =
-                    new Scene(FXMLLoader.load(getClass().getResource("/view/MainPanel.fxml")));
-
+                    new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(authConfig.getProperty("LOGIN_VIEW")))));
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Pane p = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(config.getProperty("MAIN_PANEL"))));
+            mainView = new Scene(p);
+            mainPanelController = fxmlLoader.getController();
+            Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(config.getProperty("TWEET_INPUT_VIEW"))));
+            //mainPanelController.changeCenterPane(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addScene(mainView);
+
+        setScene(mainView);
     }
 
-    public static void addScene(Scene scene) {
+    public static void setScene(Scene scene) {
         window.setScene(scene);
         window.show();
+    }
+
+    public static void changeCenter(Pane pane) {
+        mainPanelController.changeCenterPane(pane);
     }
 }

@@ -33,11 +33,12 @@ public class LoginController extends Controller {
             wrongInput();
         else  {
             State.updateUser(user.id);
+            ViewManager.setScene(ViewManager.mainView);
         }
     }
 
     public void switchToRegister() {
-        ViewManager.addScene(ViewManager.registrationView);
+        ViewManager.setScene(ViewManager.registrationView);
     }
 
     public void wrongInput() {

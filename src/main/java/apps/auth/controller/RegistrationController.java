@@ -6,8 +6,8 @@ import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
+import view.SuccessDialog;
 import view.ViewManager;
 
 import java.net.URL;
@@ -49,7 +49,7 @@ public class RegistrationController extends Controller implements Initializable 
     private Label usernameErr;
 
     public void switchToLogin() {
-        ViewManager.addScene(ViewManager.loginView);
+        ViewManager.setScene(ViewManager.loginView);
     }
 
     public void showErrors(ValidationException e) {
@@ -94,11 +94,7 @@ public class RegistrationController extends Controller implements Initializable 
             showErrors(e);
             return;
         }
-        Dialog dialog = new Dialog();
-        dialog.setTitle("success");
-        dialog.setContentText("Registered successfully!");
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.showAndWait();
+        SuccessDialog.show("Registered successfully!");
         switchToLogin();
     }
 
