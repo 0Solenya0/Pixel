@@ -22,6 +22,13 @@ public class Tweet extends Model {
         this.content = text;
     }
 
+    public Tweet(User author, int reTweet) {
+        super();
+        likes = new TreeSet<>();
+        this.author = author.id;
+        this.reTweet = reTweet;
+    }
+
     public int getParentTweet() {
         return parentTweet;
     }
@@ -48,5 +55,21 @@ public class Tweet extends Model {
 
     public String getContent() {
         return content;
+    }
+
+    public void addLike(User user) {
+        likes.add(user.id);
+    }
+
+    public void removeLike(User user) {
+        likes.remove(user.id);
+    }
+
+    public boolean containsLike(User user) {
+        return likes.contains(user.id);
+    }
+
+    public TreeSet<Integer> getLikes() {
+        return likes;
     }
 }

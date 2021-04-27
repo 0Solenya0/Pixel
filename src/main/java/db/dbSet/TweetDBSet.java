@@ -19,13 +19,23 @@ public class TweetDBSet extends DBSet<Tweet> {
         ValidationException validationException = new ValidationException();
         if (model.getAuthor() == 0)
             validationException.addError("Author", "Tweet author is not valid.");
-        if (model.getContent().isBlank() && model.getReTweet() == 0)
+        if ((model.getContent() == null || model.getContent().isBlank()) && model.getReTweet() == 0)
             validationException.addError("Content", "Tweet doesn't have any content.");
 
         if (validationException.hasError()) {
             logger.debug(validationException.getLog());
             throw validationException;
         }
+    }
+
+    public void likeTweet(Tweet tweet, User user) throws ConnectionException {
+        tweet = get(tweet.id);
+        tweet.addLike(user);
+    }
+
+    public void dislikeTweet(Tweet tweet, User user) throws ConnectionException {
+        tweet = get(tweet.id);
+        tweet.removeLike(user);
     }
 
     @Override
