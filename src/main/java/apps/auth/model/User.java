@@ -102,4 +102,20 @@ public class User extends Model {
     public boolean checkPassword(String password) {
         return this.password.equals(password);
     }
+
+    public void muteUser(User user) {
+        muted.add(user.id);
+    }
+
+    public void unMuteUser(User user) {
+        muted.remove(user.id);
+    }
+
+    public boolean isMuted(User user) {
+        return muted.contains(user.id);
+    }
+
+    public AccessLevel getVisibility() {
+        return visibility;
+    }
 }

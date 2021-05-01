@@ -1,6 +1,8 @@
 package db.dbSet;
 
 import apps.auth.model.User;
+import apps.relation.model.Relation;
+import apps.relation.model.field.RelStatus;
 import apps.tweet.model.Tweet;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
@@ -31,11 +33,25 @@ public class TweetDBSet extends DBSet<Tweet> {
     public void likeTweet(Tweet tweet, User user) throws ConnectionException {
         tweet = get(tweet.id);
         tweet.addLike(user);
+        try {
+            save(tweet);
+        }
+        catch (ValidationException e) {
+            logger.error("like tweet failed by unexpected validation error");
+            logger.error(e.getLog());
+        }
     }
 
     public void dislikeTweet(Tweet tweet, User user) throws ConnectionException {
         tweet = get(tweet.id);
         tweet.removeLike(user);
+        try {
+            save(tweet);
+        }
+        catch (ValidationException e) {
+            logger.error("dislike tweet failed by unexpected validation error");
+            logger.error(e.getLog());
+        }
     }
 
     @Override

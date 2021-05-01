@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import db.exception.ConnectionException;
 import db.queryBuilder.QueryBuilder;
+import listener.ListenableClass;
 import model.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-public abstract class DBSet<T extends Model> {
+public abstract class DBSet<T extends Model> implements ListenableClass {
     private static final Logger logger = LogManager.getLogger(DBSet.class);
     Class<T> modelClass;
 

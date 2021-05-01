@@ -52,4 +52,8 @@ public class ViewManager extends Application {
     public static void changeCenter(Pane pane) {
         mainPanelController.changeCenterPane(pane);
     }
+
+    public static void connectionFailed() {
+
+    }
 }
