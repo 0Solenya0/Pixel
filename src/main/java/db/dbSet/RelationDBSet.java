@@ -28,8 +28,10 @@ public class RelationDBSet extends DBSet<Relation> {
         Relation relation = getFirst(getQueryBuilder().getByTwoUser(model.getSender(), model.getReceiver()).getQuery());
         if (relation != null && model.id != relation.id)
             validationException.addError("Relation","Relationship already exists");
-        if (validationException.hasError())
+        if (validationException.hasError()) {
+            logger.debug(validationException.getLog());
             throw validationException;
+        }
     }
 
     @Override
