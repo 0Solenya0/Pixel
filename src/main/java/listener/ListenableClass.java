@@ -8,4 +8,8 @@ public interface ListenableClass {
         for (StringListener listener: listeners)
             listener.listen(s);
     }
+
+    default void addListener(StringListener stringListener)  {
+        listeners.add(stringListener);
+    }
 }
