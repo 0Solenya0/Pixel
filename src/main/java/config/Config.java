@@ -12,6 +12,10 @@ public class Config extends Properties {
     private static final String DEFAULT_ADDRESS = "main.properties";
     private static final Config MAIN_CONFIG = new Config(DEFAULT_ADDRESS);
 
+    public static Config getLanguageConfig() {
+        return getConfig("LANG_CONFIG");
+    }
+
     public static Config getConfig(String name) {
         if ("mainConfig".equals(name))
             return MAIN_CONFIG;

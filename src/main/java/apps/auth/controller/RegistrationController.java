@@ -16,37 +16,16 @@ import java.util.ResourceBundle;
 public class RegistrationController extends Controller implements Initializable {
 
     @FXML
-    private TextField txtEmail;
+    private TextField txtEmail, txtSurname, txtName, txtUsername;
 
     @FXML
-    private TextField txtSurname;
+    private PasswordField txtPasswordRepeat, txtPassword;
 
     @FXML
-    private TextField txtName;
+    private Button btnRegister, btnLogin;
 
     @FXML
-    private PasswordField txtPasswordRepeat;
-
-    @FXML
-    private PasswordField txtPassword;
-
-    @FXML
-    private Button btnRegister;
-
-    @FXML
-    private Button btnLogin;
-
-    @FXML
-    private TextField txtUsername;
-
-    @FXML
-    private Label emailErr;
-
-    @FXML
-    private Label passwordErr;
-
-    @FXML
-    private Label usernameErr;
+    private Label emailErr, passwordErr, usernameErr;
 
     public void switchToLogin() {
         ViewManager.setScene(ViewManager.loginView);
