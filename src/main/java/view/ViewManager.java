@@ -31,7 +31,7 @@ public class ViewManager extends Application {
             loginView =
                     new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(authConfig.getProperty("LOGIN_VIEW")))));
             registrationView =
-                    new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(authConfig.getProperty("LOGIN_VIEW")))));
+                    new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(authConfig.getProperty("REGISTRATION_VIEW")))));
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(config.getProperty("MAIN_PANEL"))));
             Pane pane = fxmlLoader.load();

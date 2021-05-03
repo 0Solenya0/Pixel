@@ -9,11 +9,11 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.RegistrationController">
    <children>
-      <Label layoutX="191.0" layoutY="103.0" text="Name:" />
-      <Label layoutX="170.0" layoutY="128.0" text="Surname:" />
-      <Label layoutX="169.0" layoutY="158.0" text="Password:" />
-      <Label layoutX="118.0" layoutY="183.0" text="Password Repeat:" />
-      <Label layoutX="192.0" layoutY="213.0" text="Email:" />
+      <Label fx:id="lblName" layoutX="191.0" layoutY="103.0" text="Name:" />
+      <Label fx:id="lblSurname" layoutX="170.0" layoutY="128.0" text="Surname:" />
+      <Label fx:id="lblPassword" layoutX="169.0" layoutY="158.0" text="Password:" />
+      <Label fx:id="lblRepeatPassword" layoutX="118.0" layoutY="183.0" text="Password Repeat:" />
+      <Label fx:id="lblEmail" layoutX="192.0" layoutY="213.0" text="Email:" />
       <TextField fx:id="txtUsername" layoutX="243.0" layoutY="64.0" prefHeight="24.0" prefWidth="98.0" />
       <TextField fx:id="txtName" layoutX="243.0" layoutY="99.0" prefHeight="24.0" prefWidth="74.0" />
       <TextField fx:id="txtSurname" layoutX="243.0" layoutY="124.0" prefHeight="24.0" prefWidth="98.0" />

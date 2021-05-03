@@ -1,6 +1,7 @@
 package apps.auth.controller;
 
 import apps.auth.model.User;
+import config.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
@@ -14,6 +15,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RegistrationController extends Controller implements Initializable {
+    private Config config = Config.getLanguageConfig();
 
     @FXML
     private TextField txtEmail, txtSurname, txtName, txtUsername;
@@ -25,7 +27,8 @@ public class RegistrationController extends Controller implements Initializable 
     private Button btnRegister, btnLogin;
 
     @FXML
-    private Label emailErr, passwordErr, usernameErr;
+    private Label emailErr, passwordErr, usernameErr, lblName, lblSurname, lblPassword, lblRepeatPassword,
+        lblEmail;
 
     public void switchToLogin() {
         ViewManager.setScene(ViewManager.loginView);
@@ -82,5 +85,12 @@ public class RegistrationController extends Controller implements Initializable 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resetErrorFields();
+        btnRegister.setText(config.getProperty("REGISTER_BTN_TEXT"));
+        btnLogin.setText(config.getProperty("LOGIN_BTN_TEXT"));
+        lblName.setText(config.getProperty("NAME_LABEL"));
+        lblSurname.setText(config.getProperty("SURNAME_LABEL"));
+        lblPassword.setText(config.getProperty("PASSWORD_LABEL"));
+        lblRepeatPassword.setText(config.getProperty("REPEAT_PASSWORD_LABEL"));
+        lblEmail.setText(config.getProperty("EMAIL_LABEL"));
     }
 }
