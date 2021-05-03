@@ -9,7 +9,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetInputController">
    <children>
       <JFXTextArea fx:id="txtTweet" layoutX="21.0" layoutY="114.0" prefHeight="206.0" prefWidth="559.0" />
-      <Label layoutX="14.0" layoutY="65.0" text="Write your tweet:">
+      <Label fx:id="lblInputTweet" layoutX="14.0" layoutY="65.0" text="Write your tweet:">
          <font>
             <Font name="Gargi" size="15.0" />
          </font>

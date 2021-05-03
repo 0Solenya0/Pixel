@@ -30,7 +30,6 @@ public class TweetController extends Controller {
     @FXML
     private HBox hboxForeign;
 
-
     @FXML
     private FontAwesomeIconView iconLike;
 

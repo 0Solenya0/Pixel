@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 public class TweetInputController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(TweetInputController.class);
+    private Config config = Config.getLanguageConfig();
 
     @FXML
     private JFXTextArea txtTweet;
@@ -30,7 +31,7 @@ public class TweetInputController extends Controller implements Initializable {
     private JFXButton btnTweet;
 
     @FXML
-    private Label lblContentErr, lblGlobalErr;
+    private Label lblContentErr, lblGlobalErr, lblInputTweet;
 
     public void showError(ValidationException e) {
         if (e.getErrors("Global") != null)
@@ -67,5 +68,8 @@ public class TweetInputController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         resetErrorFields();
+        txtTweet.setPromptText(config.getProperty("TWEET_INPUT_PROMPT"));
+        lblInputTweet.setText(config.getProperty("TWEET_INPUT_LABEL"));
+        btnTweet.setText(config.getProperty("TWEET_BTN_TEXT"));
     }
 }
