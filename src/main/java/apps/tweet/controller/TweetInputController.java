@@ -12,6 +12,7 @@ import db.exception.ValidationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.SuccessDialog;
@@ -71,5 +72,7 @@ public class TweetInputController extends Controller implements Initializable {
         txtTweet.setPromptText(config.getProperty("TWEET_INPUT_PROMPT"));
         lblInputTweet.setText(config.getProperty("TWEET_INPUT_LABEL"));
         btnTweet.setText(config.getProperty("TWEET_BTN_TEXT"));
+        lblGlobalErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        lblContentErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
     }
 }
