@@ -8,6 +8,7 @@ import db.exception.ValidationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.paint.Paint;
 import view.SuccessDialog;
 import view.ViewManager;
 
@@ -92,5 +93,8 @@ public class RegistrationController extends Controller implements Initializable 
         lblPassword.setText(config.getProperty("PASSWORD_LABEL"));
         lblRepeatPassword.setText(config.getProperty("REPEAT_PASSWORD_LABEL"));
         lblEmail.setText(config.getProperty("EMAIL_LABEL"));
+        emailErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        usernameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        passwordErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
     }
 }
