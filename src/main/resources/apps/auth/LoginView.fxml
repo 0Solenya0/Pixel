@@ -9,10 +9,10 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.LoginController">
    <children>
       <TextField fx:id="txtUsername" layoutX="248.0" layoutY="146.0" promptText="username" />
+      <PasswordField fx:id="txtPassword" layoutX="248.0" layoutY="188.0" promptText="password" />
       <Label fx:id="lblUsername" layoutX="164.0" layoutY="150.0" text="Username:" />
       <Label fx:id="lblPassword" layoutX="164.0" layoutY="192.0" text="Password:" />
       <Button fx:id="btnLogin" layoutX="217.0" layoutY="236.0" mnemonicParsing="false" onAction="#login" text="Login" />
       <Button fx:id="btnRegister" layoutX="303.0" layoutY="236.0" mnemonicParsing="false" onAction="#switchToRegister" text="Register" />
-      <PasswordField fx:id="txtPassword" layoutX="248.0" layoutY="188.0" promptText="password" />
    </children>
 </AnchorPane>

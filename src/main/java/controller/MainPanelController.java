@@ -45,9 +45,13 @@ public class MainPanelController extends Controller implements Initializable {
         borderPane.setCenter(pane);
     }
 
-    public void btnPostTweetClicked() throws IOException, ConnectionException {
+    public void showPostTweetPage() throws IOException {
         Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(config.getProperty("TWEET_INPUT_VIEW"))));
         ViewManager.changeCenter(pane);
+    }
+
+    public void showHomePage() {
+        showTweetList(getTimelineTweets());
     }
 
     public ArrayList<Tweet> getTimelineTweets() {
@@ -75,6 +79,5 @@ public class MainPanelController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        showTweetList(getTimelineTweets());
     }
 }

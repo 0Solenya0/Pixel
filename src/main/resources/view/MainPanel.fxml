@@ -17,7 +17,7 @@
                   <DropShadow />
                </effect>
                <children>
-                  <JFXButton fx:id="btnHome" alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="201.0" text="Home">
+                  <JFXButton fx:id="btnHome" alignment="BASELINE_LEFT" onAction="#showHomePage" prefHeight="55.0" prefWidth="201.0" text="Home">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
@@ -25,7 +25,7 @@
                         <Font name="Laksaman" size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnPostTweet" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="30.0" onAction="#btnPostTweetClicked" prefHeight="55.0" prefWidth="201.0" text="Post tweet">
+                  <JFXButton fx:id="btnPostTweet" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="30.0" onAction="#showPostTweetPage" prefHeight="55.0" prefWidth="201.0" text="Post tweet">
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
