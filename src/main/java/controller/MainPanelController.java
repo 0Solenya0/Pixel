@@ -26,10 +26,7 @@ import view.ViewManager;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainPanelController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(MainPanelController.class);
@@ -50,14 +47,22 @@ public class MainPanelController extends Controller implements Initializable {
         ViewManager.changeCenter(pane);
     }
 
-    public void showHomePage() {
+    public void showHomePage() throws ConnectionException {
         showTweetList(getTimelineTweets());
     }
 
-    public ArrayList<Tweet> getTimelineTweets() {
+    public ArrayList<Tweet> getTimelineTweets() throws ConnectionException {
         ArrayList<Tweet> tweets = new ArrayList<>();
-        // for (User user: apps.auth.State.getUser())
-        // TO DO
+        User user = apps.auth.State.getUser();
+        for (User u: context.relations.getFollowing(apps.auth.State.getUser()))
+            if (!user.isMuted(u))
+                tweets.addAll(context.tweets.getAll(
+                        context.tweets.getQueryBuilder()
+                                .getByAuthorId(u.id)
+                                .getByParentTweet(0)
+                        .getQuery()
+                ));
+        tweets.sort(Comparator.comparingInt(t -> -t.id));
         return tweets;
     }
 

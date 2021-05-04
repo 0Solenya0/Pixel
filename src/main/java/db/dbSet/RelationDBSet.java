@@ -39,6 +39,26 @@ public class RelationDBSet extends DBSet<Relation> {
         return new RelationQueryBuilder();
     }
 
+    public ArrayList<User> getFollowers(User user) throws ConnectionException {
+        UserDBSet userDBSet = new UserDBSet();
+        ArrayList<Relation> rel = getAll(getQueryBuilder()
+                .getByUser2(user).getByType(RelStatus.FOLLOW).getEnabled().getQuery());
+        ArrayList<User> res = new ArrayList<>();
+        for (Relation relation : rel)
+            res.add(userDBSet.get(relation.getSender()));
+        return res;
+    }
+
+    public ArrayList<User> getFollowing(User user) throws ConnectionException {
+        UserDBSet userDBSet = new UserDBSet();
+        ArrayList<Relation> rel = getAll(getQueryBuilder()
+                .getByUser1(user).getByType(RelStatus.FOLLOW).getEnabled().getQuery());
+        ArrayList<User> res = new ArrayList<>();
+        for (Relation relation : rel)
+            res.add(userDBSet.get(relation.getReceiver()));
+        return res;
+    }
+
     public void follow(User user, User user2) throws ConnectionException {
         Relation relation = getFirst(getQueryBuilder().getByTwoUser(user.id, user2.id).getQuery());
         try {

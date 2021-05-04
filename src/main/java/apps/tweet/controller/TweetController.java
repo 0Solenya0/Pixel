@@ -52,8 +52,9 @@ public class TweetController extends Controller {
     }
 
     @FXML
-    void btnMuteClicked(ActionEvent event) {
-        // TO DO
+    void btnMuteClicked(ActionEvent event) throws ConnectionException {
+        context.users.muteUser(apps.auth.State.getUser(), context.users.get(currentTweet.getAuthor()));
+        updateCard();
     }
 
     @FXML
@@ -94,6 +95,7 @@ public class TweetController extends Controller {
         User user = apps.auth.State.getUser();
         lblAuthor.setText("@" + context.users.get(currentTweet.getAuthor()).getUsername());
         // TO DO Handle retweets
+        // TO DO Handle Muted Author
         lblTweet.setText(currentTweet.getContent());
         if (currentTweet.containsLike(user))
             iconLike.setGlyphName("HEART");

@@ -40,6 +40,7 @@ public class LoginController extends Controller implements Initializable {
             wrongInput();
         else  {
             State.updateUser(user.id);
+            ViewManager.mainPanelController.showHomePage();
             ViewManager.setScene(ViewManager.mainView);
         }
     }

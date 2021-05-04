@@ -37,7 +37,6 @@ public class ViewManager extends Application {
             Pane pane = fxmlLoader.load();
             mainView = new Scene(pane);
             mainPanelController = fxmlLoader.getController();
-            mainPanelController.showHomePage();
         } catch (IOException e) {
             e.printStackTrace();
         }
