@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="555.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetListController">
+<AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetListController">
    <children>
-      <ScrollPane prefHeight="555.0" prefWidth="615.0">
+      <ScrollPane prefHeight="755.0" prefWidth="1000.0">
         <content>
-          <AnchorPane prefWidth="595.0">
+          <AnchorPane prefWidth="1000.0">
                <children>
                   <VBox fx:id="containerPane" prefWidth="595.0" />
                </children></AnchorPane>

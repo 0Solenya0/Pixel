@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="556.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPanelController">
+<AnchorPane prefHeight="755.0" prefWidth="1210.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainPanelController">
    <children>
-      <BorderPane fx:id="borderPane" layoutX="-4.0" layoutY="-4.0" prefHeight="556.0" prefWidth="774.0">
+      <BorderPane fx:id="borderPane" layoutX="-4.0" layoutY="-4.0" prefHeight="755.0" prefWidth="1210.0">
          <left>
-            <VBox alignment="TOP_CENTER" prefHeight="556.0" prefWidth="177.0" style="-fx-background-color: F0F7FF;" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="755.0" prefWidth="210.0" style="-fx-background-color: F0F7FF;" BorderPane.alignment="CENTER">
                <effect>
                   <DropShadow />
                </effect>

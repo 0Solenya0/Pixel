@@ -8,18 +8,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="200.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetController">
+<AnchorPane prefHeight="261.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetController">
    <children>
-      <Label fx:id="lblAuthor" layoutY="14.0" prefHeight="19.0" prefWidth="318.0" text="Author">
+      <Label fx:id="lblAuthor" layoutX="14.0" layoutY="7.0" prefHeight="19.0" prefWidth="318.0" text="Author">
          <font>
-            <Font name="Gargi" size="16.0" />
+            <Font name="Gargi" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="lblTweet" alignment="TOP_LEFT" layoutX="14.0" layoutY="44.0" prefHeight="100.0" prefWidth="579.0" style="-fx-background-color: #D6E9FF;" text="Tweet content">
+      <Label fx:id="lblTweet" alignment="TOP_LEFT" layoutX="22.0" layoutY="44.0" prefHeight="163.0" prefWidth="952.0" style="-fx-background-color: #D6E9FF;" text="Tweet content">
          <padding>
             <Insets left="10.0" top="10.0" />
-         </padding></Label>
-      <HBox alignment="CENTER_RIGHT" layoutX="315.0" layoutY="148.0" prefHeight="38.0" prefWidth="271.0">
+         </padding>
+         <font>
+            <Font size="19.0" />
+         </font></Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="708.0" layoutY="209.0" prefHeight="38.0" prefWidth="271.0">
          <children>
             <JFXButton fx:id="btnSave" contentDisplay="CENTER" ellipsisString="" onAction="#btnSaveClicked" prefHeight="28.0" prefWidth="14.0" textAlignment="CENTER">
                <graphic>
@@ -48,7 +51,7 @@
             </JFXButton>
          </children>
       </HBox>
-      <HBox fx:id="hboxForeign" alignment="CENTER_LEFT" layoutX="14.0" layoutY="148.0" prefHeight="38.0" prefWidth="273.0">
+      <HBox fx:id="hboxForeign" alignment="CENTER_LEFT" layoutX="14.0" layoutY="209.0" prefHeight="38.0" prefWidth="273.0">
          <children>
             <JFXButton fx:id="btnMute" contentDisplay="CENTER" ellipsisString="" onAction="#btnMuteClicked" prefHeight="28.0" prefWidth="14.0" textAlignment="CENTER">
                <graphic>
