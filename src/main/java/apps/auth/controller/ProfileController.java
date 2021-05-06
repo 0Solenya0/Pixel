@@ -4,19 +4,27 @@ import apps.auth.State;
 import apps.auth.model.User;
 import apps.relation.model.Relation;
 import apps.relation.model.field.RelStatus;
+import apps.tweet.controller.TweetListController;
 import com.jfoenix.controls.JFXButton;
 import config.Config;
 import controller.Controller;
+import controller.MainPanelController;
 import db.exception.ConnectionException;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import view.ViewManager;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +32,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ProfileController extends Controller implements Initializable {
+    private static final Logger logger = LogManager.getLogger(ProfileController.class);
     private Config config = Config.getLanguageConfig();
 
     @FXML
@@ -111,6 +120,24 @@ public class ProfileController extends Controller implements Initializable {
         lblFullName.setText(userModel.getFullName());
         lblFollowerCnt.setText(String.valueOf(context.relations.getFollowers(userModel).size()));
         lblFollowingCnt.setText(String.valueOf(context.relations.getFollowing(userModel).size()));
+
+        FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
+        try {
+            Pane pane = fxmlLoader.load();
+            TweetListController tweetListController = fxmlLoader.getController();
+            tweetListController.addTweetList(context.tweets.getAll(
+                    context.tweets.getQueryBuilder()
+                    .getByAuthorId(userModel.id)
+                    .getByParentTweet(0).getQuery()
+            ));
+            tweetListController.resizeHeight(465);
+            tweetPane.getChildren().add(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        } catch (ConnectionException e) {
+            ViewManager.connectionFailed();
+        }
     }
 
     public void setUser(User user) throws ConnectionException {

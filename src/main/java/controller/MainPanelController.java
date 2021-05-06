@@ -17,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.ViewManager;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -42,8 +43,8 @@ public class MainPanelController extends Controller implements Initializable {
     }
 
     public void showHomePage() throws ConnectionException {
-        //showTweetList(getTimelineTweets()); TO DO DEBUG
-        showProfile(context.users.get(1));
+        showTweetList(getTimelineTweets());
+        //showProfile(context.users.get(1));
     }
 
     public ArrayList<Tweet> getTimelineTweets() throws ConnectionException {
@@ -77,10 +78,9 @@ public class MainPanelController extends Controller implements Initializable {
         }
     }
 
-
-    public void showTweetList(ArrayList<Tweet> tweets) {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(tweetAppConfig.getProperty("TWEET_LIST_VIEW"))));
+    public void showTweetList(ArrayList<Tweet> tweets) throws ConnectionException {
+        tweets.addAll(context.tweets.getAll(tweet -> true));
+        FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
         try {
             Pane pane = fxmlLoader.load();
             TweetListController tweetListController = fxmlLoader.getController();

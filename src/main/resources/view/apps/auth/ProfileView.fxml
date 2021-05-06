@@ -24,7 +24,7 @@
             <Font name="Gargi" size="22.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="tweetPane" layoutY="289.0" prefHeight="445.0" prefWidth="1000.0" style="-fx-background-color: red;" />
+      <AnchorPane fx:id="tweetPane" layoutY="289.0" prefHeight="465.0" prefWidth="1000.0" style="-fx-background-color: red;" />
       <Label fx:id="lblPastTweets" layoutX="429.0" layoutY="240.0" text="Past tweets">
          <font>
             <Font name="Gargi" size="26.0" />
