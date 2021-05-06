@@ -4,7 +4,6 @@ import apps.auth.model.User;
 import apps.notification.model.Notification;
 import apps.notification.model.field.NotificationType;
 import db.dbSet.*;
-import listener.StringListener;
 
 import java.util.Scanner;
 
@@ -17,7 +16,7 @@ public class Context {
     public GroupDBSet groups = new GroupDBSet();
 
     public Context() {
-        relations.addListener(s -> {
+        relations.addListenerToBus(s -> {
             try {
                 Scanner scanner = new Scanner(s);
                 String type = scanner.next();
@@ -62,7 +61,7 @@ public class Context {
 
             }
         });
-        notifications.addListener(s -> {
+        notifications.addListenerToBus(s -> {
             try {
                 Scanner scanner = new Scanner(s);
                 if ("ACCEPT".equals(scanner.next())) {

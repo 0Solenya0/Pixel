@@ -2,14 +2,14 @@ package listener;
 
 import java.util.ArrayList;
 
-public interface ListenableClass {
+public interface EventBus {
     ArrayList<StringListener> listeners = new ArrayList<>();
     default void broadcast(String s) {
         for (StringListener listener: listeners)
             listener.listen(s);
     }
 
-    default void addListener(StringListener stringListener)  {
+    default void addListenerToBus(StringListener stringListener)  {
         listeners.add(stringListener);
     }
 }

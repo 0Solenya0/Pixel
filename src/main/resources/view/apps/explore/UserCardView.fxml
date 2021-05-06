@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="131.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.explore.controller.UserCardController">
+   <children>
+      <ImageView fx:id="imgAvatar" fitHeight="100.0" fitWidth="100.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblUsername" layoutX="129.0" layoutY="16.0" text="Username">
+         <font>
+            <Font name="Gargi" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFullName" layoutX="129.0" layoutY="66.0" text="Full Name">
+         <font>
+            <Font name="Gargi" size="17.0" />
+         </font>
+      </Label>
+      <JFXButton layoutY="1.0" onAction="#cardClicked" prefHeight="131.0" prefWidth="515.0" />
+   </children>
+</AnchorPane>

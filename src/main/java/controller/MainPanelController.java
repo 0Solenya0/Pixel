@@ -27,9 +27,10 @@ public class MainPanelController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(MainPanelController.class);
     private Config tweetAppConfig = Config.getConfig("TWEET_APP_CONFIG");
     private Config authAppConfig = Config.getConfig("AUTH_APP_CONFIG");
+    private Config exploreAppConfig = Config.getConfig("EXPLORE_APP_CONFIG");
 
     @FXML
-    private JFXButton btnHome, btnPostTweet, btnMyProfile;
+    private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer;
 
     @FXML
     private BorderPane borderPane;
@@ -64,6 +65,18 @@ public class MainPanelController extends Controller implements Initializable {
 
     public void showMyProfile() throws ConnectionException {
         showProfile(State.getUser());
+    }
+
+    public void showExplorer() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(exploreAppConfig.getProperty("EXPLORE_VIEW")));
+        try {
+            Pane pane = fxmlLoader.load();
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        }
     }
 
     public void showProfile(User user) {

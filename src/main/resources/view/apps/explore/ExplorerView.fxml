@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.explore.controller.ExplorerController">
+   <children>
+      <TabPane layoutY="-3.0" prefHeight="755.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tabExploreUser" text="Find Friends!">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="txtUsername" layoutX="113.0" layoutY="23.0" onKeyTyped="#usernameChange">
+                           <font>
+                              <Font name="Gargi" size="13.0" />
+                           </font>
+                        </TextField>
+                        <Label fx:id="lblUsername" layoutX="20.0" layoutY="22.0" text="Username">
+                           <font>
+                              <Font name="Gargi" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblErr" layoutX="102.0" layoutY="175.0" text="No user found!" textFill="RED">
+                           <font>
+                              <Font name="Gargi" size="18.0" />
+                           </font>
+                        </Label>
+                        <ScrollPane hbarPolicy="NEVER" layoutX="347.0" layoutY="7.0" prefHeight="710.0" prefWidth="522.0">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <VBox fx:id="vBoxContainer" prefWidth="515.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                        <FontAwesomeIconView fx:id="iconErr" fill="RED" glyphName="AMBULANCE" layoutX="149.0" layoutY="170.0" selectionFill="RED" size="25" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabExploreFeed" text="Explore Feed">
+            <content>
+              <AnchorPane fx:id="exploreFeedPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

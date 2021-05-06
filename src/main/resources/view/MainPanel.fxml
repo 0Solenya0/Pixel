@@ -35,6 +35,11 @@
                         <Font name="Laksaman" size="18.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="btnExplorer" alignment="BASELINE_LEFT" onAction="#showExplorer" prefHeight="55.0" prefWidth="201.0" text="Explore">
+                     <font>
+                        <Font name="Laksaman" size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </VBox>
          </left>

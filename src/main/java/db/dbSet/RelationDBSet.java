@@ -6,8 +6,6 @@ import apps.relation.model.Relation;
 import apps.relation.model.field.RelStatus;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
-import listener.ListenableClass;
-import listener.StringListener;
 import db.queryBuilder.RelationQueryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
