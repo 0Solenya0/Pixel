@@ -8,10 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import listener.EventBus;
 import listener.StringListener;
 
-public class UserCardController extends Controller implements EventBus {
+public class UserCardController extends Controller {
 
     public static FXMLLoader getFxmlLoader() {
         Config config = Config.getConfig("EXPLORE_APP_CONFIG");

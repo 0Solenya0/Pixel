@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import db.exception.ConnectionException;
 import db.queryBuilder.QueryBuilder;
-import listener.EventBus;
+import listener.StringListener;
 import model.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,12 +21,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
-public abstract class DBSet<T extends Model> implements EventBus {
+public abstract class DBSet<T extends Model> {
     private static final Logger logger = LogManager.getLogger(DBSet.class);
     Class<T> modelClass;
 
+    private ArrayList<StringListener> listeners = new ArrayList<>();
+
     public DBSet(Class<T> modelClass) {
         this.modelClass = modelClass;
+    }
+
+    public void addListener(StringListener listener) {
+        listeners.add(listener);
+    }
+
+    public void broadcast(String s) {
+        for (StringListener listener: listeners)
+            listener.listen(s);
     }
 
     private String getDataSource() {
@@ -42,7 +53,6 @@ public abstract class DBSet<T extends Model> implements EventBus {
     public T get(int id) throws ConnectionException {
         try {
             FileReader file = new FileReader(getDataSource() + "/" + id + ".json");
-            logger.info("Open File - " + file);
             Gson gson = new GsonBuilder()
                     .setPrettyPrinting()
                     .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())

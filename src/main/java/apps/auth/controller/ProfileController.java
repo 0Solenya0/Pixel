@@ -62,7 +62,7 @@ public class ProfileController extends Controller implements Initializable {
 
     @FXML
     void toggleBlockUser(ActionEvent event) throws ConnectionException {
-        if (iconToggleFollow.getGlyphName().equals(String.valueOf(FontAwesomeIcon.BAN)))
+        if (iconToggleBlock.getGlyphName().equals(String.valueOf(FontAwesomeIcon.BAN)))
             context.relations.block(Objects.requireNonNull(State.getUser()), userModel);
         else
             context.relations.resetRel(Objects.requireNonNull(State.getUser()), userModel);
@@ -89,9 +89,20 @@ public class ProfileController extends Controller implements Initializable {
     }
 
     private void updateData() throws ConnectionException {
+        iconToggleBlock.setGlyphName(String.valueOf(FontAwesomeIcon.BAN));
+        btnToggleFollow.setVisible(true);
+        btnMessage.setVisible(true);
+        btnFollower.setVisible(true);
+        btnFollowing.setVisible(true);
+        lblFollower.setVisible(true);
+        lblFollowerCnt.setVisible(true);
+        lblFollowing.setVisible(true);
+        lblFollowingCnt.setVisible(true);
+
         lblBlackListCnt.setVisible(false);
         btnBlackList.setVisible(false);
         lblBlackList.setVisible(false);
+
         Relation relation = context.relations.getFirst(
                 context.relations.getQueryBuilder()
                         .getByTwoUser(Objects.requireNonNull(State.getUser()).id, userModel.id)
@@ -105,6 +116,7 @@ public class ProfileController extends Controller implements Initializable {
             btnMessage.setVisible(false);
             btnFollower.setVisible(false);
             btnFollowing.setVisible(false);
+            lblFollower.setVisible(false);
             lblFollowerCnt.setVisible(false);
             lblFollowing.setVisible(false);
             lblFollowingCnt.setVisible(false);
@@ -115,7 +127,7 @@ public class ProfileController extends Controller implements Initializable {
             lblBlackList.setVisible(true);
             btnToggleFollow.setVisible(false);
             hboxActions.setVisible(false);
-            lblBlackListCnt.setText(String.valueOf(context.relations.getFollowing(userModel).size()));
+            lblBlackListCnt.setText(String.valueOf(context.relations.getBlackList(userModel).size()));
         }
 
         userModel = context.users.getByAccess(Objects.requireNonNull(State.getUser()), userModel.id);
@@ -141,9 +153,11 @@ public class ProfileController extends Controller implements Initializable {
                 .getQuery()
         );
         btnToggleFollow.setDisable(request != null);
-        if (relation != null && relation.getType() == RelStatus.FOLLOW)
+        if (relation == null)
+            iconToggleFollow.setGlyphName(String.valueOf(FontAwesomeIcon.USER_PLUS));
+        else if (relation.getType() == RelStatus.FOLLOW)
             iconToggleFollow.setGlyphName(String.valueOf(FontAwesomeIcon.USER_TIMES));
-        if (relation != null && relation.getType() == RelStatus.BLOCKED)
+        else if (relation.getType() == RelStatus.BLOCKED)
             iconToggleBlock.setGlyphName(String.valueOf(FontAwesomeIcon.CHECK));
 
         FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();

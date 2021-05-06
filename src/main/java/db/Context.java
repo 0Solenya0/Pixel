@@ -16,7 +16,7 @@ public class Context {
     public GroupDBSet groups = new GroupDBSet();
 
     public Context() {
-        relations.addListenerToBus(s -> {
+        relations.addListener(s -> {
             try {
                 Scanner scanner = new Scanner(s);
                 String type = scanner.next();
@@ -61,7 +61,7 @@ public class Context {
 
             }
         });
-        notifications.addListenerToBus(s -> {
+        notifications.addListener(s -> {
             try {
                 Scanner scanner = new Scanner(s);
                 if ("ACCEPT".equals(scanner.next())) {

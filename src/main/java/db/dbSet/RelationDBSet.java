@@ -92,6 +92,8 @@ public class RelationDBSet extends DBSet<Relation> {
         try {
             if (relation2 != null && relation2.getType() == RelStatus.FOLLOW)
                 resetRel(user2, user);
+            if (relation2 != null && relation2.getType() == RelStatus.BLOCKED)
+                return;
             resetRel(user, user2);
             Relation relation = new Relation(user, user2, RelStatus.BLOCKED);
             save(relation);

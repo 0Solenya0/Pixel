@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 public class QueryBuilder<T extends Model> {
     protected Context context = new Context();
-    private Predicate<T> query = (T model) -> true;
+    private Predicate<T> query = (T model) -> !model.isDeleted;
 
     public QueryBuilder<T> addCustomFilter(Predicate<T> p) {
         query = query.and(p);

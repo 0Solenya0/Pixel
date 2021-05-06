@@ -68,7 +68,6 @@ public class ExplorerController extends Controller implements Initializable {
                 Pane pane = fxmlLoader.load();
                 UserCardController controller = fxmlLoader.getController();
                 controller.setOnClickListener(s -> {
-                    System.out.println("HI " + user.getUsername());
                     ViewManager.mainPanelController.showProfile(user);
                 });
                 controller.setUser(user);
