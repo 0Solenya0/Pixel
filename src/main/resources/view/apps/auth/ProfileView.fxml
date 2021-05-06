@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.ProfileController">
+   <children>
+      <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblFullName" layoutX="227.0" layoutY="68.0" text="Full name">
+         <font>
+            <Font name="Gargi" size="22.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="tweetPane" layoutY="289.0" prefHeight="445.0" prefWidth="1000.0" style="-fx-background-color: red;" />
+      <Label fx:id="lblPastTweets" layoutX="429.0" layoutY="240.0" text="Past tweets">
+         <font>
+            <Font name="Gargi" size="26.0" />
+         </font>
+      </Label>
+      <Separator layoutX="15.0" layoutY="265.0" prefHeight="3.0" prefWidth="398.0" />
+      <Separator layoutX="586.0" layoutY="266.0" prefHeight="3.0" prefWidth="398.0" />
+      <Label fx:id="lblFollowing" layoutX="507.0" layoutY="16.0" text="Following">
+         <font>
+            <Font name="Gargi" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFollower" layoutX="506.0" layoutY="47.0" text="Follower">
+         <font>
+            <Font name="Gargi" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFollowingCnt" layoutX="597.0" layoutY="16.0" text="0">
+         <font>
+            <Font name="Gargi" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblFollowerCnt" layoutX="597.0" layoutY="47.0" text="0">
+         <font>
+            <Font name="Gargi" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblLastSeen" layoutX="14.0" layoutY="226.0" prefHeight="11.0" prefWidth="242.0" text="Last seen: 01 Jan">
+         <font>
+            <Font name="Gargi" size="15.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnToggleFollow" contentDisplay="CENTER" layoutX="917.0" layoutY="197.0" onAction="#toggleFollow" prefHeight="43.0" prefWidth="62.0" style="-fx-background-color: B8BDB5;">
+         <font>
+            <Font name="Gargi" size="23.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+         <graphic>
+            <FontAwesomeIconView fx:id="iconToggleFollow" glyphName="USER_PLUS" size="30">
+               <font>
+                  <Font size="63.0" />
+               </font>
+            </FontAwesomeIconView>
+         </graphic>
+      </JFXButton>
+      <AnchorPane fx:id="BirthdayPane" layoutX="227.0" layoutY="178.0" prefHeight="36.0" prefWidth="218.0">
+         <children>
+            <FontAwesomeIconView glyphName="BIRTHDAY_CAKE" layoutX="4.0" layoutY="25.0" size="20">
+               <font>
+                  <Font size="63.0" />
+               </font>
+            </FontAwesomeIconView>
+            <Label fx:id="lblBirthday" layoutX="36.0" layoutY="4.0" text="Birthday: 01 Jan 2002">
+               <font>
+                  <Font name="Gargi" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="btnFollowing" layoutX="474.0" layoutY="20.0" maxHeight="29.0" minWidth="0.0" prefHeight="28.0" prefWidth="32.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="LIST_UL" size="20">
+               <font>
+                  <Font size="63.0" />
+               </font>
+            </FontAwesomeIconView>
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="btnFollower" layoutX="474.0" layoutY="51.0" maxHeight="29.0" minWidth="0.0" prefHeight="27.0" prefWidth="32.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="LIST_UL" size="20">
+               <font>
+                  <Font size="63.0" />
+               </font>
+            </FontAwesomeIconView>
+         </graphic>
+      </JFXButton>
+      <Label fx:id="lblUsername" layoutX="227.0" layoutY="22.0" text="Username">
+         <font>
+            <Font name="Gargi" size="22.0" />
+         </font>
+      </Label>
+      <HBox fx:id="hboxActions" layoutX="795.0" layoutY="226.0" prefHeight="27.0" prefWidth="100.0">
+         <children>
+            <JFXButton fx:id="btnToggleBlock" ellipsisString="" minWidth="0.0" onAction="#toggleBlockUser" prefHeight="28.0" prefWidth="32.0">
+               <graphic>
+                  <FontAwesomeIconView fx:id="iconToggleBlock" glyphName="BAN" size="20" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnMessage" ellipsisString="" graphicTextGap="0.0" minWidth="0.0" onAction="#sendMessage" prefHeight="28.0" prefWidth="29.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="SEND" size="19" />
+               </graphic>
+               <padding>
+                  <Insets left="-0.5" />
+               </padding>
+            </JFXButton>
+            <JFXButton fx:id="btnReport" ellipsisString="" minWidth="0.0" onAction="#reportUser" prefHeight="27.0" prefWidth="32.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="FLAG" size="20" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
+      <Separator layoutX="468.0" layoutY="14.0" orientation="VERTICAL" prefHeight="85.0" prefWidth="3.0" />
+      <Label fx:id="lblBlackList" layoutX="507.0" layoutY="79.0" text="Black List">
+         <font>
+            <Font name="Gargi" size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblBlackListCnt" layoutX="598.0" layoutY="79.0" text="0">
+         <font>
+            <Font name="Gargi" size="19.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnBlackList" layoutX="475.0" layoutY="83.0" maxHeight="29.0" minWidth="0.0" prefHeight="27.0" prefWidth="32.0">
+         <graphic>
+            <FontAwesomeIconView glyphName="LIST_UL" size="20">
+               <font>
+                  <Font size="63.0" />
+               </font>
+            </FontAwesomeIconView>
+         </graphic>
+      </JFXButton>
+      <Label fx:id="lblBio" alignment="TOP_LEFT" layoutX="227.0" layoutY="111.0" prefHeight="67.0" prefWidth="339.0" text="Bio" />
+   </children>
+</AnchorPane>

@@ -59,7 +59,7 @@ public class LoginController extends Controller implements Initializable {
         txtPassword.setPromptText(config.getProperty("PASSWORD_PROMPT"));
         btnLogin.setText(config.getProperty("LOGIN_BTN_TEXT"));
         btnRegister.setText(config.getProperty("REGISTER_BTN_TEXT"));
-        lblPassword.setText(config.getProperty("PASSWORD_LABEL"));
-        lblUsername.setText(config.getProperty("USERNAME_LABEL"));
+        lblPassword.setText(config.getProperty("PASSWORD"));
+        lblUsername.setText(config.getProperty("USERNAME"));
     }
 }

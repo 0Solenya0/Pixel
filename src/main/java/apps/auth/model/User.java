@@ -87,6 +87,14 @@ public class User extends Model {
         return phone;
     }
 
+    public LockedField<LocalDateTime> getLastseen() {
+        return lastseen;
+    }
+
+    public LockedField<LocalDate> getBirthdate() {
+        return birthdate;
+    }
+
     public void setPhone(LockedField<String> phone) {
         this.phone = phone;
     }
@@ -107,6 +115,14 @@ public class User extends Model {
         muted.add(user.id);
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     public void unMuteUser(User user) {
         muted.remove(user.id);
     }
@@ -117,5 +133,9 @@ public class User extends Model {
 
     public AccessLevel getVisibility() {
         return visibility;
+    }
+
+    public String getFullName() {
+        return getName() + " " + getSurname();
     }
 }

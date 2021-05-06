@@ -88,11 +88,11 @@ public class RegistrationController extends Controller implements Initializable 
         resetErrorFields();
         btnRegister.setText(config.getProperty("REGISTER_BTN_TEXT"));
         btnLogin.setText(config.getProperty("LOGIN_BTN_TEXT"));
-        lblName.setText(config.getProperty("NAME_LABEL"));
-        lblSurname.setText(config.getProperty("SURNAME_LABEL"));
-        lblPassword.setText(config.getProperty("PASSWORD_LABEL"));
-        lblRepeatPassword.setText(config.getProperty("REPEAT_PASSWORD_LABEL"));
-        lblEmail.setText(config.getProperty("EMAIL_LABEL"));
+        lblName.setText(config.getProperty("NAME"));
+        lblSurname.setText(config.getProperty("SURNAME"));
+        lblPassword.setText(config.getProperty("PASSWORD"));
+        lblRepeatPassword.setText(config.getProperty("REPEAT_PASSWORD"));
+        lblEmail.setText(config.getProperty("EMAIL"));
         emailErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
         usernameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
         passwordErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));

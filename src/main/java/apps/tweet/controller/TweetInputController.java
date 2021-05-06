@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import config.Config;
 import controller.Controller;
-import db.dbSet.UserDBSet;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import javafx.fxml.FXML;
@@ -70,7 +69,7 @@ public class TweetInputController extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         resetErrorFields();
         txtTweet.setPromptText(config.getProperty("TWEET_INPUT_PROMPT"));
-        lblInputTweet.setText(config.getProperty("TWEET_INPUT_LABEL"));
+        lblInputTweet.setText(config.getProperty("TWEET_INPUT"));
         btnTweet.setText(config.getProperty("TWEET_BTN_TEXT"));
         lblGlobalErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
         lblContentErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
