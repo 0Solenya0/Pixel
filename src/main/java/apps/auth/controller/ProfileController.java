@@ -137,9 +137,9 @@ public class ProfileController extends Controller implements Initializable {
         else
             BirthdayPane.setVisible(false);
         if (!userModel.getLastseen().get().equals(LocalDateTime.MIN))
-            lblLastSeen.setText(config.getProperty("LAST_SEEN") + ": " + userModel.getLastseen().get());
+            lblLastSeen.setText(config.getProperty("LAST_SEEN") + " at " + userModel.getLastseen().get());
         else
-            lblLastSeen.setText(config.getProperty("LAST_SEEN") + ": last seen recently");
+            lblLastSeen.setText(config.getProperty("LAST_SEEN_RECENTLY"));
         lblBio.setText(userModel.getBio());
         lblUsername.setText(userModel.getUsername());
         lblFullName.setText(userModel.getFullName());

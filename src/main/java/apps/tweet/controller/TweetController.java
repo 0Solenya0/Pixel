@@ -41,7 +41,7 @@ public class TweetController extends Controller {
     @FXML
     void btnLikeClicked(ActionEvent event) throws ConnectionException {
         User user = apps.auth.State.getUser();
-        if (iconLike.getGlyphName().equals("HEART_ALT")) {
+        if (iconLike.getGlyphName().equals("HEART")) {
             context.tweets.dislikeTweet(currentTweet, user);
             iconLike.setGlyphName("HEART");
         }
@@ -49,6 +49,7 @@ public class TweetController extends Controller {
             context.tweets.likeTweet(currentTweet, user);
             iconLike.setGlyphName("HEART_ALT");
         }
+        updateCard();
     }
 
     @FXML
@@ -93,12 +94,15 @@ public class TweetController extends Controller {
 
     public void updateCard() throws ConnectionException {
         User user = apps.auth.State.getUser();
+        currentTweet = context.tweets.get(currentTweet.id);
         lblAuthor.setText("@" + context.users.get(currentTweet.getAuthor()).getUsername());
         // TO DO Handle retweets
         // TO DO Handle Muted Author
         lblTweet.setText(currentTweet.getContent());
         if (currentTweet.containsLike(user))
             iconLike.setGlyphName("HEART");
+        else
+            iconLike.setGlyphName("HEART_ALT");
         if (currentTweet.getAuthor() == user.id)
             hboxForeign.setVisible(false);
     }
