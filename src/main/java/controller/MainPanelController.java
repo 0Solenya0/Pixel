@@ -1,23 +1,16 @@
 package controller;
 
 
-import apps.auth.State;
+import apps.auth.controller.ProfileController;
 import apps.auth.model.User;
-import apps.tweet.controller.TweetController;
 import apps.tweet.controller.TweetListController;
 import apps.tweet.model.Tweet;
 import com.jfoenix.controls.JFXButton;
-import com.sun.tools.javac.Main;
 import config.Config;
 import db.exception.ConnectionException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +23,8 @@ import java.util.*;
 
 public class MainPanelController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(MainPanelController.class);
-    private Config config = Config.getConfig("TWEET_APP_CONFIG");
+    private Config tweetAppConfig = Config.getConfig("TWEET_APP_CONFIG");
+    private Config authAppConfig = Config.getConfig("AUTH_APP_CONFIG");
 
     @FXML
     private JFXButton btnHome, btnPostTweet;
@@ -43,12 +37,13 @@ public class MainPanelController extends Controller implements Initializable {
     }
 
     public void showPostTweetPage() throws IOException {
-        Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(config.getProperty("TWEET_INPUT_VIEW"))));
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(tweetAppConfig.getProperty("TWEET_INPUT_VIEW"))));
         ViewManager.changeCenter(pane);
     }
 
     public void showHomePage() throws ConnectionException {
-        showTweetList(getTimelineTweets());
+        //showTweetList(getTimelineTweets()); TO DO DEBUG
+        showProfile(context.users.get(1));
     }
 
     public ArrayList<Tweet> getTimelineTweets() throws ConnectionException {
@@ -66,9 +61,26 @@ public class MainPanelController extends Controller implements Initializable {
         return tweets;
     }
 
+    public void showProfile(User user) {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(authAppConfig.getProperty("PROFILE_VIEW"))));
+        try {
+            Pane pane = fxmlLoader.load();
+            ProfileController profileController = fxmlLoader.getController();
+            profileController.setUser(user);
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        } catch (ConnectionException e) {
+            ViewManager.connectionFailed();
+        }
+    }
+
+
     public void showTweetList(ArrayList<Tweet> tweets) {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(config.getProperty("TWEET_LIST_VIEW"))));
+        fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(tweetAppConfig.getProperty("TWEET_LIST_VIEW"))));
         try {
             Pane pane = fxmlLoader.load();
             TweetListController tweetListController = fxmlLoader.getController();

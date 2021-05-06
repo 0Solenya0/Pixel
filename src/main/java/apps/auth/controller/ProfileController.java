@@ -98,11 +98,11 @@ public class ProfileController extends Controller implements Initializable {
 
         userModel = context.users.getByAccess(Objects.requireNonNull(State.getUser()), userModel.id);
 
-        if (userModel.getBirthdate().get() != LocalDate.MIN)
+        if (!userModel.getBirthdate().get().equals(LocalDate.MIN))
             lblBirthday.setText(config.getProperty("BIRTHDAY") + ": " + userModel.getBirthdate());
         else
             BirthdayPane.setVisible(false);
-        if (userModel.getLastseen().get() != LocalDateTime.MIN)
+        if (!userModel.getLastseen().get().equals(LocalDateTime.MIN))
             lblLastSeen.setText(config.getProperty("LAST_SEEN") + ": " + userModel.getLastseen().get());
         else
             lblLastSeen.setText(config.getProperty("LAST_SEEN") + ": last seen recently");

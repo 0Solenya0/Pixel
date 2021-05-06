@@ -58,7 +58,7 @@ public class UserDBSet extends DBSet<User> {
                 .getByTwoUser(request.id, id).getQuery()
         );
         AccessLevel level = AccessLevel.PUBLIC;
-        if (relation.getType() == RelStatus.FOLLOW)
+        if (relation != null && relation.getType() == RelStatus.FOLLOW)
             level = AccessLevel.CONTACTS;
         if (request.id == id)
             level = AccessLevel.PRIVATE;
