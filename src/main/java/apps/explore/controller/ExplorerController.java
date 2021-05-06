@@ -1,10 +1,15 @@
 package apps.explore.controller;
 
+import apps.auth.State;
 import apps.auth.model.User;
+import apps.tweet.controller.TweetListController;
+import apps.tweet.model.Tweet;
 import config.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
+import db.queryBuilder.TweetQueryBuilder;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +27,7 @@ import view.ViewManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class ExplorerController extends Controller implements Initializable {
@@ -44,7 +50,7 @@ public class ExplorerController extends Controller implements Initializable {
     private FontAwesomeIconView iconErr;
 
     @FXML
-    private AnchorPane exploreFeedPane;
+    private AnchorPane explorerFeedPane;
 
     @FXML
     void usernameChange() throws ConnectionException {
@@ -78,6 +84,32 @@ public class ExplorerController extends Controller implements Initializable {
             } catch (ConnectionException e) {
                 ViewManager.connectionFailed();
             }
+        }
+    }
+
+    @FXML
+    void switchToExploreFeed() {
+        FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
+        try {
+            Pane pane = fxmlLoader.load();
+            TweetListController tweetListController = fxmlLoader.getController();
+            ArrayList<Tweet> tweets = context.tweets.getAll(
+                    context.tweets.getQueryBuilder()
+                            .getEnabled()
+                            .excludeUser(State.getUser())
+                            .getPublicTweet()
+                    .getQuery()
+            );
+            tweets.sort(Comparator.comparingInt(tweet -> -tweet.getLikes().size()));
+
+            tweetListController.addTweetList(tweets);
+            tweetListController.resizeHeight(725);
+            explorerFeedPane.getChildren().add(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        } catch (ConnectionException e) {
+            ViewManager.connectionFailed();
         }
     }
 

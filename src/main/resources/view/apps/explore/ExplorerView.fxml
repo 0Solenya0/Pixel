@@ -47,9 +47,12 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tabExploreFeed" text="Explore Feed">
+          <Tab fx:id="tabExploreFeed" onSelectionChanged="#switchToExploreFeed" text="Explore Feed">
             <content>
-              <AnchorPane fx:id="exploreFeedPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane fx:id="explorerFeedPane" prefHeight="727.0" prefWidth="1000.0" />
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>

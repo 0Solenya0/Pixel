@@ -1,6 +1,7 @@
 package db.queryBuilder;
 
 import apps.auth.model.User;
+import apps.auth.model.fields.AccessLevel;
 import apps.tweet.model.Tweet;
 import config.Config;
 import db.Context;
@@ -31,6 +32,23 @@ public class TweetQueryBuilder extends QueryBuilder<Tweet> {
         addCustomFilter(tweet -> {
             try {
                 return context.users.get(tweet.getAuthor()).isEnabled();
+            }
+            catch (Exception e) {
+                return false;
+            }
+        });
+        return this;
+    }
+
+    public TweetQueryBuilder excludeUser(User user) {
+        addCustomFilter(tweet -> tweet.getAuthor() != user.id);
+        return this;
+    }
+
+    public TweetQueryBuilder getPublicTweet() {
+        addCustomFilter(tweet -> {
+            try {
+                return context.users.get(tweet.getAuthor()).getVisibility() == AccessLevel.PUBLIC;
             }
             catch (Exception e) {
                 return false;
