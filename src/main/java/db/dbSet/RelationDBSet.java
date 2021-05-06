@@ -97,6 +97,7 @@ public class RelationDBSet extends DBSet<Relation> {
             resetRel(user, user2);
             Relation relation = new Relation(user, user2, RelStatus.BLOCKED);
             save(relation);
+            broadcast("BLOCK " + user.id + " " + user2.id);
         }
         catch (ValidationException e) {
             logger.error("block user failed by unexpected validation error");

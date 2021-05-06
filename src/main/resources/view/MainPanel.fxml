@@ -30,6 +30,11 @@
                         <Font name="Laksaman" size="18.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="btnMyProfile" alignment="BASELINE_LEFT" onAction="#showMyProfile" prefHeight="55.0" prefWidth="201.0" text="My profile">
+                     <font>
+                        <Font name="Laksaman" size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </VBox>
          </left>

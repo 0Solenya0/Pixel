@@ -2,6 +2,8 @@ package apps.auth.controller;
 
 import apps.auth.State;
 import apps.auth.model.User;
+import apps.notification.model.Notification;
+import apps.notification.model.field.NotificationType;
 import apps.relation.model.Relation;
 import apps.relation.model.field.RelStatus;
 import apps.tweet.controller.TweetListController;
@@ -10,6 +12,7 @@ import config.Config;
 import controller.Controller;
 import controller.MainPanelController;
 import db.exception.ConnectionException;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +27,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.ViewManager;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -57,8 +61,12 @@ public class ProfileController extends Controller implements Initializable {
     User userModel;
 
     @FXML
-    void toggleBlockUser(ActionEvent event) {
-
+    void toggleBlockUser(ActionEvent event) throws ConnectionException {
+        if (iconToggleFollow.getGlyphName().equals(String.valueOf(FontAwesomeIcon.BAN)))
+            context.relations.block(Objects.requireNonNull(State.getUser()), userModel);
+        else
+            context.relations.resetRel(Objects.requireNonNull(State.getUser()), userModel);
+        updateData();
     }
 
     @FXML
@@ -72,8 +80,12 @@ public class ProfileController extends Controller implements Initializable {
     }
 
     @FXML
-    void toggleFollow(ActionEvent event) {
-
+    void toggleFollow(ActionEvent event) throws ConnectionException {
+        if (iconToggleFollow.getGlyphName().equals(String.valueOf(FontAwesomeIcon.USER_PLUS)))
+            context.relations.follow(Objects.requireNonNull(State.getUser()), userModel);
+        else
+            context.relations.resetRel(Objects.requireNonNull(State.getUser()), userModel);
+        updateData();
     }
 
     private void updateData() throws ConnectionException {
@@ -92,6 +104,7 @@ public class ProfileController extends Controller implements Initializable {
             btnToggleFollow.setVisible(false);
             btnMessage.setVisible(false);
             btnFollower.setVisible(false);
+            btnFollowing.setVisible(false);
             lblFollowerCnt.setVisible(false);
             lblFollowing.setVisible(false);
             lblFollowingCnt.setVisible(false);
@@ -120,6 +133,18 @@ public class ProfileController extends Controller implements Initializable {
         lblFullName.setText(userModel.getFullName());
         lblFollowerCnt.setText(String.valueOf(context.relations.getFollowers(userModel).size()));
         lblFollowingCnt.setText(String.valueOf(context.relations.getFollowing(userModel).size()));
+
+        Notification request = context.notifications.getFirst(
+                context.notifications.getQueryBuilder()
+                        .getByTwoUser(State.getUser(), userModel)
+                        .getByType(NotificationType.REQUEST)
+                .getQuery()
+        );
+        btnToggleFollow.setDisable(request != null);
+        if (relation != null && relation.getType() == RelStatus.FOLLOW)
+            iconToggleFollow.setGlyphName(String.valueOf(FontAwesomeIcon.USER_TIMES));
+        if (relation != null && relation.getType() == RelStatus.BLOCKED)
+            iconToggleBlock.setGlyphName(String.valueOf(FontAwesomeIcon.CHECK));
 
         FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
         try {

@@ -1,6 +1,7 @@
 package controller;
 
 
+import apps.auth.State;
 import apps.auth.controller.ProfileController;
 import apps.auth.model.User;
 import apps.tweet.controller.TweetListController;
@@ -28,7 +29,7 @@ public class MainPanelController extends Controller implements Initializable {
     private Config authAppConfig = Config.getConfig("AUTH_APP_CONFIG");
 
     @FXML
-    private JFXButton btnHome, btnPostTweet;
+    private JFXButton btnHome, btnPostTweet, btnMyProfile;
 
     @FXML
     private BorderPane borderPane;
@@ -44,7 +45,6 @@ public class MainPanelController extends Controller implements Initializable {
 
     public void showHomePage() throws ConnectionException {
         showTweetList(getTimelineTweets());
-        //showProfile(context.users.get(1));
     }
 
     public ArrayList<Tweet> getTimelineTweets() throws ConnectionException {
@@ -60,6 +60,10 @@ public class MainPanelController extends Controller implements Initializable {
                 ));
         tweets.sort(Comparator.comparingInt(t -> -t.id));
         return tweets;
+    }
+
+    public void showMyProfile() throws ConnectionException {
+        showProfile(State.getUser());
     }
 
     public void showProfile(User user) {
@@ -79,7 +83,6 @@ public class MainPanelController extends Controller implements Initializable {
     }
 
     public void showTweetList(ArrayList<Tweet> tweets) throws ConnectionException {
-        tweets.addAll(context.tweets.getAll(tweet -> true));
         FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
         try {
             Pane pane = fxmlLoader.load();

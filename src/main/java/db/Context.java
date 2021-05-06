@@ -38,6 +38,24 @@ public class Context {
                                 user1.getUsername() + " has stopped following you");
                         notifications.save(notification2);
                         break;
+                    case "BLOCK":
+                        Notification tmp = notifications.getFirst(
+                                notifications.getQueryBuilder()
+                                        .getByTwoUser(user1, user2)
+                                        .getByType(NotificationType.REQUEST)
+                                        .getQuery()
+                        );
+                        if (tmp != null)
+                            notifications.delete(tmp);
+                        tmp = notifications.getFirst(
+                                notifications.getQueryBuilder()
+                                        .getByTwoUser(user2, user1)
+                                        .getByType(NotificationType.REQUEST)
+                                        .getQuery()
+                        );
+                        if (tmp != null)
+                            notifications.delete(tmp);
+                        break;
                 }
             }
             catch (Exception ignored) {
