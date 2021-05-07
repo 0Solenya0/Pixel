@@ -40,6 +40,11 @@
                         <Font name="Laksaman" size="18.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="btnNotification" alignment="BASELINE_LEFT" onAction="#showNotifications" prefHeight="55.0" prefWidth="201.0" text="Notifications">
+                     <font>
+                        <Font name="Laksaman" size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </VBox>
          </left>

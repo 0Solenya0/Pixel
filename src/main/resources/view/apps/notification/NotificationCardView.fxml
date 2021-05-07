@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="169.0" prefWidth="760.0" style="-fx-background-color: #D6E9FF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.notification.controller.NotificationCardController">
+   <children>
+      <Label fx:id="lblNotification" layoutX="14.0" layoutY="55.0" prefHeight="58.0" prefWidth="492.0" text="Notification text" wrapText="true">
+         <font>
+            <Font name="Gargi" size="17.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView fx:id="iconNotificationType" glyphName="INFO_CIRCLE" layoutX="14.0" layoutY="35.0" size="25" />
+      <ImageView fx:id="imgNotificationImage" fitHeight="130.0" fitWidth="130.0" layoutX="609.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <HBox layoutX="485.0" layoutY="113.0" prefHeight="31.0" prefWidth="124.0">
+         <children>
+            <JFXButton fx:id="btnAccept" contentDisplay="CENTER" onAction="#accept" prefHeight="9.0" prefWidth="17.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="CHECK" size="25" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnReject" contentDisplay="CENTER" onAction="#reject" prefHeight="9.0" prefWidth="17.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="REMOVE" size="25" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnSilentReject" contentDisplay="CENTER" onAction="#silentReject" prefHeight="9.0" prefWidth="17.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="DEAF" size="25" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

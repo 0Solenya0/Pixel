@@ -41,19 +41,17 @@ public class Notification extends Model {
         return user2;
     }
 
-    public String getMessage(String senderUsername) {
+    public String getMessage() {
         if (type == NotificationType.INFO)
             return message;
         else if (type == NotificationType.REPORT)
             return "You have been reported please BEHAVE...";
-        else
-            return senderUsername + " has requested to follow you";
+        return "";
     }
 
-    public String getMessageForSender(String receiverUsername) {
-        if (type == NotificationType.INFO)
-            return message;
-        else
-            return "your request to " + receiverUsername + " is pending";
+    public String getMessageRequests(String senderUsername) {
+        if (type == NotificationType.REQUEST)
+            return senderUsername + " has requested to follow you!";
+        return "";
     }
 }

@@ -20,7 +20,7 @@ public class UserCardController extends Controller {
     }
 
     @FXML
-    private ImageView imgAvatar;
+    private ImageView imgAvatar; // TO DO
 
     @FXML
     private Label lblUsername, lblFullName;

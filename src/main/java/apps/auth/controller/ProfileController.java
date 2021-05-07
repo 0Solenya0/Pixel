@@ -50,7 +50,7 @@ public class ProfileController extends Controller implements Initializable {
     private FontAwesomeIconView iconToggleFollow, iconToggleBlock;
 
     @FXML
-    private ImageView imgAvatar;
+    private ImageView imgAvatar; // TO DO
 
     @FXML
     private HBox hboxActions;

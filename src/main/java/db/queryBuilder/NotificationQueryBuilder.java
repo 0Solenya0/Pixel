@@ -33,7 +33,7 @@ public class NotificationQueryBuilder extends QueryBuilder<Notification> {
     public NotificationQueryBuilder getEnabled() {
         addCustomFilter(notification -> {
             try {
-                return context.users.get(notification.getSender()).isEnabled()
+                return (notification.getSender() == 0 || context.users.get(notification.getSender()).isEnabled())
                         && context.users.get(notification.getReceiver()).isEnabled();
             }
             catch (Exception e) {

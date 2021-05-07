@@ -28,9 +28,10 @@ public class MainPanelController extends Controller implements Initializable {
     private Config tweetAppConfig = Config.getConfig("TWEET_APP_CONFIG");
     private Config authAppConfig = Config.getConfig("AUTH_APP_CONFIG");
     private Config exploreAppConfig = Config.getConfig("EXPLORE_APP_CONFIG");
+    private Config notificationAppConfig = Config.getConfig("NOTIFICATION_APP_CONFIG");
 
     @FXML
-    private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer;
+    private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer, btnNotification;
 
     @FXML
     private BorderPane borderPane;
@@ -70,6 +71,18 @@ public class MainPanelController extends Controller implements Initializable {
     public void showExplorer() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource(exploreAppConfig.getProperty("EXPLORE_VIEW")));
+        try {
+            Pane pane = fxmlLoader.load();
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        }
+    }
+
+    public void showNotifications() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(notificationAppConfig.getProperty("NOTIFICATION_VIEW")));
         try {
             Pane pane = fxmlLoader.load();
             ViewManager.changeCenter(pane);
