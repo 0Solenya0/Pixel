@@ -92,6 +92,18 @@ public class MainPanelController extends Controller implements Initializable {
         }
     }
 
+    public void showSettings() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(authAppConfig.getProperty("SETTING_VIEW")));
+        try {
+            Pane pane = fxmlLoader.load();
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        }
+    }
+
     public void showProfile(User user) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(authAppConfig.getProperty("PROFILE_VIEW"))));

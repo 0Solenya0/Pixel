@@ -138,4 +138,12 @@ public class User extends Model {
     public String getFullName() {
         return getName() + " " + getSurname();
     }
+
+    public void setVisibility(AccessLevel visibility) {
+        this.visibility = visibility;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

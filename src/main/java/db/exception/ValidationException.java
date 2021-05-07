@@ -40,4 +40,10 @@ public class ValidationException extends Exception {
             return errors.get(field);
         return null;
     }
+
+    public ArrayList<String> getAllErrors() {
+        ArrayList<String> errs = new ArrayList<>();
+        errors.forEach((String s, ArrayList<String> es) -> errs.addAll(es));
+        return errs;
+    }
 }

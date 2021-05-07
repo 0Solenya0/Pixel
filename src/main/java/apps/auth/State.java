@@ -14,6 +14,10 @@ public class State {
         return context.users.get(currentUserId);
     }
 
+    public static void logout() {
+        currentUserId = 0;
+    }
+
     public static void updateUser(int userId) {
         currentUserId = userId;
     }

@@ -45,6 +45,11 @@
                         <Font name="Laksaman" size="18.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="btnSettings" alignment="BASELINE_LEFT" onAction="#showSettings" prefHeight="55.0" prefWidth="201.0" text="Settings">
+                     <font>
+                        <Font name="Laksaman" size="18.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </VBox>
          </left>
