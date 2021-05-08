@@ -14,5 +14,6 @@
       <Label fx:id="lblPassword" layoutX="164.0" layoutY="192.0" text="Password:" />
       <Button fx:id="btnLogin" layoutX="217.0" layoutY="236.0" mnemonicParsing="false" onAction="#login" text="Login" />
       <Button fx:id="btnRegister" layoutX="303.0" layoutY="236.0" mnemonicParsing="false" onAction="#switchToRegister" text="Register" />
+      <Label fx:id="lblErr" alignment="CENTER" layoutX="197.0" layoutY="268.0" prefHeight="16.0" prefWidth="212.0" text="LoginError" textFill="RED" />
    </children>
 </AnchorPane>

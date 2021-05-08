@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Paint;
 import view.ViewManager;
 
 import java.net.URL;
@@ -21,7 +22,7 @@ public class LoginController extends Controller implements Initializable {
     private Config config = Config.getLanguageConfig();
 
     @FXML
-    private Label lblPassword, lblUsername;
+    private Label lblPassword, lblUsername, lblErr;
 
     @FXML
     private TextField txtUsername;
@@ -33,11 +34,12 @@ public class LoginController extends Controller implements Initializable {
     private Button btnLogin, btnRegister;
 
     public void login() throws ConnectionException {
+        lblErr.setText("");
         Predicate<User> q = context.users.getQueryBuilder()
                 .getByUsername(txtUsername.getText()).getQuery();
         User user = context.users.getFirst(q);
         if (user == null || !user.checkPassword(txtPassword.getText()))
-            wrongInput();
+            lblErr.setText("Wrong username or password!");
         else  {
             State.updateUser(user.id);
             ViewManager.mainPanelController.showHomePage();
@@ -49,10 +51,6 @@ public class LoginController extends Controller implements Initializable {
         ViewManager.setScene(ViewManager.registrationView);
     }
 
-    public void wrongInput() {
-        // TO DO
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         txtUsername.setPromptText(config.getProperty("USERNAME_PROMPT"));
@@ -61,5 +59,7 @@ public class LoginController extends Controller implements Initializable {
         btnRegister.setText(config.getProperty("REGISTER_BTN_TEXT"));
         lblPassword.setText(config.getProperty("PASSWORD"));
         lblUsername.setText(config.getProperty("USERNAME"));
+        lblErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        lblErr.setText("");
     }
 }
