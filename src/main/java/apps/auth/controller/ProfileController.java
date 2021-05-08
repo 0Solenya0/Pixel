@@ -41,7 +41,8 @@ public class ProfileController extends Controller implements Initializable {
 
     @FXML
     private Label lblFullName, lblLastSeen, lblBirthday, lblUsername, lblBio, lblPastTweets,
-            lblFollowing, lblFollower, lblBlackList, lblBlackListCnt, lblFollowerCnt, lblFollowingCnt;
+            lblFollowing, lblFollower, lblBlackList, lblBlackListCnt, lblFollowerCnt, lblFollowingCnt,
+            lblEmail, lblPhone;
 
     @FXML
     private JFXButton btnToggleFollow, btnFollowing, btnFollower, btnToggleBlock, btnMessage, btnReport, btnBlackList;
@@ -56,7 +57,7 @@ public class ProfileController extends Controller implements Initializable {
     private HBox hboxActions;
 
     @FXML
-    private AnchorPane tweetPane, BirthdayPane;
+    private AnchorPane tweetPane, BirthdayPane, phonePane, mailPane;
 
     User userModel;
 
@@ -98,6 +99,8 @@ public class ProfileController extends Controller implements Initializable {
         lblFollowerCnt.setVisible(true);
         lblFollowing.setVisible(true);
         lblFollowingCnt.setVisible(true);
+        phonePane.setVisible(false);
+        mailPane.setVisible(false);
 
         lblBlackListCnt.setVisible(false);
         btnBlackList.setVisible(false);
@@ -132,6 +135,14 @@ public class ProfileController extends Controller implements Initializable {
 
         userModel = context.users.getByAccess(Objects.requireNonNull(State.getUser()), userModel.id);
 
+        if (!userModel.getPhone().get().equals("")) {
+            phonePane.setVisible(true);
+            lblPhone.setText(userModel.getPhone().get());
+        }
+        if (!userModel.getMail().get().equals("")) {
+            mailPane.setVisible(true);
+            lblEmail.setText(userModel.getMail().get());
+        }
         if (!userModel.getBirthdate().get().equals(LocalDate.MIN))
             lblBirthday.setText(config.getProperty("BIRTHDAY") + ": " + userModel.getBirthdate());
         else

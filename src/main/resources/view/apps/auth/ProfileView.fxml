@@ -52,7 +52,7 @@
             <Font name="Gargi" size="19.0" />
          </font>
       </Label>
-      <Label fx:id="lblLastSeen" layoutX="14.0" layoutY="226.0" prefHeight="11.0" prefWidth="242.0" text="Last seen: 01 Jan">
+      <Label fx:id="lblLastSeen" layoutX="14.0" layoutY="226.0" prefHeight="29.0" prefWidth="200.0" text="Last seen: 01 Jan">
          <font>
             <Font name="Gargi" size="15.0" />
          </font>
@@ -152,5 +152,33 @@
          </graphic>
       </JFXButton>
       <Label fx:id="lblBio" alignment="TOP_LEFT" layoutX="227.0" layoutY="111.0" prefHeight="67.0" prefWidth="339.0" text="Bio" />
+      <AnchorPane fx:id="mailPane" layoutX="469.0" layoutY="160.0" prefHeight="36.0" prefWidth="207.0">
+         <children>
+            <FontAwesomeIconView glyphName="ADDRESS_BOOK" layoutX="13.0" layoutY="30.0" size="20">
+               <font>
+                  <Font size="63.0" />
+               </font>
+            </FontAwesomeIconView>
+            <Label fx:id="lblEmail" layoutX="45.0" layoutY="9.0" text="Email">
+               <font>
+                  <Font name="Gargi" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="phonePane" layoutX="467.0" layoutY="196.0" prefHeight="36.0" prefWidth="207.0">
+         <children>
+            <FontAwesomeIconView glyphName="PHONE" layoutX="17.0" layoutY="29.0" size="20">
+               <font>
+                  <Font size="63.0" />
+               </font>
+            </FontAwesomeIconView>
+            <Label fx:id="lblPhone" layoutX="45.0" layoutY="9.0" text="Phone">
+               <font>
+                  <Font name="Gargi" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

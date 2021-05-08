@@ -33,7 +33,7 @@ public class User extends Model {
 
 
         /** default access levels and values **/
-        this.mail.setAccessLevel(AccessLevel.PUBLIC);
+        this.mail.setAccessLevel(AccessLevel.PRIVATE);
         this.lastseen.setAccessLevel(AccessLevel.PUBLIC);
         this.lastseen.set(LocalDateTime.MIN);
         this.phone.setAccessLevel(AccessLevel.PRIVATE);
