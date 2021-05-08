@@ -44,7 +44,7 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     private Label lblFullName, lblLastSeen, lblBirthday, lblUsername, lblBio, lblPastTweets,
             lblFollowing, lblFollower, lblBlackList, lblBlackListCnt, lblFollowerCnt, lblFollowingCnt,
-            lblEmail, lblPhone;
+            lblEmail, lblPhone, lblRequested;
 
     @FXML
     private JFXButton btnToggleFollow, btnFollowing, btnFollower, btnToggleBlock, btnMessage,
@@ -199,6 +199,7 @@ public class ProfileController extends Controller implements Initializable {
                 .getQuery()
         );
         btnToggleFollow.setDisable(request != null);
+        lblRequested.setVisible(request != null);
         if (relation == null)
             iconToggleFollow.setGlyphName(String.valueOf(FontAwesomeIcon.USER_PLUS));
         else if (relation.getType() == RelStatus.FOLLOW)
@@ -236,5 +237,6 @@ public class ProfileController extends Controller implements Initializable {
         lblFollower.setText(config.getProperty("FOLLOWER"));
         lblBlackList.setText(config.getProperty("BLACKLIST"));
         lblPastTweets.setText(config.getProperty("PAST_TWEETS"));
+        lblRequested.setText(config.getProperty("REQUESTED"));
     }
 }
