@@ -56,4 +56,16 @@ public class TweetQueryBuilder extends QueryBuilder<Tweet> {
         });
         return this;
     }
+
+    public TweetQueryBuilder getNotMuted(User user) {
+        addCustomFilter(tweet -> {
+            try {
+                return !user.isMuted(context.users.get(tweet.getAuthor()));
+            }
+            catch (Exception e) {
+                return false;
+            }
+        });
+        return this;
+    }
 }

@@ -58,6 +58,7 @@ public class MainPanelController extends Controller implements Initializable {
                         context.tweets.getQueryBuilder()
                                 .getByAuthorId(u.id)
                                 .getByParentTweet(0)
+                                .getNotMuted(State.getUser())
                         .getQuery()
                 ));
         tweets.sort(Comparator.comparingInt(t -> -t.id));

@@ -98,6 +98,7 @@ public class ExplorerController extends Controller implements Initializable {
                             .getEnabled()
                             .excludeUser(State.getUser())
                             .getPublicTweet()
+                            .getNotMuted(State.getUser())
                     .getQuery()
             );
             tweets.sort(Comparator.comparingInt(tweet -> -tweet.getLikes().size()));
