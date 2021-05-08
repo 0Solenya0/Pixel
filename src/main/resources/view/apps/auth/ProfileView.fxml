@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.ProfileController">
    <children>
-      <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
          </image>
@@ -52,7 +52,7 @@
             <Font name="Gargi" size="19.0" />
          </font>
       </Label>
-      <Label fx:id="lblLastSeen" layoutX="14.0" layoutY="226.0" prefHeight="29.0" prefWidth="200.0" text="Last seen: 01 Jan">
+      <Label fx:id="lblLastSeen" layoutX="14.0" layoutY="237.0" prefHeight="29.0" prefWidth="200.0" text="Last seen: 01 Jan">
          <font>
             <Font name="Gargi" size="15.0" />
          </font>
@@ -185,6 +185,11 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label fx:id="lblRequested" layoutX="913.0" layoutY="178.0" text="Requested!" />
+      <Label fx:id="lblRequested" layoutX="916.0" layoutY="170.0" text="Requested!">
+         <font>
+            <Font name="Gargi" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblJoinedAt" alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Joined At:" />
    </children>
 </AnchorPane>

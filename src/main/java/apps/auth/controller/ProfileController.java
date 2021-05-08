@@ -28,11 +28,14 @@ import org.apache.logging.log4j.Logger;
 import view.UserListDialog;
 import view.ViewManager;
 
+import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -44,7 +47,7 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     private Label lblFullName, lblLastSeen, lblBirthday, lblUsername, lblBio, lblPastTweets,
             lblFollowing, lblFollower, lblBlackList, lblBlackListCnt, lblFollowerCnt, lblFollowingCnt,
-            lblEmail, lblPhone, lblRequested;
+            lblEmail, lblPhone, lblRequested, lblJoinedAt;
 
     @FXML
     private JFXButton btnToggleFollow, btnFollowing, btnFollower, btnToggleBlock, btnMessage,
@@ -135,6 +138,9 @@ public class ProfileController extends Controller implements Initializable {
         lblBlackListCnt.setVisible(false);
         btnBlackList.setVisible(false);
         lblBlackList.setVisible(false);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        lblJoinedAt.setText(config.getProperty("JOINED_AT") + " " + userModel.getCreatedAt().format(formatter));
 
         Relation relation = context.relations.getFirst(
                 context.relations.getQueryBuilder()
