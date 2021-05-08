@@ -29,7 +29,7 @@ public class RegistrationController extends Controller implements Initializable 
 
     @FXML
     private Label emailErr, passwordErr, usernameErr, lblName, lblSurname, lblPassword, lblRepeatPassword,
-        lblEmail;
+        lblEmail, surnameErr, nameErr;
 
     public void switchToLogin() {
         ViewManager.setScene(ViewManager.loginView);
@@ -43,6 +43,10 @@ public class RegistrationController extends Controller implements Initializable 
             passwordErr.setText(e.getErrors("PasswordRepeat").get(0));
         if (e.getErrors("Username") != null)
             usernameErr.setText(e.getErrors("Username").get(0));
+        if (e.getErrors("Name") != null)
+            nameErr.setText(e.getErrors("Name").get(0));
+        if (e.getErrors("Surname") != null)
+            surnameErr.setText(e.getErrors("Surname").get(0));
     }
 
     public void register() throws ConnectionException {
@@ -81,6 +85,8 @@ public class RegistrationController extends Controller implements Initializable 
         emailErr.setText("");
         passwordErr.setText("");
         usernameErr.setText("");
+        nameErr.setText("");
+        surnameErr.setText("");
     }
 
     @Override
@@ -96,5 +102,7 @@ public class RegistrationController extends Controller implements Initializable 
         emailErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
         usernameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
         passwordErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        surnameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        nameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
     }
 }

@@ -25,14 +25,18 @@ public class UserDBSet extends DBSet<User> {
     @Override
     public void validate(User model) throws ConnectionException, ValidationException {
         ValidationException validationException = new ValidationException();
+        if (model.getSurname().isEmpty())
+            validationException.addError("Surname", "Surname is empty");
+        if (model.getName().isEmpty())
+            validationException.addError("Name", "Name is empty");
         if (model.getUsername().isEmpty())
             validationException.addError("Username", "Username is empty");
         if (model.getMail().get() == null)
             validationException.addError("Email", "Email field is empty");
         if (!UserValidators.isValidMail(model.getMail().get()))
-            validationException.addError("Email", "Email bad format");
+            validationException.addError("Email", "Email is invalid");
         if (!UserValidators.isValidPhone(model.getPhone().get()))
-            validationException.addError("Phone", "Phone number is not valid");
+            validationException.addError("Phone", "Phone number is invalid");
 
         User tmp = getFirst(getQueryBuilder().getByMail(model.getMail().get()).getQuery());
         if (tmp != null && tmp.id != model.id)
