@@ -109,14 +109,14 @@
             <Font name="Gargi" size="22.0" />
          </font>
       </Label>
-      <HBox fx:id="hboxActions" layoutX="795.0" layoutY="226.0" prefHeight="27.0" prefWidth="100.0">
+      <HBox fx:id="hboxActions" layoutX="779.0" layoutY="226.0" prefHeight="27.0" prefWidth="116.0">
          <children>
-            <JFXButton fx:id="btnToggleBlock" ellipsisString="" minWidth="0.0" onAction="#toggleBlockUser" prefHeight="28.0" prefWidth="32.0">
+            <JFXButton fx:id="btnToggleBlock" contentDisplay="CENTER" ellipsisString="" minWidth="0.0" onAction="#toggleBlockUser" prefHeight="30.0" prefWidth="28.0">
                <graphic>
                   <FontAwesomeIconView fx:id="iconToggleBlock" glyphName="BAN" size="20" />
                </graphic>
             </JFXButton>
-            <JFXButton fx:id="btnMessage" ellipsisString="" graphicTextGap="0.0" minWidth="0.0" onAction="#sendMessage" prefHeight="28.0" prefWidth="29.0">
+            <JFXButton fx:id="btnMessage" contentDisplay="CENTER" ellipsisString="" graphicTextGap="0.0" minWidth="0.0" onAction="#sendMessage" prefHeight="30.0" prefWidth="28.0">
                <graphic>
                   <FontAwesomeIconView glyphName="SEND" size="19" />
                </graphic>
@@ -124,9 +124,14 @@
                   <Insets left="-0.5" />
                </padding>
             </JFXButton>
-            <JFXButton fx:id="btnReport" ellipsisString="" minWidth="0.0" onAction="#reportUser" prefHeight="27.0" prefWidth="32.0">
+            <JFXButton fx:id="btnReport" contentDisplay="CENTER" ellipsisString="" minWidth="0.0" onAction="#reportUser" prefHeight="30.0" prefWidth="28.0">
                <graphic>
                   <FontAwesomeIconView glyphName="FLAG" size="20" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnMute" contentDisplay="CENTER" ellipsisString="" minWidth="0.0" onAction="#toggleMute" prefHeight="30.0" prefWidth="28.0">
+               <graphic>
+                  <FontAwesomeIconView fx:id="iconMute" glyphName="DEAF" size="20" />
                </graphic>
             </JFXButton>
          </children>

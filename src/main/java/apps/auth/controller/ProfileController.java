@@ -47,10 +47,11 @@ public class ProfileController extends Controller implements Initializable {
             lblEmail, lblPhone;
 
     @FXML
-    private JFXButton btnToggleFollow, btnFollowing, btnFollower, btnToggleBlock, btnMessage, btnReport, btnBlackList;
+    private JFXButton btnToggleFollow, btnFollowing, btnFollower, btnToggleBlock, btnMessage,
+            btnReport, btnBlackList, btnMute;
 
     @FXML
-    private FontAwesomeIconView iconToggleFollow, iconToggleBlock;
+    private FontAwesomeIconView iconToggleFollow, iconToggleBlock, iconMute;
 
     @FXML
     private ImageView imgAvatar; // TO DO
@@ -80,6 +81,15 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     void sendMessage(ActionEvent event) {
 
+    }
+
+    @FXML
+    void toggleMute(ActionEvent event) throws ConnectionException {
+        if (iconMute.getGlyphName().equals(String.valueOf(FontAwesomeIcon.DEAF)))
+            context.users.muteUser(State.getUser(), userModel);
+        else
+            context.users.unMuteUser(State.getUser(), userModel);
+        updateData();
     }
 
     @FXML
@@ -152,6 +162,11 @@ public class ProfileController extends Controller implements Initializable {
             hboxActions.setVisible(false);
             lblBlackListCnt.setText(String.valueOf(context.relations.getBlackList(userModel).size()));
         }
+
+        if (!State.getUser().isMuted(userModel))
+            iconMute.setGlyphName(String.valueOf(FontAwesomeIcon.DEAF));
+        else
+            iconMute.setGlyphName(String.valueOf(FontAwesomeIcon.MUSIC));
 
         userModel = context.users.getByAccess(Objects.requireNonNull(State.getUser()), userModel.id);
 
