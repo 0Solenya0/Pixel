@@ -86,7 +86,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <JFXButton fx:id="btnFollowing" layoutX="474.0" layoutY="20.0" maxHeight="29.0" minWidth="0.0" prefHeight="28.0" prefWidth="32.0">
+      <JFXButton fx:id="btnFollowing" layoutX="474.0" layoutY="20.0" maxHeight="29.0" minWidth="0.0" onAction="#showFollowingList" prefHeight="28.0" prefWidth="32.0">
          <graphic>
             <FontAwesomeIconView glyphName="LIST_UL" size="20">
                <font>
@@ -95,7 +95,7 @@
             </FontAwesomeIconView>
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnFollower" layoutX="474.0" layoutY="51.0" maxHeight="29.0" minWidth="0.0" prefHeight="27.0" prefWidth="32.0">
+      <JFXButton fx:id="btnFollower" layoutX="474.0" layoutY="51.0" maxHeight="29.0" minWidth="0.0" onAction="#showFollowerList" prefHeight="27.0" prefWidth="32.0">
          <graphic>
             <FontAwesomeIconView glyphName="LIST_UL" size="20">
                <font>
@@ -142,7 +142,7 @@
             <Font name="Gargi" size="19.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnBlackList" layoutX="475.0" layoutY="83.0" maxHeight="29.0" minWidth="0.0" prefHeight="27.0" prefWidth="32.0">
+      <JFXButton fx:id="btnBlackList" layoutX="475.0" layoutY="83.0" maxHeight="29.0" minWidth="0.0" onAction="#showBlackList" prefHeight="27.0" prefWidth="32.0">
          <graphic>
             <FontAwesomeIconView glyphName="LIST_UL" size="20">
                <font>

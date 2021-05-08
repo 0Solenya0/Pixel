@@ -25,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import view.UserListDialog;
 import view.ViewManager;
 
 import java.awt.*;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -78,6 +80,24 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     void sendMessage(ActionEvent event) {
 
+    }
+
+    @FXML
+    void showBlackList(ActionEvent event) throws ConnectionException {
+        ArrayList<User> users = context.relations.getBlackList(userModel);
+        UserListDialog.show(users);
+    }
+
+    @FXML
+    void showFollowerList(ActionEvent event) throws ConnectionException {
+        ArrayList<User> users = context.relations.getFollowers(userModel);
+        UserListDialog.show(users);
+    }
+
+    @FXML
+    void showFollowingList(ActionEvent event) throws ConnectionException {
+        ArrayList<User> users = context.relations.getFollowing(userModel);
+        UserListDialog.show(users);
     }
 
     @FXML
