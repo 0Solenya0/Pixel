@@ -2,6 +2,7 @@ package apps.auth.controller;
 
 import apps.auth.State;
 import apps.auth.model.User;
+import apps.auth.model.fields.AccessLevel;
 import apps.notification.model.Notification;
 import apps.notification.model.field.NotificationType;
 import apps.relation.model.Relation;
@@ -217,11 +218,15 @@ public class ProfileController extends Controller implements Initializable {
         try {
             Pane pane = fxmlLoader.load();
             TweetListController tweetListController = fxmlLoader.getController();
-            tweetListController.addTweetList(context.tweets.getAll(
-                    context.tweets.getQueryBuilder()
-                    .getByAuthorId(userModel.id)
-                    .getByParentTweet(0).getQuery()
-            ));
+            if (userModel.getVisibility() == AccessLevel.PRIVATE && relStatus != RelStatus.FOLLOW)
+                tweetListController.privateList();
+            else {
+                tweetListController.addTweetList(context.tweets.getAll(
+                        context.tweets.getQueryBuilder()
+                                .getByAuthorId(userModel.id)
+                                .getByParentTweet(0).getQuery()
+                ));
+            }
             tweetListController.resizeHeight(465);
             tweetPane.getChildren().add(pane);
         } catch (IOException e) {
