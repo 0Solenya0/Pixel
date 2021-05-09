@@ -57,7 +57,6 @@ public class TweetController extends Controller {
     void btnMuteClicked(ActionEvent event) throws ConnectionException {
         context.users.muteUser(apps.auth.State.getUser(), context.users.get(currentTweet.getAuthor()));
         updateCard();
-        FontAwesomeIcon.PENCIL
     }
 
     @FXML
