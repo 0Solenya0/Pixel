@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,31 +25,49 @@
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="HOME" size="30" />
+                     </graphic>
                   </JFXButton>
                   <JFXButton fx:id="btnPostTweet" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="30.0" onAction="#showPostTweetPage" prefHeight="55.0" prefWidth="201.0" text="Post tweet">
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="PENCIL" size="30" />
+                     </graphic>
                   </JFXButton>
                   <JFXButton fx:id="btnMyProfile" alignment="BASELINE_LEFT" onAction="#showMyProfile" prefHeight="55.0" prefWidth="201.0" text="My profile">
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="USER" size="30" />
+                     </graphic>
                   </JFXButton>
                   <JFXButton fx:id="btnExplorer" alignment="BASELINE_LEFT" onAction="#showExplorer" prefHeight="55.0" prefWidth="201.0" text="Explore">
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" size="30" />
+                     </graphic>
                   </JFXButton>
                   <JFXButton fx:id="btnNotification" alignment="BASELINE_LEFT" onAction="#showNotifications" prefHeight="55.0" prefWidth="201.0" text="Notifications">
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="BELL" size="30" />
+                     </graphic>
                   </JFXButton>
                   <JFXButton fx:id="btnSettings" alignment="BASELINE_LEFT" onAction="#showSettings" prefHeight="55.0" prefWidth="201.0" text="Settings">
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="GEAR" size="30" />
+                     </graphic>
                   </JFXButton>
                </children>
                <BorderPane.margin>
