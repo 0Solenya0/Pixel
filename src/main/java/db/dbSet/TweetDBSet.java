@@ -4,6 +4,7 @@ import apps.auth.model.User;
 import apps.relation.model.Relation;
 import apps.relation.model.field.RelStatus;
 import apps.tweet.model.Tweet;
+import config.Config;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import db.queryBuilder.TweetQueryBuilder;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 public class TweetDBSet extends DBSet<Tweet> {
     private static final Logger logger = LogManager.getLogger(UserDBSet.class);
+    private Config config = Config.getConfig("mainConfig");
     public TweetDBSet() {
         super(Tweet.class);
     }
@@ -52,6 +54,20 @@ public class TweetDBSet extends DBSet<Tweet> {
             logger.error("dislike tweet failed by unexpected validation error");
             logger.error(e.getLog());
         }
+    }
+
+    public void reportTweet(Tweet tweet, User user) throws ConnectionException {
+        tweet = get(tweet.id);
+        tweet.addReport(user);
+        try {
+            save(tweet);
+        }
+        catch (ValidationException e) {
+            logger.error("dislike tweet failed by unexpected validation error");
+            logger.error(e.getLog());
+        }
+        if (tweet.getReports().size() > Integer.parseInt(config.getProperty("MAX_TWEET_REPORTS")))
+            delete(tweet);
     }
 
     @Override

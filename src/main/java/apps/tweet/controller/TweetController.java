@@ -1,5 +1,6 @@
 package apps.tweet.controller;
 
+import apps.auth.State;
 import apps.auth.model.User;
 import apps.tweet.model.Tweet;
 import com.jfoenix.controls.JFXButton;
@@ -62,7 +63,7 @@ public class TweetController extends Controller {
 
     @FXML
     void btnReportClicked(ActionEvent event) throws ConnectionException {
-        // TO DO
+        context.tweets.reportTweet(currentTweet, State.getUser());
     }
 
     @FXML

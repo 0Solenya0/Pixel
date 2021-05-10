@@ -11,20 +11,19 @@ public class Tweet extends Model {
     private static final Logger logger = LogManager.getLogger(Tweet.class);
 
     private int parentTweet, reTweet;
-    private TreeSet<Integer> likes;
+    private TreeSet<Integer> likes = new TreeSet<>();
     private int author;
     private String content;
+    private TreeSet<Integer> reports = new TreeSet<>();
 
     public Tweet(User author, String text) {
         super();
-        likes = new TreeSet<>();
         this.author = author.id;
         this.content = text;
     }
 
     public Tweet(User author, int reTweet) {
         super();
-        likes = new TreeSet<>();
         this.author = author.id;
         this.reTweet = reTweet;
     }
@@ -71,5 +70,13 @@ public class Tweet extends Model {
 
     public TreeSet<Integer> getLikes() {
         return likes;
+    }
+
+    public TreeSet<Integer> getReports() {
+        return reports;
+    }
+
+    public void addReport(User user) {
+        reports.add(user.id);
     }
 }
