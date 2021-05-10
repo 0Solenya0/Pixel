@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.ProfileController">
+<AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.view.ProfileController">
    <children>
       <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>

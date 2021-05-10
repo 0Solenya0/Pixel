@@ -1,7 +1,7 @@
 package apps.tweet.controller;
 
-import apps.tweet.model.Tweet;
-import config.Config;
+import model.Tweet;
+import util.Config;
 import db.exception.ConnectionException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import view.ViewManager;
 
 import java.io.IOException;
 import java.net.URL;

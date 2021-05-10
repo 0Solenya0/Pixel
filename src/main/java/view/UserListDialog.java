@@ -1,6 +1,6 @@
 package view;
 
-import apps.auth.model.User;
+import model.User;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Pane;

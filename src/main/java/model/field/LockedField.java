@@ -1,4 +1,4 @@
-package apps.auth.model.fields;
+package model.field;
 
 public class LockedField<E> {
     public AccessLevel accessLevel;

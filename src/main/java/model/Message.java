@@ -1,6 +1,5 @@
-package apps.messenger.model;
+package model;
 
-import model.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

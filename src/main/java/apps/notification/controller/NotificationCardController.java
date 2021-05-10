@@ -1,8 +1,8 @@
 package apps.notification.controller;
 
-import apps.auth.model.User;
-import apps.notification.model.Notification;
-import apps.notification.model.field.NotificationType;
+import model.User;
+import model.Notification;
+import model.field.NotificationType;
 import com.jfoenix.controls.JFXButton;
 import controller.Controller;
 import db.exception.ConnectionException;
@@ -12,8 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-
-import java.awt.*;
 
 public class NotificationCardController extends Controller {
 

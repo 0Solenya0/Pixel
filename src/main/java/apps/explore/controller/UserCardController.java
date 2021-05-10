@@ -1,7 +1,7 @@
 package apps.explore.controller;
 
-import apps.auth.model.User;
-import config.Config;
+import model.User;
+import util.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
 import javafx.fxml.FXML;

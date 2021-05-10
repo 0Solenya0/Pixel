@@ -1,8 +1,8 @@
 package db.queryBuilder;
 
-import apps.auth.model.User;
-import apps.relation.model.Relation;
-import apps.relation.model.field.RelStatus;
+import model.User;
+import model.Relation;
+import model.field.RelStatus;
 
 public class RelationQueryBuilder extends QueryBuilder<Relation> {
 

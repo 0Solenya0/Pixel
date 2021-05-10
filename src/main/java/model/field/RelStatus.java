@@ -1,4 +1,4 @@
-package apps.relation.model.field;
+package model.field;
 
 public enum RelStatus {
     FOLLOW,

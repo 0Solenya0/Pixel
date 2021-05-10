@@ -1,10 +1,10 @@
 package apps.tweet.controller;
 
 import apps.auth.State;
-import apps.tweet.model.Tweet;
+import model.Tweet;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import config.Config;
+import util.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;

@@ -1,15 +1,13 @@
-package apps.auth.controller;
+package apps.auth.view;
 
 import apps.auth.State;
-import apps.auth.model.User;
-import apps.auth.model.fields.AccessLevel;
-import apps.notification.model.Notification;
-import apps.relation.model.Relation;
-import apps.tweet.controller.TweetController;
-import apps.tweet.model.Tweet;
+import model.User;
+import model.field.AccessLevel;
+import model.Notification;
+import model.Relation;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import config.Config;
+import util.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
@@ -21,13 +19,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import validators.UserValidators;
+import util.validator.UserValidators;
 import view.SuccessDialog;
 import view.ViewManager;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;

@@ -1,15 +1,13 @@
 package apps.explore.controller;
 
 import apps.auth.State;
-import apps.auth.model.User;
+import model.User;
 import apps.tweet.controller.TweetListController;
-import apps.tweet.model.Tweet;
-import config.Config;
+import model.Tweet;
+import util.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
-import db.queryBuilder.TweetQueryBuilder;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

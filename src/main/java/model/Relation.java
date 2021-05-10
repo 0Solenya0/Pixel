@@ -1,8 +1,6 @@
-package apps.relation.model;
+package model;
 
-import apps.auth.model.User;
-import apps.relation.model.field.RelStatus;
-import model.Model;
+import model.field.RelStatus;
 
 public class Relation extends Model {
 

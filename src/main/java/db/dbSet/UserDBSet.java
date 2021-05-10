@@ -1,17 +1,15 @@
 package db.dbSet;
 
-import apps.auth.model.User;
-import apps.auth.model.fields.AccessLevel;
-import apps.relation.model.Relation;
-import apps.relation.model.field.RelStatus;
-import db.dbSet.DBSet;
+import model.User;
+import model.field.AccessLevel;
+import model.Relation;
+import model.field.RelStatus;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
-import db.queryBuilder.QueryBuilder;
 import db.queryBuilder.UserQueryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import validators.UserValidators;
+import util.validator.UserValidators;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

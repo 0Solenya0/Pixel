@@ -1,8 +1,7 @@
-package apps.auth.model;
+package model;
 
-import apps.auth.model.fields.AccessLevel;
-import apps.auth.model.fields.LockedField;
-import model.*;
+import model.field.AccessLevel;
+import model.field.LockedField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

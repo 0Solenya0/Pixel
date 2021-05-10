@@ -1,10 +1,8 @@
 package db.dbSet;
 
-import apps.auth.model.User;
-import apps.relation.model.Relation;
-import apps.relation.model.field.RelStatus;
-import apps.tweet.model.Tweet;
-import config.Config;
+import model.User;
+import model.Tweet;
+import util.Config;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import db.queryBuilder.TweetQueryBuilder;

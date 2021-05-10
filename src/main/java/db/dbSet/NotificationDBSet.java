@@ -1,8 +1,7 @@
 package db.dbSet;
 
-import apps.auth.model.User;
-import apps.notification.model.Notification;
-import apps.notification.model.field.NotificationType;
+import model.Notification;
+import model.field.NotificationType;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import db.queryBuilder.NotificationQueryBuilder;

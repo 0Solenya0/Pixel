@@ -1,12 +1,11 @@
 package apps.notification.controller;
 
 import apps.auth.State;
-import apps.auth.model.User;
-import apps.notification.model.Notification;
-import apps.notification.model.field.NotificationType;
-import apps.tweet.controller.TweetController;
+import model.User;
+import model.Notification;
+import model.field.NotificationType;
 import com.jfoenix.controls.JFXListView;
-import config.Config;
+import util.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
 import javafx.event.ActionEvent;

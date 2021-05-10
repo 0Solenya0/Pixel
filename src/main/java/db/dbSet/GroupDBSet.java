@@ -1,7 +1,6 @@
 package db.dbSet;
 
-import apps.messenger.model.Group;
-import apps.messenger.model.Message;
+import model.Group;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import db.queryBuilder.GroupQueryBuilder;

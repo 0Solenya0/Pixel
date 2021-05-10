@@ -1,8 +1,8 @@
 package db;
 
-import apps.auth.model.User;
-import apps.notification.model.Notification;
-import apps.notification.model.field.NotificationType;
+import model.User;
+import model.Notification;
+import model.field.NotificationType;
 import db.dbSet.*;
 
 import java.util.Scanner;

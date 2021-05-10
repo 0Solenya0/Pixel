@@ -1,8 +1,6 @@
-package apps.notification.model;
+package model;
 
-import apps.auth.model.User;
-import apps.notification.model.field.NotificationType;
-import model.Model;
+import model.field.NotificationType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,7 +1,5 @@
-package apps.tweet.model;
+package model;
 
-import apps.auth.model.User;
-import model.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

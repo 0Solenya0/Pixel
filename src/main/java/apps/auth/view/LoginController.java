@@ -1,8 +1,8 @@
-package apps.auth.controller;
+package apps.auth.view;
 
 import apps.auth.State;
-import apps.auth.model.User;
-import config.Config;
+import model.User;
+import util.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
 import javafx.fxml.FXML;

@@ -1,4 +1,3 @@
-import config.Config;
 import view.ViewManager;
 
 public class run {

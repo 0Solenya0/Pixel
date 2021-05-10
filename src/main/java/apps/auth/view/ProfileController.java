@@ -1,17 +1,16 @@
-package apps.auth.controller;
+package apps.auth.view;
 
 import apps.auth.State;
-import apps.auth.model.User;
-import apps.auth.model.fields.AccessLevel;
-import apps.notification.model.Notification;
-import apps.notification.model.field.NotificationType;
-import apps.relation.model.Relation;
-import apps.relation.model.field.RelStatus;
+import model.User;
+import model.field.AccessLevel;
+import model.Notification;
+import model.field.NotificationType;
+import model.Relation;
+import model.field.RelStatus;
 import apps.tweet.controller.TweetListController;
 import com.jfoenix.controls.JFXButton;
-import config.Config;
+import util.Config;
 import controller.Controller;
-import controller.MainPanelController;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -30,11 +29,8 @@ import org.apache.logging.log4j.Logger;
 import view.UserListDialog;
 import view.ViewManager;
 
-import javax.swing.text.DateFormatter;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

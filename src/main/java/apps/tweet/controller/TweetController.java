@@ -1,14 +1,12 @@
 package apps.tweet.controller;
 
 import apps.auth.State;
-import apps.auth.model.User;
-import apps.tweet.model.Tweet;
+import model.User;
+import model.Tweet;
 import com.jfoenix.controls.JFXButton;
 import controller.Controller;
-import db.dbSet.DBSet;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

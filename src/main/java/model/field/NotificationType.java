@@ -1,4 +1,4 @@
-package apps.notification.model.field;
+package model.field;
 
 public enum NotificationType {
     REQUEST,

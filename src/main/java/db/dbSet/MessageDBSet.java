@@ -1,10 +1,8 @@
 package db.dbSet;
 
-import apps.auth.model.User;
-import apps.messenger.model.Message;
-import apps.notification.model.Notification;
-import apps.relation.model.Relation;
-import apps.relation.model.field.RelStatus;
+import model.Message;
+import model.Relation;
+import model.field.RelStatus;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import db.queryBuilder.MessageQueryBuilder;

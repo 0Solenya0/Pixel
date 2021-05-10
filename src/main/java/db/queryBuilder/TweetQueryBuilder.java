@@ -1,10 +1,8 @@
 package db.queryBuilder;
 
-import apps.auth.model.User;
-import apps.auth.model.fields.AccessLevel;
-import apps.tweet.model.Tweet;
-import config.Config;
-import db.Context;
+import model.User;
+import model.field.AccessLevel;
+import model.Tweet;
 import db.exception.ConnectionException;
 
 public class TweetQueryBuilder extends QueryBuilder<Tweet> {

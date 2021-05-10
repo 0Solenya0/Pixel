@@ -1,6 +1,6 @@
 package apps.auth;
 
-import apps.auth.model.User;
+import model.User;
 import db.Context;
 import db.exception.ConnectionException;
 

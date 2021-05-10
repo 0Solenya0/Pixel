@@ -1,6 +1,6 @@
 package db.queryBuilder;
 
-import apps.messenger.model.Group;
+import model.Group;
 
 public class GroupQueryBuilder extends QueryBuilder<Group> {
 

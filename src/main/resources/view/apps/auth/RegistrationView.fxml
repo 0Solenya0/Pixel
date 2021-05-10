@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.RegistrationController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.view.RegistrationController">
    <children>
       <Label fx:id="lblName" layoutX="191.0" layoutY="103.0" text="Name:" />
       <Label fx:id="lblSurname" layoutX="170.0" layoutY="128.0" text="Surname:" />

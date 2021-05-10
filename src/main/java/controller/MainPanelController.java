@@ -2,12 +2,12 @@ package controller;
 
 
 import apps.auth.State;
-import apps.auth.controller.ProfileController;
-import apps.auth.model.User;
+import apps.auth.view.ProfileController;
+import model.User;
 import apps.tweet.controller.TweetListController;
-import apps.tweet.model.Tweet;
+import model.Tweet;
 import com.jfoenix.controls.JFXButton;
-import config.Config;
+import util.Config;
 import db.exception.ConnectionException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.ViewManager;
 
-import javax.swing.text.View;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;

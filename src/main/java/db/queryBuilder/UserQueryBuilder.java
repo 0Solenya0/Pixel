@@ -1,6 +1,6 @@
 package db.queryBuilder;
 
-import apps.auth.model.User;
+import model.User;
 
 public class UserQueryBuilder extends QueryBuilder<User> {
 

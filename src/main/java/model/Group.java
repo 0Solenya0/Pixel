@@ -1,12 +1,8 @@
-package apps.messenger.model;
+package model;
 
-import apps.auth.model.User;
-import db.exception.ConnectionException;
-import model.Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class Group extends Model {

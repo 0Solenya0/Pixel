@@ -1,6 +1,6 @@
 package db.queryBuilder;
 
-import apps.messenger.model.Message;
+import model.Message;
 
 public class MessageQueryBuilder extends QueryBuilder<Message> {
 
