@@ -1,12 +1,15 @@
 package apps.notification.controller;
 
 import apps.auth.State;
+import apps.auth.model.User;
 import apps.notification.model.Notification;
+import apps.notification.model.field.NotificationType;
 import apps.tweet.controller.TweetController;
 import com.jfoenix.controls.JFXListView;
 import config.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,6 +40,40 @@ public class NotificationController extends Controller implements Initializable 
     @FXML
     private JFXListView<String> listPendingRequests;
 
+    @FXML
+    void deletePendingRequest(ActionEvent event) throws ConnectionException {
+        User target = context.users.getFirst(
+                context.users.getQueryBuilder().getByUsername(
+                        listPendingRequests.getSelectionModel().getSelectedItem()
+                ).getQuery()
+        );
+        context.notifications.delete(
+                context.notifications.getFirst(
+                    context.notifications.getQueryBuilder()
+                    .getByUser1(State.getUser())
+                            .getByUser2(target)
+                            .getByType(NotificationType.REQUEST).getQuery()
+                )
+        );
+        updatePending();
+    }
+
+    public void updatePending() {
+        listPendingRequests.getItems().clear();
+        try {
+            ArrayList<Notification> pending = context.notifications.getAll(
+                    context.notifications.getQueryBuilder()
+                            .getByType(NotificationType.REQUEST)
+                            .getByUser1(State.getUser()).getQuery()
+            );
+            for (Notification notification: pending) {
+                listPendingRequests.getItems().add(context.users.get(notification.getReceiver()).getUsername());
+            }
+        } catch (ConnectionException e) {
+            ViewManager.connectionFailed();
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         lblPageTitle.setText(languageConfig.getProperty("NOTIFICATION_PAGE_TITLE"));
@@ -61,7 +98,6 @@ public class NotificationController extends Controller implements Initializable 
             logger.error("failed to load view fxml file");
             e.printStackTrace();
         }
-        //TO DO PENDING REQUESTS
-        listPendingRequests.getItems().add("Hi");
+        updatePending();
     }
 }

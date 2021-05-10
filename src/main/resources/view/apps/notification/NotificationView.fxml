@@ -31,7 +31,7 @@
          </font>
       </Label>
       <JFXListView fx:id="listPendingRequests" layoutX="796.0" layoutY="552.0" prefHeight="171.0" prefWidth="200.0" />
-      <JFXButton contentDisplay="CENTER" ellipsisString="" layoutX="796.0" layoutY="520.0" prefHeight="28.0" prefWidth="16.0">
+      <JFXButton contentDisplay="CENTER" ellipsisString="" layoutX="796.0" layoutY="520.0" onAction="#deletePendingRequest" prefHeight="28.0" prefWidth="16.0">
          <graphic>
             <FontAwesomeIconView glyphName="TRASH" size="20" />
          </graphic>
