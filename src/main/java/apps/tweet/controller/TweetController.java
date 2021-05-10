@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.SuccessDialog;
+import view.ViewManager;
 
 public class TweetController extends Controller {
     private static final Logger logger = LogManager.getLogger(TweetController.class);
@@ -35,8 +36,8 @@ public class TweetController extends Controller {
     private FontAwesomeIconView iconLike;
 
     @FXML
-    void btnCommentClicked(ActionEvent event) {
-        // TO DO
+    void btnCommentClicked(ActionEvent event) throws ConnectionException {
+        ViewManager.mainPanelController.showTweetComments(currentTweet);
     }
 
     @FXML
@@ -60,14 +61,18 @@ public class TweetController extends Controller {
     }
 
     @FXML
-    void btnReportClicked(ActionEvent event) {
+    void btnReportClicked(ActionEvent event) throws ConnectionException {
         // TO DO
     }
 
     @FXML
     void btnRetweetClicked(ActionEvent event) throws ConnectionException {
         User user = apps.auth.State.getUser();
-        Tweet tweet = new Tweet(user, currentTweet.id);
+        Tweet tweet;
+        if (currentTweet.getReTweet() == 0)
+            tweet = new Tweet(user, currentTweet.id);
+        else
+            tweet = new Tweet(user, currentTweet.getReTweet());
         try {
             context.tweets.save(tweet);
         }
@@ -97,9 +102,22 @@ public class TweetController extends Controller {
         User user = apps.auth.State.getUser();
         currentTweet = context.tweets.get(currentTweet.id);
         lblAuthor.setText("@" + context.users.get(currentTweet.getAuthor()).getUsername());
+        if (currentTweet.getReTweet() != 0) {
+            String name = context.users.get(context.tweets.get(currentTweet.getReTweet()).getAuthor()).getUsername();
+            lblAuthor.setText(lblAuthor.getText() + " Retweeted a tweet by @" + name);
+        }
+        if (currentTweet.getParentTweet() != 0) {
+            String name = context.users.get(context.tweets.get(currentTweet.getParentTweet()).getAuthor()).getUsername();
+            lblAuthor.setText(lblAuthor.getText() + " commented on a tweet by @" + name);
+        }
         // TO DO Handle retweets
         // TO DO Handle Muted Author
-        lblTweet.setText(currentTweet.getContent());
+        if (currentTweet.getReTweet() == 0)
+            lblTweet.setText(currentTweet.getContent());
+        else {
+            Tweet tweet = context.tweets.get(currentTweet.getReTweet());
+            lblTweet.setText(tweet.getContent());
+        }
         if (currentTweet.containsLike(user))
             iconLike.setGlyphName("HEART");
         else

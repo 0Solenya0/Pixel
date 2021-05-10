@@ -117,7 +117,7 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     void toggleFollow(ActionEvent event) throws ConnectionException {
         if (iconToggleFollow.getGlyphName().equals(String.valueOf(FontAwesomeIcon.USER_PLUS)))
-            context.relations.follow(Objects.requireNonNull(State.getUser()), userModel);
+            context.relations.follow(Objects.requireNonNull(State.getUser()), userModel, false);
         else
             context.relations.resetRel(Objects.requireNonNull(State.getUser()), userModel);
         updateData();
@@ -218,7 +218,7 @@ public class ProfileController extends Controller implements Initializable {
         try {
             Pane pane = fxmlLoader.load();
             TweetListController tweetListController = fxmlLoader.getController();
-            if (userModel.getVisibility() == AccessLevel.PRIVATE && relStatus != RelStatus.FOLLOW)
+            if (userModel.getVisibility() == AccessLevel.PRIVATE && relStatus != RelStatus.FOLLOW && State.getUser().id != userModel.id)
                 tweetListController.privateList();
             else {
                 tweetListController.addTweetList(context.tweets.getAll(

@@ -33,6 +33,8 @@ public class TweetInputController extends Controller implements Initializable {
     @FXML
     private Label lblContentErr, lblGlobalErr, lblInputTweet;
 
+    private int parentTweet;
+
     public void showError(ValidationException e) {
         if (e.getErrors("Global") != null)
             lblGlobalErr.setText(e.getErrors("Global").get(0));
@@ -50,6 +52,7 @@ public class TweetInputController extends Controller implements Initializable {
             return;
         }
         Tweet tweet = new Tweet(Objects.requireNonNull(State.getUser()), txtTweet.getText());
+        tweet.setParentTweet(parentTweet);
         try {
             context.tweets.save(tweet);
         }
@@ -73,5 +76,9 @@ public class TweetInputController extends Controller implements Initializable {
         btnTweet.setText(config.getProperty("TWEET_BTN_TEXT"));
         lblGlobalErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
         lblContentErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+    }
+
+    public void setParentTweet(int parentTweet) {
+        this.parentTweet = parentTweet;
     }
 }

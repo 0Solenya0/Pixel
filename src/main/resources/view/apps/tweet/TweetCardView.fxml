@@ -10,9 +10,9 @@
 
 <AnchorPane prefHeight="261.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetController">
    <children>
-      <Label fx:id="lblAuthor" layoutX="14.0" layoutY="7.0" prefHeight="19.0" prefWidth="318.0" text="Author">
+      <Label fx:id="lblAuthor" layoutX="13.0" prefHeight="19.0" text="Author">
          <font>
-            <Font name="Gargi" size="20.0" />
+            <Font name="Laksaman" size="20.0" />
          </font>
       </Label>
       <Label fx:id="lblTweet" alignment="TOP_LEFT" layoutX="22.0" layoutY="44.0" prefHeight="163.0" prefWidth="952.0" style="-fx-background-color: #D6E9FF;" text="Tweet content">

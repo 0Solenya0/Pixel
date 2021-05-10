@@ -65,6 +65,26 @@ public class MainPanelController extends Controller implements Initializable {
         return tweets;
     }
 
+    public void showTweetComments(Tweet tweet) throws ConnectionException {
+        FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
+        ArrayList<Tweet> comment = context.tweets.getAll(
+                context.tweets.getQueryBuilder().getByParentTweet(tweet.id).getQuery()
+        );
+        try {
+            Pane pane = fxmlLoader.load();
+            TweetListController tweetListController = fxmlLoader.getController();
+            tweetListController.addTweet(tweet);
+            tweetListController.addCommentSection(tweet);
+            tweetListController.addTweetList(comment);
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        } catch (ConnectionException e) {
+            ViewManager.connectionFailed();
+        }
+    }
+
     public void showMyProfile() throws ConnectionException {
         showProfile(State.getUser());
     }
@@ -139,4 +159,6 @@ public class MainPanelController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
+
+
 }

@@ -67,13 +67,13 @@ public class RelationDBSet extends DBSet<Relation> {
         return res;
     }
 
-    public void follow(User user, User user2) throws ConnectionException {
+    public void follow(User user, User user2, boolean accepted) throws ConnectionException {
         Relation relation = getFirst(getQueryBuilder().getByTwoUser(user.id, user2.id).getQuery());
         try {
             if (relation != null && relation.getType() == RelStatus.FOLLOW)
                 return;
             resetRel(user, user2);
-            if (user2.getVisibility() == AccessLevel.PRIVATE)
+            if (user2.getVisibility() == AccessLevel.PRIVATE && !accepted)
                 broadcast("REQUEST " + user.id + " " + user2.id);
             else {
                 relation = new Relation(user, user2, RelStatus.FOLLOW);

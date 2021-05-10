@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import view.ViewManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -67,6 +68,21 @@ public class TweetListController implements Initializable {
 
     public void privateList() {
         lblMessage.setText(languageConfig.getProperty("PRIVATE_TWEET_LIST"));
+    }
+
+    public void addCommentSection(Tweet tweet) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(tweetAppConfig.getProperty("TWEET_INPUT_VIEW"))));
+            Pane pane = fxmlLoader.load();
+            TweetInputController tweetInputController = fxmlLoader.getController();
+            tweetInputController.setParentTweet(tweet.id);
+            containerPane.getChildren().add(pane);
+        }
+        catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        }
     }
 
     @Override

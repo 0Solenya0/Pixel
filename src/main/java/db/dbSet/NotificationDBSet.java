@@ -49,10 +49,11 @@ public class NotificationDBSet extends DBSet<Notification> {
 
     public void accept(Notification notification) throws ConnectionException {
         UserDBSet userDBSet = new UserDBSet();
+        System.out.println(notification.getSender() + " " + notification.getReceiver());
         try {
             broadcast("ACCEPT " + notification.getSender() + " " + notification.getReceiver());
-            Notification response = new Notification(0, notification.getReceiver(),
-                    userDBSet.get(notification.getSender()).getUsername() + " has accepted your request");
+            Notification response = new Notification(0, notification.getSender(),
+                    userDBSet.get(notification.getReceiver()).getUsername() + " has accepted your request");
             save(response);
             delete(notification);
         }

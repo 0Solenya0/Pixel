@@ -65,7 +65,7 @@ public class Context {
             try {
                 Scanner scanner = new Scanner(s);
                 if ("ACCEPT".equals(scanner.next())) {
-                    relations.follow(users.get(scanner.nextInt()), users.get(scanner.nextInt()));
+                    relations.follow(users.get(scanner.nextInt()), users.get(scanner.nextInt()), true);
                 }
             }
             catch (Exception ignored) {
