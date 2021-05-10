@@ -13,6 +13,7 @@ import config.Config;
 import controller.Controller;
 import controller.MainPanelController;
 import db.exception.ConnectionException;
+import db.exception.ValidationException;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
@@ -78,8 +79,15 @@ public class ProfileController extends Controller implements Initializable {
     }
 
     @FXML
-    void reportUser(ActionEvent event) {
-
+    void reportUser(ActionEvent event) throws ConnectionException {
+        try {
+            Notification notification = new Notification(
+                    Objects.requireNonNull(State.getUser()).id, userModel.id, NotificationType.REPORT);
+            context.notifications.save(notification);
+        }
+        catch (ValidationException e) {
+            logger.error("unexpected retweet validation failed");
+        }
     }
 
     @FXML
