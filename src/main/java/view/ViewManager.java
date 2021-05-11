@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ViewManager extends Application {
-    private Config authConfig = Config.getConfig("AUTH_APP_CONFIG");
-    private Config config = Config.getConfig("mainConfig");
+    private final Config authConfig = Config.getConfig("AUTH_APP_CONFIG");
+    private final Config config = Config.getConfig("mainConfig");
 
     private static Stage window;
     public static Scene loginView, registrationView, mainView;

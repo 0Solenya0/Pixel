@@ -1,7 +1,8 @@
-package apps.auth.view;
+package apps.auth.controller;
 
 import apps.auth.State;
-import model.User;
+import apps.auth.event.LoginEvent;
+import apps.auth.listener.LoginListener;
 import util.Config;
 import controller.Controller;
 import db.exception.ConnectionException;
@@ -16,10 +17,9 @@ import view.ViewManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 
-public class LoginController extends Controller implements Initializable {
-    private Config config = Config.getLanguageConfig();
+public class LoginView extends Controller implements Initializable {
+    private final Config languageConfig = Config.getLanguageConfig();
 
     @FXML
     private Label lblPassword, lblUsername, lblErr;
@@ -33,15 +33,16 @@ public class LoginController extends Controller implements Initializable {
     @FXML
     private Button btnLogin, btnRegister;
 
+    private LoginListener loginListener;
+
     public void login() throws ConnectionException {
+        LoginEvent event = new LoginEvent(txtUsername.getText(), txtPassword.getText());
+        int res = loginListener.loginEventOccurred(event);
         lblErr.setText("");
-        Predicate<User> q = context.users.getQueryBuilder()
-                .getByUsername(txtUsername.getText()).getQuery();
-        User user = context.users.getFirst(q);
-        if (user == null || !user.checkPassword(txtPassword.getText()))
+        if (res == 0)
             lblErr.setText("Wrong username or password!");
         else  {
-            State.updateUser(user.id);
+            State.updateUser(res);
             ViewManager.mainPanelController.showHomePage();
             ViewManager.setScene(ViewManager.mainView);
         }
@@ -53,13 +54,15 @@ public class LoginController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        txtUsername.setPromptText(config.getProperty("USERNAME_PROMPT"));
-        txtPassword.setPromptText(config.getProperty("PASSWORD_PROMPT"));
-        btnLogin.setText(config.getProperty("LOGIN_BTN_TEXT"));
-        btnRegister.setText(config.getProperty("REGISTER_BTN_TEXT"));
-        lblPassword.setText(config.getProperty("PASSWORD"));
-        lblUsername.setText(config.getProperty("USERNAME"));
-        lblErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        loginListener = new LoginListener();
+
+        txtUsername.setPromptText(languageConfig.getProperty("USERNAME_PROMPT"));
+        txtPassword.setPromptText(languageConfig.getProperty("PASSWORD_PROMPT"));
+        btnLogin.setText(languageConfig.getProperty("LOGIN_BTN_TEXT"));
+        btnRegister.setText(languageConfig.getProperty("REGISTER_BTN_TEXT"));
+        lblPassword.setText(languageConfig.getProperty("PASSWORD"));
+        lblUsername.setText(languageConfig.getProperty("USERNAME"));
+        lblErr.setTextFill(Paint.valueOf(languageConfig.getProperty("ERROR_COLOR")));
         lblErr.setText("");
     }
 }

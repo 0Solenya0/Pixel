@@ -1,8 +1,8 @@
-package apps.auth.view;
+package apps.auth.controller;
 
-import model.User;
+import apps.auth.event.RegistrationEvent;
+import apps.auth.listener.RegistrationListener;
 import util.Config;
-import controller.Controller;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import javafx.fxml.FXML;
@@ -15,8 +15,8 @@ import view.ViewManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RegistrationController extends Controller implements Initializable {
-    private Config config = Config.getLanguageConfig();
+public class RegistrationView implements Initializable {
+    private final Config languageConfig = Config.getLanguageConfig();
 
     @FXML
     private TextField txtEmail, txtSurname, txtName, txtUsername;
@@ -30,6 +30,8 @@ public class RegistrationController extends Controller implements Initializable 
     @FXML
     private Label emailErr, passwordErr, usernameErr, lblName, lblSurname, lblPassword, lblRepeatPassword,
         lblEmail, surnameErr, nameErr;
+
+    private RegistrationListener registrationListener;
 
     public void switchToLogin() {
         ViewManager.setScene(ViewManager.loginView);
@@ -62,16 +64,16 @@ public class RegistrationController extends Controller implements Initializable 
             showErrors(validationException);
             return;
         }
-        User user = new User(
-                txtName.getText(),
-                txtSurname.getText(),
-                txtUsername.getText(),
-                txtEmail.getText(),
-                txtPassword.getText()
-        );
 
         try {
-            context.users.save(user);
+            RegistrationEvent event = new RegistrationEvent(
+                    txtName.getText(),
+                    txtSurname.getText(),
+                    txtPassword.getText(),
+                    txtUsername.getText(),
+                    txtEmail.getText()
+            );
+            registrationListener.registrationEventOccurred(event);
         }
         catch (ValidationException e) {
             showErrors(e);
@@ -91,18 +93,19 @@ public class RegistrationController extends Controller implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        registrationListener = new RegistrationListener();
         resetErrorFields();
-        btnRegister.setText(config.getProperty("REGISTER_BTN_TEXT"));
-        btnLogin.setText(config.getProperty("LOGIN_BTN_TEXT"));
-        lblName.setText(config.getProperty("NAME"));
-        lblSurname.setText(config.getProperty("SURNAME"));
-        lblPassword.setText(config.getProperty("PASSWORD"));
-        lblRepeatPassword.setText(config.getProperty("REPEAT_PASSWORD"));
-        lblEmail.setText(config.getProperty("EMAIL"));
-        emailErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
-        usernameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
-        passwordErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
-        surnameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
-        nameErr.setTextFill(Paint.valueOf(config.getProperty("ERROR_COLOR")));
+        btnRegister.setText(languageConfig.getProperty("REGISTER_BTN_TEXT"));
+        btnLogin.setText(languageConfig.getProperty("LOGIN_BTN_TEXT"));
+        lblName.setText(languageConfig.getProperty("NAME"));
+        lblSurname.setText(languageConfig.getProperty("SURNAME"));
+        lblPassword.setText(languageConfig.getProperty("PASSWORD"));
+        lblRepeatPassword.setText(languageConfig.getProperty("REPEAT_PASSWORD"));
+        lblEmail.setText(languageConfig.getProperty("EMAIL"));
+        emailErr.setTextFill(Paint.valueOf(languageConfig.getProperty("ERROR_COLOR")));
+        usernameErr.setTextFill(Paint.valueOf(languageConfig.getProperty("ERROR_COLOR")));
+        passwordErr.setTextFill(Paint.valueOf(languageConfig.getProperty("ERROR_COLOR")));
+        surnameErr.setTextFill(Paint.valueOf(languageConfig.getProperty("ERROR_COLOR")));
+        nameErr.setTextFill(Paint.valueOf(languageConfig.getProperty("ERROR_COLOR")));
     }
 }

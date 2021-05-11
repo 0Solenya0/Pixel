@@ -46,8 +46,8 @@ public class TweetListController implements Initializable {
         fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(tweetAppConfig.getProperty("TWEET_CARD_VIEW"))));
         try {
             Pane pane = fxmlLoader.load();
-            TweetController tweetController = fxmlLoader.getController();
-            tweetController.setCurrentTweet(tweet);
+            TweetCardController tweetCardController = fxmlLoader.getController();
+            tweetCardController.setCurrentTweet(tweet);
             containerPane.getChildren().add(pane);
             lblMessage.setText("");
         }

@@ -1,6 +1,8 @@
-package apps.auth.view;
+package apps.auth.controller;
 
 import apps.auth.State;
+import controller.RelationController;
+import controller.UserController;
 import model.User;
 import model.field.AccessLevel;
 import model.Notification;
@@ -40,7 +42,7 @@ import java.util.ResourceBundle;
 
 public class ProfileController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(ProfileController.class);
-    private Config config = Config.getLanguageConfig();
+    private final Config languageConfig = Config.getLanguageConfig();
 
     @FXML
     private Label lblFullName, lblLastSeen, lblBirthday, lblUsername, lblBio, lblPastTweets,
@@ -65,12 +67,15 @@ public class ProfileController extends Controller implements Initializable {
 
     User userModel;
 
+    private final RelationController relationController = new RelationController();
+    private final UserController userController = new UserController();
+
     @FXML
     void toggleBlockUser(ActionEvent event) throws ConnectionException {
         if (iconToggleBlock.getGlyphName().equals(String.valueOf(FontAwesomeIcon.BAN)))
-            context.relations.block(Objects.requireNonNull(State.getUser()), userModel);
+            relationController.block(Objects.requireNonNull(State.getUser()), userModel);
         else
-            context.relations.resetRel(Objects.requireNonNull(State.getUser()), userModel);
+            relationController.resetRel(Objects.requireNonNull(State.getUser()), userModel);
         updateData();
     }
 
@@ -94,36 +99,36 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     void toggleMute(ActionEvent event) throws ConnectionException {
         if (iconMute.getGlyphName().equals(String.valueOf(FontAwesomeIcon.DEAF)))
-            context.users.muteUser(State.getUser(), userModel);
+            userController.muteUser(State.getUser(), userModel);
         else
-            context.users.unMuteUser(State.getUser(), userModel);
+            userController.unMuteUser(State.getUser(), userModel);
         updateData();
     }
 
     @FXML
     void showBlackList(ActionEvent event) throws ConnectionException {
-        ArrayList<User> users = context.relations.getBlackList(userModel);
+        ArrayList<User> users = relationController.getBlackList(userModel);
         UserListDialog.show(users);
     }
 
     @FXML
     void showFollowerList(ActionEvent event) throws ConnectionException {
-        ArrayList<User> users = context.relations.getFollowers(userModel);
+        ArrayList<User> users = relationController.getFollowers(userModel);
         UserListDialog.show(users);
     }
 
     @FXML
     void showFollowingList(ActionEvent event) throws ConnectionException {
-        ArrayList<User> users = context.relations.getFollowing(userModel);
+        ArrayList<User> users = relationController.getFollowing(userModel);
         UserListDialog.show(users);
     }
 
     @FXML
     void toggleFollow(ActionEvent event) throws ConnectionException {
         if (iconToggleFollow.getGlyphName().equals(String.valueOf(FontAwesomeIcon.USER_PLUS)))
-            context.relations.follow(Objects.requireNonNull(State.getUser()), userModel, false);
+            relationController.follow(Objects.requireNonNull(State.getUser()), userModel);
         else
-            context.relations.resetRel(Objects.requireNonNull(State.getUser()), userModel);
+            relationController.resetRel(Objects.requireNonNull(State.getUser()), userModel);
         updateData();
     }
 
@@ -145,7 +150,7 @@ public class ProfileController extends Controller implements Initializable {
         lblBlackList.setVisible(false);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        lblJoinedAt.setText(config.getProperty("JOINED_AT") + " " + userModel.getCreatedAt().format(formatter));
+        lblJoinedAt.setText(languageConfig.getProperty("JOINED_AT") + " " + userModel.getCreatedAt().format(formatter));
 
         Relation relation = context.relations.getFirst(
                 context.relations.getQueryBuilder()
@@ -171,7 +176,7 @@ public class ProfileController extends Controller implements Initializable {
             lblBlackList.setVisible(true);
             btnToggleFollow.setVisible(false);
             hboxActions.setVisible(false);
-            lblBlackListCnt.setText(String.valueOf(context.relations.getBlackList(userModel).size()));
+            lblBlackListCnt.setText(String.valueOf(relationController.getBlackList(userModel).size()));
         }
 
         if (!State.getUser().isMuted(userModel))
@@ -190,18 +195,18 @@ public class ProfileController extends Controller implements Initializable {
             lblEmail.setText(userModel.getMail().get());
         }
         if (!userModel.getBirthdate().get().equals(LocalDate.MIN))
-            lblBirthday.setText(config.getProperty("BIRTHDAY") + ": " + userModel.getBirthdate());
+            lblBirthday.setText(languageConfig.getProperty("BIRTHDAY") + ": " + userModel.getBirthdate());
         else
             BirthdayPane.setVisible(false);
         if (!userModel.getLastseen().get().equals(LocalDateTime.MIN))
-            lblLastSeen.setText(config.getProperty("LAST_SEEN") + " at " + userModel.getLastseen().get());
+            lblLastSeen.setText(languageConfig.getProperty("LAST_SEEN") + " at " + userModel.getLastseen().get());
         else
-            lblLastSeen.setText(config.getProperty("LAST_SEEN_RECENTLY"));
+            lblLastSeen.setText(languageConfig.getProperty("LAST_SEEN_RECENTLY"));
         lblBio.setText(userModel.getBio());
         lblUsername.setText(userModel.getUsername());
         lblFullName.setText(userModel.getFullName());
-        lblFollowerCnt.setText(String.valueOf(context.relations.getFollowers(userModel).size()));
-        lblFollowingCnt.setText(String.valueOf(context.relations.getFollowing(userModel).size()));
+        lblFollowerCnt.setText(String.valueOf(relationController.getFollowers(userModel).size()));
+        lblFollowingCnt.setText(String.valueOf(relationController.getFollowing(userModel).size()));
 
         Notification request = context.notifications.getFirst(
                 context.notifications.getQueryBuilder()
@@ -248,10 +253,10 @@ public class ProfileController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lblFollowing.setText(config.getProperty("FOLLOWING"));
-        lblFollower.setText(config.getProperty("FOLLOWER"));
-        lblBlackList.setText(config.getProperty("BLACKLIST"));
-        lblPastTweets.setText(config.getProperty("PAST_TWEETS"));
-        lblRequested.setText(config.getProperty("REQUESTED"));
+        lblFollowing.setText(languageConfig.getProperty("FOLLOWING"));
+        lblFollower.setText(languageConfig.getProperty("FOLLOWER"));
+        lblBlackList.setText(languageConfig.getProperty("BLACKLIST"));
+        lblPastTweets.setText(languageConfig.getProperty("PAST_TWEETS"));
+        lblRequested.setText(languageConfig.getProperty("REQUESTED"));
     }
 }

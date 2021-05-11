@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
-public class NotificationController extends Controller implements Initializable {
-    private static final Logger logger = LogManager.getLogger(NotificationController.class);
+public class NotificationListController extends Controller implements Initializable {
+    private static final Logger logger = LogManager.getLogger(NotificationListController.class);
     private Config languageConfig = Config.getLanguageConfig();
     private Config notificationAppConfig = Config.getConfig("NOTIFICATION_APP_CONFIG");
 

@@ -1,4 +1,4 @@
-package apps.auth.view;
+package apps.auth.controller;
 
 import apps.auth.State;
 import model.User;

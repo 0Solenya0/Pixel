@@ -1,6 +1,7 @@
 package apps.tweet.controller;
 
 import apps.auth.State;
+import controller.UserController;
 import model.User;
 import model.Tweet;
 import com.jfoenix.controls.JFXButton;
@@ -17,8 +18,8 @@ import org.apache.logging.log4j.Logger;
 import view.SuccessDialog;
 import view.ViewManager;
 
-public class TweetController extends Controller {
-    private static final Logger logger = LogManager.getLogger(TweetController.class);
+public class TweetCardController extends Controller {
+    private static final Logger logger = LogManager.getLogger(TweetCardController.class);
 
     private Tweet currentTweet;
 
@@ -34,6 +35,9 @@ public class TweetController extends Controller {
     @FXML
     private FontAwesomeIconView iconLike;
 
+    private final UserController userController = new UserController();
+    private final controller.TweetController tweetController =  new controller.TweetController();
+
     @FXML
     void btnCommentClicked(ActionEvent event) throws ConnectionException {
         ViewManager.mainPanelController.showTweetComments(currentTweet);
@@ -43,11 +47,11 @@ public class TweetController extends Controller {
     void btnLikeClicked(ActionEvent event) throws ConnectionException {
         User user = apps.auth.State.getUser();
         if (iconLike.getGlyphName().equals("HEART")) {
-            context.tweets.dislikeTweet(currentTweet, user);
+            tweetController.dislikeTweet(currentTweet, user);
             iconLike.setGlyphName("HEART");
         }
         else {
-            context.tweets.likeTweet(currentTweet, user);
+            tweetController.likeTweet(currentTweet, user);
             iconLike.setGlyphName("HEART_ALT");
         }
         updateCard();
@@ -55,13 +59,13 @@ public class TweetController extends Controller {
 
     @FXML
     void btnMuteClicked(ActionEvent event) throws ConnectionException {
-        context.users.muteUser(apps.auth.State.getUser(), context.users.get(currentTweet.getAuthor()));
+        userController.muteUser(apps.auth.State.getUser(), context.users.get(currentTweet.getAuthor()));
         updateCard();
     }
 
     @FXML
     void btnReportClicked(ActionEvent event) throws ConnectionException {
-        context.tweets.reportTweet(currentTweet, State.getUser());
+        tweetController.reportTweet(currentTweet, State.getUser());
     }
 
     @FXML

@@ -16,56 +16,11 @@ public class Context {
     public GroupDBSet groups = new GroupDBSet();
 
     public Context() {
-        relations.addListener(s -> {
-            try {
-                Scanner scanner = new Scanner(s);
-                String type = scanner.next();
-                User user1 = users.get(scanner.nextInt());
-                User user2 = users.get(scanner.nextInt());
-                switch (type) {
-                    case "REQUEST":
-                        Notification notification = new Notification(user1.id, user2.id, NotificationType.REQUEST);
-                        notifications.save(notification);
-                        break;
-                    case "FOLLOW":
-                        Notification notification1 = new Notification(0, user2.id,
-                                user1.getUsername() + " has started following you");
-                        notifications.save(notification1);
-                        break;
-                    case "UNFOLLOW":
-                        Notification notification2 = new Notification(0, user2.id,
-                                user1.getUsername() + " has stopped following you");
-                        notifications.save(notification2);
-                        break;
-                    case "BLOCK":
-                        Notification tmp = notifications.getFirst(
-                                notifications.getQueryBuilder()
-                                        .getByTwoUser(user1, user2)
-                                        .getByType(NotificationType.REQUEST)
-                                        .getQuery()
-                        );
-                        if (tmp != null)
-                            notifications.delete(tmp);
-                        tmp = notifications.getFirst(
-                                notifications.getQueryBuilder()
-                                        .getByTwoUser(user2, user1)
-                                        .getByType(NotificationType.REQUEST)
-                                        .getQuery()
-                        );
-                        if (tmp != null)
-                            notifications.delete(tmp);
-                        break;
-                }
-            }
-            catch (Exception ignored) {
-
-            }
-        });
         notifications.addListener(s -> {
             try {
                 Scanner scanner = new Scanner(s);
                 if ("ACCEPT".equals(scanner.next())) {
-                    relations.follow(users.get(scanner.nextInt()), users.get(scanner.nextInt()), true);
+
                 }
             }
             catch (Exception ignored) {

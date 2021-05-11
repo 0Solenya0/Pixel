@@ -1,5 +1,6 @@
 package apps.notification.controller;
 
+import controller.NotificationController;
 import model.User;
 import model.Notification;
 import model.field.NotificationType;
@@ -29,6 +30,8 @@ public class NotificationCardController extends Controller {
 
     private Notification notification;
 
+    private NotificationController notificationController = new NotificationController();
+
     public void setBtnVisibility(boolean visibility) {
         btnAccept.setVisible(visibility);
         btnReject.setVisible(visibility);
@@ -37,21 +40,21 @@ public class NotificationCardController extends Controller {
 
     @FXML
     void accept(ActionEvent event) throws ConnectionException {
-        context.notifications.accept(notification);
+        notificationController.accept(notification);
         setBtnVisibility(false);
         lblNotification.setText("Accepted!");
     }
 
     @FXML
     void reject(ActionEvent event) throws ConnectionException {
-        context.notifications.refuse(notification);
+        notificationController.refuse(notification);
         setBtnVisibility(false);
         lblNotification.setText("Rejected");
     }
 
     @FXML
     void silentReject(ActionEvent event) throws ConnectionException {
-        context.notifications.silentRefuse(notification);
+        notificationController.silentRefuse(notification);
         setBtnVisibility(false);
         lblNotification.setText("Rejected");
     }

@@ -2,7 +2,7 @@ package controller;
 
 
 import apps.auth.State;
-import apps.auth.view.ProfileController;
+import apps.auth.controller.ProfileController;
 import model.User;
 import apps.tweet.controller.TweetListController;
 import model.Tweet;
@@ -35,6 +35,8 @@ public class MainPanelController extends Controller implements Initializable {
     @FXML
     private BorderPane borderPane;
 
+    private final RelationController relationController = new RelationController();
+
     public void changeCenterPane(Pane pane) {
         borderPane.setCenter(pane);
     }
@@ -51,7 +53,7 @@ public class MainPanelController extends Controller implements Initializable {
     public ArrayList<Tweet> getTimelineTweets() throws ConnectionException {
         ArrayList<Tweet> tweets = new ArrayList<>();
         User user = apps.auth.State.getUser();
-        for (User u: context.relations.getFollowing(apps.auth.State.getUser()))
+        for (User u: relationController.getFollowing(apps.auth.State.getUser()))
             if (!user.isMuted(u))
                 tweets.addAll(context.tweets.getAll(
                         context.tweets.getQueryBuilder()

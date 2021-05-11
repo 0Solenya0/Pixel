@@ -85,29 +85,4 @@ public class UserDBSet extends DBSet<User> {
     public UserQueryBuilder getQueryBuilder() {
         return new UserQueryBuilder();
     }
-
-    public void muteUser(User user, User user2) throws ConnectionException {
-        user = get(user.id);
-        user.muteUser(user2);
-        try {
-            save(user);
-        }
-        catch (ValidationException e) {
-            logger.error("mute user failed by unexpected validation error");
-            logger.error(e.getLog());
-        }
-    }
-
-    public void unMuteUser(User user, User user2) throws ConnectionException {
-        user = get(user.id);
-        user.unMuteUser(user2);
-        try {
-            save(user);
-        }
-        catch (ValidationException e) {
-            logger.error("mute user failed by unexpected validation error");
-            logger.error(e.getLog());
-        }
-    }
-
 }
