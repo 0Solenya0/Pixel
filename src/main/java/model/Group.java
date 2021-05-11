@@ -29,6 +29,7 @@ public class Group extends Model {
     public void addUser(int user) {
         users.add(user);
     }
+
     public void deleteUser(int user) {
         users.remove(user);
     }
