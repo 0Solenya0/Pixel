@@ -69,8 +69,12 @@ public class MessengerController extends Controller implements Initializable {
             if (user != null) {
                 messageController.sendMessage(State.getUser(), user, txtContent.getText());
                 updateMessagesPane(user);
-                txtContent.setText("");
             }
+            else if (group != null) {
+                messageController.sendMessage(State.getUser(), group, txtContent.getText());
+                updateMessagesPane(group);
+            }
+            txtContent.setText("");
         }
         catch (ValidationException e) {
             //TO DO handle errors
@@ -104,8 +108,31 @@ public class MessengerController extends Controller implements Initializable {
         messageScrollPane.setVvalue(1.0);
     }
 
-    public void updateMessagesPane(ChatGroup group) {
-
+    public void updateMessagesPane(ChatGroup group) throws ConnectionException {
+        this.group = group;
+        this.user = null;
+        sendMessagePane.setVisible(true);
+        lblChatName.setText(group.getName());
+        Objects.requireNonNull(State.getUser());
+        ArrayList<Message> messages = context.messages.getAll(
+                context.messages.getQueryBuilder().getByGroup(group.id).getQuery()
+        );
+        vboxMessage.getChildren().clear();
+        for (Message message: messages) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource(messengerAppConfig.getProperty("MESSAGE_CARD_VIEW")));
+                Pane pane = fxmlLoader.load();
+                MessageBoxCardController controller = fxmlLoader.getController();
+                controller.setMessage(message);
+                vboxMessage.getChildren().add(pane);
+            }
+            catch (IOException e) {
+                logger.error("failed to load view fxml file");
+                e.printStackTrace();
+            }
+        }
+        messageScrollPane.setVvalue(1.0);
     }
 
     @Override
@@ -122,9 +149,26 @@ public class MessengerController extends Controller implements Initializable {
                 users.add(context.users.get(message.getReceiver()).id);
                 users.add(context.users.get(message.getSender()).id);
             }
-            //TO DO handle chat groups
             //TO DO Sort chats
             vboxChat.getChildren().clear();
+            ArrayList<ChatGroup> chatGroups = context.chatGroups.getAll(
+                    context.chatGroups.getQueryBuilder().getByMember(State.getCurrentUserId()).getQuery()
+            );
+            for (ChatGroup chatGroup: chatGroups) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource(messengerAppConfig.getProperty("CARD_VIEW")));
+                Pane pane = fxmlLoader.load();
+                ChatGroupCardController controller = fxmlLoader.getController();
+                controller.setGroup(chatGroup);
+                controller.setOnClickListener(s -> {
+                    try {
+                        updateMessagesPane(chatGroup);
+                    } catch (ConnectionException e) {
+                        ViewManager.connectionFailed();
+                    }
+                });
+                vboxMessage.getChildren().add(pane);
+            }
             for (Integer userId: users) {
                 User user = context.users.get(userId);
                 FXMLLoader fxmlLoader = new FXMLLoader();

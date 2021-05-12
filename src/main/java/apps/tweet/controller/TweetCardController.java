@@ -177,8 +177,6 @@ public class TweetCardController extends Controller implements Initializable {
             lblAuthor.setText(lblAuthor.getText() + " commented on a tweet by @" + name);
             btnParentTweet.setVisible(true);
         }
-        // TO DO Handle retweets
-        // TO DO Handle Muted Author
         lblTweet.setText(currentTweet.getContent());
         if (currentTweet.containsLike(user))
             iconLike.setGlyphName("HEART");

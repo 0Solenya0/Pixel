@@ -46,4 +46,10 @@ public class MessageController extends Controller {
         message.setChatGroup(group.id);
         context.messages.save(message);
     }
+
+    public void sendMessage(User user, ChatGroup group, String content) throws ConnectionException, ValidationException {
+        Message message = new Message(user.id, content);
+        message.setChatGroup(group.id);
+        context.messages.save(message);
+    }
 }
