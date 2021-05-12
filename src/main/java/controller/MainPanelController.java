@@ -103,6 +103,16 @@ public class MainPanelController extends Controller implements Initializable {
         }
     }
 
+    public void showGroups() {
+        try {
+            Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(messengerAppConfig.getProperty("GROUP_MANAGER_VIEW"))));
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        }
+    }
+
     public void showTweetComments(Tweet tweet) throws ConnectionException {
         FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
         ArrayList<Tweet> comment = context.tweets.getAll(

@@ -145,4 +145,18 @@ public class User extends Model {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public int hashCode(){
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if (!(obj instanceof User)) return false;
+
+        User that = (User) obj;
+        return id == that.id;
+    }
 }

@@ -72,6 +72,14 @@
                               <FontAwesomeIconView glyphName="BELL" size="25" />
                            </graphic>
                         </JFXButton>
+                        <JFXButton alignment="BASELINE_LEFT" onAction="#showGroups" prefHeight="55.0" prefWidth="201.0" text="My Groups">
+                           <font>
+                              <Font name="Laksaman" size="18.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView glyphName="GROUP" size="25" />
+                           </graphic>
+                        </JFXButton>
                         <JFXButton fx:id="btnSettings" alignment="BASELINE_LEFT" onAction="#showSettings" prefHeight="55.0" prefWidth="201.0" text="Settings">
                            <font>
                               <Font name="Laksaman" size="18.0" />
