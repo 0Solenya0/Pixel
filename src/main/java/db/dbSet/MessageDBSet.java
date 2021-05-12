@@ -24,7 +24,7 @@ public class MessageDBSet extends DBSet<Message> {
         Relation relationR = relationDBSet.getFirst(relationDBSet.getQueryBuilder()
                 .getByTwoUser(model.getReceiver(), model.getSender()).getQuery());
 
-        if (model.getSender() != model.getReceiver()
+        if (model.getReceiver() != 0 && model.getSender() != model.getReceiver()
             && !((relation != null && relation.getType() == RelStatus.FOLLOW)
                 || (relationR != null && relationR.getType() == RelStatus.FOLLOW)))
                 validationException.addError("User", "Sender and receiver doesn't follow each other");

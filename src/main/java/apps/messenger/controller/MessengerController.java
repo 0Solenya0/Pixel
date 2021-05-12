@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import controller.Controller;
 import controller.MainPanelController;
 import controller.MessageController;
+import controller.RelationController;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import javafx.event.ActionEvent;
@@ -23,9 +24,12 @@ import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.Config;
+import view.StringDialog;
 import view.SuccessDialog;
+import view.UserListDialog;
 import view.ViewManager;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,7 +48,7 @@ public class MessengerController extends Controller implements Initializable {
     private JFXTextArea txtContent;
 
     @FXML
-    private JFXButton btnSend;
+    private JFXButton btnSend, btnAddUser;
 
     @FXML
     private Label lblChatName;
@@ -61,6 +65,43 @@ public class MessengerController extends Controller implements Initializable {
     private User user;
     private ChatGroup group;
     private MessageController messageController = new MessageController();
+    private RelationController relationController = new RelationController();
+
+    @FXML
+    void addUser() throws ConnectionException {
+        Objects.requireNonNull(State.getUser());
+        ArrayList<User> users = relationController.getFollowing(State.getUser());
+        ArrayList<User> res = new ArrayList<>();
+        for (User user: users)
+            if (!group.isMember(user.id))
+                res.add(user);
+        UserListDialog.show(res, selected -> {
+            for (User user: selected)
+                group.addMember(user);
+            try {
+                context.chatGroups.save(group);
+            } catch (ConnectionException e) {
+                ViewManager.connectionFailed();
+            } catch (ValidationException e) {
+                //TO DO
+            }
+        });
+    }
+
+    @FXML
+    void createGroup() {
+        StringDialog.show("Enter Group name", s -> {
+            try {
+                group = new ChatGroup(s, State.getCurrentUserId());
+                context.chatGroups.save(group);
+            } catch (ConnectionException e) {
+                ViewManager.connectionFailed();
+            } catch (ValidationException e) {
+                //TO DO
+            }
+        });
+        updatePage();
+    }
 
     @FXML
     void sendMessage(ActionEvent event) throws ConnectionException {
@@ -78,12 +119,14 @@ public class MessengerController extends Controller implements Initializable {
         }
         catch (ValidationException e) {
             //TO DO handle errors
+            System.out.println(e.getLog());
         }
     }
 
     public void updateMessagesPane(User user) throws ConnectionException {
         this.user = user;
         this.group = null;
+        btnAddUser.setVisible(false);
         sendMessagePane.setVisible(true);
         lblChatName.setText(user.getUsername());
         Objects.requireNonNull(State.getUser());
@@ -111,6 +154,7 @@ public class MessengerController extends Controller implements Initializable {
     public void updateMessagesPane(ChatGroup group) throws ConnectionException {
         this.group = group;
         this.user = null;
+        btnAddUser.setVisible(true);
         sendMessagePane.setVisible(true);
         lblChatName.setText(group.getName());
         Objects.requireNonNull(State.getUser());
@@ -135,19 +179,21 @@ public class MessengerController extends Controller implements Initializable {
         messageScrollPane.setVvalue(1.0);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void updatePage() {
         lblChatName.setText("");
         sendMessagePane.setVisible(false);
+        btnAddUser.setVisible(false);
         TreeSet<Integer> users = new TreeSet<>();
         try {
             ArrayList<Message> dms = context.messages.getAll(
                     context.messages.getQueryBuilder()
-                    .getRelatedToUser(Objects.requireNonNull(State.getUser()).id).getQuery()
+                            .getRelatedToUser(Objects.requireNonNull(State.getUser()).id).getQuery()
             );
             for (Message message: dms) {
-                users.add(context.users.get(message.getReceiver()).id);
-                users.add(context.users.get(message.getSender()).id);
+                if (message.getReceiver() != 0) {
+                    users.add(context.users.get(message.getReceiver()).id);
+                    users.add(context.users.get(message.getSender()).id);
+                }
             }
             //TO DO Sort chats
             vboxChat.getChildren().clear();
@@ -167,7 +213,7 @@ public class MessengerController extends Controller implements Initializable {
                         ViewManager.connectionFailed();
                     }
                 });
-                vboxMessage.getChildren().add(pane);
+                vboxChat.getChildren().add(pane);
             }
             for (Integer userId: users) {
                 User user = context.users.get(userId);
@@ -193,5 +239,10 @@ public class MessengerController extends Controller implements Initializable {
             logger.error("failed to load view fxml file");
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        updatePage();
     }
 }

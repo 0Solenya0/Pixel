@@ -109,19 +109,19 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     void showBlackList(ActionEvent event) throws ConnectionException {
         ArrayList<User> users = relationController.getBlackList(userModel);
-        UserListDialog.show(users);
+        UserListDialog.show(users, u -> {});
     }
 
     @FXML
     void showFollowerList(ActionEvent event) throws ConnectionException {
         ArrayList<User> users = relationController.getFollowers(userModel);
-        UserListDialog.show(users);
+        UserListDialog.show(users, u -> {});
     }
 
     @FXML
     void showFollowingList(ActionEvent event) throws ConnectionException {
         ArrayList<User> users = relationController.getFollowing(userModel);
-        UserListDialog.show(users);
+        UserListDialog.show(users, u -> {});
     }
 
     @FXML

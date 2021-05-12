@@ -1,5 +1,6 @@
 package view;
 
+import listener.UserListListener;
 import model.User;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -11,7 +12,7 @@ import javafx.stage.StageStyle;
 import java.util.ArrayList;
 
 public class UserListDialog {
-    public static void show(ArrayList<User> users) {
+    public static void show(ArrayList<User> users, UserListListener listener) {
         Pane rootPane = new Pane();
         ListView<String> listView = new ListView<String>();
         for (User user: users)
@@ -23,5 +24,9 @@ public class UserListDialog {
         Scene newDialogScene = new Scene(rootPane);
         newDialog.setScene(newDialogScene);
         newDialog.showAndWait();
+        ArrayList<User> res = new ArrayList<>();
+        for (int item: listView.getSelectionModel().getSelectedIndices())
+            res.add(users.get(item));
+        listener.listen(res);
     }
 }
