@@ -20,12 +20,6 @@ public class Tweet extends Model {
         this.content = text;
     }
 
-    public Tweet(User author, int reTweet) {
-        super();
-        this.author = author.id;
-        this.reTweet = reTweet;
-    }
-
     public int getParentTweet() {
         return parentTweet;
     }

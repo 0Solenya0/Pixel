@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="261.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetCardController">
+<AnchorPane maxHeight="261.0" maxWidth="1000.0" minHeight="261.0" minWidth="1000.0" prefHeight="261.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetCardController">
    <children>
       <Label fx:id="lblAuthor" layoutX="13.0" prefHeight="19.0" text="Author">
          <font>
@@ -65,5 +65,10 @@
             </JFXButton>
          </children>
       </HBox>
+      <JFXButton fx:id="btnParentTweet" buttonType="RAISED" layoutX="418.0" layoutY="209.0" onAction="#showParentTweet" style="-fx-background-color: B8BDB5;" text="Show Parent Tweet">
+         <font>
+            <Font name="Laksaman" size="16.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

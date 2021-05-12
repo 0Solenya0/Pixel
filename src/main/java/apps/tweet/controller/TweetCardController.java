@@ -2,6 +2,9 @@ package apps.tweet.controller;
 
 import apps.auth.State;
 import controller.UserController;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.layout.Pane;
 import model.User;
 import model.Tweet;
 import com.jfoenix.controls.JFXButton;
@@ -15,11 +18,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import util.Config;
 import view.SuccessDialog;
 import view.ViewManager;
 
-public class TweetCardController extends Controller {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class TweetCardController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(TweetCardController.class);
+    private Config tweetAppConfig = Config.getConfig("TWEET_APP_CONFIG");
 
     private Tweet currentTweet;
 
@@ -27,7 +36,7 @@ public class TweetCardController extends Controller {
     private Label lblAuthor, lblTweet;
 
     @FXML
-    private JFXButton btnSave, btnShare, btnRetweet, btnComment, btnLike, btnMute, btnReport;
+    private JFXButton btnSave, btnShare, btnRetweet, btnComment, btnLike, btnMute, btnReport, btnParentTweet;
 
     @FXML
     private HBox hboxForeign;
@@ -70,20 +79,18 @@ public class TweetCardController extends Controller {
 
     @FXML
     void btnRetweetClicked(ActionEvent event) throws ConnectionException {
-        User user = apps.auth.State.getUser();
-        Tweet tweet;
-        if (currentTweet.getReTweet() == 0)
-            tweet = new Tweet(user, currentTweet.id);
-        else
-            tweet = new Tweet(user, currentTweet.getReTweet());
         try {
-            context.tweets.save(tweet);
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource(tweetAppConfig.getProperty("TWEET_INPUT_VIEW")));
+            Pane pane = fxmlLoader.load();
+            TweetInputController inputController = fxmlLoader.getController();
+            inputController.setParentRetweet(currentTweet.id);
+            ViewManager.mainPanelController.addStackPaneNode(pane);
         }
-        catch (ValidationException e) {
-            logger.error("unexpected retweet validation failed");
-            return;
+        catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
         }
-        SuccessDialog.show("Retweet successful!");
     }
 
     @FXML
@@ -101,6 +108,27 @@ public class TweetCardController extends Controller {
         updateCard();
     }
 
+    @FXML
+    void showParentTweet(ActionEvent event) throws ConnectionException {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource(tweetAppConfig.getProperty("TWEET_CARD_VIEW")));
+            Pane pane = fxmlLoader.load();
+            TweetCardController controller = fxmlLoader.getController();
+            Tweet tweet;
+            if (currentTweet.getReTweet() != 0)
+                tweet = context.tweets.get(currentTweet.getReTweet());
+            else
+                tweet = context.tweets.get(currentTweet.getParentTweet());
+            controller.setCurrentTweet(tweet);
+            ViewManager.mainPanelController.addStackPaneNode(pane);
+        }
+        catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        }
+    }
+
     public void updateCard() throws ConnectionException {
         User user = apps.auth.State.getUser();
         currentTweet = context.tweets.get(currentTweet.id);
@@ -108,19 +136,16 @@ public class TweetCardController extends Controller {
         if (currentTweet.getReTweet() != 0) {
             String name = context.users.get(context.tweets.get(currentTweet.getReTweet()).getAuthor()).getUsername();
             lblAuthor.setText(lblAuthor.getText() + " Retweeted a tweet by @" + name);
+            btnParentTweet.setVisible(true);
         }
         if (currentTweet.getParentTweet() != 0) {
             String name = context.users.get(context.tweets.get(currentTweet.getParentTweet()).getAuthor()).getUsername();
             lblAuthor.setText(lblAuthor.getText() + " commented on a tweet by @" + name);
+            btnParentTweet.setVisible(true);
         }
         // TO DO Handle retweets
         // TO DO Handle Muted Author
-        if (currentTweet.getReTweet() == 0)
-            lblTweet.setText(currentTweet.getContent());
-        else {
-            Tweet tweet = context.tweets.get(currentTweet.getReTweet());
-            lblTweet.setText(tweet.getContent());
-        }
+        lblTweet.setText(currentTweet.getContent());
         if (currentTweet.containsLike(user))
             iconLike.setGlyphName("HEART");
         else
@@ -129,5 +154,9 @@ public class TweetCardController extends Controller {
             hboxForeign.setVisible(false);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        btnParentTweet.setVisible(false);
+    }
 }
 

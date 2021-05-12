@@ -4,6 +4,12 @@ package controller;
 import apps.auth.State;
 import apps.auth.controller.ProfileController;
 import apps.messenger.controller.MessengerController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import model.User;
 import apps.tweet.controller.TweetListController;
 import model.Tweet;
@@ -32,10 +38,13 @@ public class MainPanelController extends Controller implements Initializable {
     private Config messengerAppConfig = Config.getConfig("MESSENGER_APP_CONFIG");
 
     @FXML
-    private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer, btnNotification;
+    private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer, btnNotification, btnClose;
 
     @FXML
     private BorderPane borderPane;
+
+    @FXML
+    private StackPane stackPane;
 
     private final RelationController relationController = new RelationController();
 
@@ -185,8 +194,22 @@ public class MainPanelController extends Controller implements Initializable {
         }
     }
 
+    public void addStackPaneNode(Node node) {
+        btnClose.setVisible(true);
+        stackPane.getChildren().add(stackPane.getChildren().size() - 1, node);
+        EventHandler<ActionEvent> handler = btnClose.getOnAction();
+        btnClose.setOnAction(e -> {
+            stackPane.getChildren().remove(node);
+            if (stackPane.getChildren().size() == 2)
+                btnClose.setVisible(false);
+            if (handler != null)
+                btnClose.setOnAction(handler);
+        });
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        btnClose.setVisible(false);
     }
 
 
