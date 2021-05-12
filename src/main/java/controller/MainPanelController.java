@@ -3,6 +3,7 @@ package controller;
 
 import apps.auth.State;
 import apps.auth.controller.ProfileController;
+import apps.messenger.controller.MessengerController;
 import model.User;
 import apps.tweet.controller.TweetListController;
 import model.Tweet;
@@ -28,6 +29,7 @@ public class MainPanelController extends Controller implements Initializable {
     private Config authAppConfig = Config.getConfig("AUTH_APP_CONFIG");
     private Config exploreAppConfig = Config.getConfig("EXPLORE_APP_CONFIG");
     private Config notificationAppConfig = Config.getConfig("NOTIFICATION_APP_CONFIG");
+    private Config messengerAppConfig = Config.getConfig("MESSENGER_APP_CONFIG");
 
     @FXML
     private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer, btnNotification;
@@ -64,6 +66,32 @@ public class MainPanelController extends Controller implements Initializable {
                 ));
         tweets.sort(Comparator.comparingInt(t -> -t.id));
         return tweets;
+    }
+
+    public void showMessages(User user) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(messengerAppConfig.getProperty("MESSENGER_VIEW"))));
+            Pane pane = fxmlLoader.load();
+            MessengerController messengerController = fxmlLoader.getController();
+            messengerController.updateMessagesPane(user);
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        } catch (ConnectionException e) {
+            ViewManager.connectionFailed();
+        }
+    }
+
+    public void showMessages() {
+        try {
+            Pane pane = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(messengerAppConfig.getProperty("MESSENGER_VIEW"))));
+            ViewManager.changeCenter(pane);
+        } catch (IOException e) {
+            logger.error("failed to load view fxml file");
+            e.printStackTrace();
+        }
     }
 
     public void showTweetComments(Tweet tweet) throws ConnectionException {

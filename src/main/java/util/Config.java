@@ -23,7 +23,6 @@ public class Config extends Properties {
 
     private Config(String address) {
         super();
-        System.out.println(address);
         try {
             Reader fileReader = new FileReader(Config.class.getResource(address).getFile());
             this.load(fileReader);

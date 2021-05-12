@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="100.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.messenger.controller.MessageBoxCardController">
+   <children>
+      <Label fx:id="lblContent" layoutX="75.0" layoutY="14.0" prefHeight="73.0" prefWidth="525.0" style="-fx-background-color: LIGHTBLUE;" text="text" wrapText="true">
+         <font>
+            <Font name="Laksaman" size="22.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="imgReceiverAvatar" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgSenderAvatar" fitHeight="60.0" fitWidth="60.0" layoutX="608.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="btnEdit" buttonType="RAISED" layoutX="633.0" layoutY="83.0" minWidth="0.0" onAction="#editMessage" prefHeight="28.0" prefWidth="35.0" text="Button">
+         <graphic>
+            <FontAwesomeIconView fx:id="iconEdit" glyphName="PENCIL" size="20" />
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="597.0" layoutY="83.0" minWidth="0.0" onAction="#deleteMessage" prefHeight="28.0" prefWidth="35.0" text="Button">
+         <graphic>
+            <FontAwesomeIconView glyphName="TRASH" size="20" />
+         </graphic>
+      </JFXButton>
+   </children>
+</AnchorPane>

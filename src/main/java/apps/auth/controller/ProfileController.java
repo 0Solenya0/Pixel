@@ -1,6 +1,7 @@
 package apps.auth.controller;
 
 import apps.auth.State;
+import controller.MessageController;
 import controller.RelationController;
 import controller.UserController;
 import model.User;
@@ -93,7 +94,7 @@ public class ProfileController extends Controller implements Initializable {
 
     @FXML
     void sendMessage(ActionEvent event) {
-
+        ViewManager.mainPanelController.showMessages(userModel);
     }
 
     @FXML
@@ -151,6 +152,9 @@ public class ProfileController extends Controller implements Initializable {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         lblJoinedAt.setText(languageConfig.getProperty("JOINED_AT") + " " + userModel.getCreatedAt().format(formatter));
+
+        MessageController messageController = new MessageController();
+        btnMessage.setVisible(messageController.canMessage(State.getUser(), userModel));
 
         Relation relation = context.relations.getFirst(
                 context.relations.getQueryBuilder()

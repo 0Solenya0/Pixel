@@ -53,12 +53,20 @@
                         <FontAwesomeIconView glyphName="SEARCH" size="30" />
                      </graphic>
                   </JFXButton>
+                  <JFXButton alignment="BASELINE_LEFT" onAction="#showMessages" prefHeight="55.0" prefWidth="201.0" text="Messages">
+                     <font>
+                        <Font name="Laksaman" size="18.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="SEND" size="25" />
+                     </graphic>
+                  </JFXButton>
                   <JFXButton fx:id="btnNotification" alignment="BASELINE_LEFT" onAction="#showNotifications" prefHeight="55.0" prefWidth="201.0" text="Notifications">
                      <font>
                         <Font name="Laksaman" size="18.0" />
                      </font>
                      <graphic>
-                        <FontAwesomeIconView glyphName="BELL" size="30" />
+                        <FontAwesomeIconView glyphName="BELL" size="25" />
                      </graphic>
                   </JFXButton>
                   <JFXButton fx:id="btnSettings" alignment="BASELINE_LEFT" onAction="#showSettings" prefHeight="55.0" prefWidth="201.0" text="Settings">

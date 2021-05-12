@@ -25,7 +25,8 @@ public class MessageDBSet extends DBSet<Message> {
                 .getByTwoUser(model.getReceiver(), model.getSender()).getQuery());
 
         if (model.getSender() != model.getReceiver()
-            && !((relation.getType() == RelStatus.FOLLOW) || (relationR.getType() == RelStatus.FOLLOW)))
+            && !((relation != null && relation.getType() == RelStatus.FOLLOW)
+                || (relationR != null && relationR.getType() == RelStatus.FOLLOW)))
                 validationException.addError("User", "Sender and receiver doesn't follow each other");
         if ((model.getContent() == null || model.getContent().isBlank()) && model.getTweetId() == 0)
             validationException.addError("Content", "Message does not have any content");
