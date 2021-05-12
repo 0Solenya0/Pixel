@@ -33,4 +33,8 @@ public class Group extends Model {
     public void deleteUser(int user) {
         users.remove(user);
     }
+
+    public String getName() {
+        return name;
+    }
 }

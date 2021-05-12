@@ -2,6 +2,7 @@ package controller;
 
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
+import model.ChatGroup;
 import model.Message;
 import model.Relation;
 import model.User;
@@ -31,6 +32,18 @@ public class MessageController extends Controller {
     public void sendMessage(User user, User user2, String content) throws ConnectionException, ValidationException {
         Message message = new Message(user.id, content);
         message.setReceiver(user2.id);
+        context.messages.save(message);
+    }
+
+    public void sendMessage(User user, User user2, int tweetId) throws ConnectionException, ValidationException {
+        Message message = new Message(user.id, tweetId);
+        message.setReceiver(user2.id);
+        context.messages.save(message);
+    }
+
+    public void sendMessage(User user, ChatGroup group, int tweetId) throws ConnectionException, ValidationException {
+        Message message = new Message(user.id, tweetId);
+        message.setChatGroup(group.id);
         context.messages.save(message);
     }
 }

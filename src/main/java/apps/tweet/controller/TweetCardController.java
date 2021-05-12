@@ -1,10 +1,14 @@
 package apps.tweet.controller;
 
 import apps.auth.State;
+import controller.MessageController;
 import controller.UserController;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
+import listener.ForwardListener;
+import model.ChatGroup;
+import model.Group;
 import model.User;
 import model.Tweet;
 import com.jfoenix.controls.JFXButton;
@@ -19,11 +23,15 @@ import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.Config;
+import view.ForwardListDialog;
 import view.SuccessDialog;
 import view.ViewManager;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class TweetCardController extends Controller implements Initializable {
@@ -46,6 +54,7 @@ public class TweetCardController extends Controller implements Initializable {
 
     private final UserController userController = new UserController();
     private final controller.TweetController tweetController =  new controller.TweetController();
+    private final MessageController messageController = new MessageController();
 
     @FXML
     void btnCommentClicked(ActionEvent event) throws ConnectionException {
@@ -94,13 +103,38 @@ public class TweetCardController extends Controller implements Initializable {
     }
 
     @FXML
-    void btnSaveClicked(ActionEvent event) {
-        // TO DO
+    void btnSaveClicked(ActionEvent event) throws ConnectionException {
+        try {
+            Objects.requireNonNull(State.getUser());
+            messageController.sendMessage(State.getUser(), State.getUser(),
+                    currentTweet.id);
+        }
+        catch (ValidationException e) {
+            // TO DO
+        }
     }
 
     @FXML
-    void btnShareClicked(ActionEvent event) {
-        // TO DO
+    void btnShareClicked(ActionEvent event) throws ConnectionException {
+        Objects.requireNonNull(State.getUser());
+        ForwardListDialog.show((users, groups, chatGroups) -> {
+            try {
+                HashSet<User> sendUser = new HashSet<>(users);
+                for (Group group : groups) {
+                    for (int userId : group.getUsers())
+                        sendUser.add(context.users.get(userId));
+                }
+                for (User user: sendUser)
+                    messageController.sendMessage(State.getUser(), user, currentTweet.id);
+                for (ChatGroup chatGroup: chatGroups)
+                    messageController.sendMessage(State.getUser(), chatGroup, currentTweet.id);
+            }
+            catch (ConnectionException e) {
+                ViewManager.connectionFailed();
+            } catch (ValidationException e) {
+                // TO DO
+            }
+        });
     }
 
     public void setCurrentTweet(Tweet currentTweet) throws ConnectionException {

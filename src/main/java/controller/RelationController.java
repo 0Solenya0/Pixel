@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class RelationController extends Controller {
     private static final Logger logger = LogManager.getLogger(RelationController.class);
@@ -43,6 +44,16 @@ public class RelationController extends Controller {
         ArrayList<User> res = new ArrayList<>();
         for (Relation relation : rel)
             res.add(context.users.get(relation.getReceiver()));
+        return res;
+    }
+
+    public ArrayList<User> getFollowingAndFollower(User user) throws ConnectionException {
+        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> res = new ArrayList<>();
+        users.addAll(getFollowing(user));
+        users.addAll(getFollowers(user));
+        HashSet<User> userHashSet = new HashSet<>(users);
+        res.addAll(userHashSet);
         return res;
     }
 

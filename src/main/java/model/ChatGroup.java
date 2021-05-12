@@ -32,8 +32,8 @@ public class ChatGroup extends Model {
         return owner;
     }
 
-    public boolean isMember(User user) {
-        return users.contains(user.id);
+    public boolean isMember(int user) {
+        return users.contains(user);
     }
 
     public boolean isAdmin(User user) {

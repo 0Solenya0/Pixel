@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="100.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.messenger.controller.MessageBoxCardController">
    <children>
       <Label fx:id="lblContent" layoutX="75.0" layoutY="14.0" prefHeight="73.0" prefWidth="525.0" style="-fx-background-color: LIGHTBLUE;" text="text" wrapText="true">
@@ -36,5 +35,6 @@
             <FontAwesomeIconView glyphName="TRASH" size="20" />
          </graphic>
       </JFXButton>
+      <JFXButton fx:id="btnShowTweet" buttonType="RAISED" layoutX="151.0" layoutY="20.0" onAction="#showTweet" prefHeight="60.0" prefWidth="361.0" style="-fx-background-color: B8BDB5;" text="Show tweet" />
    </children>
 </AnchorPane>

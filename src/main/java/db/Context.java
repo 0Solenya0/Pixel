@@ -14,18 +14,5 @@ public class Context {
     public NotificationDBSet notifications = new NotificationDBSet();
     public MessageDBSet messages = new MessageDBSet();
     public GroupDBSet groups = new GroupDBSet();
-
-    public Context() {
-        notifications.addListener(s -> {
-            try {
-                Scanner scanner = new Scanner(s);
-                if ("ACCEPT".equals(scanner.next())) {
-
-                }
-            }
-            catch (Exception ignored) {
-
-            }
-        });
-    }
+    public ChatGroupDBSet chatGroups = new ChatGroupDBSet();
 }

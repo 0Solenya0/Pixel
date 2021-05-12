@@ -11,4 +11,9 @@ public class ChatGroupQueryBuilder extends QueryBuilder<ChatGroup> {
         addCustomFilter(group -> group.getOwner() == user);
         return this;
     }
+
+    public ChatGroupQueryBuilder getByMember(int user) {
+        addCustomFilter(group -> group.isMember(user));
+        return this;
+    }
 }
