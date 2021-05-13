@@ -202,8 +202,9 @@ public class ProfileController extends Controller implements Initializable {
             lblBirthday.setText(languageConfig.getProperty("BIRTHDAY") + ": " + userModel.getBirthdate());
         else
             BirthdayPane.setVisible(false);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM HH:mm");
         if (!userModel.getLastseen().get().equals(LocalDateTime.MIN))
-            lblLastSeen.setText(languageConfig.getProperty("LAST_SEEN") + " at " + userModel.getLastseen().get());
+            lblLastSeen.setText(languageConfig.getProperty("LAST_SEEN") + " at " + userModel.getLastseen().get().format(dateTimeFormatter));
         else
             lblLastSeen.setText(languageConfig.getProperty("LAST_SEEN_RECENTLY"));
         lblBio.setText(userModel.getBio());
