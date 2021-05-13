@@ -1,5 +1,6 @@
 package view;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import util.Config;
 import controller.MainPanelController;
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ViewManager extends Application {
@@ -16,6 +18,7 @@ public class ViewManager extends Application {
     private final Config config = Config.getConfig("mainConfig");
 
     private static Stage window;
+    private static ArrayList<Pane> history = new ArrayList<>();
     public static Scene loginView, registrationView, mainView;
     public static MainPanelController mainPanelController;
 
@@ -50,6 +53,18 @@ public class ViewManager extends Application {
 
     public static void changeCenter(Pane pane) {
         mainPanelController.changeCenterPane(pane);
+        history.add(pane);
+        if (history.size() > 1)
+            mainPanelController.setBackButtonVisibility(true);
+        System.out.println(pane);
+    }
+    
+    public static void back() {
+        System.out.println("HI");
+        history.remove(history.get(history.size() - 1));
+        mainPanelController.changeCenterPane(history.get(history.size() - 1));
+        if (history.size() <= 1)
+            mainPanelController.setBackButtonVisibility(false);
     }
 
     public static void connectionFailed() {

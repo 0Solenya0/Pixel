@@ -21,6 +21,11 @@
                         <DropShadow />
                      </effect>
                      <children>
+                        <JFXButton fx:id="btnBack" contentDisplay="CENTER" onAction="#backButtonClicked" prefHeight="35.0" prefWidth="33.0">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="ARROW_LEFT" size="25" />
+                           </graphic>
+                        </JFXButton>
                         <JFXButton fx:id="btnHome" alignment="BASELINE_LEFT" onAction="#showHomePage" prefHeight="55.0" prefWidth="201.0" text="Home">
                            <VBox.margin>
                               <Insets top="20.0" />

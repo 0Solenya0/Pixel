@@ -25,6 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.ViewManager;
 
+import javax.swing.text.View;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -38,7 +39,7 @@ public class MainPanelController extends Controller implements Initializable {
     private Config messengerAppConfig = Config.getConfig("MESSENGER_APP_CONFIG");
 
     @FXML
-    private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer, btnNotification, btnClose;
+    private JFXButton btnHome, btnPostTweet, btnMyProfile, btnExplorer, btnNotification, btnClose, btnBack;
 
     @FXML
     private BorderPane borderPane;
@@ -217,9 +218,18 @@ public class MainPanelController extends Controller implements Initializable {
         });
     }
 
+    public void setBackButtonVisibility(boolean vis) {
+        btnBack.setVisible(vis);
+    }
+
+    public void backButtonClicked() {
+        ViewManager.back();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnClose.setVisible(false);
+        btnBack.setVisible(false);
     }
 
 
