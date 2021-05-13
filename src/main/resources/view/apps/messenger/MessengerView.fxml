@@ -61,7 +61,8 @@
                                  <font>
                                     <Font name="Laksaman" size="22.0" />
                                  </font></Label>
-                              <JFXButton fx:id="btnAddUser" buttonType="RAISED" contentDisplay="CENTER" layoutX="297.0" layoutY="79.0" onAction="#addUser" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="Add User" />
+                              <JFXButton fx:id="btnAddUser" buttonType="RAISED" contentDisplay="CENTER" layoutX="8.0" layoutY="71.0" onAction="#addUser" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="Add User" />
+                              <JFXButton fx:id="btnUserList" buttonType="RAISED" contentDisplay="CENTER" layoutX="100.0" layoutY="71.0" onAction="#showUserList" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="User List" />
                            </children>
                         </AnchorPane>
                      </top>

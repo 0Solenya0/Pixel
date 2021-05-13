@@ -48,7 +48,7 @@ public class MessengerController extends Controller implements Initializable {
     private JFXTextArea txtContent;
 
     @FXML
-    private JFXButton btnSend, btnAddUser;
+    private JFXButton btnSend, btnAddUser, btnUserList;
 
     @FXML
     private Label lblChatName;
@@ -123,9 +123,17 @@ public class MessengerController extends Controller implements Initializable {
         }
     }
 
+    public void showUserList() throws ConnectionException {
+        ArrayList<User> users = new ArrayList<>();
+        for (int userId: group.getUsers())
+            users.add(context.users.get(userId));
+        UserListDialog.show(users, u -> { });
+    }
+
     public void updateMessagesPane(User user) throws ConnectionException {
         this.user = user;
         this.group = null;
+        btnUserList.setVisible(false);
         btnAddUser.setVisible(false);
         sendMessagePane.setVisible(true);
         lblChatName.setText(user.getUsername());
@@ -160,6 +168,7 @@ public class MessengerController extends Controller implements Initializable {
     public void updateMessagesPane(ChatGroup group) throws ConnectionException {
         this.group = group;
         this.user = null;
+        btnUserList.setVisible(true);
         btnAddUser.setVisible(true);
         sendMessagePane.setVisible(true);
         lblChatName.setText(group.getName());
@@ -256,5 +265,6 @@ public class MessengerController extends Controller implements Initializable {
         lblChatName.setText("");
         sendMessagePane.setVisible(false);
         btnAddUser.setVisible(false);
+        btnUserList.setVisible(false);
     }
 }
