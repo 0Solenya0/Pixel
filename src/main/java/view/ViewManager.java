@@ -56,11 +56,9 @@ public class ViewManager extends Application {
         history.add(pane);
         if (history.size() > 1)
             mainPanelController.setBackButtonVisibility(true);
-        System.out.println(pane);
     }
     
     public static void back() {
-        System.out.println("HI");
         history.remove(history.get(history.size() - 1));
         mainPanelController.changeCenterPane(history.get(history.size() - 1));
         if (history.size() <= 1)

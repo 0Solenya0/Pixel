@@ -141,14 +141,20 @@ public class MessengerController extends Controller implements Initializable {
                 Pane pane = fxmlLoader.load();
                 MessageBoxCardController controller = fxmlLoader.getController();
                 controller.setMessage(message);
+                message.addView(State.getUser());
+                context.messages.save(message);
                 vboxMessage.getChildren().add(pane);
             }
             catch (IOException e) {
                 logger.error("failed to load view fxml file");
                 e.printStackTrace();
             }
+            catch (ValidationException e) {
+                //TO DO
+            }
         }
         messageScrollPane.setVvalue(1.0);
+        updatePage();
     }
 
     public void updateMessagesPane(ChatGroup group) throws ConnectionException {
@@ -169,20 +175,23 @@ public class MessengerController extends Controller implements Initializable {
                 Pane pane = fxmlLoader.load();
                 MessageBoxCardController controller = fxmlLoader.getController();
                 controller.setMessage(message);
+                message.addView(State.getUser());
+                context.messages.save(message);
                 vboxMessage.getChildren().add(pane);
             }
             catch (IOException e) {
                 logger.error("failed to load view fxml file");
                 e.printStackTrace();
             }
+            catch (ValidationException e) {
+                //TO DO
+            }
         }
         messageScrollPane.setVvalue(1.0);
+        updatePage();
     }
 
     public void updatePage() {
-        lblChatName.setText("");
-        sendMessagePane.setVisible(false);
-        btnAddUser.setVisible(false);
         TreeSet<Integer> users = new TreeSet<>();
         try {
             ArrayList<Message> dms = context.messages.getAll(
@@ -244,5 +253,8 @@ public class MessengerController extends Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         updatePage();
+        lblChatName.setText("");
+        sendMessagePane.setVisible(false);
+        btnAddUser.setVisible(false);
     }
 }
