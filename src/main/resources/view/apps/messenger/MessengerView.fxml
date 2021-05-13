@@ -72,9 +72,17 @@
          <left>
             <AnchorPane layoutY="30.0" prefHeight="730.0" prefWidth="261.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox fx:id="vboxChat" layoutY="25.0" prefHeight="730.0" prefWidth="320.0" />
                   <Separator layoutX="317.0" layoutY="7.0" orientation="VERTICAL" prefHeight="745.0" prefWidth="0.0" />
                   <Button layoutX="107.0" layoutY="2.0" mnemonicParsing="false" onAction="#createGroup" text="Create Group" />
+                  <ScrollPane layoutX="-5.0" layoutY="32.0" prefHeight="723.0" prefWidth="320.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="320.0">
+                           <children>
+                              <VBox fx:id="vboxChat" prefWidth="320.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
                </children>
             </AnchorPane>
          </left>
