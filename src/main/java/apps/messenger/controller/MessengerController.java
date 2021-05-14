@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import controller.Controller;
 import controller.MessageController;
 import controller.RelationController;
+import db.ImageDB;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import model.ChatGroup;
 import model.Message;
 import model.User;
@@ -28,6 +30,9 @@ import view.StringDialog;
 import view.UserListDialog;
 import view.ViewManager;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -64,6 +69,7 @@ public class MessengerController extends Controller implements Initializable {
     private ChatGroup group;
     private MessageController messageController = new MessageController();
     private RelationController relationController = new RelationController();
+    private String photoId;
 
     @FXML
     void addUser() throws ConnectionException {
@@ -108,13 +114,20 @@ public class MessengerController extends Controller implements Initializable {
         Objects.requireNonNull(State.getUser());
         try {
             if (user != null) {
-                messageController.sendMessage(State.getUser(), user, txtContent.getText());
+                if (photoId == null)
+                    messageController.sendMessage(State.getUser(), user, txtContent.getText());
+                else
+                    messageController.sendMessage(State.getUser(), user, txtContent.getText(), photoId);
                 updateMessagesPane(user);
             }
             else if (group != null) {
-                messageController.sendMessage(State.getUser(), group, txtContent.getText());
+                if (photoId == null)
+                    messageController.sendMessage(State.getUser(), group, txtContent.getText());
+                else
+                    messageController.sendMessage(State.getUser(), group, txtContent.getText(), photoId);
                 updateMessagesPane(group);
             }
+            photoId = null;
             txtContent.setText("");
         }
         catch (ValidationException e) {
@@ -232,6 +245,19 @@ public class MessengerController extends Controller implements Initializable {
             }
         });
         vboxChat.getChildren().add(pane);
+    }
+
+    @FXML
+    void attachImage(ActionEvent event) throws ConnectionException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select your image");
+        File file = fileChooser.showOpenDialog(ViewManager.getWindow());
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            photoId = context.images.save(bufferedImage);
+        } catch (IOException e) {
+            logger.error("Failed to read photo");
+        }
     }
 
     public void updatePage() {

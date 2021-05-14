@@ -11,6 +11,7 @@ public class Message extends Model {
     private int user1, user2, chatGroupId, tweetId = 0;
     private TreeSet<Integer> viewers = new TreeSet<>();
     private String content;
+    private String photo;
 
     public Message(int user1, String content) {
         super();
@@ -75,5 +76,13 @@ public class Message extends Model {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

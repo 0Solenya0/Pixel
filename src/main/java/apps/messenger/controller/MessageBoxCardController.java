@@ -40,7 +40,7 @@ public class MessageBoxCardController extends Controller implements Initializabl
     private Label lblContent;
 
     @FXML
-    private ImageView imgReceiverAvatar, imgSenderAvatar;
+    private ImageView imgReceiverAvatar, imgSenderAvatar, imgPhoto;
 
     @FXML
     private JFXButton btnEdit, btnDelete, btnShowTweet;
@@ -112,6 +112,8 @@ public class MessageBoxCardController extends Controller implements Initializabl
             btnShowTweet.setVisible(true);
             lblContent.setVisible(false);
         }
+        if (message.getPhoto() != null)
+            imgPhoto.setImage(context.images.load(message.getPhoto()));
         if (State.getCurrentUserId() == message.getSender()) {
             new Thread(() -> {
                 try {

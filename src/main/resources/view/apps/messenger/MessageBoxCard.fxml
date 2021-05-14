@@ -29,5 +29,6 @@
       </JFXButton>
       <JFXButton fx:id="btnShowTweet" buttonType="RAISED" layoutX="151.0" layoutY="20.0" onAction="#showTweet" prefHeight="60.0" prefWidth="361.0" style="-fx-background-color: B8BDB5;" text="Show tweet" />
       <JFXTextArea fx:id="txtEditMessage" layoutX="72.0" layoutY="14.0" prefHeight="73.0" prefWidth="525.0" />
+      <ImageView fx:id="imgPhoto" fitWidth="550.0" layoutX="15.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

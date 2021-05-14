@@ -15,4 +15,5 @@ public class Context {
     public MessageDBSet messages = new MessageDBSet();
     public GroupDBSet groups = new GroupDBSet();
     public ChatGroupDBSet chatGroups = new ChatGroupDBSet();
+    public ImageDB images = new ImageDB();
 }

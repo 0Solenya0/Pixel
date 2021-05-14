@@ -59,6 +59,13 @@ public class MessageController extends Controller {
         context.messages.save(message);
     }
 
+    public void sendMessage(User user, User user2, String content, String photoId) throws ConnectionException, ValidationException {
+        Message message = new Message(user.id, content);
+        message.setReceiver(user2.id);
+        message.setPhoto(photoId);
+        context.messages.save(message);
+    }
+
     public void sendMessage(User user, User user2, int tweetId) throws ConnectionException, ValidationException {
         Message message = new Message(user.id, tweetId);
         message.setReceiver(user2.id);
@@ -74,6 +81,13 @@ public class MessageController extends Controller {
     public void sendMessage(User user, ChatGroup group, String content) throws ConnectionException, ValidationException {
         Message message = new Message(user.id, content);
         message.setChatGroup(group.id);
+        context.messages.save(message);
+    }
+
+    public void sendMessage(User user, ChatGroup group, String content, String photoId) throws ConnectionException, ValidationException {
+        Message message = new Message(user.id, content);
+        message.setChatGroup(group.id);
+        message.setPhoto(photoId);
         context.messages.save(message);
     }
 }
