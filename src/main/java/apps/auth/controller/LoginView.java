@@ -40,7 +40,7 @@ public class LoginView extends Controller implements Initializable {
         int res = loginListener.loginEventOccurred(event);
         lblErr.setText("");
         if (res == 0)
-            lblErr.setText("Wrong username or password!");
+            lblErr.setText(languageConfig.getProperty("LOGIN_FAILED"));
         else  {
             State.updateUser(res);
             ViewManager.mainPanelController.showHomePage();
