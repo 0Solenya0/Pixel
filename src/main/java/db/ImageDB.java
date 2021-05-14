@@ -14,10 +14,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Random;
 
 public class ImageDB {
     private static final Logger logger = LogManager.getLogger(ImageDB.class);
+    private static HashMap<String, Image> cache = new HashMap<>();
     private Config config = Config.getConfig("mainConfig");
 
     private int getLastId() {
@@ -63,9 +65,13 @@ public class ImageDB {
     }
 
     public Image load(String id) throws ConnectionException {
+        if (cache.containsKey(id))
+            return cache.get(id);
         File path = getImageFile(id);
         try {
-            return convertToFxImage(ImageIO.read(path));
+            Image image = convertToFxImage(ImageIO.read(path));
+            cache.put(id, image);
+            return image;
         } catch (IOException e) {
             logger.error("Failed reading image file - " + e.getMessage());
             throw new ConnectionException();
