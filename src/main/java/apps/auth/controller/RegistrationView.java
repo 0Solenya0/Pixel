@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.paint.Paint;
-import view.SuccessDialog;
+import view.InfoDialog;
 import view.ViewManager;
 
 import java.net.URL;
@@ -79,7 +79,7 @@ public class RegistrationView implements Initializable {
             showErrors(e);
             return;
         }
-        SuccessDialog.show("Registered successfully!");
+        InfoDialog.showSuccess("Registered successfully!");
         switchToLogin();
     }
 

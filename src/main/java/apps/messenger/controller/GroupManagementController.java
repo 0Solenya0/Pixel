@@ -17,6 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.Group;
 import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.Config;
 import view.StringDialog;
 import view.UserListDialog;
@@ -29,6 +31,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GroupManagementController extends Controller implements Initializable {
+    private static final Logger logger = LogManager.getLogger(GroupManagementController.class);
     private final Config messengerAppConfig = Config.getConfig("MESSENGER_APP_CONFIG");
 
     @FXML
@@ -57,7 +60,8 @@ public class GroupManagementController extends Controller implements Initializab
                 ViewManager.connectionFailed();
             }
             catch (ValidationException e) {
-                //TO DO
+                logger.error("validation error while adding a user to a group");
+                logger.error(e.getLog());
             }
         });
     }
@@ -74,7 +78,8 @@ public class GroupManagementController extends Controller implements Initializab
                 ViewManager.connectionFailed();
             }
             catch (ValidationException e) {
-                //TO DO
+                logger.error("validation error while creating a group");
+                logger.error(e.getLog());
             }
         });
     }
@@ -94,7 +99,8 @@ public class GroupManagementController extends Controller implements Initializab
             showGroup(group);
         }
         catch (ValidationException e) {
-            //TO DO
+            logger.error("validation error while deleting user from group");
+            logger.error(e.getLog());
         }
     }
 

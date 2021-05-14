@@ -4,7 +4,6 @@ import apps.auth.State;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import controller.Controller;
-import controller.MainPanelController;
 import controller.MessageController;
 import controller.RelationController;
 import db.exception.ConnectionException;
@@ -24,12 +23,11 @@ import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.Config;
+import view.InfoDialog;
 import view.StringDialog;
-import view.SuccessDialog;
 import view.UserListDialog;
 import view.ViewManager;
 
-import javax.swing.text.View;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -83,7 +81,8 @@ public class MessengerController extends Controller implements Initializable {
             } catch (ConnectionException e) {
                 ViewManager.connectionFailed();
             } catch (ValidationException e) {
-                //TO DO
+                logger.error("validation error while adding a user to a group chat");
+                logger.error(e.getLog());
             }
         });
     }
@@ -97,7 +96,8 @@ public class MessengerController extends Controller implements Initializable {
             } catch (ConnectionException e) {
                 ViewManager.connectionFailed();
             } catch (ValidationException e) {
-                //TO DO
+                logger.error("validation error while creating a group");
+                logger.error(e.getLog());
             }
         });
         updatePage();
@@ -118,8 +118,7 @@ public class MessengerController extends Controller implements Initializable {
             txtContent.setText("");
         }
         catch (ValidationException e) {
-            //TO DO handle errors
-            System.out.println(e.getLog());
+            InfoDialog.showFailed(e.getLog());
         }
     }
 
@@ -158,7 +157,8 @@ public class MessengerController extends Controller implements Initializable {
                 e.printStackTrace();
             }
             catch (ValidationException e) {
-                //TO DO
+                logger.error("validation error while viewing a message");
+                logger.error(e.getLog());
             }
         }
         messageScrollPane.setVvalue(messageScrollPane.getVmax());
@@ -193,7 +193,8 @@ public class MessengerController extends Controller implements Initializable {
                 e.printStackTrace();
             }
             catch (ValidationException e) {
-                //TO DO
+                logger.error("validation error while viewing messages");
+                logger.error(e.getLog());
             }
         }
         messageScrollPane.setVvalue(messageScrollPane.getVmax());
@@ -246,7 +247,6 @@ public class MessengerController extends Controller implements Initializable {
                     users.add(context.users.get(message.getSender()).id);
                 }
             }
-            //TO DO Sort chats
             vboxChat.getChildren().clear();
             ArrayList<ChatGroup> chatGroups = context.chatGroups.getAll(
                     context.chatGroups.getQueryBuilder().getByMember(State.getCurrentUserId()).getQuery()

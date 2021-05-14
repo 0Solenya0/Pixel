@@ -63,7 +63,8 @@ public class MessageBoxCardController extends Controller implements Initializabl
                 context.messages.save(message);
             }
             catch (ValidationException e) {
-                //TO DO
+                logger.error("validation error while editing");
+                logger.error(e.getLog());
             }
             lblContent.setText(message.getContent());
             iconEdit.setGlyphName(String.valueOf(FontAwesomeIcon.PENCIL));

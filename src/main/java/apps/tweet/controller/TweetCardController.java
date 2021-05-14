@@ -6,7 +6,6 @@ import controller.UserController;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
-import listener.ForwardListener;
 import model.ChatGroup;
 import model.Group;
 import model.User;
@@ -24,12 +23,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.Config;
 import view.ForwardListDialog;
-import view.SuccessDialog;
 import view.ViewManager;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -110,7 +107,8 @@ public class TweetCardController extends Controller implements Initializable {
                     currentTweet.id);
         }
         catch (ValidationException e) {
-            // TO DO
+           logger.error("validation error while saving a tweet");
+           logger.error(e.getLog());
         }
     }
 
@@ -132,7 +130,8 @@ public class TweetCardController extends Controller implements Initializable {
             catch (ConnectionException e) {
                 ViewManager.connectionFailed();
             } catch (ValidationException e) {
-                // TO DO
+                logger.error("validation error while sharing a tweet");
+                logger.error(e.getLog());
             }
         });
     }

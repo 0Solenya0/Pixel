@@ -20,10 +20,9 @@ import javafx.scene.paint.Paint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.validator.UserValidators;
-import view.SuccessDialog;
+import view.InfoDialog;
 import view.ViewManager;
 
-import javax.swing.text.View;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,7 +81,7 @@ public class SettingsController extends Controller implements Initializable {
         catch (ValidationException e) {
             logger.error("change password failed unexpected validation error");
         }
-        SuccessDialog.show("Password successfully changed!");
+        InfoDialog.showSuccess("Password successfully changed!");
     }
 
     @FXML
@@ -149,7 +148,7 @@ public class SettingsController extends Controller implements Initializable {
             lblSaveErr.setText(e.getAllErrors().get(0));
             return;
         }
-        SuccessDialog.show("Profile info saved");
+        InfoDialog.showSuccess("Profile info saved");
     }
 
     @FXML

@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import view.SuccessDialog;
+import view.InfoDialog;
 
 import java.net.URL;
 import java.util.Objects;
@@ -61,7 +61,7 @@ public class TweetInputController extends Controller implements Initializable {
             showError(e);
             return;
         }
-        SuccessDialog.show("Tweeted successfully!");
+        InfoDialog.showSuccess("Tweeted successfully!");
     }
 
     public void resetErrorFields() {
