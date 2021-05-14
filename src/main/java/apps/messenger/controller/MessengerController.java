@@ -161,7 +161,7 @@ public class MessengerController extends Controller implements Initializable {
                 //TO DO
             }
         }
-        messageScrollPane.setVvalue(1.0);
+        messageScrollPane.setVvalue(messageScrollPane.getVmax());
         updatePage();
     }
 
@@ -196,7 +196,7 @@ public class MessengerController extends Controller implements Initializable {
                 //TO DO
             }
         }
-        messageScrollPane.setVvalue(1.0);
+        messageScrollPane.setVvalue(messageScrollPane.getVmax());
         updatePage();
     }
 
