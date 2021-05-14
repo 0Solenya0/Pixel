@@ -200,9 +200,42 @@ public class MessengerController extends Controller implements Initializable {
         updatePage();
     }
 
+    public void addGroupToList(ChatGroup chatGroup) throws IOException, ConnectionException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(messengerAppConfig.getProperty("CARD_VIEW")));
+        Pane pane = fxmlLoader.load();
+        ChatGroupCardController controller = fxmlLoader.getController();
+        controller.setGroup(chatGroup);
+        controller.setOnClickListener(s -> {
+            try {
+                updateMessagesPane(chatGroup);
+            } catch (ConnectionException e) {
+                ViewManager.connectionFailed();
+            }
+        });
+        vboxChat.getChildren().add(pane);
+    }
+
+    public void addUserToList(User user) throws IOException, ConnectionException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource(messengerAppConfig.getProperty("CARD_VIEW")));
+        Pane pane = fxmlLoader.load();
+        ChatGroupCardController controller = fxmlLoader.getController();
+        controller.setUser(user);
+        controller.setOnClickListener(s -> {
+            try {
+                updateMessagesPane(user);
+            }
+            catch (ConnectionException e) {
+                ViewManager.connectionFailed();
+            }
+        });
+        vboxChat.getChildren().add(pane);
+    }
+
     public void updatePage() {
-        TreeSet<Integer> users = new TreeSet<>();
         try {
+            TreeSet<Integer> users = new TreeSet<>();
             ArrayList<Message> dms = context.messages.getAll(
                     context.messages.getQueryBuilder()
                             .getRelatedToUser(Objects.requireNonNull(State.getUser()).id).getQuery()
@@ -219,36 +252,26 @@ public class MessengerController extends Controller implements Initializable {
                     context.chatGroups.getQueryBuilder().getByMember(State.getCurrentUserId()).getQuery()
             );
             for (ChatGroup chatGroup: chatGroups) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource(messengerAppConfig.getProperty("CARD_VIEW")));
-                Pane pane = fxmlLoader.load();
-                ChatGroupCardController controller = fxmlLoader.getController();
-                controller.setGroup(chatGroup);
-                controller.setOnClickListener(s -> {
-                    try {
-                        updateMessagesPane(chatGroup);
-                    } catch (ConnectionException e) {
-                        ViewManager.connectionFailed();
-                    }
-                });
-                vboxChat.getChildren().add(pane);
+                Message m = messageController.getLastMessage(chatGroup);
+                if (m != null && !m.hasViewed(State.getUser()))
+                    addGroupToList(chatGroup);
             }
             for (Integer userId: users) {
                 User user = context.users.get(userId);
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource(messengerAppConfig.getProperty("CARD_VIEW")));
-                Pane pane = fxmlLoader.load();
-                ChatGroupCardController controller = fxmlLoader.getController();
-                controller.setUser(user);
-                controller.setOnClickListener(s -> {
-                    try {
-                        updateMessagesPane(user);
-                    }
-                    catch (ConnectionException e) {
-                        ViewManager.connectionFailed();
-                    }
-                });
-                vboxChat.getChildren().add(pane);
+                Message m = messageController.getLastMessage(State.getUser(), user);
+                if (m != null && !m.hasViewed(State.getUser()))
+                    addUserToList(user);
+            }
+            for (ChatGroup chatGroup: chatGroups) {
+                Message m = messageController.getLastMessage(chatGroup);
+                if (m == null || m.hasViewed(State.getUser()))
+                    addGroupToList(chatGroup);
+            }
+            for (Integer userId: users) {
+                User user = context.users.get(userId);
+                Message m = messageController.getLastMessage(State.getUser(), user);
+                if (m == null || m.hasViewed(State.getUser()))
+                    addUserToList(user);
             }
         } catch (ConnectionException e) {
             ViewManager.connectionFailed();

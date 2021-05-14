@@ -65,6 +65,10 @@ public class ViewManager extends Application {
             mainPanelController.setBackButtonVisibility(false);
     }
 
+    public static void clearHistory() {
+        history.clear();
+    }
+
     public static void connectionFailed() {
 
     }

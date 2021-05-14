@@ -23,6 +23,7 @@ import util.validator.UserValidators;
 import view.SuccessDialog;
 import view.ViewManager;
 
+import javax.swing.text.View;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -120,6 +121,7 @@ public class SettingsController extends Controller implements Initializable {
     @FXML
     void logout() {
         State.logout();
+        ViewManager.clearHistory();
         ViewManager.setScene(ViewManager.loginView);
     }
 

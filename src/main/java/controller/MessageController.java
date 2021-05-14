@@ -8,7 +8,31 @@ import model.Relation;
 import model.User;
 import model.field.RelStatus;
 
+import java.util.ArrayList;
+
 public class MessageController extends Controller {
+
+    public Message getLastMessage(User user1, User user2) throws ConnectionException {
+        ArrayList<Message> messages =  context.messages.getAll(
+                context.messages.getQueryBuilder()
+                .getTwoUserChats(user1.id, user2.id).getQuery()
+        );
+        if (messages.isEmpty())
+            return null;
+        else
+            return messages.get(messages.size() - 1);
+    }
+
+    public Message getLastMessage(ChatGroup group) throws ConnectionException {
+        ArrayList<Message> messages =  context.messages.getAll(
+                context.messages.getQueryBuilder()
+                        .getByGroup(group.id).getQuery()
+        );
+        if (messages.isEmpty())
+            return null;
+        else
+            return messages.get(messages.size() - 1);
+    }
 
     public boolean canMessage(User sender, User receiver) throws ConnectionException {
         receiver = context.users.get(receiver.id);
