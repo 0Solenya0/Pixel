@@ -1,6 +1,8 @@
 package apps.tweet.controller;
 
 import apps.auth.State;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.stage.FileChooser;
 import model.Tweet;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -15,7 +17,12 @@ import javafx.scene.paint.Paint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import view.InfoDialog;
+import view.ViewManager;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -34,6 +41,7 @@ public class TweetInputController extends Controller implements Initializable {
     private Label lblContentErr, lblGlobalErr, lblInputTweet;
 
     private int parentTweet, parentRetweet;
+    private String photoId;
 
     public void showError(ValidationException e) {
         if (e.getErrors("Global") != null)
@@ -54,6 +62,7 @@ public class TweetInputController extends Controller implements Initializable {
         Tweet tweet = new Tweet(Objects.requireNonNull(State.getUser()), txtTweet.getText());
         tweet.setParentTweet(parentTweet);
         tweet.setReTweet(parentRetweet);
+        tweet.setPhoto(photoId);
         try {
             context.tweets.save(tweet);
         }
@@ -67,6 +76,18 @@ public class TweetInputController extends Controller implements Initializable {
     public void resetErrorFields() {
         lblContentErr.setText("");
         lblGlobalErr.setText("");
+    }
+
+    public void attachPhoto() throws ConnectionException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select your image");
+        File file = fileChooser.showOpenDialog(ViewManager.getWindow());
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            photoId = context.images.save(bufferedImage);
+        } catch (IOException e) {
+            logger.error("Failed to read photo");
+        }
     }
 
     @Override

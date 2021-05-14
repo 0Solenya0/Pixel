@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="261.0" maxWidth="1000.0" minHeight="261.0" minWidth="1000.0" prefHeight="261.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetCardController">
+<AnchorPane maxWidth="1000.0" minWidth="1000.0" prefHeight="266.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.tweet.controller.TweetCardController">
    <children>
       <Label fx:id="lblAuthor" layoutX="49.0" layoutY="8.0" prefHeight="19.0" text="Author">
          <font>
@@ -72,5 +72,6 @@
          </font>
       </JFXButton>
       <ImageView fx:id="imgAvatar" fitHeight="30.0" fitWidth="30.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgPhoto" fitWidth="500.0" layoutX="250.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

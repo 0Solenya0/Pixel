@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -21,5 +22,13 @@
       </JFXButton>
       <Label fx:id="lblContentErr" layoutX="23.0" layoutY="210.0" prefHeight="16.0" text="Content erros" textFill="RED" />
       <Label fx:id="lblGlobalErr" layoutX="679.0" layoutY="258.0" prefHeight="16.0" text="Global errors" textFill="RED" />
+      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="813.0" layoutY="215.0" onAction="#attachPhoto" prefHeight="29.0" prefWidth="19.0" style="-fx-background-color: B8BDB5;">
+         <font>
+            <Font name="Gargi" size="12.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIconView glyphName="PAPERCLIP" size="25" />
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>

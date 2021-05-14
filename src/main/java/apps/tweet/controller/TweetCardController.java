@@ -44,7 +44,7 @@ public class TweetCardController extends Controller implements Initializable {
     private Label lblAuthor, lblTweet;
 
     @FXML
-    private ImageView imgAvatar;
+    private ImageView imgAvatar, imgPhoto;
 
     @FXML
     private JFXButton btnSave, btnShare, btnRetweet, btnComment, btnLike, btnMute, btnReport, btnParentTweet;
@@ -170,6 +170,8 @@ public class TweetCardController extends Controller implements Initializable {
 
     public void updateCard() throws ConnectionException {
         User user = apps.auth.State.getUser();
+        if (currentTweet.getPhoto() != null)
+            imgPhoto.setImage(context.images.load(currentTweet.getPhoto()));
         currentTweet = context.tweets.get(currentTweet.id);
         lblAuthor.setText("@" + context.users.get(currentTweet.getAuthor()).getUsername());
         if (currentTweet.getReTweet() != 0) {

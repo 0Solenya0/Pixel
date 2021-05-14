@@ -13,6 +13,7 @@ public class Tweet extends Model {
     private int author;
     private String content;
     private TreeSet<Integer> reports = new TreeSet<>();
+    private String photo;
 
     public Tweet(User author, String text) {
         super();
@@ -70,5 +71,13 @@ public class Tweet extends Model {
 
     public void addReport(User user) {
         reports.add(user.id);
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
