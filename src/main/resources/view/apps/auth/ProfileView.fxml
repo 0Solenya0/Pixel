@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,11 +13,7 @@
 
 <AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.ProfileController">
    <children>
-      <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="lblFullName" layoutX="227.0" layoutY="68.0" text="Full name">
          <font>
             <Font name="Gargi" size="22.0" />

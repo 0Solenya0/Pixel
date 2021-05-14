@@ -4,6 +4,7 @@ import apps.auth.State;
 import controller.MessageController;
 import controller.RelationController;
 import controller.UserController;
+import db.ImageDB;
 import model.User;
 import model.field.AccessLevel;
 import model.Notification;
@@ -58,7 +59,7 @@ public class ProfileController extends Controller implements Initializable {
     private FontAwesomeIconView iconToggleFollow, iconToggleBlock, iconMute;
 
     @FXML
-    private ImageView imgAvatar; // TO DO
+    private ImageView imgAvatar;
 
     @FXML
     private HBox hboxActions;
@@ -249,6 +250,11 @@ public class ProfileController extends Controller implements Initializable {
         } catch (ConnectionException e) {
             ViewManager.connectionFailed();
         }
+        ImageDB imageDB = new ImageDB();
+        if (userModel.getPhoto() != null)
+            imgAvatar.setImage(imageDB.load(userModel.getPhoto()));
+        else
+            imgAvatar.setVisible(false);
     }
 
     public void setUser(User user) throws ConnectionException {

@@ -1,6 +1,8 @@
 package apps.auth.controller;
 
 import apps.auth.State;
+import db.ImageDB;
+import javafx.stage.FileChooser;
 import model.User;
 import model.field.AccessLevel;
 import model.Notification;
@@ -23,6 +25,10 @@ import util.validator.UserValidators;
 import view.InfoDialog;
 import view.ViewManager;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -212,8 +218,25 @@ public class SettingsController extends Controller implements Initializable {
     }
 
     @FXML
-    void uploadPhoto(ActionEvent event) {
-        // TO DO
+    void uploadPhoto(ActionEvent event) throws ConnectionException {
+        Objects.requireNonNull(State.getUser());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select your image");
+        File file = fileChooser.showOpenDialog(ViewManager.getWindow());
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file);
+            ImageDB imageDB = new ImageDB();
+            String id = imageDB.save(bufferedImage);
+            User user = State.getUser();
+            user.setPhoto(id);
+            context.users.save(user);
+        } catch (IOException e) {
+            logger.error("Failed to read photo");
+        } catch (ValidationException e) {
+            logger.error("Validation failed after adding an image");
+            logger.error(e.getLog());
+        }
+        updateSettings();
     }
 
     public void addPrivacyToCombo(JFXComboBox<String> combo, AccessLevel cur) {
@@ -234,6 +257,8 @@ public class SettingsController extends Controller implements Initializable {
             btnDisableAcc.setText(languageConfig.getProperty("DISABLE_ACCOUNT_BTN_TEXT"));
         else
             btnDisableAcc.setText(languageConfig.getProperty("ENABLE_ACCOUNT_BTN_TEXT"));
+        ImageDB imageDB = new ImageDB();
+        imgAvatar.setImage(imageDB.load(State.getUser().getPhoto()));
     }
 
     @Override

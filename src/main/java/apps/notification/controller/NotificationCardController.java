@@ -1,6 +1,7 @@
 package apps.notification.controller;
 
 import controller.NotificationController;
+import db.ImageDB;
 import model.User;
 import model.Notification;
 import model.field.NotificationType;
@@ -28,7 +29,7 @@ public class NotificationCardController extends Controller {
     private FontAwesomeIconView iconNotificationType;
 
     @FXML
-    private ImageView imgNotificationImage; //TO DO
+    private ImageView imgNotificationImage;
 
     private Notification notification;
 
@@ -72,6 +73,12 @@ public class NotificationCardController extends Controller {
             iconNotificationType.setGlyphName(languageConfig.getProperty("REQUEST_ICON"));
             User sender = context.users.get(notification.getSender());
             lblNotification.setText(notification.getMessageRequests(sender.getUsername()));
+            imgNotificationImage.setVisible(true);
+            ImageDB imageDB = new ImageDB();
+            if (sender.getPhoto() != null)
+                imgNotificationImage.setImage(imageDB.load(sender.getPhoto()));
+            else
+                imgNotificationImage.setVisible(false);
         }
         else if (notification.getType() == NotificationType.INFO) {
             iconNotificationType.setGlyphName(languageConfig.getProperty("INFO_ICON"));

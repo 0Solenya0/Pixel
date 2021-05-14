@@ -5,6 +5,7 @@ import apps.tweet.controller.TweetCardController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import controller.Controller;
+import db.ImageDB;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.Message;
+import model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.Config;
@@ -95,12 +97,12 @@ public class MessageBoxCardController extends Controller implements Initializabl
         }
     }
 
-    public void setMessage(Message message) {
+    public void setMessage(Message message) throws ConnectionException {
         this.message = message;
         updateCard();
     }
 
-    public void updateCard() {
+    public void updateCard() throws ConnectionException {
         if (message.isDeleted) {
             lblContent.setText("DELETED");
             return;
@@ -111,7 +113,18 @@ public class MessageBoxCardController extends Controller implements Initializabl
             lblContent.setVisible(false);
         }
         if (State.getCurrentUserId() == message.getSender()) {
-            imgSenderAvatar.setVisible(true);
+            new Thread(() -> {
+                try {
+                    imgSenderAvatar.setVisible(true);
+                    ImageDB imageDB = new ImageDB();
+                    if (State.getUser().getPhoto() != null)
+                            imgSenderAvatar.setImage(imageDB.load(State.getUser().getPhoto()));
+                    else
+                        imgSenderAvatar.setVisible(false);
+                } catch (ConnectionException e) {
+                ViewManager.connectionFailed();
+            }
+            }).start();
             if (message.getTweetId() == 0) {
                 btnDelete.setVisible(true);
                 btnEdit.setVisible(true);
@@ -119,6 +132,19 @@ public class MessageBoxCardController extends Controller implements Initializabl
         }
         else {
             imgReceiverAvatar.setVisible(true);
+            User user = context.users.get(message.getSender());
+            new Thread(() -> {
+                try {
+                    imgReceiverAvatar.setVisible(true);
+                    ImageDB imageDB = new ImageDB();
+                    if (user.getPhoto() != null)
+                        imgReceiverAvatar.setImage(imageDB.load(user.getPhoto()));
+                    else
+                        imgReceiverAvatar.setVisible(false);
+                } catch (ConnectionException e) {
+                    ViewManager.connectionFailed();
+                }
+            }).start();
         }
     }
 

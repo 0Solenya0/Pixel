@@ -8,18 +8,13 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.auth.controller.SettingsController">
    <children>
-      <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="400.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="imgAvatar" fitHeight="200.0" fitWidth="200.0" layoutX="400.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
       <JFXButton fx:id="btnUploadPhoto" layoutX="449.0" layoutY="224.0" onAction="#uploadPhoto" style="-fx-background-color: B8BDB5;" text="Upload photo">
          <font>
             <Font name="Laksaman" size="13.0" />

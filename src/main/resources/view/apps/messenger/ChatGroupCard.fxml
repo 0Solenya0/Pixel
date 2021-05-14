@@ -2,18 +2,13 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="100.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="apps.messenger.controller.ChatGroupCardController">
    <children>
-      <ImageView fx:id="imgAvatar" fitHeight="75.0" fitWidth="75.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../oie_8wx5xy0V9tca.jpg" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="imgAvatar" fitHeight="75.0" fitWidth="75.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="lblChatGroupName" layoutX="98.0" layoutY="13.0" text="username">
          <font>
             <Font name="Laksaman" size="19.0" />

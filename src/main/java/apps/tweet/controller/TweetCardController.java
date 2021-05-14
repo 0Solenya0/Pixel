@@ -3,8 +3,10 @@ package apps.tweet.controller;
 import apps.auth.State;
 import controller.MessageController;
 import controller.UserController;
+import db.ImageDB;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import model.ChatGroup;
 import model.Group;
@@ -40,6 +42,9 @@ public class TweetCardController extends Controller implements Initializable {
 
     @FXML
     private Label lblAuthor, lblTweet;
+
+    @FXML
+    private ImageView imgAvatar;
 
     @FXML
     private JFXButton btnSave, btnShare, btnRetweet, btnComment, btnLike, btnMute, btnReport, btnParentTweet;
@@ -184,6 +189,20 @@ public class TweetCardController extends Controller implements Initializable {
             iconLike.setGlyphName(languageConfig.getProperty("LIKE_EMPTY_ICON"));
         if (currentTweet.getAuthor() == user.id)
             hboxForeign.setVisible(false);
+        User target = context.users.get(currentTweet.getAuthor());
+        new Thread(() -> {
+            ImageDB imageDB = new ImageDB();
+            if (target.getPhoto() != null) {
+                try {
+                    imgAvatar.setVisible(true);
+                    imgAvatar.setImage(imageDB.load(target.getPhoto()));
+                } catch (ConnectionException e) {
+                    ViewManager.connectionFailed();
+                }
+            }
+            else
+                imgAvatar.setVisible(false);
+        }).start();
     }
 
     @Override

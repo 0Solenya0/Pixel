@@ -57,7 +57,11 @@ public class ViewManager extends Application {
         if (history.size() > 1)
             mainPanelController.setBackButtonVisibility(true);
     }
-    
+
+    public static Stage getWindow() {
+        return window;
+    }
+
     public static void back() {
         history.remove(history.get(history.size() - 1));
         mainPanelController.changeCenterPane(history.get(history.size() - 1));

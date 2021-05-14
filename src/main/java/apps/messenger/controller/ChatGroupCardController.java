@@ -2,6 +2,7 @@ package apps.messenger.controller;
 
 import apps.auth.State;
 import controller.Controller;
+import db.ImageDB;
 import db.exception.ConnectionException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,9 @@ import listener.StringListener;
 import model.ChatGroup;
 import model.Message;
 import model.User;
+import view.ViewManager;
 
+import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -31,6 +34,19 @@ public class ChatGroupCardController extends Controller {
         this.user = user;
         this.group = null;
         updateCard();
+        new Thread(() -> {
+            imgAvatar.setVisible(true);
+            ImageDB imageDB = new ImageDB();
+            if (user.getPhoto() != null) {
+                try {
+                    imgAvatar.setImage(imageDB.load(user.getPhoto()));
+                } catch (ConnectionException e) {
+                    ViewManager.connectionFailed();
+                }
+            }
+            else
+                imgAvatar.setVisible(false);
+        }).start();
     }
 
     public void setOnClickListener(StringListener onClickListener) {
@@ -40,6 +56,7 @@ public class ChatGroupCardController extends Controller {
     public void setGroup(ChatGroup group) throws ConnectionException {
         this.group = group;
         this.user = null;
+        imgAvatar.setVisible(false);
         updateCard();
     }
 

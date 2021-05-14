@@ -31,15 +31,6 @@ public abstract class DBSet<T extends Model> {
         this.modelClass = modelClass;
     }
 
-    public void addListener(StringListener listener) {
-        listeners.add(listener);
-    }
-
-    public void broadcast(String s) {
-        for (StringListener listener: listeners)
-            listener.listen(s);
-    }
-
     private String getDataSource() {
         return "./db/" + modelClass.getName();
     }

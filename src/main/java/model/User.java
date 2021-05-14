@@ -21,6 +21,7 @@ public class User extends Model {
     private String password;
     private TreeSet<Integer> muted;
     private boolean isEnabled;
+    private String photo;
 
     public User(String name, String surname, String username, String mail, String password) {
         super();
@@ -92,6 +93,14 @@ public class User extends Model {
 
     public LockedField<LocalDate> getBirthdate() {
         return birthdate;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public void setPhone(LockedField<String> phone) {
