@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
 public class MessageBoxCardController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(MessageBoxCardController.class);
     private final Config tweetAppConfig = Config.getConfig("TWEET_APP_CONFIG");
+    private final Config languageConfig = Config.getLanguageConfig();
 
     @FXML
     private FontAwesomeIconView iconEdit;
@@ -67,14 +68,14 @@ public class MessageBoxCardController extends Controller implements Initializabl
                 logger.error(e.getLog());
             }
             lblContent.setText(message.getContent());
-            iconEdit.setGlyphName(String.valueOf(FontAwesomeIcon.PENCIL));
+            iconEdit.setGlyphName(languageConfig.getProperty("EDIT_ICON"));
             updateCard();
         }
         else {
             txtEditMessage.setVisible(true);
             lblContent.setVisible(false);
             txtEditMessage.setText(message.getContent());
-            iconEdit.setGlyphName(String.valueOf(FontAwesomeIcon.CHECK));
+            iconEdit.setGlyphName(languageConfig.getProperty("ACCEPT_ICON"));
         }
     }
 
@@ -129,6 +130,6 @@ public class MessageBoxCardController extends Controller implements Initializabl
         imgReceiverAvatar.setVisible(false);
         btnShowTweet.setVisible(false);
         txtEditMessage.setVisible(false);
-        iconEdit.setGlyphName(String.valueOf(FontAwesomeIcon.PENCIL));
+        iconEdit.setGlyphName(languageConfig.getProperty("EDIT_ICON"));
     }
 }

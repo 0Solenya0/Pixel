@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
 public class TweetCardController extends Controller implements Initializable {
     private static final Logger logger = LogManager.getLogger(TweetCardController.class);
     private Config tweetAppConfig = Config.getConfig("TWEET_APP_CONFIG");
+    private Config languageConfig = Config.getLanguageConfig();
 
     private Tweet currentTweet;
 
@@ -61,13 +62,13 @@ public class TweetCardController extends Controller implements Initializable {
     @FXML
     void btnLikeClicked(ActionEvent event) throws ConnectionException {
         User user = apps.auth.State.getUser();
-        if (iconLike.getGlyphName().equals("HEART")) {
+        if (iconLike.getGlyphName().equals(languageConfig.getProperty("LIKE_FILLED_ICON"))) {
             tweetController.dislikeTweet(currentTweet, user);
-            iconLike.setGlyphName("HEART");
+            iconLike.setGlyphName(languageConfig.getProperty("LIKE_FILLED_ICON"));
         }
         else {
             tweetController.likeTweet(currentTweet, user);
-            iconLike.setGlyphName("HEART_ALT");
+            iconLike.setGlyphName(languageConfig.getProperty("LIKE_EMPTY_ICON"));
         }
         updateCard();
     }
@@ -178,9 +179,9 @@ public class TweetCardController extends Controller implements Initializable {
         }
         lblTweet.setText(currentTweet.getContent());
         if (currentTweet.containsLike(user))
-            iconLike.setGlyphName("HEART");
+            iconLike.setGlyphName(languageConfig.getProperty("LIKE_FILLED_ICON"));
         else
-            iconLike.setGlyphName("HEART_ALT");
+            iconLike.setGlyphName(languageConfig.getProperty("LIKE_EMPTY_ICON"));
         if (currentTweet.getAuthor() == user.id)
             hboxForeign.setVisible(false);
     }

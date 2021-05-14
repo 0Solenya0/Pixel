@@ -13,8 +13,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import util.Config;
 
 public class NotificationCardController extends Controller {
+    private Config languageConfig = Config.getLanguageConfig();
 
     @FXML
     private JFXButton btnAccept, btnReject, btnSilentReject;
@@ -67,17 +69,17 @@ public class NotificationCardController extends Controller {
     public void updateCard() throws ConnectionException {
         notification = context.notifications.get(notification.id);
         if (notification.getType() == NotificationType.REQUEST) {
-            iconNotificationType.setGlyphName(String.valueOf(FontAwesomeIcon.QUESTION_CIRCLE));
+            iconNotificationType.setGlyphName(languageConfig.getProperty("REQUEST_ICON"));
             User sender = context.users.get(notification.getSender());
             lblNotification.setText(notification.getMessageRequests(sender.getUsername()));
         }
         else if (notification.getType() == NotificationType.INFO) {
-            iconNotificationType.setGlyphName(String.valueOf(FontAwesomeIcon.INFO_CIRCLE));
+            iconNotificationType.setGlyphName(languageConfig.getProperty("INFO_ICON"));
             setBtnVisibility(false);
             lblNotification.setText(notification.getMessage());
         }
         else {
-            iconNotificationType.setGlyphName(String.valueOf(FontAwesomeIcon.FLAG));
+            iconNotificationType.setGlyphName(languageConfig.getProperty("REPORT_ICON"));
             setBtnVisibility(false);
             lblNotification.setText(notification.getMessage());
         }

@@ -134,7 +134,7 @@ public class ProfileController extends Controller implements Initializable {
     }
 
     private void updateData() throws ConnectionException {
-        iconToggleBlock.setGlyphName(String.valueOf(FontAwesomeIcon.BAN));
+        iconToggleBlock.setGlyphName(languageConfig.getProperty("BLOCK_ICON"));
         btnToggleFollow.setVisible(true);
         btnMessage.setVisible(true);
         btnFollower.setVisible(true);
@@ -184,9 +184,9 @@ public class ProfileController extends Controller implements Initializable {
         }
 
         if (!State.getUser().isMuted(userModel))
-            iconMute.setGlyphName(String.valueOf(FontAwesomeIcon.DEAF));
+            iconMute.setGlyphName(languageConfig.getProperty("MUTE_ICON"));
         else
-            iconMute.setGlyphName(String.valueOf(FontAwesomeIcon.MUSIC));
+            iconMute.setGlyphName(languageConfig.getProperty("UNMUTE_ICON"));
 
         userModel = context.users.getByAccess(Objects.requireNonNull(State.getUser()), userModel.id);
 
@@ -222,11 +222,11 @@ public class ProfileController extends Controller implements Initializable {
         btnToggleFollow.setDisable(request != null);
         lblRequested.setVisible(request != null);
         if (relation == null)
-            iconToggleFollow.setGlyphName(String.valueOf(FontAwesomeIcon.USER_PLUS));
+            iconToggleFollow.setGlyphName(languageConfig.getProperty("ADD_USER_ICON"));
         else if (relation.getType() == RelStatus.FOLLOW)
-            iconToggleFollow.setGlyphName(String.valueOf(FontAwesomeIcon.USER_TIMES));
+            iconToggleFollow.setGlyphName(languageConfig.getProperty("DELETE_USER_ICON"));
         else if (relation.getType() == RelStatus.BLOCKED)
-            iconToggleBlock.setGlyphName(String.valueOf(FontAwesomeIcon.CHECK));
+            iconToggleBlock.setGlyphName(languageConfig.getProperty("ACCEPT_ICON"));
 
         FXMLLoader fxmlLoader = TweetListController.getTweetListLoader();
         try {
