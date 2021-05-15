@@ -2,7 +2,7 @@ package apps.messenger.controller;
 
 import apps.auth.State;
 import controller.Controller;
-import db.ImageDB;
+import db.dbSet.ImageDBSet;
 import db.exception.ConnectionException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +14,6 @@ import model.Message;
 import model.User;
 import view.ViewManager;
 
-import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -36,10 +35,10 @@ public class ChatGroupCardController extends Controller {
         updateCard();
         new Thread(() -> {
             imgAvatar.setVisible(true);
-            ImageDB imageDB = new ImageDB();
+            ImageDBSet imageDBSet = new ImageDBSet();
             if (user.getPhoto() != null) {
                 try {
-                    imgAvatar.setImage(imageDB.load(user.getPhoto()));
+                    imgAvatar.setImage(imageDBSet.load(user.getPhoto()));
                 } catch (ConnectionException e) {
                     ViewManager.connectionFailed();
                 }

@@ -5,10 +5,9 @@ import apps.tweet.controller.TweetCardController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import controller.Controller;
-import db.ImageDB;
+import db.dbSet.ImageDBSet;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -118,9 +117,9 @@ public class MessageBoxCardController extends Controller implements Initializabl
             new Thread(() -> {
                 try {
                     imgSenderAvatar.setVisible(true);
-                    ImageDB imageDB = new ImageDB();
+                    ImageDBSet imageDBSet = new ImageDBSet();
                     if (State.getUser().getPhoto() != null)
-                            imgSenderAvatar.setImage(imageDB.load(State.getUser().getPhoto()));
+                            imgSenderAvatar.setImage(imageDBSet.load(State.getUser().getPhoto()));
                     else
                         imgSenderAvatar.setVisible(false);
                 } catch (ConnectionException e) {
@@ -138,9 +137,9 @@ public class MessageBoxCardController extends Controller implements Initializabl
             new Thread(() -> {
                 try {
                     imgReceiverAvatar.setVisible(true);
-                    ImageDB imageDB = new ImageDB();
+                    ImageDBSet imageDBSet = new ImageDBSet();
                     if (user.getPhoto() != null)
-                        imgReceiverAvatar.setImage(imageDB.load(user.getPhoto()));
+                        imgReceiverAvatar.setImage(imageDBSet.load(user.getPhoto()));
                     else
                         imgReceiverAvatar.setVisible(false);
                 } catch (ConnectionException e) {

@@ -3,7 +3,7 @@ package apps.tweet.controller;
 import apps.auth.State;
 import controller.MessageController;
 import controller.UserController;
-import db.ImageDB;
+import db.dbSet.ImageDBSet;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -193,11 +193,11 @@ public class TweetCardController extends Controller implements Initializable {
             hboxForeign.setVisible(false);
         User target = context.users.get(currentTweet.getAuthor());
         new Thread(() -> {
-            ImageDB imageDB = new ImageDB();
+            ImageDBSet imageDBSet = new ImageDBSet();
             if (target.getPhoto() != null) {
                 try {
                     imgAvatar.setVisible(true);
-                    imgAvatar.setImage(imageDB.load(target.getPhoto()));
+                    imgAvatar.setImage(imageDBSet.load(target.getPhoto()));
                 } catch (ConnectionException e) {
                     ViewManager.connectionFailed();
                 }

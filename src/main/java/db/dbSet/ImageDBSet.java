@@ -1,4 +1,4 @@
-package db;
+package db.dbSet;
 
 import db.exception.ConnectionException;
 import javafx.scene.image.Image;
@@ -17,8 +17,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Random;
 
-public class ImageDB {
-    private static final Logger logger = LogManager.getLogger(ImageDB.class);
+public class ImageDBSet {
+    private static final Logger logger = LogManager.getLogger(ImageDBSet.class);
     private static HashMap<String, Image> cache = new HashMap<>();
     private Config config = Config.getConfig("mainConfig");
 

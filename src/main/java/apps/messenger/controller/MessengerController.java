@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXTextArea;
 import controller.Controller;
 import controller.MessageController;
 import controller.RelationController;
-import db.ImageDB;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import javafx.event.ActionEvent;

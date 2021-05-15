@@ -1,7 +1,7 @@
 package apps.auth.controller;
 
 import apps.auth.State;
-import db.ImageDB;
+import db.dbSet.ImageDBSet;
 import javafx.stage.FileChooser;
 import model.User;
 import model.field.AccessLevel;
@@ -225,8 +225,8 @@ public class SettingsController extends Controller implements Initializable {
         File file = fileChooser.showOpenDialog(ViewManager.getWindow());
         try {
             BufferedImage bufferedImage = ImageIO.read(file);
-            ImageDB imageDB = new ImageDB();
-            String id = imageDB.save(bufferedImage);
+            ImageDBSet imageDBSet = new ImageDBSet();
+            String id = imageDBSet.save(bufferedImage);
             User user = State.getUser();
             user.setPhoto(id);
             context.users.save(user);
@@ -257,8 +257,8 @@ public class SettingsController extends Controller implements Initializable {
             btnDisableAcc.setText(languageConfig.getProperty("DISABLE_ACCOUNT_BTN_TEXT"));
         else
             btnDisableAcc.setText(languageConfig.getProperty("ENABLE_ACCOUNT_BTN_TEXT"));
-        ImageDB imageDB = new ImageDB();
-        imgAvatar.setImage(imageDB.load(State.getUser().getPhoto()));
+        ImageDBSet imageDBSet = new ImageDBSet();
+        imgAvatar.setImage(imageDBSet.load(State.getUser().getPhoto()));
     }
 
     @Override

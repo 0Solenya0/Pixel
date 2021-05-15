@@ -1,6 +1,6 @@
 package apps.explore.controller;
 
-import db.ImageDB;
+import db.dbSet.ImageDBSet;
 import javafx.fxml.Initializable;
 import model.User;
 import util.Config;
@@ -48,10 +48,10 @@ public class UserCardController extends Controller implements Initializable {
         lblUsername.setText("@" + user.getUsername());
         lblFullName.setText(user.getFullName());
         new Thread(() -> {
-            ImageDB imageDB = new ImageDB();
+            ImageDBSet imageDBSet = new ImageDBSet();
             if (user.getPhoto() != null) {
                 try {
-                    imgAvatar.setImage(imageDB.load(user.getPhoto()));
+                    imgAvatar.setImage(imageDBSet.load(user.getPhoto()));
                     imgAvatar.setVisible(true);
                 } catch (ConnectionException e) {
                     ViewManager.connectionFailed();

@@ -1,11 +1,6 @@
 package db;
 
-import model.User;
-import model.Notification;
-import model.field.NotificationType;
 import db.dbSet.*;
-
-import java.util.Scanner;
 
 public class Context {
     public UserDBSet users = new UserDBSet();
@@ -15,5 +10,5 @@ public class Context {
     public MessageDBSet messages = new MessageDBSet();
     public GroupDBSet groups = new GroupDBSet();
     public ChatGroupDBSet chatGroups = new ChatGroupDBSet();
-    public ImageDB images = new ImageDB();
+    public ImageDBSet images = new ImageDBSet();
 }

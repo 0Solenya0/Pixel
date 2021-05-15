@@ -1,14 +1,13 @@
 package apps.notification.controller;
 
 import controller.NotificationController;
-import db.ImageDB;
+import db.dbSet.ImageDBSet;
 import model.User;
 import model.Notification;
 import model.field.NotificationType;
 import com.jfoenix.controls.JFXButton;
 import controller.Controller;
 import db.exception.ConnectionException;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -74,9 +73,9 @@ public class NotificationCardController extends Controller {
             User sender = context.users.get(notification.getSender());
             lblNotification.setText(notification.getMessageRequests(sender.getUsername()));
             imgNotificationImage.setVisible(true);
-            ImageDB imageDB = new ImageDB();
+            ImageDBSet imageDBSet = new ImageDBSet();
             if (sender.getPhoto() != null)
-                imgNotificationImage.setImage(imageDB.load(sender.getPhoto()));
+                imgNotificationImage.setImage(imageDBSet.load(sender.getPhoto()));
             else
                 imgNotificationImage.setVisible(false);
         }
