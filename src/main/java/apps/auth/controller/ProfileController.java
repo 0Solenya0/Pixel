@@ -1,9 +1,7 @@
 package apps.auth.controller;
 
 import apps.auth.State;
-import controller.MessageController;
-import controller.RelationController;
-import controller.UserController;
+import controller.*;
 import db.dbSet.ImageDBSet;
 import model.User;
 import model.field.AccessLevel;
@@ -14,7 +12,6 @@ import model.field.RelStatus;
 import apps.tweet.controller.TweetListController;
 import com.jfoenix.controls.JFXButton;
 import util.Config;
-import controller.Controller;
 import db.exception.ConnectionException;
 import db.exception.ValidationException;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -67,6 +64,8 @@ public class ProfileController extends Controller implements Initializable {
     @FXML
     private AnchorPane tweetPane, BirthdayPane, phonePane, mailPane;
 
+    private AuthController authController = new AuthController();
+    private NotificationController notificationController = new NotificationController();
     User userModel;
 
     private final RelationController relationController = new RelationController();
@@ -83,14 +82,7 @@ public class ProfileController extends Controller implements Initializable {
 
     @FXML
     void reportUser(ActionEvent event) throws ConnectionException {
-        try {
-            Notification notification = new Notification(
-                    Objects.requireNonNull(State.getUser()).id, userModel.id, NotificationType.REPORT);
-            context.notifications.save(notification);
-        }
-        catch (ValidationException e) {
-            logger.error("unexpected retweet validation failed");
-        }
+        notificationController.report(Objects.requireNonNull(State.getUser()), userModel);
     }
 
     @FXML
@@ -194,7 +186,7 @@ public class ProfileController extends Controller implements Initializable {
         else
             iconMute.setGlyphName(languageConfig.getProperty("UNMUTE_ICON"));
 
-        userModel = context.users.getByAccess(Objects.requireNonNull(State.getUser()), userModel.id);
+        userModel = authController.getByAccess(Objects.requireNonNull(State.getUser()), userModel.id);
 
         if (!userModel.getPhone().get().equals("")) {
             phonePane.setVisible(true);

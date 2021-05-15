@@ -1,6 +1,7 @@
 package apps.tweet.controller;
 
 import apps.auth.State;
+import controller.ImageController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.stage.FileChooser;
 import model.Tweet;
@@ -40,6 +41,7 @@ public class TweetInputController extends Controller implements Initializable {
     @FXML
     private Label lblContentErr, lblGlobalErr, lblInputTweet;
 
+    private ImageController imageController = new ImageController();
     private int parentTweet, parentRetweet;
     private String photoId;
 
@@ -82,12 +84,7 @@ public class TweetInputController extends Controller implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select your image");
         File file = fileChooser.showOpenDialog(ViewManager.getWindow());
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            photoId = context.images.save(bufferedImage);
-        } catch (IOException e) {
-            logger.error("Failed to read photo");
-        }
+        photoId = imageController.saveImageToDB(file);
     }
 
     @Override

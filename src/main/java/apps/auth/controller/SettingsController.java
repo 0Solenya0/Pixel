@@ -1,6 +1,8 @@
 package apps.auth.controller;
 
 import apps.auth.State;
+import controller.ImageController;
+import controller.UserController;
 import db.dbSet.ImageDBSet;
 import javafx.stage.FileChooser;
 import model.User;
@@ -65,6 +67,9 @@ public class SettingsController extends Controller implements Initializable {
     @FXML
     private TextArea txtBio;
 
+    private final UserController userController = new UserController();
+    private final ImageController imageController = new ImageController();
+
     @FXML
     void changePass(ActionEvent event) throws ConnectionException {
         lblChangePassErr.setVisible(false);
@@ -94,32 +99,14 @@ public class SettingsController extends Controller implements Initializable {
     void deleteAcc(ActionEvent event) throws ConnectionException {
         User user = State.getUser();
         logout();
-        assert user != null;
-        context.users.delete(user);
-        ArrayList<Relation> relations = new ArrayList<>();
-        relations.addAll(context.relations.getAll(context.relations.getQueryBuilder().getByUser1(user).getQuery()));
-        relations.addAll(context.relations.getAll(context.relations.getQueryBuilder().getByUser2(user).getQuery()));
-        for (Relation rel : relations)
-            context.relations.delete(rel);
-
-        ArrayList<Notification> notifications = new ArrayList<>();
-        notifications.addAll(context.notifications.getAll(context.notifications.getQueryBuilder().getByUser1(user).getQuery()));
-        notifications.addAll(context.notifications.getAll(context.notifications.getQueryBuilder().getByUser2(user).getQuery()));
-        for (Notification notification : notifications)
-            context.notifications.delete(notification);
+        userController.deleteAcc(user);
     }
 
     @FXML
     void disableAcc(ActionEvent event) throws ConnectionException {
         User user = State.getUser();
         assert user != null;
-        user.setEnabled(!user.isEnabled());
-        try {
-            context.users.save(user);
-        }
-        catch (ValidationException e) {
-            logger.error("disable account failed unexpected validation error");
-        }
+        userController.toggleDisableUser(user);
         updateSettings();
     }
 
@@ -223,16 +210,12 @@ public class SettingsController extends Controller implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select your image");
         File file = fileChooser.showOpenDialog(ViewManager.getWindow());
+        User user = State.getUser();
+        user.setPhoto(imageController.saveImageToDB(file));
         try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            ImageDBSet imageDBSet = new ImageDBSet();
-            String id = imageDBSet.save(bufferedImage);
-            User user = State.getUser();
-            user.setPhoto(id);
             context.users.save(user);
-        } catch (IOException e) {
-            logger.error("Failed to read photo");
-        } catch (ValidationException e) {
+        }
+        catch (ValidationException e) {
             logger.error("Validation failed after adding an image");
             logger.error(e.getLog());
         }

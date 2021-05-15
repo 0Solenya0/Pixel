@@ -4,6 +4,7 @@ import apps.auth.State;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import controller.Controller;
+import controller.ImageController;
 import controller.MessageController;
 import controller.RelationController;
 import db.exception.ConnectionException;
@@ -66,8 +67,9 @@ public class MessengerController extends Controller implements Initializable {
 
     private User user;
     private ChatGroup group;
-    private MessageController messageController = new MessageController();
-    private RelationController relationController = new RelationController();
+    private final MessageController messageController = new MessageController();
+    private final RelationController relationController = new RelationController();
+    private final ImageController imageController = new ImageController();
     private String photoId;
 
     @FXML
@@ -251,12 +253,7 @@ public class MessengerController extends Controller implements Initializable {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select your image");
         File file = fileChooser.showOpenDialog(ViewManager.getWindow());
-        try {
-            BufferedImage bufferedImage = ImageIO.read(file);
-            photoId = context.images.save(bufferedImage);
-        } catch (IOException e) {
-            logger.error("Failed to read photo");
-        }
+        photoId = imageController.saveImageToDB(file);
     }
 
     public void updatePage() {
