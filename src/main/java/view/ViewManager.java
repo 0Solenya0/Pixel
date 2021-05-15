@@ -74,6 +74,6 @@ public class ViewManager extends Application {
     }
 
     public static void connectionFailed() {
-
+        InfoDialog.showFailed("Connection to database failed!\nPlease reload the program");
     }
 }
