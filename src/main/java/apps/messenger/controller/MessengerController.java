@@ -283,6 +283,8 @@ public class MessengerController extends Controller implements Initializable {
             }
             for (Integer userId: users) {
                 User user = context.users.get(userId);
+                if (!messageController.canMessage(State.getUser(), user))
+                    continue;
                 Message m = messageController.getLastMessage(State.getUser(), user);
                 if (m != null && !m.hasViewed(State.getUser()))
                     addUserToList(user);
@@ -294,6 +296,8 @@ public class MessengerController extends Controller implements Initializable {
             }
             for (Integer userId: users) {
                 User user = context.users.get(userId);
+                if (!messageController.canMessage(State.getUser(), user))
+                    continue;
                 Message m = messageController.getLastMessage(State.getUser(), user);
                 if (m == null || m.hasViewed(State.getUser()))
                     addUserToList(user);

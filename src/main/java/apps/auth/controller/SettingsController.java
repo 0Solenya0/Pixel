@@ -257,8 +257,8 @@ public class SettingsController extends Controller implements Initializable {
             btnDisableAcc.setText(languageConfig.getProperty("DISABLE_ACCOUNT_BTN_TEXT"));
         else
             btnDisableAcc.setText(languageConfig.getProperty("ENABLE_ACCOUNT_BTN_TEXT"));
-        ImageDBSet imageDBSet = new ImageDBSet();
-        imgAvatar.setImage(imageDBSet.load(State.getUser().getPhoto()));
+        if (State.getUser().getPhoto() != null)
+            imgAvatar.setImage(context.images.load(State.getUser().getPhoto()));
     }
 
     @Override

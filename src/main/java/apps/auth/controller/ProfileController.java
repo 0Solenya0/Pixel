@@ -162,10 +162,15 @@ public class ProfileController extends Controller implements Initializable {
                         .getByTwoUser(Objects.requireNonNull(State.getUser()).id, userModel.id)
                         .getQuery()
         );
+        Relation relation1 = context.relations.getFirst(
+                context.relations.getQueryBuilder()
+                        .getByTwoUser(userModel.id, State.getUser().id)
+                        .getQuery()
+        );
         RelStatus relStatus = null;
         if (relation != null)
             relStatus = relation.getType();
-        if (relStatus == RelStatus.BLOCKED) {
+        if (relStatus == RelStatus.BLOCKED || (relation1 != null && relation1.getType() == RelStatus.BLOCKED)) {
             btnToggleFollow.setVisible(false);
             btnMessage.setVisible(false);
             btnFollower.setVisible(false);
@@ -200,7 +205,7 @@ public class ProfileController extends Controller implements Initializable {
             lblEmail.setText(userModel.getMail().get());
         }
         if (!userModel.getBirthdate().get().equals(LocalDate.MIN))
-            lblBirthday.setText(languageConfig.getProperty("BIRTHDAY") + ": " + userModel.getBirthdate());
+            lblBirthday.setText(languageConfig.getProperty("BIRTHDAY") + ": " + userModel.getBirthdate().get().format(formatter));
         else
             BirthdayPane.setVisible(false);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM HH:mm");
