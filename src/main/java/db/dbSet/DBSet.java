@@ -81,11 +81,11 @@ public abstract class DBSet<T extends Model> {
             logger.error("Unexpected validation error while deleting a model");
             return;
         }
-        logger.info("Model successfully deleted - " + modelClass.getName() + " - id: " + model.id);
+        //logger.info("Model successfully deleted - " + modelClass.getName() + " - id: " + model.id);
     }
 
     public T save(T model) throws ConnectionException, ValidationException {
-        logger.info(String.format("Start saving model to database - An instance of %s with id %s is getting saved.", model.getClass(), model.id));
+        //logger.info(String.format("Start saving model to database - An instance of %s with id %s is getting saved.", model.getClass(), model.id));
 
         if (!model.isDeleted)
             validate(model);
@@ -115,7 +115,7 @@ public abstract class DBSet<T extends Model> {
             throw new ConnectionException();
         }
 
-        logger.info(String.format("An instance of %s with id %s got saved.", modelClass.getClass(), model.id));
+        //logger.info(String.format("An instance of %s with id %s got saved.", modelClass.getClass(), model.id));
         return model;
     }
 

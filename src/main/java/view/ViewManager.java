@@ -1,6 +1,10 @@
 package view;
 
+import db.dbSet.DBSet;
+import db.exception.ConnectionException;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import util.Config;
 import controller.MainPanelController;
 import javafx.application.Application;
@@ -14,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ViewManager extends Application {
+    private static final Logger logger = LogManager.getLogger(ViewManager.class);
     private final Config authConfig = Config.getConfig("AUTH_APP_CONFIG");
     private final Config config = Config.getConfig("mainConfig");
 
@@ -28,6 +33,15 @@ public class ViewManager extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        Thread.currentThread().setUncaughtExceptionHandler(((thread, throwable) -> {
+            if (throwable.getCause().getCause() instanceof ConnectionException)
+                ViewManager.connectionFailed();
+            else {
+                logger.error("Unexpected error - " + throwable.getMessage());
+                logger.trace(throwable);
+                logger.trace(throwable.getCause());
+            }
+        }));
         window = primaryStage;
         try {
             loginView =
