@@ -17,6 +17,7 @@ public class RegistrationListener {
                 event.getEmail(),
                 event.getPassword()
         );
+        user.setPhoto("AnonUser");
         authController.register(user);
     }
 }

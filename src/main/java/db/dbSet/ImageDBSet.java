@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Random;
@@ -67,6 +68,17 @@ public class ImageDBSet {
     public Image load(String id) throws ConnectionException {
         if (cache.containsKey(id))
             return cache.get(id);
+        if (id.equals("AnonUser")) {
+            URL path = getClass().getResource("/AnonUser.jpg");
+            try {
+                Image image = convertToFxImage(ImageIO.read(path));
+                cache.put(id, image);
+                return image;
+            } catch (IOException e) {
+                logger.error("Failed reading image file - " + e.getMessage());
+                throw new ConnectionException();
+            }
+        }
         File path = getImageFile(id);
         try {
             Image image = convertToFxImage(ImageIO.read(path));
