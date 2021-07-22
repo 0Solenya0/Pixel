@@ -1,7 +1,6 @@
 package server.middlewares;
 
 import server.config.Routes;
-import server.db.exception.ConnectionException;
 import server.handler.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

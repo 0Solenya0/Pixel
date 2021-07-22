@@ -1,7 +1,6 @@
 package server;
 
 import server.config.Config;
-import server.game.BoardBuilder;
 import server.handler.SocketHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

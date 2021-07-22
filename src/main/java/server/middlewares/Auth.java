@@ -37,7 +37,7 @@ public class Auth extends Middleware {
     @Override
     public Packet process() {
         if (req.hasKey("auth-token")) {
-            String token = req.getOrNull("auth-token");
+            String token = req.get("auth-token", null);
             if (authTokens.containsKey(token))
                 req.put("user-id", String.valueOf(authTokens.get(token)));
         }
