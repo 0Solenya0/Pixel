@@ -1,6 +1,7 @@
 package server.config;
 
 import server.controllers.Controller;
+import server.controllers.LoginController;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -9,6 +10,7 @@ public class Routes {
     private static ArrayList<Route> routes = new ArrayList<>();
 
     public static void initiate() {
+        routes.add(new Route("login", LoginController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

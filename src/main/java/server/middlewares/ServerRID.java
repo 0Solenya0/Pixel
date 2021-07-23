@@ -1,5 +1,6 @@
 package server.middlewares;
 
+import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Pack;
 import server.handler.RequestHandler;
 import server.request.ridListener;
 import shared.request.Packet;
@@ -24,10 +25,20 @@ public class ServerRID extends Middleware {
 
     @Override
     public Packet process() {
+        Packet response = null;
+        int rid = -1;
+        if (req.hasKey("m-rid"))
+            rid = req.getInt("m-rid");
+
         if (req.hasKey("rid") && !ridListeners.containsKey(req.getInt("rid")))
-            return new Packet(StatusCode.NOT_FOUND);
-        if (req.hasKey("rid"))
-            return ridListeners.get(req.getInt("rid")).listenPacket(req);
-        return next();
+            response = new Packet(StatusCode.NOT_FOUND);
+        else if (req.hasKey("rid"))
+            response = ridListeners.get(req.getInt("rid")).listenPacket(req);
+        else
+            response = next();
+
+        if (rid != -1)
+            response.put("m-rid", rid);
+        return response;
     }
 }

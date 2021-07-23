@@ -11,7 +11,6 @@ public class Config {
         //Initiate app configs
         Routes.initiate();
         //Initiate middlewares
-        middlewares.add(ClientRID.class);
         middlewares.add(Auth.class);
         middlewares.add(ServerRID.class);
         middlewares.add(Router.class);
