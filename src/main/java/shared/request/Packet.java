@@ -90,4 +90,8 @@ public class Packet implements Serializable {
     public String getJson() {
         return gson.toJson(this);
     }
+
+    public StatusCode getStatus() {
+        return status;
+    }
 }

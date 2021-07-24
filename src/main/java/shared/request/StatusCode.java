@@ -6,6 +6,11 @@ public enum StatusCode {
             return 400;
         }
     },
+    FORBIDDEN {
+        public int getCode() {
+            return 403;
+        }
+    },
     OK{
         public int getCode() {
             return 200;

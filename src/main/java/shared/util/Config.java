@@ -8,7 +8,7 @@ import java.util.Properties;
 
 
 public class Config extends Properties {
-    private static final String DEFAULT_ADDRESS = "/config/main.properties";
+    private static final String DEFAULT_ADDRESS = "/main.properties";
     private static final Config MAIN_CONFIG = new Config(DEFAULT_ADDRESS);
 
     public static Config getLanguageConfig() {

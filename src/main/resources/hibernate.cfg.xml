@@ -19,7 +19,5 @@
         <property name="show_sql">true</property>
 
         <mapping class="server.models.User"/>
-        <mapping class="server.models.MuteRelation"/>
-        <mapping class="server.models.FollowRelation"/>
     </session-factory>
 </hibernate-configuration>

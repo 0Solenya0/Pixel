@@ -25,7 +25,7 @@ public class ServerRID extends Middleware {
 
     @Override
     public Packet process() {
-        Packet response = null;
+        Packet response = new Packet("");
         int rid = -1;
         if (req.hasKey("m-rid"))
             rid = req.getInt("m-rid");

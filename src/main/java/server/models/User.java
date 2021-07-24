@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name="Account")
-public class User {
+public class User extends Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,32 +38,40 @@ public class User {
 
     private byte[] photo;
 
-    @OneToMany(mappedBy = "user")
-    private List<MuteRelation> muteRelations = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "follow_table",
+            joinColumns = @JoinColumn(name = "following_id"),
+            inverseJoinColumns = @JoinColumn(name="follower_id"))
+    public List<User> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<FollowRelation> followings = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "follow_table",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id"))
+    public List<User> followings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "target")
-    private List<FollowRelation> followers = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "block_table",
+            joinColumns = @JoinColumn(name = "blocker_id"),
+            inverseJoinColumns = @JoinColumn(name="blocked_id"))
+    public List<User> blocked = new ArrayList<>();
 
-    public ArrayList<User> getFollowings() {
-        ArrayList<User> res = new ArrayList<>();
-        followings.forEach((followRelation -> res.add(followRelation.getTarget())));
-        return res;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "block_table",
+            joinColumns = @JoinColumn(name = "blocked_id"),
+            inverseJoinColumns = @JoinColumn(name = "blocker_id"))
+    public List<User> blocked_by = new ArrayList<>();
 
-    public ArrayList<User> getFollowers() {
-        ArrayList<User> res = new ArrayList<>();
-        followers.forEach((followRelation -> res.add(followRelation.getUser())));
-        return res;
-    }
-
-    public ArrayList<User> getMuted() {
-        ArrayList<User> res = new ArrayList<>();
-        muteRelations.forEach((muteRelation -> res.add(muteRelation.getTarget())));
-        return res;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "mute_table",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "muted_id"))
+    public List<User> muted = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -89,11 +97,15 @@ public class User {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
+    }
+
+    public int getId() {
+        return id;
     }
 }
