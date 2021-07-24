@@ -2,7 +2,7 @@ package server.db.models;
 
 import org.hibernate.Session;
 import server.db.HibernateUtil;
-import server.db.exception.ValidationException;
+import shared.exception.ValidationException;
 
 import javax.persistence.*;
 import java.lang.reflect.Field;
@@ -32,7 +32,7 @@ public abstract class Model {
 
     private boolean checkNullableConstraint(Field field) {
         try {
-            return field.get(this) != null;
+            return field.get(this) != null && !field.get(this).equals("");
         } catch (IllegalAccessException e) {
             return false;
         }
@@ -43,14 +43,14 @@ public abstract class Model {
         for (Field field : this.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             Column column = field.getAnnotation(Column.class);
-            if (column != null && column.nullable() && !checkNullableConstraint(field))
+            if (column != null && !column.nullable() && !checkNullableConstraint(field))
                 validationException.addError(field.getName(),
                         field.getName() + " can't be empty");
             if (column != null && column.unique() && !checkUniqueConstraint(field))
                 validationException.addError(field.getName(),
                         field.getName() + " is used before");
-            if (validationException.hasError())
-                throw validationException;
         }
+        if (validationException.hasError())
+            throw validationException;
     }
 }

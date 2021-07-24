@@ -16,8 +16,10 @@ public class User extends Model {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(unique = true)
-    private AccessField<String> mail, phone;
+    @Column(unique = true, nullable = false)
+    private AccessField<String> mail;
+
+    private AccessField<String> phone;
 
     @Enumerated(EnumType.STRING)
     private AccessLevel visibility;
@@ -25,7 +27,13 @@ public class User extends Model {
     @Column(nullable = false)
     private String password;
 
-    private String name, surname, bio;
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String surname;
+
+    private String bio;
     private AccessField<LocalDateTime> lastSeen;
     private AccessField<LocalDate> birthdate;
 
@@ -86,7 +94,7 @@ public class User extends Model {
     }
 
     public void setMailAddress(String mailAddress) {
-        if (mailAddress == null)
+        if (mailAddress == null || mailAddress.equals(""))
             mail = null;
         else if (mail == null) {
             mail = new AccessField<>();

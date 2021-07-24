@@ -22,10 +22,10 @@
       <Button fx:id="btnRegister" layoutX="213.0" layoutY="250.0" mnemonicParsing="false" onAction="#register" prefHeight="24.0" prefWidth="74.0" text="Register" />
       <Button fx:id="btnLogin" layoutX="314.0" layoutY="250.0" mnemonicParsing="false" onAction="#switchToLogin" text="Login" />
       <Label layoutX="167.0" layoutY="68.0" text="Username:" />
-      <Label fx:id="emailErr" layoutX="422.0" layoutY="213.0" text="email errors" textFill="RED" />
-      <Label fx:id="passwordErr" layoutX="422.0" layoutY="183.0" text="password errors" textFill="RED" />
-      <Label fx:id="usernameErr" layoutX="350.0" layoutY="68.0" text="username erros" textFill="RED" />
-      <Label fx:id="nameErr" layoutX="329.0" layoutY="101.0" text="username erros" textFill="RED" />
-      <Label fx:id="surnameErr" layoutX="350.0" layoutY="128.0" text="username erros" textFill="RED" />
+      <Label fx:id="emailErr" layoutX="422.0" layoutY="213.0" textFill="RED" />
+      <Label fx:id="passwordErr" layoutX="422.0" layoutY="183.0" textFill="RED" />
+      <Label fx:id="usernameErr" layoutX="350.0" layoutY="68.0" textFill="RED" />
+      <Label fx:id="nameErr" layoutX="329.0" layoutY="101.0" textFill="RED" />
+      <Label fx:id="surnameErr" layoutX="350.0" layoutY="128.0" textFill="RED" />
    </children>
 </AnchorPane>

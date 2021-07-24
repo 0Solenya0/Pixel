@@ -1,4 +1,4 @@
-package server.db.exception;
+package shared.exception;
 
 import java.util.ArrayList;
 import java.util.HashMap;

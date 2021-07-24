@@ -2,7 +2,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl;
 import org.hibernate.cfg.Configuration;
-import server.db.exception.ValidationException;
+import shared.exception.ValidationException;
 import server.db.models.User;
 
 public class test {
