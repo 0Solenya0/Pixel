@@ -1,4 +1,4 @@
-package server.models.fields;
+package server.db.models.fields;
 
 public enum AccessLevel {
     PUBLIC,

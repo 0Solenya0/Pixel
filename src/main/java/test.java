@@ -1,11 +1,9 @@
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl;
 import org.hibernate.cfg.Configuration;
-import server.models.User;
-
-import java.util.List;
+import server.db.exception.ValidationException;
+import server.db.models.User;
 
 public class test {
     public static void main(String[] args) {
@@ -19,12 +17,17 @@ public class test {
         User user = new User();
         user.setUsername("mani");
         user.setPassword("123");
-        session.save(user);
+        try {
+            user.validate();
+        } catch (ValidationException e) {
+            System.out.println(e.getLog());
+        }
+        /* session.save(user);
         User user2 = new User();
         user2.setUsername("ghader");
         user2.setPassword("123");
         user.followers.add(user2);
-        session.save(user2);
+        session.save(user2);*/
         session.getTransaction().commit();
     }
 }

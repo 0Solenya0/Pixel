@@ -3,7 +3,7 @@ package server.controllers;
 import org.hibernate.Session;
 import server.db.HibernateUtil;
 import server.middlewares.Auth;
-import server.models.User;
+import server.db.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
@@ -18,7 +18,7 @@ public class LoginController extends Controller {
                 .uniqueResult();
         if (user != null && user.checkPassword(req.get("password", ""))) {
             Packet response = new Packet(StatusCode.OK);
-            String token = Auth.registerUser(user.getId(), req.getInt("handler"));
+            String token = Auth.registerUser(user.id, req.getInt("handler"));
             response.put("auth-token", token);
             return response;
         }

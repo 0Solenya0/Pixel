@@ -16,4 +16,12 @@ public class HibernateUtil {
         SessionFactory sessionFactory = configuration.configure().buildSessionFactory();
         return sessionFactory.openSession();
     }
+
+    public static void save(Object object) {
+        Session session = getSession();
+        session.beginTransaction();
+        session.save(object);
+        session.getTransaction().commit();;
+        session.close();
+    }
 }

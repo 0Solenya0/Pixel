@@ -1,7 +1,7 @@
-package server.models;
+package server.db.models;
 
-import server.models.fields.AccessField;
-import server.models.fields.AccessLevel;
+import server.db.models.fields.AccessField;
+import server.db.models.fields.AccessLevel;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,10 +12,6 @@ import java.util.List;
 @Entity
 @Table(name="Account")
 public class User extends Model {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
 
     @Column(unique = true, nullable = false)
     private String username;
@@ -89,6 +85,18 @@ public class User extends Model {
         this.mail = mail;
     }
 
+    public void setMailAddress(String mailAddress) {
+        if (mailAddress == null)
+            mail = null;
+        else if (mail == null) {
+            mail = new AccessField<>();
+            mail.set(mailAddress);
+            mail.setAccessLevel(AccessLevel.PRIVATE);
+        }
+        else
+            mail.set(mailAddress);
+    }
+
     public AccessField<String> getPhone() {
         return phone;
     }
@@ -105,7 +113,59 @@ public class User extends Model {
         return this.password.equals(password);
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public AccessField<LocalDateTime> getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(AccessField<LocalDateTime> lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    public AccessField<LocalDate> getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(AccessField<LocalDate> birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 }
