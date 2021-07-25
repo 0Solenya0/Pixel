@@ -1,5 +1,6 @@
 package client.views;
 
+import client.controllers.LayoutController;
 import javafx.application.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,7 @@ public class ViewManager extends Application {
     private final static Config config = Config.getConfig("mainConfig");
 
     private static Stage window;
+    private static LayoutController layoutController;
 
     public static void main(String[] args) {
         launch(args);
@@ -40,11 +42,32 @@ public class ViewManager extends Application {
             e.printStackTrace();
         }
     }
+    
+    public static void loadLayout() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ViewManager.class.getResource(config.getProperty("DEFAULT_LAYOUT")));
+        loadPage(fxmlLoader);
+        layoutController = fxmlLoader.getController();
+    }
+
+    private static FXMLLoader loadFXML(String configPath) {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ViewManager.class.getResource(config.getProperty(configPath)));
+        return fxmlLoader;
+    }
+
+    public static void showPanel(String panelName) {
+        FXMLLoader loader = loadFXML(panelName + "_PANEL");
+        try {
+            layoutController.getPanel().setCenter(loader.load());
+        } catch (IOException e) {
+            logger.fatal("Failed to find fxml file - " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public static void showView(String viewName) {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(ViewManager.class.getResource(config.getProperty(viewName + "_VIEW")));
-        loadPage(fxmlLoader);
+        loadPage(loadFXML(viewName + "_VIEW"));
     }
 
     public static void setScene(Scene scene) {

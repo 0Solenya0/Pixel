@@ -1,7 +1,7 @@
 package client.request;
 
 import client.request.exception.ConnectionException;
-import client.store.Auth;
+import client.store.Profile;
 import client.views.ViewManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,8 +91,8 @@ public class SocketHandler extends shared.handler.SocketHandler {
 
     @Override
     public void sendPacket(Packet packet) {
-        if (Auth.authToken != null)
-            packet.put("auth-token", Auth.authToken);
+        if (Profile.authToken != null)
+            packet.put("auth-token", Profile.authToken);
         try {
             super.sendPacket(packet);
         }

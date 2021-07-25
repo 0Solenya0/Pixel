@@ -1,0 +1,7 @@
+.positive {
+    -fx-background-color: #21ba45;
+}
+
+.negative {
+    -fx-background-color: #db2828;
+}

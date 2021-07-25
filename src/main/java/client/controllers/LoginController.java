@@ -1,17 +1,16 @@
 package client.controllers;
 
 import client.request.SocketHandler;
-import client.store.Auth;
+import client.store.Profile;
 import client.views.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Pack;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
-import java.util.Objects;
+import javax.swing.text.View;
 
 public class LoginController {
 
@@ -31,9 +30,11 @@ public class LoginController {
         packet.put("username", txtUsername.getText());
         packet.put("password", txtPassword.getText());
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        Auth.authToken = response.get("auth-token", null);
+        Profile.authToken = response.get("auth-token", null);
         if (response.getStatus() != StatusCode.OK)
             lblErr.setText("Username or password is wrong.");
+        else
+            ViewManager.loadLayout();
     }
 
     public void switchToRegister() {
