@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import java.net.URL?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -16,9 +15,6 @@
 <?import javafx.scene.text.Font?>
 
 <ScrollPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.SettingsController">
-   <stylesheets>
-      <URL value="@style.css" />
-   </stylesheets>
    <content>
       <AnchorPane prefHeight="1186.0" prefWidth="980.0">
          <children>
@@ -106,15 +102,15 @@
                   <Font name="Laksaman" size="13.0" />
                </font>
             </JFXButton>
-            <JFXComboBox fx:id="comboPhone" layoutX="512.0" layoutY="471.0" onAction="#updatePhonePrivacy" prefHeight="24.0" prefWidth="108.0" />
-            <JFXComboBox fx:id="comboBirthday" layoutX="507.0" layoutY="535.0" onAction="#updateBirthdayPrivacy" prefHeight="24.0" prefWidth="114.0" />
-            <JFXComboBox fx:id="comboEmail" layoutX="457.0" layoutY="792.0" onAction="#updateEmailPrivacy" prefHeight="24.0" prefWidth="106.0" />
+            <JFXComboBox fx:id="comboPhone" layoutX="512.0" layoutY="471.0" prefHeight="24.0" prefWidth="108.0" />
+            <JFXComboBox fx:id="comboBirthday" layoutX="507.0" layoutY="535.0" prefHeight="24.0" prefWidth="114.0" />
+            <JFXComboBox fx:id="comboEmail" layoutX="457.0" layoutY="792.0" prefHeight="24.0" prefWidth="106.0" />
             <Label fx:id="lblLastSeen" layoutX="332.0" layoutY="826.0" text="Last seen privacy">
                <font>
                   <Font name="Laksaman" size="15.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="comboLastSeen" layoutX="457.0" layoutY="826.0" onAction="#updateLastSeenPrivacy" prefHeight="24.0" prefWidth="106.0" />
+            <JFXComboBox fx:id="comboLastSeen" layoutX="457.0" layoutY="826.0" prefHeight="24.0" prefWidth="106.0" />
             <JFXButton fx:id="btnLogout" layoutX="783.0" layoutY="1109.0" onAction="#logout" prefHeight="50.0" prefWidth="99.0" style="-fx-background-color: B8BDB5;" text="Logout">
                <font>
                   <Font name="Laksaman" size="15.0" />
@@ -145,7 +141,7 @@
                   <Font name="Laksaman" size="11.0" />
                </font>
             </Label>
-            <JFXComboBox fx:id="comboAccount" layoutX="456.0" layoutY="862.0" onAction="#updateAccountPrivacy" prefHeight="24.0" prefWidth="106.0" />
+            <JFXComboBox fx:id="comboAccount" layoutX="456.0" layoutY="862.0" prefHeight="24.0" prefWidth="106.0" />
             <Label fx:id="lblAccountPrivacy" layoutX="333.0" layoutY="859.0" text="Account visibility">
                <font>
                   <Font name="Laksaman" size="15.0" />
@@ -165,6 +161,11 @@
             </Label>
             <Separator layoutX="181.0" layoutY="906.0" prefHeight="37.0" prefWidth="253.0" style="-fx-alignment: center;" />
             <Separator layoutX="528.0" layoutY="905.0" prefHeight="39.0" prefWidth="259.0" style="-fx-alignment: center;" />
+            <JFXButton fx:id="btnSaveProvacy" layoutX="594.0" layoutY="858.0" onAction="#savePrivacyInfo" prefHeight="36.0" prefWidth="87.0" styleClass="positive" stylesheets="@styles.css" text="Save" textFill="WHITE">
+               <font>
+                  <Font name="Laksaman" size="13.0" />
+               </font>
+            </JFXButton>
          </children>
       </AnchorPane>
    </content>

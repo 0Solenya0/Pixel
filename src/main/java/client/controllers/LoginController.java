@@ -1,7 +1,7 @@
 package client.controllers;
 
 import client.request.SocketHandler;
-import client.store.Profile;
+import client.store.Index;
 import client.views.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -9,8 +9,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import shared.request.Packet;
 import shared.request.StatusCode;
-
-import javax.swing.text.View;
 
 public class LoginController {
 
@@ -30,7 +28,7 @@ public class LoginController {
         packet.put("username", txtUsername.getText());
         packet.put("password", txtPassword.getText());
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        Profile.authToken = response.get("auth-token", null);
+        Index.getInstance().setAuthToken(response.get("auth-token", null));
         if (response.getStatus() != StatusCode.OK)
             lblErr.setText("Username or password is wrong.");
         else
