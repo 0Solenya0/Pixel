@@ -2,6 +2,7 @@ package server.config;
 
 import server.controllers.Controller;
 import server.controllers.LoginController;
+import server.controllers.ProfileDataController;
 import server.controllers.RegisterController;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Routes {
     public static void initiate() {
         routes.add(new Route("login", LoginController.class));
         routes.add(new Route("register", RegisterController.class));
+        routes.add(new Route("my-profile", ProfileDataController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

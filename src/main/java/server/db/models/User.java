@@ -77,6 +77,10 @@ public class User extends Model {
             inverseJoinColumns = @JoinColumn(name = "muted_id"))
     public List<User> muted = new ArrayList<>();
 
+    public AccessLevel getVisibility() {
+        return visibility;
+    }
+
     public String getUsername() {
         return username;
     }

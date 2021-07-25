@@ -71,6 +71,12 @@ public class Packet implements Serializable {
         return def;
     }
 
+    public String get(String key) {
+        if (data.containsKey(key))
+            return data.get(key);
+        return null;
+    }
+
     public int getInt(String key) {
         return Integer.parseInt(data.get(key));
     }

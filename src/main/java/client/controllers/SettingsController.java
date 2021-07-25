@@ -87,6 +87,7 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Index.getInstance().updateProfileData();
         comboEmail.setValue(Index.getInstance().getMailPrivacy());
         comboPhone.setValue(Index.getInstance().getPhonePrivacy());
         comboLastSeen.setValue(Index.getInstance().getLastSeenPrivacy());
