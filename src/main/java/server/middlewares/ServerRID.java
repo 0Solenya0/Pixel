@@ -25,7 +25,7 @@ public class ServerRID extends Middleware {
 
     @Override
     public Packet process() {
-        Packet response = new Packet("");
+        Packet response;
         int rid = -1;
         if (req.hasKey("m-rid"))
             rid = req.getInt("m-rid");
@@ -36,7 +36,8 @@ public class ServerRID extends Middleware {
             response = ridListeners.get(req.getInt("rid")).listenPacket(req);
         else
             response = next();
-
+        if (response == null)
+            response = new Packet(StatusCode.INTERNAL_SERVER_ERROR);
         if (rid != -1)
             response.put("m-rid", rid);
         return response;

@@ -1,6 +1,6 @@
 package client.controllers;
 
-import client.store.Index;
+import client.store.MyProfile;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -13,7 +13,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import server.db.models.fields.AccessLevel;
+import shared.models.User;
+import shared.models.fields.AccessLevel;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,7 +67,7 @@ public class SettingsController implements Initializable {
 
     @FXML
     void logout(ActionEvent event) {
-        Index.reset(); // TO DO remove other saved stores
+        MyProfile.reset(); // TO DO remove other saved stores
         ViewManager.showView("LOGIN");
     }
 
@@ -87,16 +88,17 @@ public class SettingsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Index.getInstance().updateProfileData();
-        comboEmail.setValue(Index.getInstance().getMailPrivacy());
-        comboPhone.setValue(Index.getInstance().getPhonePrivacy());
-        comboLastSeen.setValue(Index.getInstance().getLastSeenPrivacy());
-        comboBirthday.setValue(Index.getInstance().getBirthdayPrivacy());
-        comboAccount.setValue(Index.getInstance().getVisibilityPrivacy());
-        lblUsername.setText(Index.getInstance().getUsername());
-        txtName.setText(Index.getInstance().getName());
-        txtSurname.setText(Index.getInstance().getSurname());
-        txtBio.setText(Index.getInstance().getBio());
-        txtPhone.setText(Index.getInstance().getPhoneNumber());
+        MyProfile.getInstance().updateUserProfile();
+        User user = MyProfile.getInstance().getUser();
+        comboEmail.setValue(user.getMail().getAccessLevel());
+        comboPhone.setValue(user.getPhone().getAccessLevel());
+        comboLastSeen.setValue(user.getLastSeen().getAccessLevel());
+        comboBirthday.setValue(user.getBirthdate().getAccessLevel());
+        comboAccount.setValue(user.getVisibility());
+        lblUsername.setText(user.getUsername());
+        txtName.setText(user.getName());
+        txtSurname.setText(user.getSurname());
+        txtBio.setText(user.getBio());
+        txtPhone.setText(user.getPhone().get());
     }
 }

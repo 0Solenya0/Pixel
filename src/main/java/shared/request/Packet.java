@@ -3,6 +3,7 @@ package shared.request;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import shared.gsonAdapter.HibernateProxyTypeAdapter;
 import shared.gsonAdapter.LocalDateAdapter;
 import shared.gsonAdapter.LocalDateTimeAdapter;
 import shared.gsonAdapter.LocalTimeAdapter;
@@ -23,6 +24,7 @@ public class Packet implements Serializable {
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY)
             .create();
     private final HashMap<String, String> data = new HashMap<>();
     public String target = "";

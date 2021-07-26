@@ -1,4 +1,4 @@
-package server.db.models.fields;
+package shared.models.fields;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -7,7 +7,7 @@ import javax.persistence.Enumerated;
 @Embeddable
 public class AccessField<E> {
     @Enumerated(EnumType.STRING)
-    public AccessLevel accessLevel;
+    private AccessLevel accessLevel = AccessLevel.PRIVATE;
     private E value;
 
     public AccessLevel getAccessLevel() {

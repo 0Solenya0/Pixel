@@ -1,7 +1,7 @@
-package server.db.models;
+package shared.models;
 
-import server.db.models.fields.AccessField;
-import server.db.models.fields.AccessLevel;
+import shared.models.fields.AccessField;
+import shared.models.fields.AccessLevel;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,9 +17,9 @@ public class User extends Model {
     private String username;
 
     @Column(unique = true, nullable = false)
-    private AccessField<String> mail;
+    private AccessField<String> mail = new AccessField<>();
 
-    private AccessField<String> phone;
+    private AccessField<String> phone = new AccessField<>();
 
     @Enumerated(EnumType.STRING)
     private AccessLevel visibility;
@@ -34,8 +34,12 @@ public class User extends Model {
     private String surname;
 
     private String bio;
-    private AccessField<LocalDateTime> lastSeen;
-    private AccessField<LocalDate> birthdate;
+
+    @Column(nullable = false)
+    private AccessField<LocalDateTime> lastSeen = new AccessField<>();
+
+    @Column(nullable = false)
+    private AccessField<LocalDate> birthdate = new AccessField<>();
 
     @Column(nullable = false)
     private boolean isEnabled = true;
@@ -47,16 +51,16 @@ public class User extends Model {
             name = "follow_table",
             joinColumns = @JoinColumn(name = "following_id"),
             inverseJoinColumns = @JoinColumn(name="follower_id"))
-    public List<User> followers = new ArrayList<>();
+    public transient List<User> followers = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "follow_table",
             joinColumns = @JoinColumn(name = "follower_id"),
             inverseJoinColumns = @JoinColumn(name = "following_id"))
-    public List<User> followings = new ArrayList<>();
+    public transient List<User> followings = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "block_table",
             joinColumns = @JoinColumn(name = "blocker_id"),
@@ -68,14 +72,14 @@ public class User extends Model {
             name = "block_table",
             joinColumns = @JoinColumn(name = "blocked_id"),
             inverseJoinColumns = @JoinColumn(name = "blocker_id"))
-    public List<User> blocked_by = new ArrayList<>();
+    public transient List<User> blocked_by = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "mute_table",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "muted_id"))
-    public List<User> muted = new ArrayList<>();
+    public transient List<User> muted = new ArrayList<>();
 
     public AccessLevel getVisibility() {
         return visibility;

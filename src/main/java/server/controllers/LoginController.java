@@ -3,7 +3,7 @@ package server.controllers;
 import org.hibernate.Session;
 import server.db.HibernateUtil;
 import server.middlewares.Auth;
-import server.db.models.User;
+import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 

@@ -1,7 +1,7 @@
 package client.controllers;
 
 import client.request.SocketHandler;
-import client.store.Index;
+import client.store.MyProfile;
 import client.views.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,7 +28,7 @@ public class LoginController {
         packet.put("username", txtUsername.getText());
         packet.put("password", txtPassword.getText());
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        Index.getInstance().setAuthToken(response.get("auth-token", null));
+        MyProfile.getInstance().setAuthToken(response.get("auth-token", null));
         if (response.getStatus() != StatusCode.OK)
             lblErr.setText("Username or password is wrong.");
         else

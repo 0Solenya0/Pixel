@@ -3,7 +3,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl;
 import org.hibernate.cfg.Configuration;
 import shared.exception.ValidationException;
-import server.db.models.User;
+import shared.models.User;
+import shared.request.Packet;
 
 public class test {
     public static void main(String[] args) {
@@ -17,11 +18,8 @@ public class test {
         User user = new User();
         user.setUsername("mani");
         user.setPassword("123");
-        try {
-            user.validate();
-        } catch (ValidationException e) {
-            System.out.println(e.getLog());
-        }
+        Packet p = new Packet("");
+        p.putObject("user", user);
         /* session.save(user);
         User user2 = new User();
         user2.setUsername("ghader");

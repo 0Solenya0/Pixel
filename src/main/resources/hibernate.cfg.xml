@@ -18,6 +18,6 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class="server.db.models.User"/>
+        <mapping class="shared.models.User"/>
     </session-factory>
 </hibernate-configuration>

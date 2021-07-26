@@ -10,11 +10,18 @@ import java.time.LocalDate;
 public class LocalDateAdapter extends TypeAdapter<LocalDate> {
     @Override
     public void write(final JsonWriter jsonWriter, final LocalDate localDate ) throws IOException {
-        jsonWriter.value(localDate.toString());
+        if (localDate == null)
+            jsonWriter.value("null");
+        else
+            jsonWriter.value(localDate.toString());
     }
 
     @Override
     public LocalDate read( final JsonReader jsonReader ) throws IOException {
-        return LocalDate.parse(jsonReader.nextString());
+        String s = jsonReader.nextString();
+        if (s.equals("null"))
+            return null;
+        else
+            return LocalDate.parse(jsonReader.nextString());
     }
 }

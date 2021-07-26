@@ -1,4 +1,4 @@
-package server.db.models;
+package shared.models;
 
 import org.hibernate.Session;
 import server.db.HibernateUtil;

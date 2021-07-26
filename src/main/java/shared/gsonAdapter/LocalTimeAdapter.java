@@ -11,11 +11,18 @@ import java.time.LocalTime;
 public class LocalTimeAdapter extends TypeAdapter<LocalTime> {
     @Override
     public void write(final JsonWriter jsonWriter, final LocalTime localTime ) throws IOException {
-        jsonWriter.value(localTime.toString());
+        if (localTime == null)
+            jsonWriter.value("null");
+        else
+            jsonWriter.value(localTime.toString());
     }
 
     @Override
     public LocalTime read( final JsonReader jsonReader ) throws IOException {
-        return LocalTime.parse(jsonReader.nextString());
+        String s = jsonReader.nextString();
+        if (s.equals("null"))
+            return null;
+        else
+            return LocalTime.parse(jsonReader.nextString());
     }
 }

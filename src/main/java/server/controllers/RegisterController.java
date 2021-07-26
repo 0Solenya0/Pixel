@@ -2,7 +2,7 @@ package server.controllers;
 
 import server.db.HibernateUtil;
 import shared.exception.ValidationException;
-import server.db.models.User;
+import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
