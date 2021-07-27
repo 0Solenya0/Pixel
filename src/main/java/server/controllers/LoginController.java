@@ -16,6 +16,7 @@ public class LoginController extends Controller {
                 .createQuery("from User where username = :u")
                 .setParameter("u", req.get("username", ""))
                 .uniqueResult();
+        session.close();
         if (user != null && user.checkPassword(req.get("password", ""))) {
             Packet response = new Packet(StatusCode.OK);
             String token = Auth.registerUser(user.id, req.getInt("handler"));

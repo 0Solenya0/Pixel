@@ -1,9 +1,6 @@
 package server.config;
 
-import server.controllers.Controller;
-import server.controllers.LoginController;
-import server.controllers.ProfileDataController;
-import server.controllers.RegisterController;
+import server.controllers.*;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -15,6 +12,7 @@ public class Routes {
         routes.add(new Route("login", LoginController.class));
         routes.add(new Route("register", RegisterController.class));
         routes.add(new Route("my-profile", ProfileDataController.class));
+        routes.add(new Route("update-profile", ProfileChangeController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

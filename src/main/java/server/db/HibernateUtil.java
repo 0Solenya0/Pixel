@@ -20,7 +20,7 @@ public class HibernateUtil {
     public static void save(Object object) {
         Session session = getSession();
         session.beginTransaction();
-        session.save(object);
+        session.saveOrUpdate(object);
         session.getTransaction().commit();;
         session.close();
     }

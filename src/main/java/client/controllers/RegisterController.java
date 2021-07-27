@@ -70,6 +70,8 @@ public class RegisterController {
             ValidationException e = response.getObject("error", ValidationException.class);
             setErrors(e);
         }
+        else
+            ViewManager.showView("LOGIN");
     }
 
     @FXML

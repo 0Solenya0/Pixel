@@ -91,6 +91,12 @@ public class Packet implements Serializable {
         return gson.fromJson(data.get(key), objClass);
     }
 
+    public <T> T getObject(String key, Class<T> objClass, T def) {
+        if (!data.containsKey(key))
+            return def;
+        return gson.fromJson(data.get(key), objClass);
+    }
+
     public <T> T getObject(String key, Type type) {
         return gson.fromJson(data.get(key), type);
     }

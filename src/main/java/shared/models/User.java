@@ -22,7 +22,7 @@ public class User extends Model {
     private AccessField<String> phone = new AccessField<>();
 
     @Enumerated(EnumType.STRING)
-    private AccessLevel visibility;
+    private AccessLevel visibility = AccessLevel.PRIVATE;
 
     @Column(nullable = false)
     private String password;
@@ -111,6 +111,10 @@ public class User extends Model {
         }
         else
             mail.set(mailAddress);
+    }
+
+    public void setVisibility(AccessLevel visibility) {
+        this.visibility = visibility;
     }
 
     public AccessField<String> getPhone() {
