@@ -2,6 +2,7 @@ package server.controllers;
 
 import org.hibernate.Session;
 import server.db.HibernateUtil;
+import shared.exception.ValidationException;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
 import shared.request.Packet;
@@ -42,6 +43,11 @@ public class ProfileChangeController extends Controller {
                 req.getObject("last-seen-access", AccessLevel.class, user.getLastSeen().getAccessLevel())
         );
         user.setVisibility(req.getObject("visibility", AccessLevel.class, user.getVisibility()));
+        try {
+            user.validate();
+        } catch (ValidationException e) {
+            return new Packet(StatusCode.BAD_REQUEST).putObject("error", e.getAllErrors().get(0));
+        }
         HibernateUtil.save(user);
         return response;
     }
