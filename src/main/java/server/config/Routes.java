@@ -13,6 +13,7 @@ public class Routes {
         routes.add(new Route("register", RegisterController.class));
         routes.add(new Route("my-profile", ProfileDataController.class));
         routes.add(new Route("update-profile", ProfileChangeController.class));
+        routes.add(new Route("reset-pass", ResetPasswordController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

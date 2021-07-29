@@ -2,6 +2,7 @@ package client.controllers;
 
 import client.request.SocketHandler;
 import client.store.MyProfile;
+import client.views.InfoDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -14,15 +15,19 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import shared.exception.ValidationException;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
 import shared.request.Packet;
 import shared.request.StatusCode;
+import shared.util.Config;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
+
+    private final Config config = Config.getLanguageConfig();
 
     @FXML
     private ImageView imgAvatar;
@@ -52,11 +57,24 @@ public class SettingsController implements Initializable {
     private JFXComboBox<AccessLevel> comboPhone, comboBirthday, comboEmail, comboLastSeen, comboAccount;
 
     @FXML
-    private Label lblPhoneErr, lblSaveErr, lblChangePassErr;
+    private Label lblSaveErr, lblChangePassErr;
 
     @FXML
     void changePass(ActionEvent event) {
-        // TO DO
+        if (!txtNewPass.getText().equals(txtNewPassRepeat.getText())) {
+            lblChangePassErr.setText(config.getProperty("PASSWORD_REPEAT_ERROR"));
+            return;
+        }
+        Packet packet = new Packet("reset-pass");
+        packet.put("old-pass", txtOldPass.getText());
+        packet.put("new-pass", txtNewPass.getText());
+        Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (response.status == StatusCode.FORBIDDEN)
+            lblChangePassErr.setText(response.get("error"));
+        else if (response.getStatus() == StatusCode.BAD_REQUEST)
+            lblChangePassErr.setText(response.getObject("error", ValidationException.class).getAllErrors().get(0));
+        else
+            InfoDialog.showSuccess(config.getProperty("PASSWORD_SUCCESS_DIALOG"));
     }
 
     @FXML
@@ -77,7 +95,22 @@ public class SettingsController implements Initializable {
 
     @FXML
     void saveProfileInfo(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("update-profile");
+        packet.put("name", txtName.getText());
+        packet.put("surname", txtSurname.getText());
+        packet.put("phone-number", txtPhone.getText());
+        packet.putObject("phone-access", comboPhone.getValue());
+        packet.putObject("birthday", dateBirthday.getValue());
+        packet.putObject("birthday-access", comboBirthday.getValue());
+        packet.put("bio", txtBio.getText());
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.status == StatusCode.OK) {
+            MyProfile.getInstance().updateUserProfile();
+            InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
+        }
+        else {
+            // TO DO some error happened
+        }
     }
 
     @FXML
