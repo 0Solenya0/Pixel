@@ -69,12 +69,20 @@ public class SettingsController implements Initializable {
         packet.put("old-pass", txtOldPass.getText());
         packet.put("new-pass", txtNewPass.getText());
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        if (response.status == StatusCode.FORBIDDEN)
-            lblChangePassErr.setText(response.get("error"));
-        else if (response.getStatus() == StatusCode.BAD_REQUEST)
-            lblChangePassErr.setText(response.getObject("error", ValidationException.class).getAllErrors().get(0));
-        else
-            InfoDialog.showSuccess(config.getProperty("PASSWORD_SUCCESS_DIALOG"));
+        switch (response.getStatus()) {
+            case OK:
+                InfoDialog.showSuccess(config.getProperty("PASSWORD_SUCCESS_DIALOG"));
+                break;
+            case BAD_REQUEST:
+                lblChangePassErr.setText(response.getObject("error", ValidationException.class).getAllErrors().get(0));
+                break;
+            case FORBIDDEN:
+                lblChangePassErr.setText(response.get("error"));
+                break;
+            case BAD_GATEWAY:
+                InfoDialog.showConnectionError();
+                break;
+        }
     }
 
     @FXML

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import shared.lock.CustomLock;
 import shared.request.Packet;
 import shared.request.PacketListener;
+import shared.request.StatusCode;
 import shared.util.Config;
 
 import java.io.IOException;
@@ -71,11 +72,14 @@ public class SocketHandler extends shared.handler.SocketHandler {
         int rid = lastRid.addAndGet(1);
         ridListeners.put(rid, packetListener);
         packet.put("m-rid", rid);
-        sendPacket(packet);
+        try {
+            sendPacket(packet);
+        } catch (SocketException ignored) {}
     }
 
     public Packet sendPacketAndGetResponse(Packet packet) {
         AtomicReference<Packet> response = new AtomicReference<>();
+        response.set(new Packet(StatusCode.BAD_GATEWAY));
         CustomLock lock = new CustomLock();
         int rid = lastRid.addAndGet(1);
         packet.put("m-rid", rid);
@@ -84,21 +88,18 @@ public class SocketHandler extends shared.handler.SocketHandler {
             response.set(p);
             lock.unlock();
         });
-        sendPacket(packet);
+        try {
+            sendPacket(packet);
+        } catch (SocketException ignored) {}
         lock.lock();
         return response.get();
     }
 
     @Override
-    public void sendPacket(Packet packet) {
+    public void sendPacket(Packet packet) throws SocketException {
         if (MyProfile.getInstance().getAuthToken() != null)
             packet.put("auth-token", MyProfile.getInstance().getAuthToken());
-        try {
-            super.sendPacket(packet);
-        }
-        catch (SocketException e) {
-            ViewManager.connectionError();
-        }
+        super.sendPacket(packet);
     }
 
     public void addTargetListener(String target, PacketListener listener) {

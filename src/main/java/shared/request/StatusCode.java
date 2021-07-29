@@ -6,6 +6,11 @@ public enum StatusCode {
             return 400;
         }
     },
+    BAD_GATEWAY {
+        public int getCode() {
+            return 502;
+        }
+    },
     FORBIDDEN {
         public int getCode() {
             return 403;
