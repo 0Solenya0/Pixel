@@ -19,5 +19,6 @@
         <property name="show_sql">true</property>
 
         <mapping class="shared.models.User"/>
+        <mapping class="shared.models.Tweet"/>
     </session-factory>
 </hibernate-configuration>
