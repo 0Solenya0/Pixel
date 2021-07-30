@@ -2,6 +2,7 @@ package client.views;
 
 import client.controllers.LayoutController;
 import javafx.application.Platform;
+import javafx.stage.FileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.application.Application;
@@ -11,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import shared.util.Config;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -73,6 +75,12 @@ public class ViewManager extends Application {
     public static void setScene(Scene scene) {
         window.setScene(scene);
         window.show();
+    }
+
+    public static File showFileDialog() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        return fileChooser.showOpenDialog(window);
     }
 
     public static Stage getWindow() {

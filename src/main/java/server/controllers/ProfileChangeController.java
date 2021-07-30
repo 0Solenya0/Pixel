@@ -42,6 +42,8 @@ public class ProfileChangeController extends Controller {
                 req.getObject("last-seen-access", AccessLevel.class, user.getLastSeen().getAccessLevel())
         );
         user.setVisibility(req.getObject("visibility", AccessLevel.class, user.getVisibility()));
+
+        user.setPhoto(req.getObject("photo", byte[].class, user.getPhoto()));
         try {
             user.validate();
         } catch (ValidationException e) {

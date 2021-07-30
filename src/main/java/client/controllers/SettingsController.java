@@ -3,6 +3,7 @@ package client.controllers;
 import client.request.SocketHandler;
 import client.request.exception.ConnectionException;
 import client.store.MyProfile;
+import client.utils.ImageUtils;
 import client.views.InfoDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import shared.exception.ValidationException;
 import shared.models.User;
@@ -23,7 +25,10 @@ import shared.request.Packet;
 import shared.request.StatusCode;
 import shared.util.Config;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
@@ -138,7 +143,22 @@ public class SettingsController implements Initializable {
 
     @FXML
     void uploadPhoto(ActionEvent event) {
-        // TO DO
+        File photo = ViewManager.showFileDialog();
+        try {
+            MyProfile.getInstance().getUser().setPhoto(Files.readAllBytes(photo.toPath()));
+            MyProfile.getInstance().commitChanges();
+            updatePhoto();
+        } catch (IOException e) {
+            InfoDialog.showFailed(config.getProperty("IMAGE_LOAD_FAILED"));
+        } catch (ValidationException ignored) {
+        } catch (ConnectionException e) {
+            InfoDialog.showConnectionErrorSaveLater(e);
+        }
+    }
+
+    public void updatePhoto() {
+        byte[] photo = MyProfile.getInstance().getUser().getPhoto();
+        imgAvatar.setImage(ImageUtils.load(photo));
     }
 
     @Override
@@ -161,5 +181,7 @@ public class SettingsController implements Initializable {
         txtSurname.setText(user.getSurname());
         txtBio.setText(user.getBio());
         txtPhone.setText(user.getPhone().get());
+
+        updatePhoto();
     }
 }

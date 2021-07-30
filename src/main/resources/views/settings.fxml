@@ -9,7 +9,6 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -18,11 +17,7 @@
    <content>
       <AnchorPane prefHeight="1186.0" prefWidth="980.0">
          <children>
-            <ImageView fx:id="imgAvatar" fitHeight="264.0" fitWidth="275.0" layoutX="342.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../oie_8wx5xy0V9tca.jpg" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="imgAvatar" fitHeight="264.0" fitWidth="275.0" layoutX="342.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
             <JFXButton fx:id="btnUploadPhoto" layoutX="432.0" layoutY="293.0" onAction="#uploadPhoto" styleClass="positive" stylesheets="@styles.css" text="Upload photo" textFill="WHITE">
                <font>
                   <Font name="Laksaman" size="13.0" />

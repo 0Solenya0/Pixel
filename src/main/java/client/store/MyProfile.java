@@ -37,6 +37,7 @@ public class MyProfile extends Store {
         packet.putObject("mail-access", user.getMail().getAccessLevel());
         packet.putObject("last-seen-access", user.getLastSeen().getAccessLevel());
         packet.putObject("visibility", user.getVisibility());
+        packet.putObject("photo", user.getPhoto());
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         switch (response.getStatus()){
             case BAD_GATEWAY:
