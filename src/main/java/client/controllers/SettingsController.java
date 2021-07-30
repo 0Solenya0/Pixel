@@ -124,16 +124,16 @@ public class SettingsController implements Initializable {
 
     @FXML
     void savePrivacyInfo() {
-        Packet packet = new Packet("update-profile");
-        packet.putObject("mail-access", comboEmail.getValue());
-        packet.putObject("last-seen-access", comboLastSeen.getValue());
-        packet.putObject("visibility", comboAccount.getValue());
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        if (res.status == StatusCode.OK)
-            MyProfile.getInstance().updateUserProfile();
-        else {
-            // TO DO some error happened
-        }
+        User user = MyProfile.getInstance().getUser();
+        user.getMail().setAccessLevel(comboEmail.getValue());
+        user.getLastSeen().setAccessLevel(comboLastSeen.getValue());
+        user.setVisibility(comboAccount.getValue());
+        try {
+            MyProfile.getInstance().commitChanges();
+            InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
+        } catch (ConnectionException e) {
+            InfoDialog.showConnectionErrorSaveLater(e);
+        } catch (ValidationException ignored) { }
     }
 
     @FXML
