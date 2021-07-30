@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxWidth="1000.0" minWidth="1000.0" prefHeight="266.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.components.TweetCardController">
+   <children>
+      <Label fx:id="lblAuthor" layoutX="46.0" prefHeight="19.0" text="Author">
+         <font>
+            <Font name="Laksaman" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTweet" alignment="TOP_LEFT" layoutX="22.0" layoutY="44.0" prefHeight="163.0" prefWidth="952.0" style="-fx-background-color: #D6E9FF;" text="Tweet content">
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+         <font>
+            <Font size="19.0" />
+         </font></Label>
+      <HBox alignment="CENTER_RIGHT" layoutX="708.0" layoutY="209.0" prefHeight="38.0" prefWidth="271.0">
+         <children>
+            <JFXButton fx:id="btnSave" contentDisplay="CENTER" ellipsisString="" onAction="#btnSaveClicked" prefHeight="28.0" prefWidth="14.0" text=" " textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView fill="#16ab39" glyphName="SAVE" selectionFill="#16ab39" size="20" wrappingWidth="21.0" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnShare" contentDisplay="CENTER" ellipsisString="" layoutX="550.0" layoutY="15.0" onAction="#btnShareClicked" prefHeight="28.0" prefWidth="14.0" text=" " textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView fill="#16ab39" glyphName="SHARE" selectionFill="#16ab39" size="20" wrappingWidth="21.0" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnRetweet" contentDisplay="CENTER" ellipsisString="" layoutX="550.0" layoutY="15.0" onAction="#btnRetweetClicked" prefHeight="28.0" prefWidth="14.0" text=" " textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView fill="#16ab39" glyphName="REPEAT" selectionFill="#16ab39" size="20" wrappingWidth="21.0" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnComment" contentDisplay="CENTER" ellipsisString="" layoutX="550.0" layoutY="15.0" onAction="#btnCommentClicked" prefHeight="28.0" prefWidth="14.0" text=" " textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView fill="#2185d0" glyphName="COMMENT" selectionFill="#2185d0" size="20" wrappingWidth="21.0" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnLike" contentDisplay="CENTER" ellipsisString="" layoutX="550.0" layoutY="15.0" onAction="#btnLikeClicked" prefHeight="28.0" prefWidth="14.0" text=" " textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView fx:id="iconLike" fill="RED" glyphName="HEART_ALT" selectionFill="RED" size="20" wrappingWidth="21.0" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
+      <HBox fx:id="hboxForeign" alignment="CENTER_LEFT" layoutX="14.0" layoutY="209.0" prefHeight="38.0" prefWidth="273.0">
+         <children>
+            <JFXButton fx:id="btnMute" contentDisplay="CENTER" ellipsisString="" onAction="#btnMuteClicked" prefHeight="28.0" prefWidth="14.0" text=" " textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView glyphName="DEAF" selectionFill="BLACK" size="20" wrappingWidth="21.0" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="btnReport" contentDisplay="CENTER" ellipsisString="" onAction="#btnReportClicked" prefHeight="28.0" prefWidth="14.0" text=" " textAlignment="CENTER">
+               <graphic>
+                  <FontAwesomeIconView glyphName="FLAG" selectionFill="BLACK" size="20" wrappingWidth="21.0" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
+      <JFXButton fx:id="btnParentTweet" buttonType="RAISED" layoutX="831.0" layoutY="3.0" onAction="#showParentTweet" prefHeight="12.0" prefWidth="169.0" style="-fx-background-color: B8BDB5;" text="Show Parent Tweet">
+         <font>
+            <Font name="Laksaman" size="13.0" />
+         </font>
+      </JFXButton>
+      <ImageView fx:id="imgAvatar" fitHeight="30.0" fitWidth="30.0" layoutX="11.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgPhoto" fitWidth="500.0" layoutX="250.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="284.0" maxWidth="1000.0" minHeight="284.0" minWidth="1000.0" prefHeight="284.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.components.TweetInputController">
+   <children>
+      <JFXTextArea fx:id="txtTweet" layoutX="23.0" layoutY="63.0" prefHeight="135.0" prefWidth="959.0" promptText="Enter your tweet here" />
+      <Label fx:id="lblInputTweet" layoutX="14.0" layoutY="14.0" text="Write your tweet:">
+         <font>
+            <Font name="Gargi" size="15.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnTweet" buttonType="RAISED" layoutX="863.0" layoutY="205.0" onAction="#tweet" prefHeight="50.0" prefWidth="123.0" style="-fx-background-color: B8BDB5;" text="Tweet">
+         <font>
+            <Font name="Gargi" size="18.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="lblGlobalErr" layoutX="679.0" layoutY="258.0" prefHeight="16.0" text="Global errors" textFill="RED" />
+      <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="813.0" layoutY="215.0" onAction="#attachPhoto" prefHeight="29.0" prefWidth="19.0" style="-fx-background-color: B8BDB5;">
+         <font>
+            <Font name="Gargi" size="12.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIconView glyphName="PAPERCLIP" size="25" />
+         </graphic>
+      </JFXButton>
+   </children>
+</AnchorPane>
