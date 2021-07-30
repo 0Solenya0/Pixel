@@ -94,7 +94,12 @@ public class Packet implements Serializable {
     public <T> T getObject(String key, Class<T> objClass, T def) {
         if (!data.containsKey(key))
             return def;
-        return gson.fromJson(data.get(key), objClass);
+        try {
+            return gson.fromJson(data.get(key), objClass);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     public <T> T getObject(String key, Type type) {

@@ -23,6 +23,7 @@ public class ResetPasswordController extends Controller {
         } catch (ValidationException e) {
             return new Packet(StatusCode.BAD_REQUEST).putObject("error", e);
         }
+        session.close();
         HibernateUtil.save(user);
         return new Packet(StatusCode.OK);
     }

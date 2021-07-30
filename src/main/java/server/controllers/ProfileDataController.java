@@ -16,8 +16,8 @@ public class ProfileDataController extends Controller {
                 .createQuery("from User where id = :i")
                 .setParameter("i", id)
                 .uniqueResult();
-        session.close();
         response.putObject("user", user);
+        session.close();
         return response;
     }
 }

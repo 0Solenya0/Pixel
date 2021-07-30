@@ -27,7 +27,6 @@ public class ProfileChangeController extends Controller {
         user.getPhone().setAccessLevel(
                 req.getObject("phone-access", AccessLevel.class, user.getPhone().getAccessLevel())
         );
-
         user.getBirthdate().set(
                 req.getObject("birthday", LocalDate.class, user.getBirthdate().get())
         );

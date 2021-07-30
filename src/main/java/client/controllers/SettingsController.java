@@ -114,8 +114,9 @@ public class SettingsController implements Initializable {
         user.setBio(txtBio.getText());
         try {
             MyProfile.getInstance().commitChanges();
+            InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
         } catch (ConnectionException e) {
-            e.printStackTrace();
+            InfoDialog.showConnectionErrorSaveLater(e);
         } catch (ValidationException e) {
             lblSaveErr.setText(e.getAllErrors().get(0));
         }
