@@ -1,6 +1,7 @@
 package client.controllers;
 
 import client.request.SocketHandler;
+import client.request.exception.ConnectionException;
 import client.store.MyProfile;
 import client.views.InfoDialog;
 import client.views.ViewManager;
@@ -80,7 +81,7 @@ public class SettingsController implements Initializable {
                 lblChangePassErr.setText(response.get("error"));
                 break;
             case BAD_GATEWAY:
-                InfoDialog.showConnectionError();
+                InfoDialog.showConnectionErrorSaveLater(new ConnectionException(ConnectionException.ErrorType.CONNECTION_ERROR));
                 break;
         }
     }
@@ -103,21 +104,20 @@ public class SettingsController implements Initializable {
 
     @FXML
     void saveProfileInfo(ActionEvent event) {
-        Packet packet = new Packet("update-profile");
-        packet.put("name", txtName.getText());
-        packet.put("surname", txtSurname.getText());
-        packet.put("phone-number", txtPhone.getText());
-        packet.putObject("phone-access", comboPhone.getValue());
-        packet.putObject("birthday", dateBirthday.getValue());
-        packet.putObject("birthday-access", comboBirthday.getValue());
-        packet.put("bio", txtBio.getText());
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        if (res.status == StatusCode.OK) {
-            MyProfile.getInstance().updateUserProfile();
-            InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
-        }
-        else {
-            // TO DO some error happened
+        User user = MyProfile.getInstance().getUser();
+        user.setName(txtName.getText());
+        user.setSurname(txtSurname.getText());
+        user.getPhone().set(txtPhone.getText());
+        user.getPhone().setAccessLevel(comboPhone.getValue());
+        user.getBirthdate().set(dateBirthday.getValue());
+        user.getBirthdate().setAccessLevel(comboBirthday.getValue());
+        user.setBio(txtBio.getText());
+        try {
+            MyProfile.getInstance().commitChanges();
+        } catch (ConnectionException e) {
+            e.printStackTrace();
+        } catch (ValidationException e) {
+            lblSaveErr.setText(e.getAllErrors().get(0));
         }
     }
 

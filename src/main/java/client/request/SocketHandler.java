@@ -35,7 +35,7 @@ public class SocketHandler extends shared.handler.SocketHandler {
                 socketHandler = new SocketHandler(new Socket("localhost", Integer.parseInt(config.getProperty("PORT"))));
             } catch (IOException e) {
                 logger.info("failed to open new connection with server");
-                throw new ConnectionException();
+                throw new ConnectionException(ConnectionException.ErrorType.CONNECTION_ERROR);
             }
         }
         serviceLock.unlock();

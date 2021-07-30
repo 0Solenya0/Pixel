@@ -51,14 +51,14 @@ public class User extends Model {
             name = "follow_table",
             joinColumns = @JoinColumn(name = "following_id"),
             inverseJoinColumns = @JoinColumn(name="follower_id"))
-    public transient List<User> followers = new ArrayList<>();
+    public List<User> followers = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "follow_table",
             joinColumns = @JoinColumn(name = "follower_id"),
             inverseJoinColumns = @JoinColumn(name = "following_id"))
-    public transient List<User> followings = new ArrayList<>();
+    public List<User> followings = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -72,14 +72,14 @@ public class User extends Model {
             name = "block_table",
             joinColumns = @JoinColumn(name = "blocked_id"),
             inverseJoinColumns = @JoinColumn(name = "blocker_id"))
-    public transient List<User> blocked_by = new ArrayList<>();
+    public List<User> blocked_by = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "mute_table",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "muted_id"))
-    public transient List<User> muted = new ArrayList<>();
+    public List<User> muted = new ArrayList<>();
 
     public AccessLevel getVisibility() {
         return visibility;
