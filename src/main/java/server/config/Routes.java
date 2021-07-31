@@ -15,6 +15,7 @@ public class Routes {
         routes.add(new Route("update-profile", ProfileChangeController.class));
         routes.add(new Route("reset-pass", ResetPasswordController.class));
         routes.add(new Route("tweet", TweetController.class));
+        routes.add(new Route("get-tweet", TweetGetController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

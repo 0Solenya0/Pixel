@@ -40,12 +40,20 @@ public class Tweet extends Model {
 
     private String content;
 
+    public List<User> getLikes() {
+        return likes;
+    }
+
     public Tweet getParent() {
         return parent;
     }
 
     public void setParent(Tweet parent) {
         this.parent = parent;
+    }
+
+    public User getAuthor() {
+        return author;
     }
 
     public Tweet getRetweet() {
