@@ -47,4 +47,32 @@ public class Tweet extends Model {
     public void setParent(Tweet parent) {
         this.parent = parent;
     }
+
+    public Tweet getRetweet() {
+        return retweet;
+    }
+
+    public void setRetweet(Tweet retweet) {
+        this.retweet = retweet;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

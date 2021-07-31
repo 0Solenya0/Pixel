@@ -158,7 +158,8 @@ public class SettingsController implements Initializable {
 
     public void updatePhoto() {
         byte[] photo = MyProfile.getInstance().getUser().getPhoto();
-        imgAvatar.setImage(ImageUtils.load(photo));
+        if (photo != null)
+            imgAvatar.setImage(ImageUtils.load(photo));
     }
 
     @Override

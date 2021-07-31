@@ -83,8 +83,20 @@ public class Packet implements Serializable {
         return Integer.parseInt(data.get(key));
     }
 
+    public int getInt(String key, int def) {
+        if (data.containsKey(key))
+            return getInt(key);
+        return def;
+    }
+
     public boolean getBool(String key) {
         return Boolean.parseBoolean(data.get(key));
+    }
+
+    public boolean getBool(String key, boolean def) {
+        if (data.containsKey(key))
+            return getBool(key);
+        return def;
     }
 
     public <T> T getObject(String key, Class<T> objClass) {

@@ -2,6 +2,7 @@ package client.views;
 
 import client.controllers.LayoutController;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import shared.util.Config;
 
+import javax.swing.text.View;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -58,14 +60,33 @@ public class ViewManager extends Application {
         return fxmlLoader;
     }
 
-    public static void showPanel(String panelName) {
-        FXMLLoader loader = loadFXML(panelName + "_PANEL");
+    public static FXMLLoader getComponent(String component) {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(ViewManager.class.getResource(config.getProperty(component + "_COMP")));
+        return fxmlLoader;
+    }
+
+    public static <T> T changePanel(FXMLLoader loader) {
         try {
             layoutController.getPanel().setCenter(loader.load());
+            return loader.getController();
         } catch (IOException e) {
             logger.fatal("Failed to find fxml file - " + e.getMessage());
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static <T> T showPanel(String panelName) {
+        FXMLLoader loader = loadFXML(panelName + "_PANEL");
+        try {
+            layoutController.getPanel().setCenter(loader.load());
+            return loader.getController();
+        } catch (IOException e) {
+            logger.fatal("Failed to find fxml file - " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void showView(String viewName) {

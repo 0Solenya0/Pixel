@@ -1,5 +1,6 @@
 package client.controllers;
 
+import client.controllers.components.TweetInputController;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -57,7 +58,7 @@ public class LayoutController implements Initializable {
 
     @FXML
     void showPostTweetPage(ActionEvent event) {
-
+        ViewManager.changePanel(ViewManager.getComponent("TWEET_INPUT"));
     }
 
     @FXML

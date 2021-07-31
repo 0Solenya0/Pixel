@@ -20,7 +20,7 @@
             <Font name="Gargi" size="18.0" />
          </font>
       </JFXButton>
-      <Label fx:id="lblGlobalErr" layoutX="679.0" layoutY="258.0" prefHeight="16.0" text="Global errors" textFill="RED" />
+      <Label fx:id="lblGlobalErr" layoutX="679.0" layoutY="258.0" prefHeight="16.0" textFill="RED" />
       <JFXButton buttonType="RAISED" contentDisplay="CENTER" layoutX="813.0" layoutY="215.0" onAction="#attachPhoto" prefHeight="29.0" prefWidth="19.0" style="-fx-background-color: B8BDB5;">
          <font>
             <Font name="Gargi" size="12.0" />

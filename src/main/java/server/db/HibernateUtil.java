@@ -24,4 +24,11 @@ public class HibernateUtil {
         session.getTransaction().commit();;
         session.close();
     }
+
+    public static Object get(Class<?> claz, int id) {
+        Session session = getSession();
+        return session.createQuery("from " + claz.getName() + " where id = :i")
+                .setParameter("i", id)
+                .uniqueResult();
+    }
 }
