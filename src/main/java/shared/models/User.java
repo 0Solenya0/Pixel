@@ -72,7 +72,7 @@ public class User extends Model {
             name = "block_table",
             joinColumns = @JoinColumn(name = "blocked_id"),
             inverseJoinColumns = @JoinColumn(name = "blocker_id"))
-    public List<User> blocked_by = new ArrayList<>();
+    public List<User> blockedBy = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -80,6 +80,13 @@ public class User extends Model {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "muted_id"))
     public List<User> muted = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "mute_table",
+            joinColumns = @JoinColumn(name = "muted_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    public List<User> mutedBy = new ArrayList<>();
 
     public AccessLevel getVisibility() {
         return visibility;
