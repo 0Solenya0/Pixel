@@ -44,42 +44,42 @@ public class TweetCardController implements Initializable {
 
     @FXML
     void btnCommentClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void btnLikeClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void btnMuteClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void btnReportClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void btnRetweetClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void btnSaveClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void btnShareClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void showParentTweet(ActionEvent event) {
-
+        // TO DO
     }
 
     @Override
