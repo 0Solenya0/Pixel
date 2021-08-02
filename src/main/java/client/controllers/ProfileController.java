@@ -128,17 +128,21 @@ public class ProfileController {
 
     @FXML
     void showFollowerList(ActionEvent event) {
-        // TO DO
+        UserListDialog.show(user.getFollowers(), (u) -> {});
     }
 
     @FXML
     void showFollowingList(ActionEvent event) {
-        // TO DOs
+        UserListDialog.show(user.getFollowings(), (u) -> {});
     }
 
     @FXML
     void toggleBlockUser(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("action");
+        packet.put("type", "toggle-block");
+        packet.put("target-id", user.id);
+        SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        updateData();
     }
 
     @FXML
@@ -245,7 +249,8 @@ public class ProfileController {
 
         iconMute.setIcon(res.getBool("is-muted") ? FontAwesomeIcon.MUSIC : FontAwesomeIcon.DEAF);
 
-        imgAvatar.setImage(ImageUtils.load(user.getPhoto()));
+        if (user.getPhoto() != null)
+            imgAvatar.setImage(ImageUtils.load(user.getPhoto()));
         btnMessage.setVisible(res.getBool("can-message", false));
 
         if (checkForAccess(user.getMail().getAccessLevel())) {
