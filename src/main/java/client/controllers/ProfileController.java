@@ -113,12 +113,12 @@ public class ProfileController {
 
     @FXML
     void reportUser(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void sendMessage(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
@@ -128,27 +128,27 @@ public class ProfileController {
 
     @FXML
     void showFollowerList(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void showFollowingList(ActionEvent event) {
-
+        // TO DOs
     }
 
     @FXML
     void toggleBlockUser(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void toggleFollow(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void toggleMute(ActionEvent event) {
-
+        // TO DO
     }
 
     private void setListsVisibility(boolean visibility) {
