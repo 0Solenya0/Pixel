@@ -24,27 +24,27 @@ public class LayoutController implements Initializable {
 
     @FXML
     void backButtonClicked(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void showExplorer(ActionEvent event) {
-
+        ViewManager.showPanel("EXPLORER");
     }
 
     @FXML
     void showGroups(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void showHomePage(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
     void showMessages(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML
@@ -56,7 +56,7 @@ public class LayoutController implements Initializable {
 
     @FXML
     void showNotifications(ActionEvent event) {
-
+        // TO DO
     }
 
     @FXML

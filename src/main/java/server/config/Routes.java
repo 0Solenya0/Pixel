@@ -18,6 +18,7 @@ public class Routes {
         routes.add(new Route("get-tweet", TweetGetController.class));
         routes.add(new Route("profile", ProfileController.class));
         routes.add(new Route("action", ActionController.class));
+        routes.add(new Route("search-user", UserSearchController.class));
     }
 
     public static ArrayList<Route> getRoutes() {
