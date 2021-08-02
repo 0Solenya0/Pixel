@@ -16,4 +16,7 @@ public class TweetListController {
     @FXML
     private Label lblMessage;
 
+    public void setMessage(String message) {
+        lblMessage.setText(message);
+    }
 }

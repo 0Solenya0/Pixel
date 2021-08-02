@@ -1,6 +1,7 @@
 package client.controllers;
 
 import client.controllers.components.TweetInputController;
+import client.store.MyProfile;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
@@ -48,7 +49,9 @@ public class LayoutController implements Initializable {
 
     @FXML
     void showMyProfile(ActionEvent event) {
-
+        ProfileController controller = ViewManager.showPanel("PROFILE");
+        MyProfile.getInstance().updateUserProfile();
+        controller.setUserId(MyProfile.getInstance().getUser().id);
     }
 
     @FXML

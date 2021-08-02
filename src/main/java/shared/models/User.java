@@ -195,4 +195,32 @@ public class User extends Model {
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public List<User> getFollowings() {
+        return followings;
+    }
+
+    public List<User> getBlocked() {
+        return blocked;
+    }
+
+    public List<User> getBlockedBy() {
+        return blockedBy;
+    }
+
+    public List<User> getMuted() {
+        return muted;
+    }
+
+    public List<User> getMutedBy() {
+        return mutedBy;
+    }
+
+    public String getFullName() {
+        return getName() + " " + getSurname();
+    }
 }

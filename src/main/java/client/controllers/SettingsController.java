@@ -182,6 +182,8 @@ public class SettingsController implements Initializable {
         txtSurname.setText(user.getSurname());
         txtBio.setText(user.getBio());
         txtPhone.setText(user.getPhone().get());
+        if (user.getBirthdate().get() != null)
+            dateBirthday.setValue(user.getBirthdate().get());
 
         updatePhoto();
     }
