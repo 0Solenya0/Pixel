@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class UserSearchController extends Controller {
 
+    @SuppressWarnings("unchecked")
     public static Packet respond(Packet req) {
         Packet res = new Packet(StatusCode.OK);
         Session session = HibernateUtil.getSession();

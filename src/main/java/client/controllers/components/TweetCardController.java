@@ -17,7 +17,7 @@ import shared.request.Packet;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TweetCardController implements Initializable {
+public class TweetCardController {
 
     @FXML
     private Label lblAuthor, lblTweet;
@@ -82,8 +82,7 @@ public class TweetCardController implements Initializable {
         // TO DO
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void updateData() {
         btnParentTweet.setVisible(false);
 
         Packet packet = new Packet("get-tweet");
@@ -95,14 +94,22 @@ public class TweetCardController implements Initializable {
         lblTweet.setText(tweet.getContent());
         if (tweet.getPhoto() != null)
             imgPhoto.setImage(ImageUtils.load(tweet.getPhoto()));
-        imgAvatar.setImage(ImageUtils.load(tweet.getAuthor().getPhoto()));
-        parentId = tweet.getParent().id;
+        if (tweet.getAuthor().getPhoto() != null)
+            imgAvatar.setImage(ImageUtils.load(tweet.getAuthor().getPhoto()));
+
+        if (tweet.getParent() != null)
+            parentId = tweet.getParent().id;
 
         btnParentTweet.setVisible(parentId != 0);
 
         hboxForeign.setVisible(!response.getBool("same-user"));
 
         iconLike.setIcon(response.getBool("liked") ?
-                        FontAwesomeIcon.HEART : FontAwesomeIcon.HEART_ALT);
+                FontAwesomeIcon.HEART : FontAwesomeIcon.HEART_ALT);
+    }
+
+    public void setTweetId(int tweetId) {
+        this.tweetId = tweetId;
+        updateData();
     }
 }

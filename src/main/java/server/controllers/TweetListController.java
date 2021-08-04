@@ -13,15 +13,15 @@ import java.util.ArrayList;
 public class TweetListController extends Controller {
 
     @SuppressWarnings("unchecked")
-    public Packet respond(Packet req) {
+    public static Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
-        ArrayList<Tweet> tweets = new ArrayList<>();
+        ArrayList<Tweet> tweets = null;
 
         Session session = HibernateUtil.getSession();
         switch (req.target) {
             case "tweet-list-time-line":
                 tweets = (ArrayList<Tweet>) session.createQuery(
-                        "FROM Tweet AS tweet " +
+                        "SELECT tweet FROM Tweet AS tweet " +
                                 "JOIN tweet.author.followers AS follower " +
                                 "JOIN tweet.author.mutedBy AS mute " +
                                 "WHERE follower.id = :userId " +
@@ -30,12 +30,15 @@ public class TweetListController extends Controller {
                 break;
             case "tweet-list-explorer":
                 tweets = (ArrayList<Tweet>) session.createQuery(
-                        "FROM Tweet AS tweet " +
+                        "SELECT tweet FROM Tweet AS tweet " +
                                 "JOIN tweet.author AS author " +
                                 "where author.visibility = :vis"
                 ).setParameter("vis", AccessLevel.PUBLIC).list();
                 break;
         }
+        response.putObject("tweets", tweets);
+        session.close();
+
         return response;
     }
 }

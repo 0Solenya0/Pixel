@@ -48,7 +48,7 @@ public class ExplorerController {
     private Timer timer = new Timer();
 
     @FXML
-    void switchToExploreFeed(ActionEvent event) {
+    void switchToExploreFeed() {
         ViewManager.Component<TweetListController> component = ViewManager.getComponent("TWEET_LIST");
         explorerFeedPane.getChildren().clear();
         explorerFeedPane.getChildren().add(component.getPane());
