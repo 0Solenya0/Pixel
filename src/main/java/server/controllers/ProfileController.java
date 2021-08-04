@@ -18,7 +18,7 @@ public class ProfileController extends Controller {
         if (user.id == cur.id)
             user.getBlocked().size();
         response.putObject("user", user);
-        response.put("blocked", user.blocked.contains(cur));
+        response.put("is-blocked", user.blocked.contains(cur));
         response.put("is-contact", user.followers.contains(cur));
         response.put("is-user", user.id == cur.id);
         response.put("is-muted", cur.getMuted().contains(user));

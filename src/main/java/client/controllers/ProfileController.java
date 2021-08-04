@@ -219,6 +219,8 @@ public class ProfileController {
             TweetListController controller = loader.getController();
             if (res.getBool("is-blocked"))
                 controller.setMessage(config.getProperty("BLOCKED"));
+            else if (!checkForAccess(user.getVisibility()))
+                controller.setMessage(config.getProperty("PRIVATE"));
             // TO DO give user tweets to list
         } catch (IOException e) {
             // TO DO log error
@@ -226,7 +228,7 @@ public class ProfileController {
         }
 
         iconToggleBlock.setIcon(res.getBool("is-blocked") ?
-                FontAwesomeIcon.BAN : FontAwesomeIcon.CHECK);
+                FontAwesomeIcon.CHECK : FontAwesomeIcon.BAN);
         if (res.getBool("is-blocked"))
             return;
 
