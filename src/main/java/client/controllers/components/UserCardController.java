@@ -18,11 +18,16 @@ public class UserCardController {
     @FXML
     private Label lblFullName;
 
+    private Runnable listener;
     private int userId;
 
     @FXML
     void cardClicked(ActionEvent event) {
-        // TO DO
+        listener.run();
+    }
+
+    public void setListener(Runnable listener) {
+        this.listener = listener;
     }
 
     public void setUser(User user) {

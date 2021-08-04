@@ -64,6 +64,11 @@ public class ExplorerController {
             try {
                 vBoxContainer.getChildren().add(loader.load());
                 UserCardController controller = loader.getController();
+                controller.setListener(() -> {
+                    ProfileController c = ViewManager.showPanel("PROFILE");
+                    assert c != null;
+                    c.setUserId(user.id);
+                });
                 controller.setUser(user);
             } catch (IOException e) {
                 // TO DO log error
@@ -84,7 +89,6 @@ public class ExplorerController {
                     Packet packet = new Packet("search-user");
                     packet.put("username", txtUsername.getText());
                     Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-                    System.out.println(res.getJson());
                     Type listType = new TypeToken<ArrayList<User>>() {
                     }.getType();
                     updateUserList(res.getObject("users", listType));
