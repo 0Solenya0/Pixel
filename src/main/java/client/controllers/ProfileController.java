@@ -197,7 +197,7 @@ public class ProfileController {
 
         setListsVisibility(false);
 
-        FXMLLoader loader = ViewManager.getComponent("TWEET_LIST");
+        ViewManager.Component<TweetListController> tweetList = ViewManager.getComponent("TWEET_LIST");
 
         Packet packet = new Packet("profile");
         packet.put("id", userId);
@@ -213,19 +213,14 @@ public class ProfileController {
         lblFullName.setText(user.getFullName());
         lblBio.setText(user.getBio());
 
-        try {
-            tweetPane.getChildren().removeAll();
-            tweetPane.getChildren().add(loader.load());
-            TweetListController controller = loader.getController();
-            if (res.getBool("is-blocked"))
-                controller.setMessage(config.getProperty("BLOCKED"));
-            else if (!checkForAccess(user.getVisibility()))
-                controller.setMessage(config.getProperty("PRIVATE"));
-            // TO DO give user tweets to list
-        } catch (IOException e) {
-            // TO DO log error
-            e.printStackTrace();
-        }
+        tweetPane.getChildren().removeAll();
+        tweetPane.getChildren().add(tweetList.getPane());
+        TweetListController controller = tweetList.getController();
+        if (res.getBool("is-blocked"))
+            controller.setMessage(config.getProperty("BLOCKED"));
+        else if (!checkForAccess(user.getVisibility()))
+            controller.setMessage(config.getProperty("PRIVATE"));
+        // TO DO give user tweets to list
 
         iconToggleBlock.setIcon(res.getBool("is-blocked") ?
                 FontAwesomeIcon.CHECK : FontAwesomeIcon.BAN);

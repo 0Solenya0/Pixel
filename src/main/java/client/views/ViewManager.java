@@ -2,7 +2,6 @@ package client.views;
 
 import client.controllers.LayoutController;
 import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,10 +12,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import shared.util.Config;
 
-import javax.swing.text.View;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class ViewManager extends Application {
     private static final Logger logger = LogManager.getLogger(ViewManager.class);
@@ -60,7 +57,12 @@ public class ViewManager extends Application {
         return fxmlLoader;
     }
 
-    public static FXMLLoader getComponent(String component) {
+    public static <T> Component<T> getComponent(String component) {
+        FXMLLoader fxmlLoader = getComponentFXML(component);
+        return new Component<>(fxmlLoader);
+    }
+
+    public static FXMLLoader getComponentFXML(String component) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(ViewManager.class.getResource(config.getProperty(component + "_COMP")));
         return fxmlLoader;
@@ -110,5 +112,28 @@ public class ViewManager extends Application {
 
     public static void connectionError() {
         // TO DO
+    }
+
+    public static class Component<T> {
+        private Pane pane;
+        private T controller;
+
+        public Component(FXMLLoader loader) {
+            try {
+                pane = loader.load();
+                controller = loader.getController();
+            } catch (IOException e) {
+                logger.error("Failed to load fxml file component");
+                e.printStackTrace();
+            }
+        }
+
+        public Pane getPane() {
+            return pane;
+        }
+
+        public T getController() {
+            return controller;
+        }
     }
 }

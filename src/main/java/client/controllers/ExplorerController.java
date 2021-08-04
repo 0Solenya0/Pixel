@@ -1,5 +1,6 @@
 package client.controllers;
 
+import client.controllers.components.TweetListController;
 import client.controllers.components.UserCardController;
 import client.request.SocketHandler;
 import client.views.ViewManager;
@@ -27,7 +28,7 @@ import java.util.TimerTask;
 public class ExplorerController {
 
     @FXML
-    private Tab tabExploreUser;
+    private Tab tabExploreUser, tabExploreFeed;
 
     @FXML
     private TextField txtUsername;
@@ -42,16 +43,16 @@ public class ExplorerController {
     private FontAwesomeIconView iconErr;
 
     @FXML
-    private Tab tabExploreFeed;
-
-    @FXML
     private AnchorPane explorerFeedPane;
 
     private Timer timer = new Timer();
 
     @FXML
     void switchToExploreFeed(ActionEvent event) {
-        // TO DO
+        ViewManager.Component<TweetListController> component = ViewManager.getComponent("TWEET_LIST");
+        explorerFeedPane.getChildren().clear();
+        explorerFeedPane.getChildren().add(component.getPane());
+        component.getController().showExplorerTweets();
     }
 
     private void updateUserList(ArrayList<User> users) {
@@ -60,20 +61,16 @@ public class ExplorerController {
 
         vBoxContainer.getChildren().clear();
         for (User user: users) {
-            FXMLLoader loader = ViewManager.getComponent("USER_CARD");
-            try {
-                vBoxContainer.getChildren().add(loader.load());
-                UserCardController controller = loader.getController();
-                controller.setListener(() -> {
-                    ProfileController c = ViewManager.showPanel("PROFILE");
-                    assert c != null;
-                    c.setUserId(user.id);
-                });
-                controller.setUser(user);
-            } catch (IOException e) {
-                // TO DO log error
-                e.printStackTrace();
-            }
+            ViewManager.Component<UserCardController> component = ViewManager.getComponent("USER_CARD");
+
+            vBoxContainer.getChildren().add(component.getPane());
+            UserCardController controller = component.getController();
+            controller.setListener(() -> {
+                ProfileController c = ViewManager.showPanel("PROFILE");
+                assert c != null;
+                c.setUserId(user.id);
+            });
+            controller.setUser(user);
         }
     }
 
