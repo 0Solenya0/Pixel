@@ -29,12 +29,8 @@ public class TweetListController {
         lblMessage.setText(message);
     }
 
-    public void showExplorerTweets() {
-        Packet packet = new Packet("tweet-list-explorer");
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+    public void setTweetList(ArrayList<Tweet> tweets) {
         containerPane.getChildren().clear();
-        Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
-        ArrayList<Tweet> tweets = res.getObject("tweets", listType);
 
         lblMessage.setVisible(tweets.isEmpty());
 
@@ -43,5 +39,26 @@ public class TweetListController {
             containerPane.getChildren().add(tweetCard.getPane());
             tweetCard.getController().setTweetId(tweet.id);
         }
+    }
+
+    public void showExplorerTweets() {
+        Packet packet = new Packet("tweet-list-explorer");
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
+        ArrayList<Tweet> tweets = res.getObject("tweets", listType);
+        setTweetList(tweets);
+    }
+
+    public void showUserTweets(int userId) {
+        Packet packet = new Packet("tweet-list-user");
+        packet.put("target", userId);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
+        ArrayList<Tweet> tweets = res.getObject("tweets", listType);
+        setTweetList(tweets);
+    }
+
+    public void setHeight(int height) {
+        scrollPane.setPrefHeight(height);
     }
 }

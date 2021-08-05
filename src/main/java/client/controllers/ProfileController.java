@@ -216,11 +216,13 @@ public class ProfileController {
         tweetPane.getChildren().removeAll();
         tweetPane.getChildren().add(tweetList.getPane());
         TweetListController controller = tweetList.getController();
+        controller.setHeight(465);
         if (res.getBool("is-blocked"))
             controller.setMessage(config.getProperty("BLOCKED"));
         else if (!checkForAccess(user.getVisibility()))
             controller.setMessage(config.getProperty("PRIVATE"));
-        // TO DO give user tweets to list
+        else
+            controller.showUserTweets(userId);
 
         iconToggleBlock.setIcon(res.getBool("is-blocked") ?
                 FontAwesomeIcon.CHECK : FontAwesomeIcon.BAN);

@@ -35,6 +35,12 @@ public class TweetListController extends Controller {
                                 "where author.visibility = :vis"
                 ).setParameter("vis", AccessLevel.PUBLIC).list();
                 break;
+            case "tweet-list-user":
+                tweets = (ArrayList<Tweet>) session.createQuery(
+                        "SELECT tweet FROM Tweet AS tweet " +
+                                "where tweet.author.id = :u"
+                ).setParameter("u", req.getInt("target")).list();
+                break;
         }
         response.putObject("tweets", tweets);
         session.close();
