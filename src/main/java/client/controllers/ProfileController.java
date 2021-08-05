@@ -3,6 +3,7 @@ package client.controllers;
 import client.controllers.components.TweetListController;
 import client.request.SocketHandler;
 import client.utils.ImageUtils;
+import client.views.AutoUpdate;
 import client.views.UserListDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
@@ -31,6 +32,7 @@ import java.util.ResourceBundle;
 public class ProfileController {
 
     private Config config = Config.getLanguageConfig();
+    private Config mainConfig = Config.getConfig("mainConfig");
 
     @FXML
     private ImageView imgAvatar;
@@ -110,6 +112,7 @@ public class ProfileController {
     private int userId;
     private User user;
     private Packet res;
+    private AutoUpdate updater = new AutoUpdate();
 
     @FXML
     void reportUser(ActionEvent event) {
@@ -291,5 +294,9 @@ public class ProfileController {
     public void setUserId(int userId) {
         this.userId = userId;
         updateData();
+        updater.setTask(
+                this::updateData,
+                mainConfig.getProperty(Integer.class, "PROFILE_REFRESH_RATE")
+        );
     }
 }

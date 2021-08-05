@@ -3,6 +3,7 @@ package client.controllers;
 import client.controllers.components.TweetListController;
 import client.controllers.components.UserCardController;
 import client.request.SocketHandler;
+import client.views.AutoUpdate;
 import client.views.ViewManager;
 import com.google.gson.reflect.TypeToken;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -18,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import shared.models.User;
 import shared.request.Packet;
+import shared.util.Config;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -26,6 +28,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ExplorerController {
+
+    private Config config = Config.getConfig("mainConfig");
 
     @FXML
     private Tab tabExploreUser, tabExploreFeed;
@@ -46,6 +50,7 @@ public class ExplorerController {
     private AnchorPane explorerFeedPane;
 
     private Timer timer = new Timer();
+    private AutoUpdate updater = new AutoUpdate();
 
     @FXML
     void switchToExploreFeed() {
@@ -53,6 +58,10 @@ public class ExplorerController {
         explorerFeedPane.getChildren().clear();
         explorerFeedPane.getChildren().add(component.getPane());
         component.getController().showExplorerTweets();
+        updater.setTask(
+                () -> {component.getController().showExplorerTweets();},
+                config.getProperty(Integer.class, "EXPLORER_REFRESH_RATE")
+        );
     }
 
     private void updateUserList(ArrayList<User> users) {
