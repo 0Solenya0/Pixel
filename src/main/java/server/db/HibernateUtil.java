@@ -8,12 +8,17 @@ import org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
-    public static Session getSession() {
-        Configuration configuration = new Configuration();
+    private static Configuration configuration = new Configuration();
+    private static SessionFactory sessionFactory;
+
+    static {
         configuration.setImplicitNamingStrategy(
                 ImplicitNamingStrategyComponentPathImpl.INSTANCE
         );
-        SessionFactory sessionFactory = configuration.configure().buildSessionFactory();
+        sessionFactory = configuration.configure().buildSessionFactory();
+    }
+
+    public static Session getSession() {
         return sessionFactory.openSession();
     }
 
