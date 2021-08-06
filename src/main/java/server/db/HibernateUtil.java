@@ -27,8 +27,10 @@ public class HibernateUtil {
 
     public static Object get(Class<?> claz, int id) {
         Session session = getSession();
-        return session.createQuery("from " + claz.getName() + " where id = :i")
+        Object obj = session.createQuery("from " + claz.getName() + " where id = :i")
                 .setParameter("i", id)
                 .uniqueResult();
+        session.close();
+        return obj;
     }
 }
