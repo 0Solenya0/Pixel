@@ -9,6 +9,7 @@ import shared.request.StatusCode;
 
 import javax.management.Query;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class TweetListController extends Controller {
 
@@ -36,6 +37,7 @@ public class TweetListController extends Controller {
                                 "and author.id != :u"
                 ).setParameter("vis", AccessLevel.PUBLIC)
                         .setParameter("u", req.getInt("user-id")).list();
+                tweets.sort(Comparator.comparingInt((t) -> -t.getLikes().size()));
                 break;
             case "tweet-list-user":
                 tweets = (ArrayList<Tweet>) session.createQuery(
