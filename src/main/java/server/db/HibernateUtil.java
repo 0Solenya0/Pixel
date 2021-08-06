@@ -30,7 +30,6 @@ public class HibernateUtil {
         Object obj = session.createQuery("from " + claz.getName() + " where id = :i")
                 .setParameter("i", id)
                 .uniqueResult();
-        session.close();
         return obj;
     }
 }

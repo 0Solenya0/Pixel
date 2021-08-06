@@ -26,14 +26,16 @@ public class TweetListController extends Controller {
                                 "JOIN tweet.author.mutedBy AS mute " +
                                 "WHERE follower.id = :userId " +
                                 "WHERE mute.id != :userId"
-                ).setParameter("userId", req.get("user-id")).list();
+                ).setParameter("userId", req.getInt("user-id")).list();
                 break;
             case "tweet-list-explorer":
                 tweets = (ArrayList<Tweet>) session.createQuery(
                         "SELECT tweet FROM Tweet AS tweet " +
                                 "JOIN tweet.author AS author " +
-                                "where author.visibility = :vis"
-                ).setParameter("vis", AccessLevel.PUBLIC).list();
+                                "where author.visibility = :vis " +
+                                "and author.id != :u"
+                ).setParameter("vis", AccessLevel.PUBLIC)
+                        .setParameter("u", req.getInt("user-id")).list();
                 break;
             case "tweet-list-user":
                 tweets = (ArrayList<Tweet>) session.createQuery(
