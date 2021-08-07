@@ -5,6 +5,7 @@ import server.controllers.auth.LoginController;
 import server.controllers.auth.RegisterController;
 import server.controllers.auth.ResetPasswordController;
 import server.controllers.notification.NotificationListController;
+import server.controllers.notification.PendingListController;
 import server.controllers.profile.ProfileChangeController;
 import server.controllers.profile.ProfileController;
 import server.controllers.profile.ProfileDataController;
@@ -35,6 +36,7 @@ public class Routes {
         routes.add(new Route("search-user", UserSearchController.class));
         routes.add(new Route("tweet-list-[a-z]*", TweetListController.class));
         routes.add(new Route("notification-list", NotificationListController.class));
+        routes.add(new Route("pending-list", PendingListController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

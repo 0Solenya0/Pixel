@@ -44,6 +44,15 @@ public class NotificationController implements Initializable {
             component.getController().setNotification(notification);
             vboxContainer.getChildren().add(component.getPane());
         }
+
+        packet = new Packet("pending-list");
+        res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        listType = new TypeToken<ArrayList<User>>() {}.getType();
+        ArrayList<User> users = res.getObject("users", listType);
+
+        listPendingRequests.getItems().clear();
+        for (User user: users)
+            listPendingRequests.getItems().add(user.getUsername());
     }
 
     @Override
