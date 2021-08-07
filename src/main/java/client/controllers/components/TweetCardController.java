@@ -2,6 +2,7 @@ package client.controllers.components;
 
 import client.request.SocketHandler;
 import client.utils.ImageUtils;
+import client.views.InfoDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -73,7 +74,12 @@ public class TweetCardController {
 
     @FXML
     void btnReportClicked(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("tweet-action");
+        packet.put("type", "report");
+        packet.put("tweet-id", tweetId);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK)
+            InfoDialog.showSuccess("Reported!");
     }
 
     @FXML

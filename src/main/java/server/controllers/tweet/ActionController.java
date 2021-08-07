@@ -20,6 +20,9 @@ public class ActionController extends Controller {
                 else
                     tweet.getLikes().add(user);
                 break;
+            case "report":
+                tweet.getReports().add(user);
+                break;
         }
         session.save(tweet);
         return new Packet(StatusCode.OK);

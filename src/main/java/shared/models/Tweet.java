@@ -90,4 +90,8 @@ public class Tweet extends Model {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public List<User> getReports() {
+        return reports;
+    }
 }
