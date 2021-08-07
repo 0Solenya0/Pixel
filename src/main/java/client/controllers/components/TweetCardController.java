@@ -2,6 +2,7 @@ package client.controllers.components;
 
 import client.request.SocketHandler;
 import client.utils.ImageUtils;
+import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -75,7 +76,10 @@ public class TweetCardController {
 
     @FXML
     void btnRetweetClicked(ActionEvent event) {
-        // TO DO
+        ViewManager.Component<TweetInputController> component = ViewManager.getComponent("TWEET_INPUT");
+        component.getController().setRetweet(true);
+        component.getController().setParent(tweetId);
+        ViewManager.addStackPaneLayer(component.getPane());
     }
 
     @FXML

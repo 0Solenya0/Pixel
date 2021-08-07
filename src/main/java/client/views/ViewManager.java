@@ -111,7 +111,7 @@ public class ViewManager extends Application {
         return fileChooser.showOpenDialog(window);
     }
 
-    public void addStackPaneLayer(Node node) {
+    public static void addStackPaneLayer(Node node) {
         Button btnClose = layoutController.getBtnClose();
         StackPane stackPane = layoutController.getStackPane();
         btnClose.setVisible(true);
