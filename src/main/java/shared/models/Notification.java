@@ -25,7 +25,7 @@ public class Notification extends Model {
     private NotificationType type;
 
     @Expose
-    private boolean visible;
+    private boolean visible = true;
 
     public User getSender() {
         return sender;

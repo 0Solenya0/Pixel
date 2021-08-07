@@ -60,7 +60,7 @@ public class LayoutController implements Initializable {
 
     @FXML
     void showNotifications(ActionEvent event) {
-        // TO DO
+        ViewManager.showPanel("NOTIFICATION");
     }
 
     @FXML
