@@ -41,7 +41,7 @@ public class HibernateUtil {
                 model.setCreatedAt(LocalDateTime.now());
             model.setLastModified(LocalDateTime.now());
             session.beginTransaction();
-            session.saveOrUpdate(object);
+            session.saveOrUpdate(model);
             session.getTransaction().commit();
         }
 
