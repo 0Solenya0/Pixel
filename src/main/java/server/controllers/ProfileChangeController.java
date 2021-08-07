@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 public class ProfileChangeController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
         Session session = HibernateUtil.getSession();
         User user = (User) session
@@ -49,7 +49,7 @@ public class ProfileChangeController extends Controller {
         } catch (ValidationException e) {
             return new Packet(StatusCode.BAD_REQUEST).putObject("error", e.getAllErrors().get(0));
         }
-        session.save(user);
+        this.session.save(user);
         return response;
     }
 }
