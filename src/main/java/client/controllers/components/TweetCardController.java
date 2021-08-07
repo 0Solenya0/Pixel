@@ -50,7 +50,12 @@ public class TweetCardController {
 
     @FXML
     void btnLikeClicked(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("tweet-action");
+        packet.put("type", "toggle-like");
+        packet.put("tweet-id", tweetId);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK)
+            updateData();
     }
 
     @FXML
