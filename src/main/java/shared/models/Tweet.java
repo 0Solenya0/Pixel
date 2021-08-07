@@ -1,5 +1,8 @@
 package shared.models;
 
+import com.google.gson.annotations.Expose;
+import shared.gson.annotations.Exclude;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +11,21 @@ import java.util.List;
 public class Tweet extends Model {
 
     @ManyToOne
+    @Expose
     private Tweet parent;
 
     @OneToMany(mappedBy = "parent")
     private List<Tweet> comments = new ArrayList<>();
 
     @ManyToOne
+    @Expose
     private Tweet retweet;
 
     @OneToMany(mappedBy = "retweet")
     private List<Tweet> retweets = new ArrayList<>();
 
     @ManyToOne(optional = false)
+    @Expose
     private User author;
 
     @ManyToMany
@@ -36,8 +42,10 @@ public class Tweet extends Model {
             inverseJoinColumns = @JoinColumn(name="user_id"))
     private List<User> reports = new ArrayList<>();
 
+    @Expose
     private byte[] photo;
 
+    @Expose
     private String content;
 
     public List<User> getLikes() {

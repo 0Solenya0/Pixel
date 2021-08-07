@@ -1,5 +1,6 @@
 package shared.models;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.Session;
 import server.db.HibernateUtil;
 import shared.exception.ValidationException;
@@ -12,6 +13,7 @@ public abstract class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Expose
     public int id;
 
     private boolean checkUniqueConstraint(Field field) {

@@ -1,5 +1,7 @@
 package shared.models;
 
+import com.google.gson.annotations.Expose;
+import shared.gson.annotations.Exclude;
 import shared.models.fields.AccessField;
 import shared.models.fields.AccessLevel;
 
@@ -14,36 +16,48 @@ import java.util.List;
 public class User extends Model {
 
     @Column(unique = true, nullable = false)
+    @Expose
     private String username;
 
     @Column(unique = true, nullable = false)
+    @Expose
     private AccessField<String> mail = new AccessField<>();
 
+    @Expose
     private AccessField<String> phone = new AccessField<>();
 
     @Enumerated(EnumType.STRING)
+    @Expose
     private AccessLevel visibility = AccessLevel.PRIVATE;
 
     @Column(nullable = false)
+    @Expose
     private String password;
 
     @Column(nullable = false)
+    @Expose
     private String name;
 
     @Column(nullable = false)
+    @Expose
     private String surname;
 
+    @Expose
     private String bio;
 
     @Column(nullable = false)
+    @Expose
     private AccessField<LocalDateTime> lastSeen = new AccessField<>();
 
     @Column(nullable = false)
+    @Expose
     private AccessField<LocalDate> birthdate = new AccessField<>();
 
     @Column(nullable = false)
+    @Expose
     private boolean isEnabled = true;
 
+    @Expose
     private byte[] photo;
 
     @ManyToMany
@@ -60,7 +74,7 @@ public class User extends Model {
             inverseJoinColumns = @JoinColumn(name = "following_id"))
     public List<User> followings = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "block_table",
             joinColumns = @JoinColumn(name = "blocker_id"),
@@ -218,6 +232,18 @@ public class User extends Model {
 
     public List<User> getMutedBy() {
         return mutedBy;
+    }
+
+    public void setFollowers(List<User> followers) {
+        this.followers = followers;
+    }
+
+    public void setFollowings(List<User> followings) {
+        this.followings = followings;
+    }
+
+    public void setBlocked(List<User> blocked) {
+        this.blocked = blocked;
     }
 
     public String getFullName() {

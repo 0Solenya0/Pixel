@@ -23,6 +23,7 @@ public class Router extends Middleware {
                 try {
                     Object instance = route.getTarget().getConstructor().newInstance();
                     Method method = route.getTarget().getMethod("respond", Packet.class);
+                    System.out.println(route.getTarget().getName());
                     return (Packet) method.invoke(instance, req);
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     logger.fatal("view doesn't have the intended methods - "

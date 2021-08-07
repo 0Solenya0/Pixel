@@ -5,6 +5,8 @@ import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
+import java.util.ArrayList;
+
 public class ProfileController extends Controller {
 
     public Packet respond(Packet req) {
@@ -13,10 +15,12 @@ public class ProfileController extends Controller {
         User user = (User) session.get(User.class, req.getInt("id"));
         if (user == null)
             return new Packet(StatusCode.NOT_FOUND);
-        user.getFollowers().size();
-        user.getFollowings().size();
+        response.putObject("followers", user.getFollowers());
+        response.putObject("following", user.getFollowings());
         if (user.id == cur.id)
-            user.getBlocked().size();
+            response.putObject("blocked", user.getBlocked());
+        else
+            response.putObject("blocked", new ArrayList<User>());
         response.putObject("user", user);
         response.put("is-blocked", user.blocked.contains(cur));
         response.put("is-contact", user.followers.contains(cur));

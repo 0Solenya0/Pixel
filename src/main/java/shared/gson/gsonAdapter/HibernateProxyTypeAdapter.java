@@ -1,4 +1,4 @@
-package shared.gsonAdapter;
+package shared.gson.gsonAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

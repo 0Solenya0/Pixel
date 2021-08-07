@@ -6,6 +6,7 @@ import client.utils.ImageUtils;
 import client.views.AutoUpdate;
 import client.views.UserListDialog;
 import client.views.ViewManager;
+import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import shared.models.Tweet;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
 import shared.request.Packet;
@@ -24,6 +26,7 @@ import shared.request.StatusCode;
 import shared.util.Config;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -211,7 +214,11 @@ public class ProfileController {
             return;
         }
 
+        Type listType = new TypeToken<ArrayList<User>>(){}.getType();
         user = res.getObject("user", User.class);
+        user.setFollowers(res.getObject("followers", listType));
+        user.setFollowings(res.getObject("following", listType));
+        user.setBlocked(res.getObject("blocked", listType));
         lblUsername.setText(user.getUsername());
         lblFullName.setText(user.getFullName());
         lblBio.setText(user.getBio());

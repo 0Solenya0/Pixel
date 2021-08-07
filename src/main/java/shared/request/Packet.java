@@ -1,12 +1,14 @@
 package shared.request;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import shared.gsonAdapter.HibernateProxyTypeAdapter;
-import shared.gsonAdapter.LocalDateAdapter;
-import shared.gsonAdapter.LocalDateTimeAdapter;
-import shared.gsonAdapter.LocalTimeAdapter;
+import shared.gson.annotations.Exclude;
+import shared.gson.gsonAdapter.HibernateProxyTypeAdapter;
+import shared.gson.gsonAdapter.LocalDateAdapter;
+import shared.gson.gsonAdapter.LocalDateTimeAdapter;
+import shared.gson.gsonAdapter.LocalTimeAdapter;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -14,9 +16,7 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 public class Packet implements Serializable {
     private static final Gson gson = new GsonBuilder()
@@ -25,6 +25,7 @@ public class Packet implements Serializable {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
             .registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY)
+            .excludeFieldsWithoutExposeAnnotation()
             .create();
     private final HashMap<String, String> data = new HashMap<>();
     public String target = "";

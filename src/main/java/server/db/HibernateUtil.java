@@ -27,7 +27,7 @@ public class HibernateUtil {
     }
 
     public static class HibernateSession {
-        Session session;
+        private final Session session;
 
         public HibernateSession() {
             session = getSession();
@@ -36,8 +36,7 @@ public class HibernateUtil {
         public void save(Object object) {
             session.beginTransaction();
             session.saveOrUpdate(object);
-            session.getTransaction().commit();;
-            session.close();
+            session.getTransaction().commit();
         }
 
         public Object get(Class<?> claz, int id) {
