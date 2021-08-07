@@ -96,7 +96,9 @@ public class TweetCardController {
 
     @FXML
     void showParentTweet(ActionEvent event) {
-        // TO DO
+        ViewManager.Component<TweetCardController> component = ViewManager.getComponent("TWEET_CARD");
+        component.getController().setTweetId(parentId);
+        ViewManager.addStackPaneLayer(component.getPane());
     }
 
     public void updateData() {
