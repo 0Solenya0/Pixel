@@ -2,6 +2,7 @@ package client.controllers.components;
 
 import client.request.SocketHandler;
 import client.views.InfoDialog;
+import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;
@@ -10,6 +11,10 @@ import javafx.scene.control.Label;
 import shared.exception.ValidationException;
 import shared.request.Packet;
 import shared.util.Config;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public class TweetInputController {
 
@@ -30,7 +35,12 @@ public class TweetInputController {
 
     @FXML
     void attachPhoto(ActionEvent event) {
-
+        File photo = ViewManager.showFileDialog();
+        try {
+            this.photo = Files.readAllBytes(photo.toPath());
+        } catch (IOException e) {
+            InfoDialog.showFailed(config.getProperty("IMAGE_LOAD_FAILED"));
+        }
     }
 
     @FXML
