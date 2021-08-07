@@ -8,7 +8,7 @@
 
 <AnchorPane prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.components.TweetListController">
    <children>
-      <ScrollPane fx:id="scrollPane" prefHeight="755.0" prefWidth="1000.0">
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="755.0" prefWidth="1000.0">
         <content>
           <AnchorPane prefWidth="990.0">
                <children>
