@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -21,6 +22,9 @@ public class LayoutController implements Initializable {
 
     @FXML
     private BorderPane borderPane;
+
+    @FXML
+    private Button btnClose;
 
     @FXML
     void backButtonClicked(ActionEvent event) {
@@ -71,6 +75,14 @@ public class LayoutController implements Initializable {
 
     public BorderPane getPanel() {
         return borderPane;
+    }
+
+    public StackPane getStackPane() {
+        return stackPane;
+    }
+
+    public Button getBtnClose() {
+        return btnClose;
     }
 
     @Override

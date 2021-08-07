@@ -2,6 +2,11 @@ package client.views;
 
 import client.controllers.LayoutController;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -104,6 +109,21 @@ public class ViewManager extends Application {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         return fileChooser.showOpenDialog(window);
+    }
+
+    public void addStackPaneLayer(Node node) {
+        Button btnClose = layoutController.getBtnClose();
+        StackPane stackPane = layoutController.getStackPane();
+        btnClose.setVisible(true);
+        stackPane.getChildren().add(stackPane.getChildren().size() - 1, node);
+        EventHandler<ActionEvent> handler = btnClose.getOnAction();
+        btnClose.setOnAction(e -> {
+            stackPane.getChildren().remove(node);
+            if (stackPane.getChildren().size() == 2)
+                btnClose.setVisible(false);
+            if (handler != null)
+                btnClose.setOnAction(handler);
+        });
     }
 
     public static Stage getWindow() {
