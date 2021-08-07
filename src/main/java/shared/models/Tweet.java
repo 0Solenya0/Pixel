@@ -1,7 +1,6 @@
 package shared.models;
 
 import com.google.gson.annotations.Expose;
-import shared.gson.annotations.Exclude;
 
 import javax.persistence.*;
 import java.util.ArrayList;
