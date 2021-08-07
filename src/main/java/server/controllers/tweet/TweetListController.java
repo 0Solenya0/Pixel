@@ -15,7 +15,7 @@ import java.util.Comparator;
 public class TweetListController extends Controller {
 
     @SuppressWarnings("unchecked")
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
         ArrayList<Tweet> tweets = null;
 

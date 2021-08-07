@@ -9,7 +9,7 @@ import shared.request.StatusCode;
 
 public class ProfileDataController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Session session = HibernateUtil.getSession();
         Packet response = new Packet(StatusCode.OK);
         int id = req.getInt("user-id");

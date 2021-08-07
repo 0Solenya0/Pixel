@@ -10,7 +10,7 @@ import shared.request.StatusCode;
 
 public class LoginController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
         User user = (User) session

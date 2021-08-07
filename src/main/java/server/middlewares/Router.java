@@ -1,6 +1,7 @@
 package server.middlewares;
 
 import server.config.Routes;
+import server.controllers.Controller;
 import server.handler.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,15 +22,8 @@ public class Router extends Middleware {
         for (Routes.Route route: Routes.getRoutes())
             if (route.isMatched(req.target)) {
                 try {
-                    Object instance = route.getTarget().getConstructor().newInstance();
-                    Method method = route.getTarget().getMethod("respond", Packet.class);
-                    System.out.println(route.getTarget().getName());
-                    return (Packet) method.invoke(instance, req);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                    logger.fatal("view doesn't have the intended methods - "
-                            + req.target + " - "
-                            + e.getMessage());
-                    e.printStackTrace();
+                    Controller controller = route.getTarget().getConstructor().newInstance();
+                    return controller.respond(req);
                 } catch (Exception e) {
                     logger.error("Connection to database failed");
                     e.printStackTrace();
