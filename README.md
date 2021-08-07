@@ -1,2 +1,2 @@
 # Pixel
-Pixel is a social network, created for AP project. 
+Pixel is a social network, developed for AP project. 
