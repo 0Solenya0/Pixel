@@ -96,6 +96,17 @@ public class ViewManager extends Application {
         return null;
     }
 
+    public static <T> T showPanel(FXMLLoader fxmlLoader) {
+        try {
+            layoutController.getPanel().setCenter(fxmlLoader.load());
+            return fxmlLoader.getController();
+        } catch (IOException e) {
+            logger.fatal("Failed to find fxml file - " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void showView(String viewName) {
         loadPage(loadFXML(viewName + "_VIEW"));
     }

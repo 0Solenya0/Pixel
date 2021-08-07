@@ -46,7 +46,9 @@ public class TweetCardController {
 
     @FXML
     void btnCommentClicked(ActionEvent event) {
-        // TO DO
+        TweetListController controller = ViewManager.showPanel(ViewManager.getComponentFXML("TWEET_LIST"));
+        assert controller != null;
+        controller.showComments(tweetId);
     }
 
     @FXML
@@ -116,6 +118,8 @@ public class TweetCardController {
 
         if (tweet.getParent() != null)
             parentId = tweet.getParent().id;
+        if (tweet.getRetweet() != null)
+            parentId = tweet.getRetweet().id;
 
         btnParentTweet.setVisible(parentId != 0);
 

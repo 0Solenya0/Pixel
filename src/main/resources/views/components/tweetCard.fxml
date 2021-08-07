@@ -66,7 +66,7 @@
             </JFXButton>
          </children>
       </HBox>
-      <JFXButton fx:id="btnParentTweet" buttonType="RAISED" layoutX="831.0" layoutY="3.0" onAction="#showParentTweet" prefHeight="12.0" prefWidth="169.0" style="-fx-background-color: B8BDB5;" text="Show Parent Tweet">
+      <JFXButton fx:id="btnParentTweet" buttonType="RAISED" layoutX="414.0" layoutY="4.0" onAction="#showParentTweet" prefHeight="12.0" prefWidth="169.0" style="-fx-background-color: B8BDB5;" text="Show Parent Tweet">
          <font>
             <Font name="Laksaman" size="13.0" />
          </font>

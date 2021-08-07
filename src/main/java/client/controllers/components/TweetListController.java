@@ -58,6 +58,24 @@ public class TweetListController {
         setTweetList(tweets);
     }
 
+    public void showComments(int tweetId) {
+        Packet packet = new Packet("tweet-list-comment");
+        packet.put("tweet-id", tweetId);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
+        ArrayList<Tweet> tweets = res.getObject("tweets", listType);
+        setTweetList(tweets);
+        lblMessage.setVisible(false);
+
+        ViewManager.Component<TweetInputController> tweetInput = ViewManager.getComponent("TWEET_INPUT");
+        containerPane.getChildren().add(0, tweetInput.getPane());
+        tweetInput.getController().setParent(tweetId);
+
+        ViewManager.Component<TweetCardController> tweetCard = ViewManager.getComponent("TWEET_CARD");
+        containerPane.getChildren().add(0, tweetCard.getPane());
+        tweetCard.getController().setTweetId(tweetId);
+    }
+
     public void setHeight(int height) {
         scrollPane.setPrefHeight(height);
     }

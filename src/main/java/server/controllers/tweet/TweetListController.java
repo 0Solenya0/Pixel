@@ -48,6 +48,12 @@ public class TweetListController extends Controller {
                                 "where tweet.author.id = :u"
                 ).setParameter("u", req.getInt("target")).list();
                 break;
+            case "tweet-list-comment":
+                tweets = (ArrayList<Tweet>) session.createQuery(
+                        "FROM Tweet as tweet " +
+                                "where tweet.parent.id = :t"
+                ).setParameter("t", req.getInt("tweet-id")).list();
+                break;
         }
         response.putObject("tweets", tweets);
         session.close();
