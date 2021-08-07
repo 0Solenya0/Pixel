@@ -119,7 +119,11 @@ public class ProfileController {
 
     @FXML
     void reportUser(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("action");
+        packet.put("type", "report");
+        packet.put("target-id", user.id);
+        SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        updateData();
     }
 
     @FXML

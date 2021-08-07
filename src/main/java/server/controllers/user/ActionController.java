@@ -7,6 +7,7 @@ import server.db.models.FollowRequest;
 import shared.models.Notification;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
+import shared.models.fields.NotificationType;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
@@ -44,6 +45,13 @@ public class ActionController extends Controller {
                 else
                     follow(user, target);
                 break;
+            case "report":
+                Notification notification = new Notification();
+                notification.setReceiver(target);
+                notification.setMessage("You have been reported.");
+                notification.setType(NotificationType.REPORT);
+                session.save(notification);
+                break;
         }
         return res;
     }
@@ -59,6 +67,7 @@ public class ActionController extends Controller {
         notification.setSender(user);
         notification.setReceiver(target);
         notification.setMessage(user.getUsername() + " has started following you!");
+        notification.setType(NotificationType.INFO);
         session.save(notification);
     }
 
@@ -67,6 +76,7 @@ public class ActionController extends Controller {
         notification.setSender(user);
         notification.setReceiver(target);
         notification.setMessage(user.getUsername() + " has stopped following you!");
+        notification.setType(NotificationType.INFO);
         session.save(notification);
     }
 

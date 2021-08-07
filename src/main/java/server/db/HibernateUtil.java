@@ -6,6 +6,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl;
 import org.hibernate.cfg.Configuration;
+import shared.models.Model;
+
+import java.time.LocalDateTime;
 
 public class HibernateUtil {
     private static Configuration configuration = new Configuration();
@@ -33,7 +36,10 @@ public class HibernateUtil {
             session = getSession();
         }
 
-        public void save(Object object) {
+        public void save(Model model) {
+            if (model.getCreatedAt() == null)
+                model.setCreatedAt(LocalDateTime.now());
+            model.setLastModified(LocalDateTime.now());
             session.beginTransaction();
             session.saveOrUpdate(object);
             session.getTransaction().commit();
