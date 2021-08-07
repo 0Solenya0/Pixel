@@ -1,5 +1,6 @@
-package server.controllers;
+package server.controllers.auth;
 
+import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.exception.ValidationException;
 import shared.models.User;

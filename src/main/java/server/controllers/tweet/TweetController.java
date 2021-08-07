@@ -1,5 +1,6 @@
-package server.controllers;
+package server.controllers.tweet;
 
+import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.exception.ValidationException;
 import shared.models.Tweet;

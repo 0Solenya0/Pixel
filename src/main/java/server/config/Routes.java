@@ -1,6 +1,17 @@
 package server.config;
 
 import server.controllers.*;
+import server.controllers.auth.LoginController;
+import server.controllers.auth.RegisterController;
+import server.controllers.auth.ResetPasswordController;
+import server.controllers.profile.ProfileChangeController;
+import server.controllers.profile.ProfileController;
+import server.controllers.profile.ProfileDataController;
+import server.controllers.tweet.TweetController;
+import server.controllers.tweet.TweetGetController;
+import server.controllers.tweet.TweetListController;
+import server.controllers.user.ActionController;
+import server.controllers.user.UserSearchController;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;

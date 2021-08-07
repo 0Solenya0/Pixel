@@ -1,5 +1,6 @@
-package server.controllers;
+package server.controllers.profile;
 
+import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.models.User;
 import shared.request.Packet;

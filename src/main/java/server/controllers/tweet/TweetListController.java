@@ -1,6 +1,7 @@
-package server.controllers;
+package server.controllers.tweet;
 
 import org.hibernate.Session;
+import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.models.Tweet;
 import shared.models.fields.AccessLevel;
