@@ -3,6 +3,6 @@ package server.db.fields;
 public enum RequestState {
     PENDING,
     ACCEPTED,
-    DECLINED,
+    REJECTED,
     CANCELED
 }

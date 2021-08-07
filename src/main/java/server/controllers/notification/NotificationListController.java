@@ -39,6 +39,7 @@ public class NotificationListController extends Controller {
             notification.setMessage(request.getSender().getUsername() + " has requested to follow you");
             notification.setType(NotificationType.REQUEST);
             notification.setCreatedAt(request.getCreatedAt());
+            notification.id = request.id;
             notifications.add(notification);
         }
         notifications.sort(Comparator.comparing(Model::getCreatedAt).reversed());

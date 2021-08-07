@@ -38,7 +38,6 @@ public class NotificationController implements Initializable {
         Type listType = new TypeToken<ArrayList<Notification>>() {}.getType();
         ArrayList<Notification> notifications = res.getObject("notifications", listType);
 
-        System.out.println(notifications);
         vboxContainer.getChildren().clear();
         for (Notification notification: notifications) {
             ViewManager.Component<NotificationCardController> component = ViewManager.getComponent("NOTIFICATION_CARD");

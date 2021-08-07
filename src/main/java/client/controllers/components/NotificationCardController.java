@@ -1,5 +1,6 @@
 package client.controllers.components;
 
+import client.request.SocketHandler;
 import client.utils.ImageUtils;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -10,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import shared.models.Notification;
 import shared.models.fields.NotificationType;
+import shared.request.Packet;
+import shared.request.StatusCode;
 
 public class NotificationCardController {
 
@@ -29,17 +32,38 @@ public class NotificationCardController {
 
     @FXML
     void accept(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("notification-action");
+        packet.put("type", "accept");
+        packet.put("req-id", notification.id);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK) {
+            setButtonsVisibility(false);
+            lblNotification.setText("Accepted!");
+        }
     }
 
     @FXML
     void reject(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("notification-action");
+        packet.put("type", "reject");
+        packet.put("req-id", notification.id);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK) {
+            setButtonsVisibility(false);
+            lblNotification.setText("Rejected");
+        }
     }
 
     @FXML
     void silentReject(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("notification-action");
+        packet.put("type", "silent-reject");
+        packet.put("req-id", notification.id);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK) {
+            setButtonsVisibility(false);
+            lblNotification.setText("Rejected");
+        }
     }
 
     private void setButtonsVisibility(boolean visibility) {
