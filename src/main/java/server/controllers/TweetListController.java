@@ -28,6 +28,7 @@ public class TweetListController extends Controller {
                                 "WHERE follower.id = :userId " +
                                 "WHERE mute.id != :userId"
                 ).setParameter("userId", req.getInt("user-id")).list();
+                // TO DO remove muted user
                 break;
             case "tweet-list-explorer":
                 tweets = (ArrayList<Tweet>) session.createQuery(
@@ -38,6 +39,7 @@ public class TweetListController extends Controller {
                 ).setParameter("vis", AccessLevel.PUBLIC)
                         .setParameter("u", req.getInt("user-id")).list();
                 tweets.sort(Comparator.comparingInt((t) -> -t.getLikes().size()));
+                // TO DO remove muted user
                 break;
             case "tweet-list-user":
                 tweets = (ArrayList<Tweet>) session.createQuery(

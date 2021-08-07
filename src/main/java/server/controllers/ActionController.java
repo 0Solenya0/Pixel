@@ -7,17 +7,26 @@ import shared.request.StatusCode;
 
 public class ActionController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Packet res = new Packet(StatusCode.OK);
         int t = req.getInt("target-id");
-        User user = (User) HibernateUtil.get(User.class, t);
-        User cur = (User) HibernateUtil.get(User.class, req.getInt("user-id"));
-        if (req.get("type").equals("toggle-block")) {
-            if (cur.blocked.contains(user))
-                cur.blocked.remove(user);
-            else
-                cur.blocked.add(user);
-            HibernateUtil.save(cur);
+        User user = (User) session.get(User.class, t);
+        User cur = (User) session.get(User.class, req.getInt("user-id"));
+        switch (req.get("type")) {
+            case "toggle-block":
+                if (cur.blocked.contains(user))
+                    cur.blocked.remove(user);
+                else
+                    cur.blocked.add(user);
+                session.save(cur);
+                break;
+            case "toggle-mute":
+                if (cur.muted.contains(user))
+                    cur.muted.remove(user);
+                else
+                    cur.muted.add(user);
+                session.save(cur);
+                break;
         }
         return res;
     }

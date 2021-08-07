@@ -8,12 +8,12 @@ import shared.request.StatusCode;
 
 public class TweetGetController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
-        User user = (User) HibernateUtil.get(User.class, req.getInt("user-id"));
+        User user = (User) session.get(User.class, req.getInt("user-id"));
         Tweet tweet = null;
         try {
-            tweet = (Tweet) HibernateUtil.get(Tweet.class, req.getInt("id"));
+            tweet = (Tweet) session.get(Tweet.class, req.getInt("id"));
         }
         catch (Exception e) {
             return new Packet(StatusCode.NOT_FOUND);

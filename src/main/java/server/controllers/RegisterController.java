@@ -8,7 +8,7 @@ import shared.request.StatusCode;
 
 public class RegisterController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         User user = new User();
         user.setUsername(req.get("username", null));
         user.setName(req.get("name", null));
@@ -22,7 +22,8 @@ public class RegisterController extends Controller {
             response.putObject("error", e);
             return response;
         }
-        HibernateUtil.save(user);
+        session.save(user);
+        session.close();
         return new Packet(StatusCode.CREATED);
     }
 }

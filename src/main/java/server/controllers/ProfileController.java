@@ -7,10 +7,10 @@ import shared.request.StatusCode;
 
 public class ProfileController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
-        User cur = (User) HibernateUtil.get(User.class, req.getInt("user-id"));
-        User user = (User) HibernateUtil.get(User.class, req.getInt("id"));
+        User cur = (User) session.get(User.class, req.getInt("user-id"));
+        User user = (User) session.get(User.class, req.getInt("id"));
         if (user == null)
             return new Packet(StatusCode.NOT_FOUND);
         user.getFollowers().size();

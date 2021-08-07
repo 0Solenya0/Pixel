@@ -22,19 +22,33 @@ public class HibernateUtil {
         return sessionFactory.openSession();
     }
 
-    public static void save(Object object) {
-        Session session = getSession();
-        session.beginTransaction();
-        session.saveOrUpdate(object);
-        session.getTransaction().commit();;
-        session.close();
+    public static HibernateSession getHibernateSession() {
+        return new HibernateSession();
     }
 
-    public static Object get(Class<?> claz, int id) {
-        Session session = getSession();
-        Object obj = session.createQuery("from " + claz.getName() + " where id = :i")
-                .setParameter("i", id)
-                .uniqueResult();
-        return obj;
+    public static class HibernateSession {
+        Session session;
+
+        public HibernateSession() {
+            session = getSession();
+        }
+
+        public void save(Object object) {
+            session.beginTransaction();
+            session.saveOrUpdate(object);
+            session.getTransaction().commit();;
+            session.close();
+        }
+
+        public Object get(Class<?> claz, int id) {
+            Object obj = session.createQuery("from " + claz.getName() + " where id = :i")
+                    .setParameter("i", id)
+                    .uniqueResult();
+            return obj;
+        }
+
+        public void close() {
+            session.close();
+        }
     }
 }

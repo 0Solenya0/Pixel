@@ -49,7 +49,7 @@ public class ProfileChangeController extends Controller {
         } catch (ValidationException e) {
             return new Packet(StatusCode.BAD_REQUEST).putObject("error", e.getAllErrors().get(0));
         }
-        HibernateUtil.save(user);
+        session.save(user);
         return response;
     }
 }

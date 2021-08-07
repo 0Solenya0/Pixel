@@ -9,7 +9,7 @@ import shared.request.StatusCode;
 
 public class ResetPasswordController extends Controller {
 
-    public static Packet respond(Packet req) {
+    public Packet respond(Packet req) {
         Session session = HibernateUtil.getSession();
         User user = (User) session
                 .createQuery("from User where id = :i")
@@ -24,7 +24,7 @@ public class ResetPasswordController extends Controller {
             return new Packet(StatusCode.BAD_REQUEST).putObject("error", e);
         }
         session.close();
-        HibernateUtil.save(user);
+        this.session.save(user);
         return new Packet(StatusCode.OK);
     }
 }

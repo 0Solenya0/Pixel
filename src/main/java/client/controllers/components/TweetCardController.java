@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import shared.models.Tweet;
 import shared.request.Packet;
+import shared.request.StatusCode;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,7 +41,7 @@ public class TweetCardController {
     @FXML
     private ImageView imgAvatar, imgPhoto;
 
-    private int tweetId, parentId;
+    private int tweetId, parentId, authorId;
 
     @FXML
     void btnCommentClicked(ActionEvent event) {
@@ -54,7 +55,12 @@ public class TweetCardController {
 
     @FXML
     void btnMuteClicked(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("action");
+        packet.put("type", "toggle-mute");
+        packet.put("target-id", authorId);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK)
+            lblTweet.setText("User muted!");
     }
 
     @FXML
@@ -90,6 +96,8 @@ public class TweetCardController {
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
 
         Tweet tweet = response.getObject("tweet", Tweet.class);
+        authorId = tweet.getAuthor().id;
+
         lblAuthor.setText(tweet.getAuthor().getUsername());
         lblTweet.setText(tweet.getContent());
         if (tweet.getPhoto() != null)
