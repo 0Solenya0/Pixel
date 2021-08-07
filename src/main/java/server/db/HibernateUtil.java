@@ -39,6 +39,10 @@ public class HibernateUtil {
             session.getTransaction().commit();
         }
 
+        public Session getInnerSession() {
+            return session;
+        }
+
         public Object get(Class<?> claz, int id) {
             Object obj = session.createQuery("from " + claz.getName() + " where id = :i")
                     .setParameter("i", id)

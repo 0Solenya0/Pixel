@@ -153,7 +153,12 @@ public class ProfileController {
 
     @FXML
     void toggleFollow(ActionEvent event) {
-        // TO DO
+        Packet packet = new Packet("action");
+        packet.put("type", "toggle-follow");
+        packet.put("target-id", userId);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK)
+            updateData();
     }
 
     @FXML

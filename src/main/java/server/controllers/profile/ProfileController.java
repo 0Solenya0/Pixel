@@ -1,6 +1,7 @@
 package server.controllers.profile;
 
 import server.controllers.Controller;
+import server.controllers.user.ActionController;
 import server.db.HibernateUtil;
 import shared.models.User;
 import shared.request.Packet;
@@ -12,25 +13,26 @@ public class ProfileController extends Controller {
 
     public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
-        User cur = (User) session.get(User.class, req.getInt("user-id"));
-        User user = (User) session.get(User.class, req.getInt("id"));
-        if (user == null)
+        User user = (User) session.get(User.class, req.getInt("user-id"));
+        User target = (User) session.get(User.class, req.getInt("id"));
+        if (target == null)
             return new Packet(StatusCode.NOT_FOUND);
-        response.putObject("followers", user.getFollowers());
-        response.putObject("following", user.getFollowings());
-        if (user.id == cur.id)
-            response.putObject("blocked", user.getBlocked());
+        response.putObject("followers", target.getFollowers());
+        response.putObject("following", target.getFollowings());
+        if (target.id == user.id)
+            response.putObject("blocked", target.getBlocked());
         else
             response.putObject("blocked", new ArrayList<User>());
-        response.putObject("user", user);
-        response.put("is-blocked", user.blocked.contains(cur));
-        response.put("is-contact", user.followers.contains(cur));
-        response.put("is-user", user.id == cur.id);
-        response.put("is-muted", cur.getMuted().contains(user));
-        response.put("can-message", user.followers.contains(cur) || user.followings.contains(cur));
-        response.put("follow-requested", false);
+        response.putObject("user", target);
+        response.put("is-blocked", target.blocked.contains(user));
+        response.put("is-contact", target.followers.contains(user));
+        response.put("is-user", target.id == user.id);
+        response.put("is-muted", user.getMuted().contains(target));
+        response.put("can-message", target.followers.contains(user) || target.followings.contains(user));
         response.put("online", true);
-        // TO DO follow request
+        session.close();
+        ActionController controller = new ActionController();
+        response.put("follow-requested", controller.getRequest(user, target) != null);
         // TO DO check for online
         return response;
     }

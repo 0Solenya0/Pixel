@@ -7,6 +7,7 @@ import shared.exception.ValidationException;
 
 import javax.persistence.*;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 public abstract class Model {
@@ -15,6 +16,9 @@ public abstract class Model {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Expose
     public int id;
+
+    @Expose
+    private LocalDateTime createdAt, lastModified;
 
     private boolean checkUniqueConstraint(Field field) {
         try {
@@ -54,5 +58,21 @@ public abstract class Model {
         }
         if (validationException.hasError())
             throw validationException;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(LocalDateTime lastModified) {
+        this.lastModified = lastModified;
     }
 }
