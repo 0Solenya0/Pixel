@@ -22,4 +22,11 @@ public class Group extends Model {
     @Expose
     private List<User> users = new ArrayList<>();
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

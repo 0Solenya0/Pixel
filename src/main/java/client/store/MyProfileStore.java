@@ -5,17 +5,16 @@ import client.request.exception.ConnectionException;
 import shared.exception.ValidationException;
 import shared.models.User;
 import shared.request.Packet;
-import shared.request.StatusCode;
 
-public class MyProfile extends Store {
-    private static MyProfile instance;
+public class MyProfileStore extends Store {
+    private static MyProfileStore instance;
 
     private String authToken;
     private User user;
 
-    public static MyProfile getInstance() {
+    public static MyProfileStore getInstance() {
         if (instance == null)
-            instance = new MyProfile();
+            instance = new MyProfileStore();
         return instance;
     }
 

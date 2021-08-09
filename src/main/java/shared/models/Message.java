@@ -28,6 +28,7 @@ public class Message extends Model {
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name="user_id")
     )
+    @Expose
     public List<User> viewers = new ArrayList<>();
 
     @OneToMany
@@ -92,5 +93,9 @@ public class Message extends Model {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    public List<User> getViewers() {
+        return viewers;
     }
 }

@@ -1,6 +1,6 @@
 package client.controllers;
 
-import client.store.MyProfile;
+import client.store.MyProfileStore;
 import client.views.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,8 +51,8 @@ public class LayoutController implements Initializable {
     @FXML
     void showMyProfile(ActionEvent event) {
         ProfileController controller = ViewManager.showPanel("PROFILE");
-        MyProfile.getInstance().updateUserProfile();
-        controller.setUserId(MyProfile.getInstance().getUser().id);
+        MyProfileStore.getInstance().updateUserProfile();
+        controller.setUserId(MyProfileStore.getInstance().getUser().id);
     }
 
     @FXML

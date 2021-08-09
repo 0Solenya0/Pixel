@@ -1,9 +1,10 @@
 package client.controllers;
 
+import client.controllers.message.ChatCardController;
 import client.controllers.message.MessageCardController;
 import client.request.SocketHandler;
-import client.store.Messages;
-import client.store.MyProfile;
+import client.store.MessageStore;
+import client.store.MyProfileStore;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -18,7 +19,6 @@ import shared.models.Group;
 import shared.models.Message;
 import shared.models.User;
 import shared.request.Packet;
-import shared.request.StatusCode;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -82,9 +82,13 @@ public class MessageController implements Initializable {
         checkForMessageAccess();
         lblChatName.setText(user.getUsername());
         setGroupButtonsVisibility(false);
-        Messages.getInstance().updateData();
-        ArrayList<Message> messages = Messages.getInstance().getByUser(user);
+        MessageStore.getInstance().updateData();
+        ArrayList<Message> messages = MessageStore.getInstance().getByUser(user);
         showMessages(messages);
+    }
+
+    public void setGroupTarget(Group group) {
+        // TO DO
     }
 
     private void showMessages(ArrayList<Message> messages) {
@@ -105,15 +109,15 @@ public class MessageController implements Initializable {
     void sendMessage(ActionEvent event) {
         Message message = new Message();
         message.setContent(txtContent.getText());
-        message.setSender(MyProfile.getInstance().getUser());
+        message.setSender(MyProfileStore.getInstance().getUser());
         if (user != null)
             message.setReceiver(user);
         else
             message.setReceiverGroup(group);
-        Messages.getInstance().sendMessage(message);
-        Messages.getInstance().commitChanges();
+        MessageStore.getInstance().sendMessage(message);
+        MessageStore.getInstance().commitChanges();
         txtContent.setText("");
-        setUserTarget(user);
+        updateData();
     }
 
     @FXML
@@ -121,12 +125,34 @@ public class MessageController implements Initializable {
         // TO DO
     }
 
+    void updateData() {
+        if (user != null)
+            setUserTarget(user);
+        else if (group != null) {
+            // TO DO
+        }
+        vboxChat.getChildren().clear();
+        MessageStore.getInstance().getChatGroups().forEach((g) -> {
+            ViewManager.Component<ChatCardController> component = ViewManager.getComponent("CHAT_CARD");
+            if (g instanceof User) {
+                component.getController().setUser((User) g);
+                component.getController().setClickListener(() -> this.setUserTarget((User) g));
+            }
+            else if (g instanceof Group) {
+                component.getController().setGroup((Group) g);
+                component.getController().setClickListener(() -> this.setGroupTarget((Group) g));
+            }
+            vboxChat.getChildren().add(component.getPane());
+        });
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Messages.getInstance().updateData();
+        MessageStore.getInstance().updateData();
         sendMessagePane.setVisible(false);
         lblChatName.setText("-");
         btnAddUser.setVisible(false);
         btnUserList.setVisible(false);
+        updateData();
     }
 }

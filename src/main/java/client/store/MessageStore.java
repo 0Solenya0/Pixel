@@ -4,7 +4,6 @@ import client.request.SocketHandler;
 import com.google.gson.reflect.TypeToken;
 import shared.models.Group;
 import shared.models.Message;
-import shared.models.Tweet;
 import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
@@ -12,26 +11,27 @@ import shared.request.StatusCode;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
-public class Messages extends Store {
-    private static Messages instance;
+public class MessageStore extends Store {
+    private static MessageStore instance;
     private HashMap<Group, ArrayList<Message>> groupMessages = new HashMap<>();
     private HashMap<User, ArrayList<Message>> userMessages = new HashMap<>();
     private ArrayList<Message> pendingMessages = new ArrayList<>();
     private LocalDateTime lastFetch = LocalDateTime.MIN;
 
-    public static Messages getInstance() {
+    public static MessageStore getInstance() {
         if (instance == null)
-            instance = new Messages();
+            instance = new MessageStore();
         return instance;
     }
 
     public void arrangeMessages(ArrayList<Message> messages) {
         groupMessages.clear();
         userMessages.clear();
-        MyProfile.getInstance().updateUserProfile();
-        User user = MyProfile.getInstance().getUser();
+        MyProfileStore.getInstance().updateUserProfile();
+        User user = MyProfileStore.getInstance().getUser();
 
         for (Message message: messages) {
             ArrayList<Message> target;
@@ -50,6 +50,23 @@ public class Messages extends Store {
             target.remove(message);
             target.add(message);
         }
+    }
+
+    public ArrayList<Object> getChatGroups() {
+        ArrayList<Object> list = new ArrayList<>();
+        list.addAll(groupMessages.keySet());
+        list.addAll(userMessages.keySet());
+        list.sort(Comparator.comparing((m) -> {
+            ArrayList<Message> messages = new ArrayList<>();
+            if (m instanceof User)
+                messages = userMessages.get(m);
+            else if (m instanceof Group)
+                messages = groupMessages.get(m);
+            if (messages.size() == 0)
+                return LocalDateTime.MIN;
+            return messages.get(messages.size() - 1).getSchedule();
+        }).reversed());
+        return list;
     }
 
     public void sendMessage(Message message) {
@@ -85,6 +102,10 @@ public class Messages extends Store {
 
     public ArrayList<Message> getByUser(User user) {
         return userMessages.getOrDefault(user, new ArrayList<>());
+    }
+
+    public ArrayList<Message> getByGroup(Group group) {
+        return groupMessages.getOrDefault(group, new ArrayList<>());
     }
 
     public HashMap<Group, ArrayList<Message>> getGroupMessages() {

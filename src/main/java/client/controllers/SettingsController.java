@@ -2,7 +2,7 @@ package client.controllers;
 
 import client.request.SocketHandler;
 import client.request.exception.ConnectionException;
-import client.store.MyProfile;
+import client.store.MyProfileStore;
 import client.utils.ImageUtils;
 import client.views.InfoDialog;
 import client.views.ViewManager;
@@ -16,13 +16,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import shared.exception.ValidationException;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
 import shared.request.Packet;
-import shared.request.StatusCode;
 import shared.util.Config;
 
 import java.io.File;
@@ -103,13 +101,13 @@ public class SettingsController implements Initializable {
 
     @FXML
     void logout(ActionEvent event) {
-        MyProfile.reset(); // TO DO remove other saved stores
+        MyProfileStore.reset(); // TO DO remove other saved stores
         ViewManager.showView("LOGIN");
     }
 
     @FXML
     void saveProfileInfo(ActionEvent event) {
-        User user = MyProfile.getInstance().getUser();
+        User user = MyProfileStore.getInstance().getUser();
         user.setName(txtName.getText());
         user.setSurname(txtSurname.getText());
         user.getPhone().set(txtPhone.getText());
@@ -118,7 +116,7 @@ public class SettingsController implements Initializable {
         user.getBirthdate().setAccessLevel(comboBirthday.getValue());
         user.setBio(txtBio.getText());
         try {
-            MyProfile.getInstance().commitChanges();
+            MyProfileStore.getInstance().commitChanges();
             InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
         } catch (ConnectionException e) {
             InfoDialog.showConnectionErrorSaveLater(e);
@@ -129,12 +127,12 @@ public class SettingsController implements Initializable {
 
     @FXML
     void savePrivacyInfo() {
-        User user = MyProfile.getInstance().getUser();
+        User user = MyProfileStore.getInstance().getUser();
         user.getMail().setAccessLevel(comboEmail.getValue());
         user.getLastSeen().setAccessLevel(comboLastSeen.getValue());
         user.setVisibility(comboAccount.getValue());
         try {
-            MyProfile.getInstance().commitChanges();
+            MyProfileStore.getInstance().commitChanges();
             InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
         } catch (ConnectionException e) {
             InfoDialog.showConnectionErrorSaveLater(e);
@@ -145,8 +143,8 @@ public class SettingsController implements Initializable {
     void uploadPhoto(ActionEvent event) {
         File photo = ViewManager.showFileDialog();
         try {
-            MyProfile.getInstance().getUser().setPhoto(Files.readAllBytes(photo.toPath()));
-            MyProfile.getInstance().commitChanges();
+            MyProfileStore.getInstance().getUser().setPhoto(Files.readAllBytes(photo.toPath()));
+            MyProfileStore.getInstance().commitChanges();
             updatePhoto();
         } catch (IOException e) {
             InfoDialog.showFailed(config.getProperty("IMAGE_LOAD_FAILED"));
@@ -157,7 +155,7 @@ public class SettingsController implements Initializable {
     }
 
     public void updatePhoto() {
-        byte[] photo = MyProfile.getInstance().getUser().getPhoto();
+        byte[] photo = MyProfileStore.getInstance().getUser().getPhoto();
         if (photo != null)
             imgAvatar.setImage(ImageUtils.load(photo));
     }
@@ -170,8 +168,8 @@ public class SettingsController implements Initializable {
         comboEmail.getItems().addAll(AccessLevel.values());
         comboLastSeen.getItems().addAll(AccessLevel.values());
 
-        MyProfile.getInstance().updateUserProfile();
-        User user = MyProfile.getInstance().getUser();
+        MyProfileStore.getInstance().updateUserProfile();
+        User user = MyProfileStore.getInstance().getUser();
         comboEmail.setValue(user.getMail().getAccessLevel());
         comboPhone.setValue(user.getPhone().getAccessLevel());
         comboLastSeen.setValue(user.getLastSeen().getAccessLevel());
