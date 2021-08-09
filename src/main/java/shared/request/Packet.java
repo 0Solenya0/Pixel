@@ -4,6 +4,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 import shared.gson.gsonAdapter.HibernateProxyTypeAdapter;
 import shared.gson.gsonAdapter.LocalDateAdapter;
 import shared.gson.gsonAdapter.LocalDateTimeAdapter;
@@ -26,6 +27,7 @@ public class Packet implements Serializable {
             .registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY)
             .excludeFieldsWithoutExposeAnnotation()
             .create();
+    @Expose
     private final HashMap<String, String> data = new HashMap<>();
     public String target = "";
     public StatusCode status;

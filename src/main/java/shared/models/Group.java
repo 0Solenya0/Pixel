@@ -29,4 +29,8 @@ public class Group extends Model {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
 }

@@ -5,6 +5,7 @@ import client.controllers.message.MessageCardController;
 import client.request.SocketHandler;
 import client.store.MessageStore;
 import client.store.MyProfileStore;
+import client.views.StringDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -59,7 +60,10 @@ public class MessageController implements Initializable {
 
     @FXML
     void createGroup(ActionEvent event) {
-        // TO DO
+        String name = StringDialog.show("Group name");
+        Packet packet = new Packet("create-group");
+        packet.put("name", name);
+        SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
     }
 
     private void checkForMessageAccess() {

@@ -19,6 +19,7 @@ public class MessageStore extends Store {
     private HashMap<Group, ArrayList<Message>> groupMessages = new HashMap<>();
     private HashMap<User, ArrayList<Message>> userMessages = new HashMap<>();
     private ArrayList<Message> pendingMessages = new ArrayList<>();
+    private ArrayList<Group> groups = new ArrayList<>();
     private LocalDateTime lastFetch = LocalDateTime.MIN;
 
     public static MessageStore getInstance() {
@@ -54,14 +55,14 @@ public class MessageStore extends Store {
 
     public ArrayList<Object> getChatGroups() {
         ArrayList<Object> list = new ArrayList<>();
-        list.addAll(groupMessages.keySet());
+        list.addAll(groups);
         list.addAll(userMessages.keySet());
         list.sort(Comparator.comparing((m) -> {
             ArrayList<Message> messages = new ArrayList<>();
             if (m instanceof User)
-                messages = userMessages.get(m);
+                messages = userMessages.getOrDefault(m, new ArrayList<>());
             else if (m instanceof Group)
-                messages = groupMessages.get(m);
+                messages = groupMessages.getOrDefault(m, new ArrayList<>());
             if (messages.size() == 0)
                 return LocalDateTime.MIN;
             return messages.get(messages.size() - 1).getSchedule();
@@ -93,6 +94,12 @@ public class MessageStore extends Store {
         lastFetch = LocalDateTime.now();
         Type listType = new TypeToken<ArrayList<Message>>(){}.getType();
         arrangeMessages(res.getObject("list", listType));
+
+        packet = new Packet("group-list");
+        res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        listType = new TypeToken<ArrayList<Group>>(){}.getType();
+        if (res.getStatus() == StatusCode.OK)
+            groups = res.getObject("list", listType);
     }
 
     public void updateData() {

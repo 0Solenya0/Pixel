@@ -4,8 +4,11 @@ import org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl;
 import org.hibernate.cfg.Configuration;
 import server.db.HibernateUtil;
 import shared.exception.ValidationException;
+import shared.models.Group;
 import shared.models.User;
 import shared.request.Packet;
+
+import java.util.ArrayList;
 
 public class test {
     public static void main(String[] args) {
@@ -14,10 +17,14 @@ public class test {
                 ImplicitNamingStrategyComponentPathImpl.INSTANCE
         );
         HibernateUtil.HibernateSession session = new HibernateUtil.HibernateSession();
-        System.out.println(session.getInnerSession().createQuery(
-                "SELECT message FROM Message AS message " +
-                        "WHERE message.receiver.id = 1 OR message.sender.id = 1"
-        ).list());
+        Packet packet = new Packet("");
+        ArrayList<Group> groups = (ArrayList<Group>) session.getInnerSession().createQuery(
+                "SELECT g FROM Group AS g " +
+                        "LEFT JOIN g.users as us " +
+                        "WHERE us.id = :u"
+        ).setParameter("u", 1).list();
+        packet.putObject("list", groups);
+        System.out.println(packet.getJson());
         /* session.save(user);
         User user2 = new User();
         user2.setUsername("ghader");
