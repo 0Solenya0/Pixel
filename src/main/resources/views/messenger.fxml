@@ -63,6 +63,7 @@
                                  </font></Label>
                               <JFXButton fx:id="btnAddUser" buttonType="RAISED" contentDisplay="CENTER" layoutX="8.0" layoutY="71.0" onAction="#addUser" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="Add User" />
                               <JFXButton fx:id="btnUserList" buttonType="RAISED" contentDisplay="CENTER" layoutX="100.0" layoutY="71.0" onAction="#showUserList" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="User List" />
+                              <JFXButton fx:id="btnLeave" buttonType="RAISED" contentDisplay="CENTER" layoutX="192.0" layoutY="71.0" onAction="#leaveGroup" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="Leave" />
                            </children>
                         </AnchorPane>
                      </top>

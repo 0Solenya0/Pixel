@@ -22,6 +22,7 @@ import shared.models.Group;
 import shared.models.Message;
 import shared.models.User;
 import shared.request.Packet;
+import shared.request.StatusCode;
 import shared.util.Config;
 
 import java.io.File;
@@ -42,7 +43,7 @@ public class MessageController implements Initializable {
     private JFXTextArea txtContent;
 
     @FXML
-    private JFXButton btnSend, btnAddUser, btnUserList;
+    private JFXButton btnSend, btnAddUser, btnUserList, btnLeave;
 
     @FXML
     private ScrollPane messageScrollPane;
@@ -143,6 +144,17 @@ public class MessageController implements Initializable {
     void setGroupButtonsVisibility(boolean visibility) {
         btnUserList.setVisible(visibility);
         btnAddUser.setVisible(visibility);
+        btnLeave.setVisible(visibility);
+    }
+
+    @FXML
+    void leaveGroup() {
+        Packet packet = new Packet("group-action");
+        packet.put("type", "leave");
+        packet.put("group-id", group.id);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK)
+            updateData();
     }
 
     @FXML
@@ -150,6 +162,7 @@ public class MessageController implements Initializable {
         Message message = new Message();
         message.setContent(txtContent.getText());
         message.setSender(MyProfileStore.getInstance().getUser());
+        message.setPhoto(photo);
         message.setPhoto(photo);
         if (user != null)
             message.setReceiver(user);
@@ -191,8 +204,7 @@ public class MessageController implements Initializable {
         MessageStore.getInstance().updateData();
         sendMessagePane.setVisible(false);
         lblChatName.setText("-");
-        btnAddUser.setVisible(false);
-        btnUserList.setVisible(false);
+        setGroupButtonsVisibility(false);
         updateData();
     }
 }

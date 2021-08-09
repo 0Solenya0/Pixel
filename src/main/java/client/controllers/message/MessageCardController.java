@@ -1,5 +1,6 @@
 package client.controllers.message;
 
+import client.store.MyProfileStore;
 import client.utils.ImageUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -22,9 +23,6 @@ public class MessageCardController {
     private JFXButton btnEdit, btnDelete;
 
     @FXML
-    private FontAwesomeIconView iconEdit;
-
-    @FXML
     private JFXTextArea txtEditMessage;
 
     @FXML
@@ -38,9 +36,19 @@ public class MessageCardController {
     }
 
     public void showMessage(Message message) {
+        txtEditMessage.setVisible(false);
+        btnEdit.setVisible(false);
+        btnDelete.setVisible(false);
+        if (message.getSender().id == MyProfileStore.getInstance().getUser().id) {
+            btnDelete.setVisible(true);
+            btnEdit.setVisible(true);
+            if (message.getSender().getPhoto() != null)
+                imgSenderAvatar.setImage(ImageUtils.load(message.getSender().getPhoto()));
+        }
+        else if (message.getSender().getPhoto() != null)
+            imgReceiverAvatar.setImage(ImageUtils.load(message.getSender().getPhoto()));
         lblContent.setText(message.getContent());
         if (message.getPhoto() != null)
             imgPhoto.setImage(ImageUtils.load(message.getPhoto()));
     }
-
 }
