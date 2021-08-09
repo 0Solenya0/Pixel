@@ -1,6 +1,8 @@
 package client.controllers;
 
+import client.controllers.tweet.TweetListController;
 import client.store.MyProfileStore;
+import client.views.AutoUpdate;
 import client.views.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,11 +10,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import shared.util.Config;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LayoutController implements Initializable {
+
+    private final Config config = Config.getConfig("mainConfig");
 
     @FXML
     private StackPane stackPane;
@@ -22,6 +27,8 @@ public class LayoutController implements Initializable {
 
     @FXML
     private Button btnClose;
+
+    private AutoUpdate updater = new AutoUpdate();
 
     @FXML
     void backButtonClicked(ActionEvent event) {
@@ -39,8 +46,14 @@ public class LayoutController implements Initializable {
     }
 
     @FXML
-    void showHomePage(ActionEvent event) {
-        // TO DO
+    void showHomePage() {
+        ViewManager.Component<TweetListController> component = ViewManager.getComponent("TWEET_LIST");
+        borderPane.setCenter(component.getPane());
+        component.getController().showHomeTweets();
+        updater.setTask(
+                () -> {component.getController().showHomeTweets();},
+                config.getProperty(Integer.class, "HOME_REFRESH_RATE")
+        );
     }
 
     @FXML
@@ -84,6 +97,6 @@ public class LayoutController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        showHomePage();
     }
 }

@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.models.Tweet;
+import shared.models.User;
 import shared.models.fields.AccessLevel;
 import shared.request.Packet;
 import shared.request.StatusCode;
@@ -20,20 +21,23 @@ public class TweetListController extends Controller {
     @SuppressWarnings("unchecked")
     public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
+        User user = (User) session.get(User.class, req.getInt("user-id"));
         ArrayList<Tweet> tweets = null;
 
         Session session = HibernateUtil.getSession();
         switch (req.target) {
-            case "tweet-list-time-line":
+            case "tweet-list-home":
                 tweets = (ArrayList<Tweet>) session.createQuery(
                         "SELECT tweet FROM Tweet AS tweet " +
-                                "JOIN tweet.author.followers AS follower " +
-                                "JOIN tweet.author.mutedBy AS mute " +
-                                "WHERE follower.id = :userId " +
-                                "WHERE mute.id != :userId"
+                                "JOIN tweet.author AS author " +
+                                "LEFT JOIN author.followers AS follower " +
+                                "WHERE follower.id = :userId"
                 ).setParameter("userId", req.getInt("user-id")).list();
                 tweets.removeIf(
-                        (t) -> t.getReports().size() > config.getProperty(Integer.class, "MAX_TWEET_REPORT"));                break;
+                        (t) -> t.getAuthor().getMutedBy().contains(user));
+                tweets.removeIf(
+                        (t) -> t.getReports().size() > config.getProperty(Integer.class, "MAX_TWEET_REPORT"));
+                break;
             case "tweet-list-explorer":
                 tweets = (ArrayList<Tweet>) session.createQuery(
                         "SELECT tweet FROM Tweet AS tweet " +

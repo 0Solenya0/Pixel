@@ -33,6 +33,12 @@ public class TweetInputController {
     private int parent;
     private byte[] photo;
 
+    private Runnable onSendListener;
+
+    public void setOnSendListener(Runnable onSendListener) {
+        this.onSendListener = onSendListener;
+    }
+
     @FXML
     void attachPhoto(ActionEvent event) {
         File photo = ViewManager.showFileDialog();
@@ -53,6 +59,8 @@ public class TweetInputController {
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         switch (response.getStatus()) {
             case CREATED:
+                if (onSendListener != null)
+                    onSendListener.run();
                 InfoDialog.showSuccess(config.getProperty("TWEET_SUCCESS_DIALOG"));
                 break;
             case BAD_REQUEST:
