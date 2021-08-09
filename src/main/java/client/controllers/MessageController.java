@@ -5,6 +5,7 @@ import client.controllers.message.MessageCardController;
 import client.request.SocketHandler;
 import client.store.MessageStore;
 import client.store.MyProfileStore;
+import client.views.InfoDialog;
 import client.views.StringDialog;
 import client.views.UserListDialog;
 import client.views.ViewManager;
@@ -21,12 +22,18 @@ import shared.models.Group;
 import shared.models.Message;
 import shared.models.User;
 import shared.request.Packet;
+import shared.util.Config;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MessageController implements Initializable {
+
+    private final Config config = Config.getLanguageConfig();
 
     @FXML
     private AnchorPane sendMessagePane;
@@ -48,6 +55,7 @@ public class MessageController implements Initializable {
 
     private User user;
     private Group group;
+    private byte[] photo;
 
     @FXML
     void addUser(ActionEvent event) {
@@ -66,7 +74,12 @@ public class MessageController implements Initializable {
 
     @FXML
     void attachImage(ActionEvent event) {
-        // TO DO
+        File file = ViewManager.showFileDialog();
+        try {
+            photo = Files.readAllBytes(file.toPath());
+        } catch (IOException e) {
+            InfoDialog.showFailed(config.getProperty("IMAGE_LOAD_FAILED"));
+        }
     }
 
     @FXML
@@ -93,6 +106,8 @@ public class MessageController implements Initializable {
     }
 
     public void setUserTarget(User user) {
+        if (this.user != user)
+            photo = null;
         group = null;
         this.user = user;
         checkForMessageAccess();
@@ -104,6 +119,8 @@ public class MessageController implements Initializable {
     }
 
     public void setGroupTarget(Group group) {
+        if (this.group != group)
+            photo = null;
         user = null;
         this.group = group;
         checkForMessageAccess();
@@ -133,6 +150,7 @@ public class MessageController implements Initializable {
         Message message = new Message();
         message.setContent(txtContent.getText());
         message.setSender(MyProfileStore.getInstance().getUser());
+        message.setPhoto(photo);
         if (user != null)
             message.setReceiver(user);
         else

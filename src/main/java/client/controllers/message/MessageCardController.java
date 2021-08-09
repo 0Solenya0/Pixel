@@ -1,5 +1,6 @@
 package client.controllers.message;
 
+import client.utils.ImageUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -38,6 +39,8 @@ public class MessageCardController {
 
     public void showMessage(Message message) {
         lblContent.setText(message.getContent());
+        if (message.getPhoto() != null)
+            imgPhoto.setImage(ImageUtils.load(message.getPhoto()));
     }
 
 }
