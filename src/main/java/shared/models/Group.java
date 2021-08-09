@@ -2,14 +2,12 @@ package shared.models;
 
 import com.google.gson.annotations.Expose;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "ChatGroup")
 public class Group extends Model {
 
     @Expose
