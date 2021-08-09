@@ -1,4 +1,4 @@
-package client.controllers.components;
+package client.controllers.tweet;
 
 import client.request.SocketHandler;
 import client.views.ViewManager;
@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import shared.models.Tweet;
-import shared.models.User;
 import shared.request.Packet;
 
 import java.lang.reflect.Type;

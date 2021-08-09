@@ -1,6 +1,6 @@
 package client.controllers;
 
-import client.controllers.components.TweetListController;
+import client.controllers.tweet.TweetListController;
 import client.request.SocketHandler;
 import client.utils.ImageUtils;
 import client.views.AutoUpdate;
@@ -12,25 +12,19 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import shared.models.Tweet;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
 import shared.request.Packet;
 import shared.request.StatusCode;
 import shared.util.Config;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class ProfileController {
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="284.0" maxWidth="1000.0" minHeight="284.0" minWidth="1000.0" prefHeight="284.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.components.TweetInputController">
+<AnchorPane maxHeight="284.0" maxWidth="1000.0" minHeight="284.0" minWidth="1000.0" prefHeight="284.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.tweet.TweetInputController">
    <children>
       <JFXTextArea fx:id="txtTweet" layoutX="23.0" layoutY="63.0" prefHeight="135.0" prefWidth="959.0" promptText="Enter your tweet here" />
       <Label fx:id="lblInputTweet" layoutX="14.0" layoutY="14.0" text="Write your tweet:">

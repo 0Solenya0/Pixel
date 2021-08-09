@@ -1,4 +1,4 @@
-package client.controllers.components;
+package client.controllers.notification;
 
 import client.request.SocketHandler;
 import client.utils.ImageUtils;
@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import shared.models.Notification;
-import shared.models.fields.NotificationType;
 import shared.request.Packet;
 import shared.request.StatusCode;
 

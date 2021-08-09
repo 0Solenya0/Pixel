@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="169.0" prefWidth="760.0" style="-fx-background-color: #D6E9FF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.components.NotificationCardController">
+<AnchorPane prefHeight="169.0" prefWidth="760.0" style="-fx-background-color: #D6E9FF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.notification.NotificationCardController">
    <children>
       <Label fx:id="lblNotification" layoutX="14.0" layoutY="55.0" prefHeight="58.0" prefWidth="492.0" text="Notification text" wrapText="true">
          <font>

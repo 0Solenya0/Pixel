@@ -1,15 +1,12 @@
 package client.controllers;
 
-import client.controllers.components.TweetInputController;
 import client.store.MyProfile;
 import client.views.ViewManager;
-import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;

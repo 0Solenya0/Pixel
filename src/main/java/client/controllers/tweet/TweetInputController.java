@@ -1,4 +1,4 @@
-package client.controllers.components;
+package client.controllers.tweet;
 
 import client.request.SocketHandler;
 import client.views.InfoDialog;

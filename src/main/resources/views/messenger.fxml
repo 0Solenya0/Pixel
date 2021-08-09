@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="755.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.MessageController">
+   <children>
+      <BorderPane layoutY="1.0" prefHeight="755.0" prefWidth="1000.0">
+         <center>
+            <AnchorPane prefHeight="755.0" prefWidth="722.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane layoutX="-1.0" prefHeight="755.0" prefWidth="677.0">
+                     <bottom>
+                        <AnchorPane fx:id="sendMessagePane" prefHeight="200.0" prefWidth="689.0" style="-fx-background-color: FFFFFF;" BorderPane.alignment="CENTER">
+                           <children>
+                              <Separator layoutX="2.0" layoutY="3.0" prefHeight="0.0" prefWidth="673.0" />
+                              <JFXTextArea fx:id="txtContent" layoutX="8.0" layoutY="12.0" prefHeight="134.0" prefWidth="661.0" promptText="write your message here">
+                                 <font>
+                                    <Font name="Laksaman" size="21.0" />
+                                 </font>
+                              </JFXTextArea>
+                              <JFXButton fx:id="btnSend" buttonType="RAISED" layoutX="585.0" layoutY="152.0" onAction="#sendMessage" style="-fx-background-color: B8BDB5;" text="Send">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="SEND" size="20" />
+                                 </graphic>
+                                 <font>
+                                    <Font name="Laksaman" size="15.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton buttonType="RAISED" layoutX="542.0" layoutY="152.0" onAction="#attachImage" style="-fx-background-color: B8BDB5;">
+                                 <graphic>
+                                    <FontAwesomeIconView glyphName="PAPERCLIP" size="20" />
+                                 </graphic>
+                                 <font>
+                                    <Font name="Laksaman" size="15.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </AnchorPane>
+                     </bottom>
+                     <center>
+                        <ScrollPane fx:id="messageScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <content>
+                              <VBox fx:id="vboxMessage" prefWidth="675.0" />
+                           </content>
+                        </ScrollPane>
+                     </center>
+                     <top>
+                        <AnchorPane prefHeight="107.0" prefWidth="677.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label fx:id="lblChatName" layoutX="14.0" layoutY="31.0" text="User">
+                                 <font>
+                                    <Font name="Laksaman" size="22.0" />
+                                 </font></Label>
+                              <JFXButton fx:id="btnAddUser" buttonType="RAISED" contentDisplay="CENTER" layoutX="8.0" layoutY="71.0" onAction="#addUser" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="Add User" />
+                              <JFXButton fx:id="btnUserList" buttonType="RAISED" contentDisplay="CENTER" layoutX="100.0" layoutY="71.0" onAction="#showUserList" prefHeight="29.0" prefWidth="83.0" style="-fx-background-color: B8BDB5;" text="User List" />
+                           </children>
+                        </AnchorPane>
+                     </top>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+         </center>
+         <left>
+            <AnchorPane layoutY="30.0" prefHeight="730.0" prefWidth="261.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Separator layoutX="317.0" layoutY="7.0" orientation="VERTICAL" prefHeight="745.0" prefWidth="0.0" />
+                  <Button layoutX="107.0" layoutY="2.0" mnemonicParsing="false" onAction="#createGroup" text="Create Group" />
+                  <ScrollPane layoutX="-5.0" layoutY="32.0" prefHeight="723.0" prefWidth="320.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="320.0">
+                           <children>
+                              <VBox fx:id="vboxChat" prefWidth="320.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+         </left>
+      </BorderPane>
+   </children>
+</AnchorPane>

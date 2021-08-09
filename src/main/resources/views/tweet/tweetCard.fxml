@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxWidth="1000.0" minWidth="1000.0" prefHeight="266.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.components.TweetCardController">
+<AnchorPane maxWidth="1000.0" minWidth="1000.0" prefHeight="266.0" prefWidth="1000.0" style="-fx-background-color: E9E9E9;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.tweet.TweetCardController">
    <children>
       <Label fx:id="lblAuthor" layoutX="46.0" prefHeight="19.0" text="Author">
          <font>

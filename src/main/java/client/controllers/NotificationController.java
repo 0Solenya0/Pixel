@@ -1,6 +1,6 @@
 package client.controllers;
 
-import client.controllers.components.NotificationCardController;
+import client.controllers.notification.NotificationCardController;
 import client.request.SocketHandler;
 import client.views.AutoUpdate;
 import client.views.ViewManager;
@@ -8,7 +8,6 @@ import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import shared.models.Notification;
 import shared.models.User;

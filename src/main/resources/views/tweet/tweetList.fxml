@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.components.TweetListController">
+<AnchorPane prefWidth="1000.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.tweet.TweetListController">
    <children>
       <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="755.0" prefWidth="1013.0">
         <content>

@@ -1,16 +1,14 @@
 package client.controllers;
 
-import client.controllers.components.TweetListController;
-import client.controllers.components.UserCardController;
+import client.controllers.tweet.TweetListController;
+import client.controllers.user.UserCardController;
 import client.request.SocketHandler;
 import client.views.AutoUpdate;
 import client.views.ViewManager;
 import com.google.gson.reflect.TypeToken;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
@@ -21,7 +19,6 @@ import shared.models.User;
 import shared.request.Packet;
 import shared.util.Config;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Timer;

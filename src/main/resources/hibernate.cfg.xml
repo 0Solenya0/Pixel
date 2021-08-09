@@ -22,5 +22,7 @@
         <mapping class="shared.models.Tweet"/>
         <mapping class="shared.models.Notification"/>
         <mapping class="server.db.models.FollowRequest"/>
+        <mapping class="shared.models.Message"/>
+        <mapping class="shared.models.Group"/>
     </session-factory>
 </hibernate-configuration>

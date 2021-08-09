@@ -1,4 +1,4 @@
-package client.controllers.components;
+package client.controllers.tweet;
 
 import client.request.SocketHandler;
 import client.utils.ImageUtils;
@@ -9,16 +9,12 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import shared.models.Tweet;
 import shared.request.Packet;
 import shared.request.StatusCode;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class TweetCardController {
 
