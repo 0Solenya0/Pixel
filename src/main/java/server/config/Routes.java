@@ -5,6 +5,7 @@ import server.controllers.auth.LoginController;
 import server.controllers.auth.RegisterController;
 import server.controllers.auth.ResetPasswordController;
 import server.controllers.message.MessageListController;
+import server.controllers.message.SendMessageController;
 import server.controllers.notification.NotificationListController;
 import server.controllers.notification.PendingListController;
 import server.controllers.profile.ProfileChangeController;
@@ -39,6 +40,7 @@ public class Routes {
         routes.add(new Route("notification-list", NotificationListController.class));
         routes.add(new Route("pending-list", PendingListController.class));
         routes.add(new Route("message-list", MessageListController.class));
+        routes.add(new Route("send-message", SendMessageController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

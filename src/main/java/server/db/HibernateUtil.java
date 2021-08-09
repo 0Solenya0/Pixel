@@ -45,6 +45,12 @@ public class HibernateUtil {
             session.getTransaction().commit();
         }
 
+        public void refresh(Model model) {
+            if (model == null || model.getCreatedAt() == null)
+                return;
+            session.refresh(model);
+        }
+
         public Session getInnerSession() {
             return session;
         }

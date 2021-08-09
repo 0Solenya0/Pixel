@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import shared.models.Message;
 
 public class MessageCardController {
 
@@ -33,6 +34,10 @@ public class MessageCardController {
     @FXML
     void editMessage(ActionEvent event) {
 
+    }
+
+    public void showMessage(Message message) {
+        lblContent.setText(message.getContent());
     }
 
 }

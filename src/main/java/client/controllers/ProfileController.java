@@ -122,7 +122,8 @@ public class ProfileController {
 
     @FXML
     void sendMessage(ActionEvent event) {
-        // TO DO
+        MessageController controller = ViewManager.showPanel("MESSAGE");
+        controller.setUserTarget(user);
     }
 
     @FXML

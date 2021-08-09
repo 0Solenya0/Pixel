@@ -18,6 +18,7 @@ public class Messages extends Store {
     private static Messages instance;
     private HashMap<Group, ArrayList<Message>> groupMessages = new HashMap<>();
     private HashMap<User, ArrayList<Message>> userMessages = new HashMap<>();
+    private ArrayList<Message> pendingMessages = new ArrayList<>();
     private LocalDateTime lastFetch = LocalDateTime.MIN;
 
     public static Messages getInstance() {
@@ -34,14 +35,35 @@ public class Messages extends Store {
 
         for (Message message: messages) {
             ArrayList<Message> target;
-            if (message.getReceiverGroup() != null)
+            if (message.getReceiverGroup() != null) {
                 target = groupMessages.getOrDefault(message.getReceiverGroup(), new ArrayList<>());
-            else if (!message.getReceiver().equals(user))
+                groupMessages.put(message.getReceiverGroup(), target);
+            }
+            else if (!message.getReceiver().equals(user)) {
                 target = userMessages.getOrDefault(message.getReceiver(), new ArrayList<>());
-            else
+                userMessages.put(message.getReceiver(), target);
+            }
+            else {
                 target = userMessages.getOrDefault(message.getSender(), new ArrayList<>());
+                userMessages.put(message.getSender(), target);
+            }
             target.remove(message);
             target.add(message);
+        }
+    }
+
+    public void sendMessage(Message message) {
+        pendingMessages.add(message);
+    }
+
+    public void commitChanges() {
+        ArrayList<Message> messages = new ArrayList<>(pendingMessages);
+        for (Message message: messages) {
+            Packet packet = new Packet("send-message");
+            packet.putObject("message", message);
+            Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+            if (res.getStatus() == StatusCode.CREATED)
+                pendingMessages.remove(message);
         }
     }
 
@@ -57,6 +79,27 @@ public class Messages extends Store {
     }
 
     public void updateData() {
+        refreshAllData(); // DELETE THIS
         // TO DO
+    }
+
+    public ArrayList<Message> getByUser(User user) {
+        return userMessages.getOrDefault(user, new ArrayList<>());
+    }
+
+    public HashMap<Group, ArrayList<Message>> getGroupMessages() {
+        return groupMessages;
+    }
+
+    public void setGroupMessages(HashMap<Group, ArrayList<Message>> groupMessages) {
+        this.groupMessages = groupMessages;
+    }
+
+    public HashMap<User, ArrayList<Message>> getUserMessages() {
+        return userMessages;
+    }
+
+    public void setUserMessages(HashMap<User, ArrayList<Message>> userMessages) {
+        this.userMessages = userMessages;
     }
 }
