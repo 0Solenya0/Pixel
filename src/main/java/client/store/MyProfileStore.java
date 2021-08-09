@@ -2,9 +2,13 @@ package client.store;
 
 import client.request.SocketHandler;
 import client.request.exception.ConnectionException;
+import com.google.gson.reflect.TypeToken;
 import shared.exception.ValidationException;
 import shared.models.User;
 import shared.request.Packet;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class MyProfileStore extends Store {
     private static MyProfileStore instance;
@@ -22,6 +26,14 @@ public class MyProfileStore extends Store {
         Packet packet = new Packet("my-profile");
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         user = response.getObject("user", User.class);
+
+        packet = new Packet("profile");
+        packet.put("id", user.id);
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Type listType = new TypeToken<ArrayList<User>>(){}.getType();
+        user.setFollowers(res.getObject("followers", listType));
+        user.setFollowings(res.getObject("following", listType));
+        user.setBlocked(res.getObject("blocked", listType));
     }
 
     public void commitChanges() throws ConnectionException, ValidationException {

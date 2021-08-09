@@ -4,10 +4,7 @@ import server.controllers.*;
 import server.controllers.auth.LoginController;
 import server.controllers.auth.RegisterController;
 import server.controllers.auth.ResetPasswordController;
-import server.controllers.message.CreateGroupController;
-import server.controllers.message.GroupListController;
-import server.controllers.message.MessageListController;
-import server.controllers.message.SendMessageController;
+import server.controllers.message.*;
 import server.controllers.notification.NotificationListController;
 import server.controllers.notification.PendingListController;
 import server.controllers.profile.ProfileChangeController;
@@ -45,6 +42,7 @@ public class Routes {
         routes.add(new Route("send-message", SendMessageController.class));
         routes.add(new Route("create-group", CreateGroupController.class));
         routes.add(new Route("group-list", GroupListController.class));
+        routes.add(new Route("group-action", GroupActionController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

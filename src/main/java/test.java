@@ -18,12 +18,12 @@ public class test {
         );
         HibernateUtil.HibernateSession session = new HibernateUtil.HibernateSession();
         Packet packet = new Packet("");
-        ArrayList<Group> groups = (ArrayList<Group>) session.getInnerSession().createQuery(
-                "SELECT g FROM Group AS g " +
-                        "LEFT JOIN g.users as us " +
-                        "WHERE us.id = :u"
-        ).setParameter("u", 1).list();
-        packet.putObject("list", groups);
+        packet.putObject("list", session.getInnerSession().createQuery(
+                "SELECT message FROM Message AS message " +
+                        "JOIN message.receiverGroup as g \n" +
+                        "LEFT JOIN g.users as us \n" +
+                        "WHERE us.id = :u AND message.sender != :u"
+        ).setParameter("u", 1).list().size());
         System.out.println(packet.getJson());
         /* session.save(user);
         User user2 = new User();

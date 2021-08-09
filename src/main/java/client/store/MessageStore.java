@@ -108,11 +108,15 @@ public class MessageStore extends Store {
     }
 
     public ArrayList<Message> getByUser(User user) {
-        return userMessages.getOrDefault(user, new ArrayList<>());
+        ArrayList<Message> res = userMessages.getOrDefault(user, new ArrayList<>());
+        res.sort(Comparator.comparing(Message::getSchedule));
+        return res;
     }
 
     public ArrayList<Message> getByGroup(Group group) {
-        return groupMessages.getOrDefault(group, new ArrayList<>());
+        ArrayList<Message> res = groupMessages.getOrDefault(group, new ArrayList<>());
+        res.sort(Comparator.comparing(Message::getSchedule));
+        return res;
     }
 
     public HashMap<Group, ArrayList<Message>> getGroupMessages() {

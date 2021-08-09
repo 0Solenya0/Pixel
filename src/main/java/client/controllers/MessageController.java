@@ -6,6 +6,7 @@ import client.request.SocketHandler;
 import client.store.MessageStore;
 import client.store.MyProfileStore;
 import client.views.StringDialog;
+import client.views.UserListDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -50,7 +51,17 @@ public class MessageController implements Initializable {
 
     @FXML
     void addUser(ActionEvent event) {
-        // TO DO
+        MyProfileStore.getInstance().updateUserProfile();
+        UserListDialog.show(MyProfileStore.getInstance().getUser().getFollowings(),
+                (list) -> {
+                    list.forEach((user) -> {
+                        Packet packet = new Packet("group-action");
+                        packet.put("type", "add-user");
+                        packet.put("group-id", group.id);
+                        packet.put("target-id", user.id);
+                        SocketHandler.getSocketHandlerWithoutException().sendPacketAndListen(packet, (p) -> {});
+                    });
+                });
     }
 
     @FXML
@@ -64,6 +75,7 @@ public class MessageController implements Initializable {
         Packet packet = new Packet("create-group");
         packet.put("name", name);
         SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        updateData();
     }
 
     private void checkForMessageAccess() {
@@ -75,7 +87,7 @@ public class MessageController implements Initializable {
             canMessage = res.getBool("can-message", true);
         }
         else {
-            // TO DO access for groups
+            canMessage = group.getUsers().contains(MyProfileStore.getInstance().getUser());
         }
         sendMessagePane.setVisible(canMessage);
     }
@@ -92,7 +104,14 @@ public class MessageController implements Initializable {
     }
 
     public void setGroupTarget(Group group) {
-        // TO DO
+        user = null;
+        this.group = group;
+        checkForMessageAccess();
+        lblChatName.setText(group.getName());
+        setGroupButtonsVisibility(true);
+        MessageStore.getInstance().updateData();
+        ArrayList<Message> messages = MessageStore.getInstance().getByGroup(group);
+        showMessages(messages);
     }
 
     private void showMessages(ArrayList<Message> messages) {
@@ -126,15 +145,14 @@ public class MessageController implements Initializable {
 
     @FXML
     void showUserList(ActionEvent event) {
-        // TO DO
+        UserListDialog.show(group.getUsers(), (l) -> {});
     }
 
     void updateData() {
         if (user != null)
             setUserTarget(user);
-        else if (group != null) {
-            // TO DO
-        }
+        else if (group != null)
+            setGroupTarget(group);
         vboxChat.getChildren().clear();
         MessageStore.getInstance().getChatGroups().forEach((g) -> {
             ViewManager.Component<ChatCardController> component = ViewManager.getComponent("CHAT_CARD");

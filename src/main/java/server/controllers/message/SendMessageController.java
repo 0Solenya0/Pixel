@@ -19,6 +19,7 @@ public class SendMessageController extends Controller {
         if (message.getSchedule() == null)
             message.setSchedule(LocalDateTime.now());
         session.save(message);
+        // TO DO notify user
         return packet;
     }
 }
