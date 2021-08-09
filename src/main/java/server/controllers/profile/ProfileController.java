@@ -3,6 +3,7 @@ package server.controllers.profile;
 import server.controllers.Controller;
 import server.controllers.user.ActionController;
 import server.db.HibernateUtil;
+import server.middlewares.Auth;
 import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
@@ -29,11 +30,10 @@ public class ProfileController extends Controller {
         response.put("is-user", target.id == user.id);
         response.put("is-muted", user.getMuted().contains(target));
         response.put("can-message", target.followers.contains(user) || target.followings.contains(user));
-        response.put("online", true);
+        response.put("online", Auth.isUserOnline(target.id));
         session.close();
         ActionController controller = new ActionController();
         response.put("follow-requested", controller.getRequest(user, target) != null);
-        // TO DO check for online
         return response;
     }
 }

@@ -7,6 +7,8 @@ import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
+import java.time.LocalDateTime;
+
 public class RegisterController extends Controller {
 
     public Packet respond(Packet req) {
@@ -16,6 +18,7 @@ public class RegisterController extends Controller {
         user.setSurname(req.get("surname", null));
         user.setMailAddress(req.get("mail", null));
         user.setPassword(req.get("password", null));
+        user.getLastSeen().set(LocalDateTime.now());
         try {
             user.validate();
         } catch (ValidationException e) {

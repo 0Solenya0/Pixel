@@ -1,10 +1,13 @@
 package server.middlewares;
 
+import server.db.HibernateUtil;
 import server.handler.RequestHandler;
 import server.handler.SocketHandler;
+import shared.models.User;
 import shared.request.Packet;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Auth extends Middleware {
@@ -17,6 +20,10 @@ public class Auth extends Middleware {
         authTokens.put(tokenId, userId);
         currentUsers.put(hId, userId);
         SocketHandler.getSocketHandler(hId).addDisconnectListener(() -> {
+            HibernateUtil.HibernateSession session = new HibernateUtil.HibernateSession();
+            User user = (User) session.get(User.class, userId);
+            user.getLastSeen().set(LocalDateTime.now());
+            session.save(user);
             removeSocket(hId);
         });
         return tokenId;
