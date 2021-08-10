@@ -24,5 +24,6 @@
         <mapping class="server.db.models.FollowRequest"/>
         <mapping class="shared.models.Message"/>
         <mapping class="shared.models.Group"/>
+        <mapping class="shared.models.UserList"/>
     </session-factory>
 </hibernate-configuration>

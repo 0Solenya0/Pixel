@@ -15,6 +15,8 @@ import server.controllers.tweet.TweetGetController;
 import server.controllers.tweet.TweetListController;
 import server.controllers.user.ActionController;
 import server.controllers.user.UserSearchController;
+import server.controllers.userlist.GetUserListController;
+import server.controllers.userlist.UserListActionController;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -43,6 +45,8 @@ public class Routes {
         routes.add(new Route("create-group", CreateGroupController.class));
         routes.add(new Route("group-list", GroupListController.class));
         routes.add(new Route("group-action", GroupActionController.class));
+        routes.add(new Route("user-list-action", UserListActionController.class));
+        routes.add(new Route("user-list-list", GetUserListController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

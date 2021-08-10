@@ -55,6 +55,12 @@ public class HibernateUtil {
             return session;
         }
 
+        public void delete(Model model) {
+            session.beginTransaction();
+            session.delete(model);
+            session.getTransaction().commit();
+        }
+
         public Object get(Class<?> claz, int id) {
             Object obj = session.createQuery("from " + claz.getName() + " where id = :i")
                     .setParameter("i", id)

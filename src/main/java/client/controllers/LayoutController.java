@@ -42,7 +42,7 @@ public class LayoutController implements Initializable {
 
     @FXML
     void showGroups(ActionEvent event) {
-        // TO DO
+        ViewManager.showPanel("MANAGE_LISTS");
     }
 
     @FXML

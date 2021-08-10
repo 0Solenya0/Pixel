@@ -248,4 +248,8 @@ public class User extends Model {
     public String getFullName() {
         return getName() + " " + getSurname();
     }
+
+    public String toString() {
+        return getUsername();
+    }
 }
