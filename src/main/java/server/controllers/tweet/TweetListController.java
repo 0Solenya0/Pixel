@@ -48,6 +48,8 @@ public class TweetListController extends Controller {
                         .setParameter("u", req.getInt("user-id")).list();
                 tweets.sort(Comparator.comparingInt((t) -> -t.getLikes().size()));
                 tweets.removeIf(
+                        (t) -> t.getAuthor().getMutedBy().contains(user));
+                tweets.removeIf(
                         (t) -> t.getReports().size() > config.getProperty(Integer.class, "MAX_TWEET_REPORT"));
                 break;
             case "tweet-list-user":
@@ -63,6 +65,8 @@ public class TweetListController extends Controller {
                 ).setParameter("t", req.getInt("tweet-id")).list();
                 break;
         }
+        tweets.removeIf(tweet -> user.getBlocked().contains(tweet.getAuthor()));
+
         response.putObject("tweets", tweets);
         session.close();
 
