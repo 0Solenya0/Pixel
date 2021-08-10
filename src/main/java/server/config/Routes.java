@@ -47,6 +47,7 @@ public class Routes {
         routes.add(new Route("group-action", GroupActionController.class));
         routes.add(new Route("user-list-action", UserListActionController.class));
         routes.add(new Route("user-list-list", GetUserListController.class));
+        routes.add(new Route("message-action", MessageActionController.class));
     }
 
     public static ArrayList<Route> getRoutes() {
