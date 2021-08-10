@@ -27,7 +27,7 @@ public class User extends Model {
 
     @Enumerated(EnumType.STRING)
     @Expose
-    private AccessLevel visibility = AccessLevel.PRIVATE;
+    private AccessLevel visibility = AccessLevel.CONTACTS;
 
     @Column(nullable = false)
     @Expose

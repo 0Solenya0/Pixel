@@ -30,7 +30,7 @@ public class HibernateUtil {
     }
 
     public static class HibernateSession {
-        private final Session session;
+        private Session session;
 
         public HibernateSession() {
             session = getSession();
@@ -66,6 +66,10 @@ public class HibernateUtil {
                     .setParameter("i", id)
                     .uniqueResult();
             return obj;
+        }
+
+        public void reset() {
+            session = getSession();
         }
 
         public void close() {

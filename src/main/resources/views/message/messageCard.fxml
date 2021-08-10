@@ -29,5 +29,6 @@
       </JFXButton>
       <JFXTextArea fx:id="txtEditMessage" layoutX="72.0" layoutY="14.0" prefHeight="73.0" prefWidth="525.0" />
       <ImageView fx:id="imgPhoto" fitWidth="550.0" layoutX="15.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="lblState" layoutX="8.0" layoutY="6.0" />
    </children>
 </AnchorPane>

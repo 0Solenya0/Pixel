@@ -1,6 +1,7 @@
 package client.controllers.message;
 
 import client.request.SocketHandler;
+import client.store.MessageStore;
 import client.store.MyProfileStore;
 import client.utils.ImageUtils;
 import com.jfoenix.controls.JFXButton;
@@ -18,7 +19,7 @@ import shared.request.StatusCode;
 public class MessageCardController {
 
     @FXML
-    private Label lblContent;
+    private Label lblContent, lblState;
 
     @FXML
     private ImageView imgReceiverAvatar, imgSenderAvatar, imgPhoto;
@@ -37,11 +38,20 @@ public class MessageCardController {
 
     @FXML
     void deleteMessage(ActionEvent event) {
-        Packet packet = new Packet("message-action");
-        packet.put("type", "delete");
-        packet.put("message-id", message.id);
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        if (res.getStatus() == StatusCode.OK) {
+        boolean success = false;
+        if (message.id != 0) {
+            Packet packet = new Packet("message-action");
+            packet.put("type", "delete");
+            packet.put("message-id", message.id);
+            Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+            success = (res.getStatus() == StatusCode.OK);
+        }
+        else {
+            MessageStore.getInstance().getPendingMessages().remove(message);
+            success = true;
+        }
+
+        if (success) {
             btnDelete.setVisible(false);
             btnEdit.setVisible(false);
             lblContent.setText("Deleted!");
@@ -59,14 +69,20 @@ public class MessageCardController {
         if (editMode)
             txtEditMessage.setText(message.getContent());
         else {
-            Packet packet = new Packet("message-action");
-            packet.put("type", "edit");
-            packet.put("content", txtEditMessage.getText());
-            packet.put("message-id", message.id);
-            Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-            if (res.getStatus() == StatusCode.OK) {
+            if (message.id == 0) {
                 message.setContent(txtEditMessage.getText());
                 lblContent.setText(message.getContent());
+            }
+            else {
+                Packet packet = new Packet("message-action");
+                packet.put("type", "edit");
+                packet.put("content", txtEditMessage.getText());
+                packet.put("message-id", message.id);
+                Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+                if (res.getStatus() == StatusCode.OK) {
+                    message.setContent(txtEditMessage.getText());
+                    lblContent.setText(message.getContent());
+                }
             }
         }
     }
@@ -87,5 +103,23 @@ public class MessageCardController {
         lblContent.setText(message.getContent());
         if (message.getPhoto() != null)
             imgPhoto.setImage(ImageUtils.load(message.getPhoto()));
+
+        if (message.getSender().id == MyProfileStore.getInstance().getUser().id) {
+            if (message.getViewers().size() > 1)
+                lblState.setText("seen");
+            else if (message.getDelivers().size() > 1)
+                lblState.setText("delivered");
+            else if (message.id == 0)
+                lblState.setText("draft");
+            else
+                lblState.setText("sent");
+        }
+
+        if (message.id != 0) {
+            Packet packet = new Packet("message-action");
+            packet.put("type", "see");
+            packet.put("message-id", message.id);
+            Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        }
     }
 }

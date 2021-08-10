@@ -22,7 +22,7 @@ public class Message extends Model {
     @Expose
     private Group receiverGroup;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "message_viewer",
             joinColumns = @JoinColumn(name = "message_id"),
@@ -31,12 +31,13 @@ public class Message extends Model {
     @Expose
     public List<User> viewers = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "message_deliver",
             joinColumns = @JoinColumn(name = "message_id"),
             inverseJoinColumns = @JoinColumn(name="user_id")
     )
+    @Expose
     public List<User> delivers = new ArrayList<>();
 
     @Expose
@@ -97,5 +98,9 @@ public class Message extends Model {
 
     public List<User> getViewers() {
         return viewers;
+    }
+
+    public List<User> getDelivers() {
+        return delivers;
     }
 }
