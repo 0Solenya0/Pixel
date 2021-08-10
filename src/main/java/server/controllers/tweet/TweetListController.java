@@ -22,7 +22,7 @@ public class TweetListController extends Controller {
     public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
         User user = (User) session.get(User.class, req.getInt("user-id"));
-        ArrayList<Tweet> tweets = null;
+        ArrayList<Tweet> tweets = new ArrayList<>();
 
         Session session = HibernateUtil.getSession();
         switch (req.target) {
@@ -66,6 +66,7 @@ public class TweetListController extends Controller {
                 break;
         }
         tweets.removeIf(tweet -> user.getBlocked().contains(tweet.getAuthor()));
+        tweets.removeIf(tweet -> tweet.getAuthor().getVisibility().equals(AccessLevel.PRIVATE));
 
         response.putObject("tweets", tweets);
         session.close();

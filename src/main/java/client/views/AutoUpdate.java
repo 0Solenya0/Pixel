@@ -16,9 +16,7 @@ public class AutoUpdate {
     }
 
     public void setTask(Runnable runnable, int interval) {
-        task.purge();
-        task.cancel();
-        task = new Timer();
+        stop();
         task.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -27,4 +25,13 @@ public class AutoUpdate {
         }, interval, interval);
     }
 
+    public void stop() {
+        task.purge();
+        task.cancel();
+        task = new Timer();
+    }
+
+    public static ArrayList<AutoUpdate> getRunning() {
+        return running;
+    }
 }

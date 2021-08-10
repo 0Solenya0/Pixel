@@ -2,8 +2,10 @@ package client.controllers;
 
 import client.request.SocketHandler;
 import client.request.exception.ConnectionException;
+import client.store.MessageStore;
 import client.store.MyProfileStore;
 import client.utils.ImageUtils;
+import client.views.AutoUpdate;
 import client.views.InfoDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
@@ -37,7 +39,7 @@ public class SettingsController implements Initializable {
     private ImageView imgAvatar;
 
     @FXML
-    private JFXButton btnUploadPhoto, btnChangePass;
+    private JFXButton btnUploadPhoto, btnChangePass, btnDisableAcc;
 
     @FXML
     private TextField txtName, txtSurname, txtPhone;
@@ -96,12 +98,36 @@ public class SettingsController implements Initializable {
 
     @FXML
     void disableAcc(ActionEvent event) {
-        // TO DO
+        User user = MyProfileStore.getInstance().getUser();
+        if (user.getVisibility() != AccessLevel.PRIVATE) {
+            user.setVisibility(AccessLevel.PRIVATE);
+            try {
+                MyProfileStore.getInstance().commitChanges();
+                InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
+            } catch (ConnectionException e) {
+                InfoDialog.showConnectionErrorSaveLater(e);
+            } catch (ValidationException ignored) {
+            }
+            btnDisableAcc.setText("Enable account");
+        }
+        else {
+            user.setVisibility(AccessLevel.CONTACTS);
+            try {
+                MyProfileStore.getInstance().commitChanges();
+                InfoDialog.showSuccess(config.getProperty("PROFILE_CHANGE_SUCCESS_DIALOG"));
+            } catch (ConnectionException e) {
+                InfoDialog.showConnectionErrorSaveLater(e);
+            } catch (ValidationException ignored) {
+            }
+            btnDisableAcc.setText("Disable account");
+        }
     }
 
     @FXML
     void logout(ActionEvent event) {
-        MyProfileStore.reset(); // TO DO remove other saved stores
+        MyProfileStore.reset();
+        MessageStore.reset();
+        AutoUpdate.getRunning().forEach(AutoUpdate::stop);
         ViewManager.showView("LOGIN");
     }
 

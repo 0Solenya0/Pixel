@@ -5,6 +5,7 @@ import server.controllers.user.ActionController;
 import server.db.HibernateUtil;
 import server.middlewares.Auth;
 import shared.models.User;
+import shared.models.fields.AccessLevel;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
@@ -29,7 +30,10 @@ public class ProfileController extends Controller {
         response.put("is-contact", target.followers.contains(user));
         response.put("is-user", target.id == user.id);
         response.put("is-muted", user.getMuted().contains(target));
-        response.put("can-message", target.followers.contains(user) || target.followings.contains(user));
+        response.put("can-message",
+                (target.followers.contains(user) || target.followings.contains(user))
+                && target.getVisibility() != AccessLevel.PRIVATE
+        );
         response.put("online", Auth.isUserOnline(target.id));
         session.close();
         ActionController controller = new ActionController();

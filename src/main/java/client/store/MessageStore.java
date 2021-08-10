@@ -28,6 +28,10 @@ public class MessageStore extends Store {
         return instance;
     }
 
+    public static void reset() {
+        instance = null;
+    }
+
     public void arrangeMessages(ArrayList<Message> messages) {
         groupMessages.clear();
         userMessages.clear();
