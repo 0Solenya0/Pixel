@@ -41,9 +41,11 @@ public class ChatCardController {
             User curUser = MyProfileStore.getInstance().getUser();
             lblLastChat.setText(messages.get(messages.size() - 1).getContent());
             lblUnseen.setText(String.valueOf(
-                    messages.stream().filter((m) -> m.getViewers().contains(curUser)).count()
+                    messages.stream().filter((m) -> !m.getViewers().contains(curUser) && m.getSender().id != curUser.id).count()
             ));
         }
+        if (lblUnseen.getText().equals("0"))
+            lblUnseen.setText("");
     }
 
     public void setGroup(Group group) {
@@ -53,8 +55,10 @@ public class ChatCardController {
             User curUser = MyProfileStore.getInstance().getUser();
             lblLastChat.setText(messages.get(messages.size() - 1).getContent());
             lblUnseen.setText(String.valueOf(
-                    messages.stream().filter((m) -> m.getViewers().contains(curUser)).count()
+                    messages.stream().filter((m) -> !m.getViewers().contains(curUser) && m.getSender() != curUser).count()
             ));
         }
+        if (lblUnseen.getText().equals("0"))
+            lblUnseen.setText("");
     }
 }

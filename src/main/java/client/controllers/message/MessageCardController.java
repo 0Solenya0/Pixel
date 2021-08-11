@@ -1,25 +1,34 @@
 package client.controllers.message;
 
+import client.controllers.MessageController;
 import client.request.SocketHandler;
 import client.store.MessageStore;
 import client.store.MyProfileStore;
 import client.utils.ImageUtils;
+import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import shared.models.Group;
 import shared.models.Message;
+import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
+
+import static client.views.HyperLinkTranslator.getHyperLink;
 
 public class MessageCardController {
 
     @FXML
-    private Label lblContent, lblState;
+    private Label lblState;
 
     @FXML
     private ImageView imgReceiverAvatar, imgSenderAvatar, imgPhoto;
@@ -33,8 +42,32 @@ public class MessageCardController {
     @FXML
     private JFXTextArea txtEditMessage;
 
+    @FXML
+    private TextFlow txtFlowContent;
+
     private boolean editMode;
     private Message message;
+
+    private void setContent(String content) {
+        int ls = 0;
+        txtFlowContent.getChildren().clear();
+        for (int i = 0; i < content.length(); i++) {
+            if (content.charAt(i) == '@') {
+                Text text = new Text(content.substring(ls, i));
+                txtFlowContent.getChildren().add(text);
+                i++;
+                StringBuilder builder = new StringBuilder();
+                for (; i < content.length() && content.charAt(i) != ' '; i++)
+                    builder.append(content.charAt(i));
+                ls = i;
+                i--;
+                Hyperlink hyperlink = getHyperLink(builder.toString());
+                txtFlowContent.getChildren().add(hyperlink);
+            }
+        }
+        Text text = new Text(content.substring(ls));
+        txtFlowContent.getChildren().add(text);
+    }
 
     @FXML
     void deleteMessage(ActionEvent event) {
@@ -54,16 +87,16 @@ public class MessageCardController {
         if (success) {
             btnDelete.setVisible(false);
             btnEdit.setVisible(false);
-            lblContent.setText("Deleted!");
+            setContent("Deleted!");
             txtEditMessage.setVisible(false);
-            lblContent.setVisible(true);
+            txtFlowContent.setVisible(true);
         }
     }
 
     @FXML
     void editMessage(ActionEvent event) {
         editMode = !editMode;
-        lblContent.setVisible(!editMode);
+        txtFlowContent.setVisible(!editMode);
         txtEditMessage.setVisible(editMode);
         iconEdit.setIcon(editMode ? FontAwesomeIcon.CHECK : FontAwesomeIcon.PENCIL);
         if (editMode)
@@ -71,7 +104,7 @@ public class MessageCardController {
         else {
             if (message.id == 0) {
                 message.setContent(txtEditMessage.getText());
-                lblContent.setText(message.getContent());
+                setContent(message.getContent());
             }
             else {
                 Packet packet = new Packet("message-action");
@@ -81,7 +114,7 @@ public class MessageCardController {
                 Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
                 if (res.getStatus() == StatusCode.OK) {
                     message.setContent(txtEditMessage.getText());
-                    lblContent.setText(message.getContent());
+                    setContent(message.getContent());
                 }
             }
         }
@@ -100,7 +133,7 @@ public class MessageCardController {
         }
         else if (message.getSender().getPhoto() != null)
             imgReceiverAvatar.setImage(ImageUtils.load(message.getSender().getPhoto()));
-        lblContent.setText(message.getContent());
+        setContent(message.getContent());
         if (message.getPhoto() != null)
             imgPhoto.setImage(ImageUtils.load(message.getPhoto()));
 

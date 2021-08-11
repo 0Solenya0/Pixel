@@ -4,6 +4,7 @@ import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.models.Tweet;
 import shared.models.User;
+import shared.models.fields.AccessLevel;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
@@ -19,6 +20,9 @@ public class TweetGetController extends Controller {
         catch (Exception e) {
             return new Packet(StatusCode.NOT_FOUND);
         }
+        if (!(tweet.getAuthor().getVisibility().equals(AccessLevel.PUBLIC) ||
+                (tweet.getAuthor().getVisibility().equals(AccessLevel.CONTACTS) && tweet.getAuthor().followers.contains(user))))
+            return new Packet(StatusCode.FORBIDDEN);
         response.putObject("tweet", tweet);
         response.put("same-user", tweet.getAuthor().id == req.getInt("user-id"));
         response.put("liked", tweet.getLikes().contains(user));

@@ -6,15 +6,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane prefHeight="100.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.message.MessageCardController">
    <children>
-      <Label fx:id="lblContent" layoutX="75.0" layoutY="14.0" prefHeight="73.0" prefWidth="525.0" style="-fx-background-color: LIGHTBLUE;" text="text" wrapText="true">
-         <font>
-            <Font name="Laksaman" size="22.0" />
-         </font>
-      </Label>
       <ImageView fx:id="imgReceiverAvatar" fitHeight="60.0" fitWidth="60.0" layoutX="8.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="imgSenderAvatar" fitHeight="60.0" fitWidth="60.0" layoutX="608.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
       <JFXButton fx:id="btnEdit" buttonType="RAISED" layoutX="633.0" layoutY="83.0" minWidth="0.0" onAction="#editMessage" prefHeight="28.0" prefWidth="35.0" text="Button">
@@ -27,8 +22,9 @@
             <FontAwesomeIconView glyphName="TRASH" size="20" />
          </graphic>
       </JFXButton>
-      <JFXTextArea fx:id="txtEditMessage" layoutX="72.0" layoutY="14.0" prefHeight="73.0" prefWidth="525.0" />
+      <JFXTextArea fx:id="txtEditMessage" layoutX="72.0" layoutY="14.0" prefHeight="73.0" prefWidth="525.0" visible="false" />
       <ImageView fx:id="imgPhoto" fitWidth="550.0" layoutX="15.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="lblState" layoutX="8.0" layoutY="6.0" />
+      <TextFlow fx:id="txtFlowContent" layoutX="75.0" layoutY="11.0" prefHeight="73.0" prefWidth="525.0" />
    </children>
 </AnchorPane>

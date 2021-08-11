@@ -16,7 +16,13 @@ public class ProfileController extends Controller {
     public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
         User user = (User) session.get(User.class, req.getInt("user-id"));
-        User target = (User) session.get(User.class, req.getInt("id"));
+        User target = null;
+        if (req.hasKey("id"))
+            target = (User) session.get(User.class, req.getInt("id"));
+        else
+            target = (User) session.getInnerSession()
+                    .createQuery("FROM User as user WHERE user.username = :u")
+                    .setParameter("u", req.get("username")).uniqueResult();
         if (target == null)
             return new Packet(StatusCode.NOT_FOUND);
         response.putObject("followers", target.getFollowers());
@@ -31,7 +37,7 @@ public class ProfileController extends Controller {
         response.put("is-user", target.id == user.id);
         response.put("is-muted", user.getMuted().contains(target));
         response.put("can-message",
-                (target.followers.contains(user) || target.followings.contains(user))
+                (target.followers.contains(user) || target.followings.contains(user) || target.getVisibility().equals(AccessLevel.PUBLIC))
                 && target.getVisibility() != AccessLevel.PRIVATE
         );
         response.put("online", Auth.isUserOnline(target.id));
