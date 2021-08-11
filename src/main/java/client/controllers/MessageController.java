@@ -178,7 +178,6 @@ public class MessageController implements Initializable {
         message.setContent(txtContent.getText());
         message.setSender(MyProfileStore.getInstance().getUser());
         message.setPhoto(photo);
-        message.setPhoto(photo);
 
         try {
             message.setSchedule(LocalDateTime.of(datePicker.getValue(), timePicker.getValue()));

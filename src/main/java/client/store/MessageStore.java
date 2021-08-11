@@ -139,6 +139,10 @@ public class MessageStore extends Store {
         return pendingMessages;
     }
 
+    public ArrayList<Group> getGroups() {
+        return groups;
+    }
+
     public void setUserMessages(HashMap<User, ArrayList<Message>> userMessages) {
         this.userMessages = userMessages;
     }

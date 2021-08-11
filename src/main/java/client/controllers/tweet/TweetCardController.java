@@ -1,7 +1,10 @@
 package client.controllers.tweet;
 
 import client.request.SocketHandler;
+import client.store.MessageStore;
+import client.store.MyProfileStore;
 import client.utils.ImageUtils;
+import client.views.ForwardDialog;
 import client.views.InfoDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
@@ -12,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import shared.models.Message;
 import shared.models.Tweet;
 import shared.request.Packet;
 import shared.request.StatusCode;
@@ -88,12 +92,17 @@ public class TweetCardController {
 
     @FXML
     void btnSaveClicked(ActionEvent event) {
-        // TO DO
+        Message message = new Message();
+        message.setContent("@tweet:" + tweetId);
+        message.setSender(MyProfileStore.getInstance().getUser());
+        message.setReceiver(MyProfileStore.getInstance().getUser());
+        MessageStore.getInstance().sendMessage(message);
+        MessageStore.getInstance().commitChanges();
     }
 
     @FXML
     void btnShareClicked(ActionEvent event) {
-        // TO DO
+        ForwardDialog.show("@tweet:" + tweetId);
     }
 
     @FXML

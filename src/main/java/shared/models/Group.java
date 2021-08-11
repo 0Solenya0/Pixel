@@ -33,4 +33,9 @@ public class Group extends Model {
     public List<User> getUsers() {
         return users;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
