@@ -6,6 +6,7 @@ import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MessageListController extends Controller {
@@ -25,6 +26,7 @@ public class MessageListController extends Controller {
                         "LEFT JOIN g.users as us \n" +
                         "WHERE us.id = :u AND message.sender != :u"
         ).setParameter("u", req.getInt("user-id")).list());
+        messages.removeIf((m) -> m.getSchedule().isAfter(LocalDateTime.now()));
         for (Message message: messages) {
             if (!message.delivers.contains(user)) {
                 message.delivers.add(user);

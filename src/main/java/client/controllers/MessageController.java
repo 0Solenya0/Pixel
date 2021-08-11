@@ -11,12 +11,15 @@ import client.views.UserListDialog;
 import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTimePicker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import shared.models.Group;
 import shared.models.Message;
@@ -29,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -53,6 +57,15 @@ public class MessageController implements Initializable {
 
     @FXML
     private Label lblChatName;
+
+    @FXML
+    private HBox hBoxSchedule;
+
+    @FXML
+    private DatePicker datePicker;
+
+    @FXML
+    private JFXTimePicker timePicker = new JFXTimePicker();
 
     private User user;
     private Group group;
@@ -89,7 +102,7 @@ public class MessageController implements Initializable {
         Packet packet = new Packet("create-group");
         packet.put("name", name);
         SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        updateData();
+        updateData(true);
     }
 
     private void checkForMessageAccess() {
@@ -139,6 +152,8 @@ public class MessageController implements Initializable {
             component.getController().showMessage(message);
             vboxMessage.getChildren().add(component.getPane());
         }
+        updateData(false);
+        messageScrollPane.setVvalue(messageScrollPane.getVmax());
     }
 
     void setGroupButtonsVisibility(boolean visibility) {
@@ -154,7 +169,7 @@ public class MessageController implements Initializable {
         packet.put("group-id", group.id);
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         if (res.getStatus() == StatusCode.OK)
-            updateData();
+            updateData(true);
     }
 
     @FXML
@@ -164,6 +179,14 @@ public class MessageController implements Initializable {
         message.setSender(MyProfileStore.getInstance().getUser());
         message.setPhoto(photo);
         message.setPhoto(photo);
+
+        try {
+            message.setSchedule(LocalDateTime.of(datePicker.getValue(), timePicker.getValue()));
+        }
+        catch (Exception e) {
+            message.setSchedule(null);
+        }
+
         if (user != null)
             message.setReceiver(user);
         else
@@ -171,7 +194,7 @@ public class MessageController implements Initializable {
         MessageStore.getInstance().sendMessage(message);
         MessageStore.getInstance().commitChanges();
         txtContent.setText("");
-        updateData();
+        updateData(true);
     }
 
     @FXML
@@ -179,19 +202,20 @@ public class MessageController implements Initializable {
         UserListDialog.show(group.getUsers(), (l) -> {});
     }
 
-    void updateData() {
-        if (user != null)
-            setUserTarget(user);
-        else if (group != null)
-            setGroupTarget(group);
+    void updateData(boolean updateMessages) {
+        if (updateMessages) {
+            if (user != null)
+                setUserTarget(user);
+            else if (group != null)
+                setGroupTarget(group);
+        }
         vboxChat.getChildren().clear();
         MessageStore.getInstance().getChatGroups().forEach((g) -> {
             ViewManager.Component<ChatCardController> component = ViewManager.getComponent("CHAT_CARD");
             if (g instanceof User) {
                 component.getController().setUser((User) g);
                 component.getController().setClickListener(() -> this.setUserTarget((User) g));
-            }
-            else if (g instanceof Group) {
+            } else if (g instanceof Group) {
                 component.getController().setGroup((Group) g);
                 component.getController().setClickListener(() -> this.setGroupTarget((Group) g));
             }
@@ -205,6 +229,7 @@ public class MessageController implements Initializable {
         sendMessagePane.setVisible(false);
         lblChatName.setText("-");
         setGroupButtonsVisibility(false);
-        updateData();
+        updateData(true);
+        hBoxSchedule.getChildren().add(timePicker);
     }
 }
