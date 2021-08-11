@@ -10,9 +10,7 @@ import shared.request.StatusCode;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.*;
 
 public class MessageStore extends Store {
     private static MessageStore instance;
@@ -21,6 +19,7 @@ public class MessageStore extends Store {
     private ArrayList<Message> pendingMessages = new ArrayList<>();
     private ArrayList<Group> groups = new ArrayList<>();
     private LocalDateTime lastFetch = LocalDateTime.MIN;
+    private Timer commitTimer = new Timer();
 
     public static MessageStore getInstance() {
         if (instance == null)
@@ -83,9 +82,19 @@ public class MessageStore extends Store {
         for (Message message: messages) {
             Packet packet = new Packet("send-message");
             packet.putObject("message", message);
+            if (SocketHandler.getSocketHandlerWithoutException() == null)
+                break;
             Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
             if (res.getStatus() == StatusCode.CREATED)
                 pendingMessages.remove(message);
+        }
+        if (pendingMessages.size() > 0) {
+            commitTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    commitChanges();
+                }
+            }, config.getProperty(Integer.class, "STORE_COMMIT_RATE"));
         }
     }
 
@@ -112,13 +121,19 @@ public class MessageStore extends Store {
     }
 
     public ArrayList<Message> getByUser(User user) {
-        ArrayList<Message> res = userMessages.getOrDefault(user, new ArrayList<>());
+        ArrayList<Message> res = new ArrayList<>(userMessages.getOrDefault(user, new ArrayList<>()));
+        for (Message message: pendingMessages)
+            if (message.getReceiver() != null && message.getReceiver().id == user.id)
+                res.add(message);
         res.sort(Comparator.comparing(Message::getSchedule));
         return res;
     }
 
     public ArrayList<Message> getByGroup(Group group) {
-        ArrayList<Message> res = groupMessages.getOrDefault(group, new ArrayList<>());
+        ArrayList<Message> res = new ArrayList<>(groupMessages.getOrDefault(group, new ArrayList<>()));
+        for (Message message: pendingMessages)
+            if (message.getReceiverGroup() != null && message.getReceiverGroup().id == group.id)
+                res.add(message);
         res.sort(Comparator.comparing(Message::getSchedule));
         return res;
     }

@@ -10,6 +10,8 @@ import shared.request.StatusCode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MyProfileStore extends Store {
     private static MyProfileStore instance;
@@ -60,6 +62,17 @@ public class MyProfileStore extends Store {
                 throw response.getObject("error", ValidationException.class);
             case INTERNAL_SERVER_ERROR:
                 throw new ConnectionException(ConnectionException.ErrorType.INTERNAL_SERVER_ERROR);
+        }
+        if (response.getStatus() != StatusCode.OK) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        commitChanges();
+                    } catch (Exception ignored) {}
+                }
+            }, config.getProperty(Integer.class, "STORE_COMMIT_RATE"));
         }
         updateUserProfile();
     }

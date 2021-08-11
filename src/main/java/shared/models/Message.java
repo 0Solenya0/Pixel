@@ -73,6 +73,8 @@ public class Message extends Model {
     }
 
     public LocalDateTime getSchedule() {
+        if (schedule == null)
+            return LocalDateTime.now();
         return schedule;
     }
 
