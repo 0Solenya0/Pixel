@@ -26,13 +26,13 @@ public class LayoutController implements Initializable {
     private BorderPane borderPane;
 
     @FXML
-    private Button btnClose;
+    private Button btnClose, btnBack;
 
     private AutoUpdate updater = new AutoUpdate();
 
     @FXML
     void backButtonClicked(ActionEvent event) {
-        // TO DO
+        ViewManager.previousPanel();
     }
 
     @FXML
@@ -75,7 +75,7 @@ public class LayoutController implements Initializable {
 
     @FXML
     void showPostTweetPage(ActionEvent event) {
-        ViewManager.changePanel(ViewManager.getComponentFXML("TWEET_INPUT"));
+        ViewManager.showPanel(ViewManager.getComponentFXML("TWEET_INPUT"));
     }
 
     @FXML
@@ -93,6 +93,10 @@ public class LayoutController implements Initializable {
 
     public Button getBtnClose() {
         return btnClose;
+    }
+
+    public Button getBtnBack() {
+        return btnBack;
     }
 
     @Override

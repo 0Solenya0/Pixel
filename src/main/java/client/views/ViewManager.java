@@ -19,6 +19,7 @@ import shared.util.Config;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ViewManager extends Application {
     private static final Logger logger = LogManager.getLogger(ViewManager.class);
@@ -26,6 +27,7 @@ public class ViewManager extends Application {
 
     private static Stage window;
     private static LayoutController layoutController;
+    private static ArrayList<Node> panels = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -73,21 +75,13 @@ public class ViewManager extends Application {
         return fxmlLoader;
     }
 
-    public static <T> T changePanel(FXMLLoader loader) {
-        try {
-            layoutController.getPanel().setCenter(loader.load());
-            return loader.getController();
-        } catch (IOException e) {
-            logger.fatal("Failed to find fxml file - " + e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static <T> T showPanel(String panelName) {
         FXMLLoader loader = loadFXML(panelName + "_PANEL");
         try {
-            layoutController.getPanel().setCenter(loader.load());
+            Node pane = loader.load();
+            panels.add(pane);
+            removeOldPanels();
+            layoutController.getPanel().setCenter(pane);
             return loader.getController();
         } catch (IOException e) {
             logger.fatal("Failed to find fxml file - " + e.getMessage());
@@ -98,13 +92,24 @@ public class ViewManager extends Application {
 
     public static <T> T showPanel(FXMLLoader fxmlLoader) {
         try {
-            layoutController.getPanel().setCenter(fxmlLoader.load());
+            Node pane = fxmlLoader.load();
+            panels.add(pane);
+            removeOldPanels();
+            layoutController.getPanel().setCenter(pane);
             return fxmlLoader.getController();
         } catch (IOException e) {
             logger.fatal("Failed to find fxml file - " + e.getMessage());
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void removeOldPanels() {
+        while (panels.size() > 4)
+            panels.remove(0);
+        while (AutoUpdate.getRunning().size() > 4)
+            AutoUpdate.getRunning().remove(0).stop();
+        layoutController.getBtnBack().setVisible(panels.size() > 1);
     }
 
     public static void showView(String viewName) {
@@ -143,6 +148,14 @@ public class ViewManager extends Application {
 
     public static void connectionError() {
         // TO DO
+    }
+
+    public static void previousPanel() {
+        if (panels.size() <= 1)
+            return;
+        panels.remove(panels.size() - 1);
+        layoutController.getPanel().setCenter(panels.get(panels.size() - 1));
+        layoutController.getBtnBack().setVisible(panels.size() > 1);
     }
 
     public static class Component<T> {
