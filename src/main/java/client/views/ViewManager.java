@@ -105,9 +105,9 @@ public class ViewManager extends Application {
     }
 
     public static void removeOldPanels() {
-        while (panels.size() > 4)
+        while (panels.size() > config.getProperty(Integer.class, "PANEL_BACK_HISTORY"))
             panels.remove(0);
-        while (AutoUpdate.getRunning().size() > 4)
+        while (AutoUpdate.getRunning().size() > config.getProperty(Integer.class, "PANEL_BACK_HISTORY"))
             AutoUpdate.getRunning().remove(0).stop();
         layoutController.getBtnBack().setVisible(panels.size() > 1);
     }
