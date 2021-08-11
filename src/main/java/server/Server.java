@@ -22,6 +22,7 @@ public class Server {
                         Integer.parseInt(config.getProperty("SERVER_ACCEPTING_THREADS"))
                 );
         Config.initiate();
+        logger.info("server started");
         System.out.println("Ready for new connections");
         while (true) {
             Socket socket = serverSocket.accept();

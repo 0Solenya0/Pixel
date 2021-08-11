@@ -1,5 +1,8 @@
 package server.controllers.tweet;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import server.Server;
 import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.exception.ValidationException;
@@ -9,6 +12,7 @@ import shared.request.Packet;
 import shared.request.StatusCode;
 
 public class TweetController extends Controller {
+    private static final Logger logger = LogManager.getLogger(TweetController.class);
 
     public Packet respond(Packet req) {
         Tweet tweet = new Tweet();
@@ -30,6 +34,7 @@ public class TweetController extends Controller {
             return new Packet(StatusCode.BAD_REQUEST).putObject("error", e);
         }
         session.save(tweet);
+        logger.info("new tweet " + tweet.id + " was created");
         return new Packet(StatusCode.CREATED);
     }
 }

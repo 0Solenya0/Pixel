@@ -1,6 +1,9 @@
 package server.controllers.profile;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import server.Server;
 import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.exception.ValidationException;
@@ -12,6 +15,7 @@ import shared.request.StatusCode;
 import java.time.LocalDate;
 
 public class ProfileChangeController extends Controller {
+    private static final Logger logger = LogManager.getLogger(ProfileChangeController.class);
 
     public Packet respond(Packet req) {
         Packet response = new Packet(StatusCode.OK);
@@ -51,6 +55,7 @@ public class ProfileChangeController extends Controller {
             return new Packet(StatusCode.BAD_REQUEST).putObject("error", e.getAllErrors().get(0));
         }
         this.session.save(user);
+        logger.info("user " + user.getUsername() + " has updated their profile");
         return response;
     }
 }

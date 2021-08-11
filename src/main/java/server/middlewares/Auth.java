@@ -1,5 +1,8 @@
 package server.middlewares;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import server.Server;
 import server.db.HibernateUtil;
 import server.handler.RequestHandler;
 import server.handler.SocketHandler;
@@ -11,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Auth extends Middleware {
+    private static final Logger logger = LogManager.getLogger(Server.class);
     private static final ConcurrentHashMap<String, Integer> authTokens = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Integer, Integer> currentUsers = new ConcurrentHashMap<>();
 
@@ -19,6 +23,7 @@ public class Auth extends Middleware {
         String tokenId = String.valueOf(secureRandom.nextLong());
         authTokens.put(tokenId, userId);
         currentUsers.put(hId, userId);
+        logger.info("user with userid " + userId + " has been registered with auth token " + tokenId);
         SocketHandler.getSocketHandler(hId).addDisconnectListener(() -> {
             HibernateUtil.HibernateSession session = new HibernateUtil.HibernateSession();
             User user = (User) session.get(User.class, userId);

@@ -1,6 +1,9 @@
 package server.controllers.auth;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import server.Server;
 import server.controllers.Controller;
 import server.db.HibernateUtil;
 import server.middlewares.Auth;
@@ -9,6 +12,7 @@ import shared.request.Packet;
 import shared.request.StatusCode;
 
 public class LoginController extends Controller {
+    private static final Logger logger = LogManager.getLogger(Server.class);
 
     public Packet respond(Packet req) {
         Session session = HibernateUtil.getSession();
@@ -17,6 +21,7 @@ public class LoginController extends Controller {
                 .createQuery("from User where username = :u")
                 .setParameter("u", req.get("username", ""))
                 .uniqueResult();
+        logger.info("login request for user " + user.getUsername() + " has been made");
         session.close();
         if (user != null && user.checkPassword(req.get("password", ""))) {
             Packet response = new Packet(StatusCode.OK);

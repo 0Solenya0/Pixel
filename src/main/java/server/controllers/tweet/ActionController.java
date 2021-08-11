@@ -1,5 +1,8 @@
 package server.controllers.tweet;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import server.Server;
 import server.controllers.Controller;
 import shared.models.Tweet;
 import shared.models.User;
@@ -7,6 +10,7 @@ import shared.request.Packet;
 import shared.request.StatusCode;
 
 public class ActionController extends Controller {
+    private static final Logger logger = LogManager.getLogger(ActionController.class);
 
     public Packet respond(Packet req) {
         User user = (User) session.get(User.class, req.getInt("user-id"));
@@ -22,6 +26,7 @@ public class ActionController extends Controller {
                 break;
             case "report":
                 tweet.getReports().add(user);
+                logger.info("tweet " + tweet.id + " was reported by " + user.getUsername());
                 break;
         }
         session.save(tweet);

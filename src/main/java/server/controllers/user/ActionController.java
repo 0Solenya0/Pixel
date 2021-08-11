@@ -1,5 +1,8 @@
 package server.controllers.user;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import server.Server;
 import server.controllers.Controller;
 import server.db.HibernateUtil;
 import server.db.fields.RequestState;
@@ -12,6 +15,7 @@ import shared.request.Packet;
 import shared.request.StatusCode;
 
 public class ActionController extends Controller {
+    private static final Logger logger = LogManager.getLogger(ActionController.class);
 
     public Packet respond(Packet req) {
         Packet res = new Packet(StatusCode.OK);
@@ -24,6 +28,7 @@ public class ActionController extends Controller {
                     user.blocked.remove(target);
                 else
                     user.blocked.add(target);
+                logger.info("toggle block on user " + target.getUsername() + " by " + user.getUsername());
                 session.save(user);
                 break;
             case "toggle-mute":
@@ -32,6 +37,7 @@ public class ActionController extends Controller {
                 else
                     user.muted.add(target);
                 session.save(user);
+                logger.info("toggle mute on user " + target.getUsername() + " by " + user.getUsername());
                 break;
             case "toggle-follow":
                 FollowRequest request = getRequest(user, target);
@@ -44,6 +50,7 @@ public class ActionController extends Controller {
                     unFollow(user, target);
                 else
                     follow(user, target);
+                logger.info("toggle follow on user " + target.getUsername() + " by " + user.getUsername());
                 break;
             case "report":
                 Notification notification = new Notification();
@@ -51,6 +58,7 @@ public class ActionController extends Controller {
                 notification.setMessage("You have been reported.");
                 notification.setType(NotificationType.REPORT);
                 session.save(notification);
+                logger.info("report on user " + target.getUsername() + " by " + user.getUsername());
                 break;
         }
         return res;

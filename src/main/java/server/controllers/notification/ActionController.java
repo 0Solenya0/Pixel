@@ -1,5 +1,8 @@
 package server.controllers.notification;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import server.Server;
 import server.controllers.Controller;
 import server.db.fields.RequestState;
 import server.db.models.FollowRequest;
@@ -10,6 +13,7 @@ import shared.request.Packet;
 import shared.request.StatusCode;
 
 public class ActionController extends Controller {
+    private static final Logger logger = LogManager.getLogger(ActionController.class);
 
     public Packet respond(Packet req) {
         Packet res = new Packet(StatusCode.OK);
@@ -23,15 +27,18 @@ public class ActionController extends Controller {
                 user.followers.add(request.getSender());
                 session.save(user);
                 session.save(request);
+                logger.info("request " + request.id + " was accepted");
                 break;
             case "reject":
                 request.setState(RequestState.REJECTED);
                 sendRejectNotification(request.getReceiver(), request.getSender());
                 session.save(request);
+                logger.info("request " + request.id + " was rejected");
                 break;
             case "silent-reject":
                 request.setState(RequestState.REJECTED);
                 session.save(request);
+                logger.info("request " + request.id + " was silently rejected");
                 break;
         }
         return res;
