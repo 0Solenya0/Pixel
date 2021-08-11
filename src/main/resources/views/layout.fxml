@@ -21,7 +21,7 @@
                         <DropShadow />
                      </effect>
                      <children>
-                        <JFXButton fx:id="btnBack" contentDisplay="CENTER" onAction="#backButtonClicked" prefHeight="35.0" prefWidth="33.0">
+                        <JFXButton fx:id="btnBack" contentDisplay="CENTER" onAction="#backButtonClicked" prefHeight="35.0" prefWidth="33.0" visible="false">
                            <graphic>
                               <FontAwesomeIconView glyphName="ARROW_LEFT" size="25" />
                            </graphic>

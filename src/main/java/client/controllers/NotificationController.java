@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import shared.models.Notification;
 import shared.models.User;
 import shared.request.Packet;
+import shared.request.StatusCode;
 import shared.util.Config;
 
 import java.lang.reflect.Type;
@@ -34,6 +35,8 @@ public class NotificationController implements Initializable {
     void updateData() {
         Packet packet = new Packet("notification-list");
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() != StatusCode.OK)
+            return;
         Type listType = new TypeToken<ArrayList<Notification>>() {}.getType();
         ArrayList<Notification> notifications = res.getObject("notifications", listType);
 

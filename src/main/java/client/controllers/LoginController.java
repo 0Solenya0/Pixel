@@ -1,6 +1,7 @@
 package client.controllers;
 
 import client.request.SocketHandler;
+import client.store.MessageStore;
 import client.store.MyProfileStore;
 import client.views.ViewManager;
 import javafx.fxml.FXML;
@@ -29,6 +30,8 @@ public class LoginController {
         packet.put("password", txtPassword.getText());
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         MyProfileStore.getInstance().setAuthToken(response.get("auth-token", null));
+        MyProfileStore.getInstance().updateUserProfile();
+        MessageStore.getInstance().refreshAllData();
         if (response.getStatus() != StatusCode.OK)
             lblErr.setText("Username or password is wrong.");
         else

@@ -222,6 +222,8 @@ public class ProfileController {
             lblUsername.setText("User not found!");
             return;
         }
+        if (res.getStatus() != StatusCode.OK)
+            return;
 
         Type listType = new TypeToken<ArrayList<User>>(){}.getType();
         user = res.getObject("user", User.class);

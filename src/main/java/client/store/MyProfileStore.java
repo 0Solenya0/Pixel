@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import shared.exception.ValidationException;
 import shared.models.User;
 import shared.request.Packet;
+import shared.request.StatusCode;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class MyProfileStore extends Store {
     public void updateUserProfile() {
         Packet packet = new Packet("my-profile");
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (response.getStatus() != StatusCode.OK)
+            return;
         user = response.getObject("user", User.class);
 
         packet = new Packet("profile");

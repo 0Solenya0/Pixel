@@ -9,11 +9,15 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import shared.models.Tweet;
 import shared.request.Packet;
+import shared.request.StatusCode;
+import shared.util.Config;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class TweetListController {
+
+    private final Config config = Config.getLanguageConfig();
 
     @FXML
     private ScrollPane scrollPane;
@@ -43,6 +47,11 @@ public class TweetListController {
     public void showExplorerTweets() {
         Packet packet = new Packet("tweet-list-explorer");
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() != StatusCode.OK) {
+            setTweetList(new ArrayList<>());
+            lblMessage.setText(config.getProperty("CONNECTION_FAILED"));
+            return;
+        }
         Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
         ArrayList<Tweet> tweets = res.getObject("tweets", listType);
         setTweetList(tweets);
@@ -52,6 +61,11 @@ public class TweetListController {
         Packet packet = new Packet("tweet-list-user");
         packet.put("target", userId);
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() != StatusCode.OK) {
+            setTweetList(new ArrayList<>());
+            lblMessage.setText(config.getProperty("CONNECTION_FAILED"));
+            return;
+        }
         Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
         ArrayList<Tweet> tweets = res.getObject("tweets", listType);
         setTweetList(tweets);
@@ -61,6 +75,11 @@ public class TweetListController {
         Packet packet = new Packet("tweet-list-comment");
         packet.put("tweet-id", tweetId);
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() != StatusCode.OK) {
+            setTweetList(new ArrayList<>());
+            lblMessage.setText(config.getProperty("CONNECTION_FAILED"));
+            return;
+        }
         Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
         ArrayList<Tweet> tweets = res.getObject("tweets", listType);
         setTweetList(tweets);
@@ -79,6 +98,11 @@ public class TweetListController {
     public void showHomeTweets() {
         Packet packet = new Packet("tweet-list-home");
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() != StatusCode.OK) {
+            setTweetList(new ArrayList<>());
+            lblMessage.setText(config.getProperty("CONNECTION_FAILED"));
+            return;
+        }
         Type listType = new TypeToken<ArrayList<Tweet>>(){}.getType();
         ArrayList<Tweet> tweets = res.getObject("tweets", listType);
         setTweetList(tweets);

@@ -90,8 +90,8 @@ public class SocketHandler extends shared.handler.SocketHandler {
         });
         try {
             sendPacket(packet);
+            lock.lock();
         } catch (SocketException ignored) {}
-        lock.lock();
         return response.get();
     }
 
