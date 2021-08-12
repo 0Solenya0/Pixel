@@ -63,9 +63,9 @@ public class MessageStore extends Store {
         list.sort(Comparator.comparing((m) -> {
             ArrayList<Message> messages = new ArrayList<>();
             if (m instanceof User)
-                messages = userMessages.getOrDefault(m, new ArrayList<>());
+                messages = getByUser((User) m);
             else if (m instanceof Group)
-                messages = groupMessages.getOrDefault(m, new ArrayList<>());
+                messages = getByGroup((Group) m);
             if (messages.size() == 0)
                 return LocalDateTime.MIN;
             return messages.get(messages.size() - 1).getSchedule();
@@ -74,6 +74,8 @@ public class MessageStore extends Store {
     }
 
     public void sendMessage(Message message) {
+        if (message.getSchedule() == null)
+            message.setSchedule(LocalDateTime.now());
         pendingMessages.add(message);
     }
 

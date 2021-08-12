@@ -37,8 +37,9 @@ public class ProfileController extends Controller {
         response.put("is-user", target.id == user.id);
         response.put("is-muted", user.getMuted().contains(target));
         response.put("can-message",
-                (target.followers.contains(user) || target.followings.contains(user) || target.getVisibility().equals(AccessLevel.PUBLIC))
-                && target.getVisibility() != AccessLevel.PRIVATE
+                ((target.followers.contains(user) || target.followings.contains(user) || target.getVisibility().equals(AccessLevel.PUBLIC))
+                && target.getVisibility() != AccessLevel.PRIVATE)
+                || target.id == user.id
         );
         response.put("online", Auth.isUserOnline(target.id));
         session.close();

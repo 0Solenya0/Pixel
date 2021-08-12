@@ -22,6 +22,8 @@ public class SendMessageController extends Controller {
         session.refresh(message.getReceiverGroup());
         if (message.getSchedule() == null || message.getSchedule().isBefore(LocalDateTime.now()))
             message.setSchedule(LocalDateTime.now());
+        message.getViewers().add(message.getSender());
+        message.getDelivers().add(message.getSender());
         session.save(message);
         logger.info("new message " + message.id + " has been sent");
         // TO DO notify user
