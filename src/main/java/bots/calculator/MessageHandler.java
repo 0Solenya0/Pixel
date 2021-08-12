@@ -57,10 +57,10 @@ public class MessageHandler {
     public void answerMessage(Message req) {
         Message message = new Message();
         message.setSender(MyProfileStore.getInstance().getUser());
-        if (message.getReceiverGroup() == null)
+        if (req.getReceiverGroup() == null)
             message.setReceiver(req.getSender());
         else
-            message.setReceiverGroup(message.getReceiverGroup());
+            message.setReceiverGroup(req.getReceiverGroup());
 
         try {
             Expression expression = new Expression(req.getContent());
