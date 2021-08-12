@@ -15,17 +15,24 @@ public abstract class SocketHandler implements PacketListener {
     private static final Logger logger = LogManager.getLogger(SocketHandler.class);
 
     private final ArrayList<Runnable> listeners = new ArrayList<>();
-    protected final Socket socket;
-    protected final ObjectInputStream inputStream;
-    protected final ObjectOutputStream outputStream;
+    protected Socket socket;
+    protected ObjectInputStream inputStream;
+    protected ObjectOutputStream outputStream;
     private final ReentrantLock outputStreamLock = new ReentrantLock();
 
     public SocketHandler(Socket socket) throws IOException {
-        this.socket = socket;
-        outputStream = new ObjectOutputStream(socket.getOutputStream());
-        inputStream = new ObjectInputStream(socket.getInputStream());
-        Thread clientThread = new Thread(this::inputListener);
-        clientThread.start();
+        if (socket != null) {
+            this.socket = socket;
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            inputStream = new ObjectInputStream(socket.getInputStream());
+            Thread clientThread = new Thread(this::inputListener);
+            clientThread.start();
+        }
+        else {
+            this.socket = null;
+            inputStream = null;
+            outputStream = null;
+        }
     }
 
     public void addDisconnectListener(Runnable listener) {
@@ -64,10 +71,15 @@ public abstract class SocketHandler implements PacketListener {
         try {
             outputStream.writeObject(packet);
         } catch (SocketException e) {
+            socket = null;
             throw e;
         } catch (IOException e) {
+            socket = null;
             logger.error("failed to send response to user - " + e.getMessage());
             e.printStackTrace();
+        } catch (NullPointerException ignored) {
+            socket = null;
+            throw new SocketException();
         }
         outputStreamLock.unlock();
     }

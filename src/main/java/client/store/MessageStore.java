@@ -88,6 +88,7 @@ public class MessageStore extends Store {
             if (res.getStatus() == StatusCode.CREATED)
                 pendingMessages.remove(message);
         }
+        System.out.println(pendingMessages.size());
         if (pendingMessages.size() > 0) {
             commitTimer.schedule(new TimerTask() {
                 @Override

@@ -30,12 +30,15 @@ public class LoginController {
         packet.put("password", txtPassword.getText());
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         MyProfileStore.getInstance().setAuthToken(response.get("auth-token", null));
-        MyProfileStore.getInstance().updateUserProfile();
-        MessageStore.getInstance().refreshAllData();
-        if (response.getStatus() != StatusCode.OK)
+        if (response.getStatus() == StatusCode.BAD_GATEWAY)
+            lblErr.setText("No connection");
+        else if (response.getStatus() != StatusCode.OK)
             lblErr.setText("Username or password is wrong.");
-        else
+        else {
             ViewManager.loadLayout();
+            MyProfileStore.getInstance().updateUserProfile();
+            MessageStore.getInstance().refreshAllData();
+        }
     }
 
     public void switchToRegister() {

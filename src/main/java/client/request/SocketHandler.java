@@ -30,11 +30,12 @@ public class SocketHandler extends shared.handler.SocketHandler {
 
     public static SocketHandler getSocketHandler() throws ConnectionException {
         serviceLock.lock();
-        if (socketHandler == null) {
+        if (socketHandler == null || socketHandler.socket == null) {
             try {
                 socketHandler = new SocketHandler(new Socket("localhost", Integer.parseInt(config.getProperty("PORT"))));
             } catch (IOException e) {
                 logger.info("failed to open new connection with server");
+                serviceLock.unlock();
                 throw new ConnectionException(ConnectionException.ErrorType.CONNECTION_ERROR);
             }
         }
@@ -60,7 +61,11 @@ public class SocketHandler extends shared.handler.SocketHandler {
             return getSocketHandler();
         } catch (ConnectionException e) {
             ViewManager.connectionError();
-            return null;
+            try {
+                return new SocketHandler(null);
+            } catch (IOException ignored) {
+                return null;
+            }
         }
     }
 

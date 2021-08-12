@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,6 +25,18 @@ public class Server {
         Config.initiate();
         logger.info("server started");
         System.out.println("Ready for new connections");
+        Thread thread = new Thread(() -> {
+            Scanner scanner = new Scanner(System.in);
+            String s = scanner.next();
+            if (s.equals("close")) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
         while (true) {
             Socket socket = serverSocket.accept();
             System.out.println("A client got connected");
