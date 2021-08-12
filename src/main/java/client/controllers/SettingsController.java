@@ -209,6 +209,7 @@ public class SettingsController implements Initializable {
         if (user.getBirthdate().get() != null)
             dateBirthday.setValue(user.getBirthdate().get());
 
+        btnDisableAcc.setText(user.getVisibility() == AccessLevel.PRIVATE ? "Enable account" : "Disable account");
         updatePhoto();
     }
 }
