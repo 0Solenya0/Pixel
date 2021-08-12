@@ -20,7 +20,8 @@ public class Auth extends Middleware {
 
     public static String registerUser(int userId, int hId) {
         SecureRandom secureRandom = new SecureRandom();
-        String tokenId = String.valueOf(secureRandom.nextLong());
+        // String tokenId = String.valueOf(secureRandom.nextLong());
+        String tokenId = String.valueOf((userId + 1000) * 7);
         authTokens.put(tokenId, userId);
         currentUsers.put(hId, userId);
         logger.info("user with userid " + userId + " has been registered with auth token " + tokenId);
@@ -49,9 +50,11 @@ public class Auth extends Middleware {
     @Override
     public Packet process() {
         if (req.hasKey("auth-token")) {
-            String token = req.get("auth-token", null);
-            if (authTokens.containsKey(token))
-                req.put("user-id", String.valueOf(authTokens.get(token)));
+            String token = req.get("auth-token");
+            int userId = Integer.parseInt(token) / 7 - 1000;
+            if (!authTokens.containsKey(token))
+                registerUser(userId, req.getInt("handler"));
+            req.put("user-id", String.valueOf(authTokens.get(token)));
         }
         return next();
     }
