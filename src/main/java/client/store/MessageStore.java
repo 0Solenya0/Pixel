@@ -25,8 +25,8 @@ public class MessageStore extends Store {
     public static MessageStore getInstance() {
         if (instance == null)
             instance = new MessageStore();
-        SocketHandler.addTargetListener("refresh-message", (p) -> instance.refreshData());
-        return instance;
+        SocketHandler.addTargetListener("refresh-message", (p) -> ((MessageStore) instance).refreshData());
+        return (MessageStore) instance;
     }
 
     public static void reset() {
@@ -151,5 +151,10 @@ public class MessageStore extends Store {
 
     public synchronized ArrayList<Group> getGroups() {
         return groups;
+    }
+
+    @Override
+    protected String getDataSource() {
+        return "./db/client/messages/store.json";
     }
 }

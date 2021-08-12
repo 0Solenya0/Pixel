@@ -12,7 +12,7 @@
 
 
 
-        <property name="connection_pool_size">1000</property>
+        <property name="connection_pool_size">10000</property>
 
         <property name="hbm2ddl.auto">update</property>
 

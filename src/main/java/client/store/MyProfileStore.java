@@ -15,14 +15,13 @@ import java.util.TimerTask;
 
 public class MyProfileStore extends Store {
     private static MyProfileStore instance;
-
     private String authToken;
     private User user;
 
     public static MyProfileStore getInstance() {
         if (instance == null)
             instance = new MyProfileStore();
-        return instance;
+        return (MyProfileStore) instance;
     }
 
     public void updateUserProfile() {
@@ -91,5 +90,10 @@ public class MyProfileStore extends Store {
 
     public User getUser() {
         return user;
+    }
+
+    @Override
+    protected String getDataSource() {
+        return "./db/client/profile/store.json";
     }
 }
