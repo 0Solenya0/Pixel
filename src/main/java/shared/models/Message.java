@@ -4,8 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Message extends Model {
@@ -22,23 +21,11 @@ public class Message extends Model {
     @Expose
     private Group receiverGroup;
 
-    @ManyToMany
-    @JoinTable(
-            name = "message_viewer",
-            joinColumns = @JoinColumn(name = "message_id"),
-            inverseJoinColumns = @JoinColumn(name="user_id")
-    )
     @Expose
-    public List<User> viewers = new ArrayList<>();
+    private boolean seen = false;
 
-    @ManyToMany
-    @JoinTable(
-            name = "message_deliver",
-            joinColumns = @JoinColumn(name = "message_id"),
-            inverseJoinColumns = @JoinColumn(name="user_id")
-    )
     @Expose
-    public List<User> delivers = new ArrayList<>();
+    private boolean delivered = false;
 
     @Expose
     private LocalDateTime schedule;
@@ -98,11 +85,19 @@ public class Message extends Model {
         this.photo = photo;
     }
 
-    public List<User> getViewers() {
-        return viewers;
+    public boolean isSeen() {
+        return seen;
     }
 
-    public List<User> getDelivers() {
-        return delivers;
+    public void setSeen(boolean seen) {
+        this.seen = seen;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
     }
 }

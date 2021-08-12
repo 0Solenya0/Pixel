@@ -44,7 +44,8 @@ public abstract class SocketHandler implements PacketListener {
             try {
                 Packet packet = (Packet) inputStream.readObject();
                 System.out.println("Got packet - " + packet.target);
-                listenPacket(packet);
+                Thread thread = new Thread(() -> listenPacket(packet));
+                thread.start();
             }
             catch (EOFException | SocketException e) {
                 break;
@@ -72,13 +73,16 @@ public abstract class SocketHandler implements PacketListener {
             outputStream.writeObject(packet);
         } catch (SocketException e) {
             socket = null;
+            outputStreamLock.unlock();
             throw e;
         } catch (IOException e) {
             socket = null;
+            outputStreamLock.unlock();
             logger.error("failed to send response to user - " + e.getMessage());
             e.printStackTrace();
         } catch (NullPointerException ignored) {
             socket = null;
+            outputStreamLock.unlock();
             throw new SocketException();
         }
         outputStreamLock.unlock();

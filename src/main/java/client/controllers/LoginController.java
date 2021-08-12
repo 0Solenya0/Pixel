@@ -37,7 +37,7 @@ public class LoginController {
         else {
             ViewManager.loadLayout();
             MyProfileStore.getInstance().updateUserProfile();
-            MessageStore.getInstance().refreshAllData();
+            MessageStore.getInstance().refreshData();
         }
     }
 

@@ -9,6 +9,10 @@ import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
+import java.util.ArrayList;
+
+import static server.utils.Functions.notifyRefreshMessage;
+
 public class CreateGroupController extends Controller {
     private static final Logger logger = LogManager.getLogger(CreateGroupController.class);
 
@@ -19,6 +23,7 @@ public class CreateGroupController extends Controller {
         group.getUsers().add(user);
         session.save(group);
         logger.info("new group " + group.getName() + " was created by " + user.getUsername());
+        notifyRefreshMessage(group.getUsers());
         return new Packet(StatusCode.OK);
     }
 }

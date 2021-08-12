@@ -11,6 +11,7 @@ import shared.request.Packet;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Auth extends Middleware {
@@ -33,6 +34,14 @@ public class Auth extends Middleware {
             removeSocket(hId);
         });
         return tokenId;
+    }
+
+    public static ArrayList<SocketHandler> getUserSocketHandler(int userId) {
+        ArrayList<SocketHandler> res = new ArrayList<>();
+        for (int hId: currentUsers.keySet())
+            if (currentUsers.get(hId) == userId)
+                res.add(SocketHandler.getSocketHandler(hId));
+        return res;
     }
 
     public static boolean isUserOnline(int userId) {

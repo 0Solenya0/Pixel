@@ -12,6 +12,7 @@ import client.views.ViewManager;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTimePicker;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -222,6 +223,12 @@ public class MessageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        MessageStore.getInstance().setOnDataRefreshListener(
+                () -> Platform.runLater(() -> {
+                    if (ViewManager.getLastPanelName().equals("MESSAGE"))
+                        updateData(true);
+                }));
+        MessageStore.getInstance().refreshData();
         sendMessagePane.setVisible(false);
         lblChatName.setText("-");
         setGroupButtonsVisibility(false);

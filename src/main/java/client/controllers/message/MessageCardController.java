@@ -155,9 +155,9 @@ public class MessageCardController {
         }
 
         if (message.getSender().id == MyProfileStore.getInstance().getUser().id) {
-            if (message.getViewers().size() > 1)
+            if (message.isSeen())
                 lblState.setText("seen");
-            else if (message.getDelivers().size() > 1)
+            else if (message.isDelivered())
                 lblState.setText("delivered");
             else if (message.id == 0)
                 lblState.setText("draft");
@@ -165,7 +165,7 @@ public class MessageCardController {
                 lblState.setText("sent");
         }
 
-        if (message.id != 0) {
+        if (message.id != 0 && !message.isSeen() && message.getSender().id != MyProfileStore.getInstance().getUser().id) {
             Thread thread = new Thread(() -> {
                 Packet packet = new Packet("message-action");
                 packet.put("type", "see");

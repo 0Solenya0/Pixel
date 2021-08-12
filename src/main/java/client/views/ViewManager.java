@@ -29,6 +29,7 @@ public class ViewManager extends Application {
     private static Stage window;
     private static LayoutController layoutController;
     private static ArrayList<Node> panels = new ArrayList<>();
+    private static ArrayList<String> panelNames = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -81,6 +82,7 @@ public class ViewManager extends Application {
         try {
             Node pane = loader.load();
             panels.add(pane);
+            panelNames.add(panelName);
             removeOldPanels();
             layoutController.getPanel().setCenter(pane);
             return loader.getController();
@@ -95,7 +97,7 @@ public class ViewManager extends Application {
         try {
             Node pane = fxmlLoader.load();
             panels.add(pane);
-            removeOldPanels();
+            panelNames.add("");
             layoutController.getPanel().setCenter(pane);
             return fxmlLoader.getController();
         } catch (IOException e) {
@@ -162,8 +164,15 @@ public class ViewManager extends Application {
         if (panels.size() <= 1)
             return;
         panels.remove(panels.size() - 1);
+        panelNames.remove(panelNames.size() - 1);
         layoutController.getPanel().setCenter(panels.get(panels.size() - 1));
         layoutController.getBtnBack().setVisible(panels.size() > 1);
+    }
+
+    public static String getLastPanelName() {
+        if (panelNames.size() == 0)
+            return "";
+        return panelNames.get(panelNames.size() - 1);
     }
 
     public static class Component<T> {

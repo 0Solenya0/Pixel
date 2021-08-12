@@ -9,6 +9,10 @@ import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
+import java.util.ArrayList;
+
+import static server.utils.Functions.notifyRefreshMessage;
+
 public class GroupActionController extends Controller {
     private static final Logger logger = LogManager.getLogger(GroupActionController.class);
 
@@ -29,7 +33,7 @@ public class GroupActionController extends Controller {
                 break;
         }
         session.save(group);
-        // TO DO notify user
+        notifyRefreshMessage(group.getUsers());
         return new Packet(StatusCode.OK);
     }
 }

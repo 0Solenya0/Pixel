@@ -48,7 +48,7 @@ public class ChatCardController {
             User curUser = MyProfileStore.getInstance().getUser();
             lblLastChat.setText(messages.get(messages.size() - 1).getContent());
             lblUnseen.setText(String.valueOf(
-                    messages.stream().filter((m) -> !m.getViewers().contains(curUser) && m.getSender().id != curUser.id).count()
+                    messages.stream().filter((m) -> !m.isSeen() && m.getSender().id != curUser.id).count()
             ));
         }
         if (lblUnseen.getText().equals("0"))
@@ -62,7 +62,7 @@ public class ChatCardController {
             User curUser = MyProfileStore.getInstance().getUser();
             lblLastChat.setText(messages.get(messages.size() - 1).getContent());
             lblUnseen.setText(String.valueOf(
-                    messages.stream().filter((m) -> !m.getViewers().contains(curUser) && m.getSender() != curUser).count()
+                    messages.stream().filter((m) -> !m.isSeen() && m.getSender().id != curUser.id).count()
             ));
         }
         if (lblUnseen.getText().equals("0"))

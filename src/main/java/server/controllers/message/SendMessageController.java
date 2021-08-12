@@ -6,10 +6,14 @@ import server.Server;
 import server.controllers.Controller;
 import server.db.HibernateUtil;
 import shared.models.Message;
+import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import static server.utils.Functions.notifyRefreshMessage;
 
 public class SendMessageController extends Controller {
     private static final Logger logger = LogManager.getLogger(SendMessageController.class);
@@ -22,11 +26,16 @@ public class SendMessageController extends Controller {
         session.refresh(message.getReceiverGroup());
         if (message.getSchedule() == null || message.getSchedule().isBefore(LocalDateTime.now()))
             message.setSchedule(LocalDateTime.now());
-        message.getViewers().add(message.getSender());
-        message.getDelivers().add(message.getSender());
         session.save(message);
         logger.info("new message " + message.id + " has been sent");
-        // TO DO notify user
+        Thread thread = new Thread(() -> {
+            if (message.getReceiver() != null) {
+                notifyRefreshMessage(message.getReceiver());
+                notifyRefreshMessage(message.getSender());
+            } else
+                notifyRefreshMessage(message.getReceiverGroup().getUsers());
+        });
+        thread.start();
         // TO DO validate access
         return packet;
     }

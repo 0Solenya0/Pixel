@@ -1,6 +1,7 @@
 package client.request;
 
 import client.request.exception.ConnectionException;
+import client.store.MessageStore;
 import client.store.MyProfileStore;
 import client.views.ViewManager;
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,10 @@ public class SocketHandler extends shared.handler.SocketHandler {
         if (socketHandler == null || socketHandler.socket == null) {
             try {
                 socketHandler = new SocketHandler(new Socket("localhost", Integer.parseInt(config.getProperty("PORT"))));
+                if (MyProfileStore.getInstance().getAuthToken() != null) {
+                    MyProfileStore.getInstance().updateUserProfile();
+                    MessageStore.getInstance().refreshData();
+                }
             } catch (IOException e) {
                 logger.info("failed to open new connection with server");
                 serviceLock.unlock();
@@ -109,15 +114,15 @@ public class SocketHandler extends shared.handler.SocketHandler {
         super.sendPacket(packet);
     }
 
-    public void addTargetListener(String target, PacketListener listener) {
+    public static void addTargetListener(String target, PacketListener listener) {
         targetListener.put(target, listener);
     }
 
     @Override
     public void listenPacket(Packet packet) {
-        if (packet.hasKey("m-rid"))
-            ridListeners.get(packet.getInt("m-rid")).listenPacket(packet);
         if (targetListener.containsKey(packet.target))
             targetListener.get(packet.target).listenPacket(packet);
+        if (packet.hasKey("m-rid"))
+            ridListeners.get(packet.getInt("m-rid")).listenPacket(packet);
     }
 }

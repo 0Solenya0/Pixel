@@ -20,10 +20,12 @@ public class MessageStore extends Store {
     private ArrayList<Group> groups = new ArrayList<>();
     private LocalDateTime lastFetch = LocalDateTime.MIN;
     private Timer commitTimer = new Timer();
+    private Runnable onDataRefreshListener;
 
     public static MessageStore getInstance() {
         if (instance == null)
             instance = new MessageStore();
+        SocketHandler.addTargetListener("refresh-message", (p) -> instance.refreshData());
         return instance;
     }
 
@@ -31,10 +33,8 @@ public class MessageStore extends Store {
         instance = null;
     }
 
-    public void arrangeMessages(ArrayList<Message> messages) {
-        groupMessages.clear();
-        userMessages.clear();
-        MyProfileStore.getInstance().updateUserProfile();
+    public synchronized void arrangeMessages(ArrayList<Message> messages) {
+        System.out.println(messages.size());
         User user = MyProfileStore.getInstance().getUser();
 
         for (Message message: messages) {
@@ -56,7 +56,7 @@ public class MessageStore extends Store {
         }
     }
 
-    public ArrayList<Object> getChatGroups() {
+    public synchronized ArrayList<Object> getChatGroups() {
         ArrayList<Object> list = new ArrayList<>();
         list.addAll(groups);
         list.addAll(userMessages.keySet());
@@ -73,13 +73,13 @@ public class MessageStore extends Store {
         return list;
     }
 
-    public void sendMessage(Message message) {
+    public synchronized void sendMessage(Message message) {
         if (message.getSchedule() == null)
             message.setSchedule(LocalDateTime.now());
         pendingMessages.add(message);
     }
 
-    public void commitChanges() {
+    public synchronized void commitChanges() {
         ArrayList<Message> messages = new ArrayList<>(pendingMessages);
         for (Message message: messages) {
             Packet packet = new Packet("send-message");
@@ -101,8 +101,14 @@ public class MessageStore extends Store {
         }
     }
 
-    public void refreshAllData() {
+    public synchronized void setOnDataRefreshListener(Runnable onDataRefreshListener) {
+        this.onDataRefreshListener = onDataRefreshListener;
+    }
+
+    public synchronized void refreshData() {
         Packet packet = new Packet("message-list");
+        if (lastFetch != LocalDateTime.MIN)
+            packet.putObject("after", lastFetch.minusMinutes(1));
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         if (res.getStatus() != StatusCode.OK)
             return;
@@ -116,14 +122,12 @@ public class MessageStore extends Store {
         listType = new TypeToken<ArrayList<Group>>(){}.getType();
         if (res.getStatus() == StatusCode.OK)
             groups = res.getObject("list", listType);
+
+        if (onDataRefreshListener != null)
+            onDataRefreshListener.run();
     }
 
-    public void updateData() {
-        refreshAllData(); // DELETE THIS
-        // TO DO
-    }
-
-    public ArrayList<Message> getByUser(User user) {
+    public synchronized ArrayList<Message> getByUser(User user) {
         ArrayList<Message> res = new ArrayList<>(userMessages.getOrDefault(user, new ArrayList<>()));
         for (Message message: pendingMessages)
             if (message.getReceiver() != null && message.getReceiver().id == user.id)
@@ -132,7 +136,7 @@ public class MessageStore extends Store {
         return res;
     }
 
-    public ArrayList<Message> getByGroup(Group group) {
+    public synchronized ArrayList<Message> getByGroup(Group group) {
         ArrayList<Message> res = new ArrayList<>(groupMessages.getOrDefault(group, new ArrayList<>()));
         for (Message message: pendingMessages)
             if (message.getReceiverGroup() != null && message.getReceiverGroup().id == group.id)
@@ -141,27 +145,11 @@ public class MessageStore extends Store {
         return res;
     }
 
-    public HashMap<Group, ArrayList<Message>> getGroupMessages() {
-        return groupMessages;
-    }
-
-    public void setGroupMessages(HashMap<Group, ArrayList<Message>> groupMessages) {
-        this.groupMessages = groupMessages;
-    }
-
-    public HashMap<User, ArrayList<Message>> getUserMessages() {
-        return userMessages;
-    }
-
-    public ArrayList<Message> getPendingMessages() {
+    public synchronized ArrayList<Message> getPendingMessages() {
         return pendingMessages;
     }
 
-    public ArrayList<Group> getGroups() {
+    public synchronized ArrayList<Group> getGroups() {
         return groups;
-    }
-
-    public void setUserMessages(HashMap<User, ArrayList<Message>> userMessages) {
-        this.userMessages = userMessages;
     }
 }

@@ -9,6 +9,10 @@ import shared.models.User;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
+import java.util.ArrayList;
+
+import static server.utils.Functions.notifyRefreshMessage;
+
 public class MessageActionController extends Controller {
     private static final Logger logger = LogManager.getLogger(MessageActionController.class);
 
@@ -19,21 +23,34 @@ public class MessageActionController extends Controller {
         switch (req.get("type")) {
             case "delete":
                 session.delete(message);
+                notifyUser(message);
                 logger.info("message " + message.id + " was deleted");
                 break;
             case "edit":
                 message.setContent(req.get("content"));
                 session.save(message);
+                notifyUser(message);
                 logger.info("message " + message.id + " was edited");
                 break;
             case "see":
-                if (!message.getViewers().contains(user))
-                    message.getViewers().add(user);
-                session.save(message);
+                if (!message.isSeen() && user.id != message.getSender().id) {
+                    message.setSeen(true);
+                    session.save(message);
+                    notifyUser(message);
+                }
                 logger.info("message " + message.id + " was seen by " + user.getUsername());
                 break;
         }
-        // TO DO notify user
+
         return new Packet(StatusCode.OK);
+    }
+
+    public void notifyUser(Message message) {
+        if (message.getReceiver() != null) {
+            notifyRefreshMessage(message.getReceiver());
+            notifyRefreshMessage(message.getSender());
+        }
+        else
+            notifyRefreshMessage(message.getReceiverGroup().getUsers());
     }
 }
