@@ -97,6 +97,8 @@ public class SocketHandler extends shared.handler.SocketHandler {
             sendPacket(packet);
             lock.lock();
         } catch (SocketException ignored) {}
+        if (response.get().getStatus() == StatusCode.BAD_GATEWAY)
+            ViewManager.connectionError();
         return response.get();
     }
 

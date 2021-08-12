@@ -119,6 +119,9 @@ public class TweetCardController {
         packet.put("id", tweetId);
         Packet response = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
 
+        if (response.getStatus() != StatusCode.OK)
+            return;
+
         Tweet tweet = response.getObject("tweet", Tweet.class);
         authorId = tweet.getAuthor().id;
 

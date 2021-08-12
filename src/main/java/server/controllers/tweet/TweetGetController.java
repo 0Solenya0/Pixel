@@ -20,11 +20,13 @@ public class TweetGetController extends Controller {
         catch (Exception e) {
             return new Packet(StatusCode.NOT_FOUND);
         }
-        if (!(tweet.getAuthor().getVisibility().equals(AccessLevel.PUBLIC) ||
-                (tweet.getAuthor().getVisibility().equals(AccessLevel.CONTACTS) && tweet.getAuthor().followers.contains(user))))
-            return new Packet(StatusCode.FORBIDDEN);
-        response.putObject("tweet", tweet);
         response.put("same-user", tweet.getAuthor().id == req.getInt("user-id"));
+        if (!response.getBool("same-user")) {
+            if (!(tweet.getAuthor().getVisibility().equals(AccessLevel.PUBLIC) ||
+                    (tweet.getAuthor().getVisibility().equals(AccessLevel.CONTACTS) && tweet.getAuthor().followers.contains(user))))
+                return new Packet(StatusCode.FORBIDDEN);
+        }
+        response.putObject("tweet", tweet);
         response.put("liked", tweet.getLikes().contains(user));
         return response;
     }
