@@ -37,6 +37,6 @@ public class SendMessageController extends Controller {
         });
         thread.start();
         // TO DO validate access
-        return packet;
+        return packet.put("id", message.id);
     }
 }

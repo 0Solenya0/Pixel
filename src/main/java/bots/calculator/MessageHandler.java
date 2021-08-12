@@ -1,6 +1,6 @@
 package bots.calculator;
 
-import bots.calculator.store.BotStore;
+import bots.calculator.store.CalculatorStore;
 import client.request.SocketHandler;
 import client.store.MessageStore;
 import client.store.MyProfileStore;
@@ -10,9 +10,6 @@ import shared.models.Message;
 import shared.request.Packet;
 import shared.request.StatusCode;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,14 +25,14 @@ public class MessageHandler {
 
     public void getNewMessages() {
         Packet packet = new Packet("message-list");
-        LocalDateTime lastFetch = BotStore.getInstance().getLastFetch();
+        LocalDateTime lastFetch = CalculatorStore.getInstance().getLastFetch();
         if (lastFetch != null)
             packet.putObject("after", lastFetch.minusMinutes(1));
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         if (res.getStatus() != StatusCode.OK)
             return;
 
-        BotStore.getInstance().setLastFetch(LocalDateTime.now());
+        CalculatorStore.getInstance().setLastFetch(LocalDateTime.now());
         Type listType = new TypeToken<ArrayList<Message>>(){}.getType();
         answerMessages(res.getObject("list", listType));
     }
@@ -46,10 +43,10 @@ public class MessageHandler {
                 continue;
             if (!message.getContent().startsWith("/calc") || message.getContent().length() <= 6)
                 continue;
-            if (BotStore.getInstance().hasAnswered(message.id))
+            if (CalculatorStore.getInstance().hasAnswered(message.id))
                 continue;
             message.setContent(message.getContent().substring(6));
-            BotStore.getInstance().answer(message.id);
+            CalculatorStore.getInstance().answer(message.id);
             pool.execute(() -> answerMessage(message));
         }
     }
@@ -76,7 +73,7 @@ public class MessageHandler {
         packet.putObject("message", message);
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         if (res.getStatus() != StatusCode.CREATED)
-            BotStore.getInstance().unAnswer(req.id);
-        BotStore.getInstance().save();
+            CalculatorStore.getInstance().unAnswer(req.id);
+        CalculatorStore.getInstance().save();
     }
 }
