@@ -10,10 +10,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -128,14 +130,29 @@ public class MessageCardController {
         if (message.getSender().id == MyProfileStore.getInstance().getUser().id) {
             btnDelete.setVisible(true);
             btnEdit.setVisible(true);
-            if (message.getSender().getPhoto() != null)
-                imgSenderAvatar.setImage(ImageUtils.load(message.getSender().getPhoto()));
+            if (message.getSender().getPhoto() != null) {
+                Thread thread = new Thread(() -> {
+                    Image image = ImageUtils.load(message.getSender().getPhoto());
+                    Platform.runLater(() -> imgSenderAvatar.setImage(image));
+                });
+                thread.start();
+            }
         }
-        else if (message.getSender().getPhoto() != null)
-            imgReceiverAvatar.setImage(ImageUtils.load(message.getSender().getPhoto()));
+        else if (message.getSender().getPhoto() != null) {
+            Thread thread = new Thread(() -> {
+                Image image = ImageUtils.load(message.getSender().getPhoto());
+                Platform.runLater(() -> imgReceiverAvatar.setImage(image));
+            });
+            thread.start();
+        }
         setContent(message.getContent());
-        if (message.getPhoto() != null)
-            imgPhoto.setImage(ImageUtils.load(message.getPhoto()));
+        if (message.getPhoto() != null) {
+            Thread thread = new Thread(() -> {
+                Image image = ImageUtils.load(message.getPhoto());
+                Platform.runLater(() -> imgPhoto.setImage(image));
+            });
+            thread.start();
+        }
 
         if (message.getSender().id == MyProfileStore.getInstance().getUser().id) {
             if (message.getViewers().size() > 1)
@@ -149,10 +166,13 @@ public class MessageCardController {
         }
 
         if (message.id != 0) {
-            Packet packet = new Packet("message-action");
-            packet.put("type", "see");
-            packet.put("message-id", message.id);
-            Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+            Thread thread = new Thread(() -> {
+                Packet packet = new Packet("message-action");
+                packet.put("type", "see");
+                packet.put("message-id", message.id);
+                Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+            });
+            thread.start();
         }
     }
 }

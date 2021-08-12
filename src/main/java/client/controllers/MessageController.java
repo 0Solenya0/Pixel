@@ -102,7 +102,7 @@ public class MessageController implements Initializable {
         Packet packet = new Packet("create-group");
         packet.put("name", name);
         SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
-        updateData(true);
+        updateData(false);
     }
 
     private void checkForMessageAccess() {
@@ -127,7 +127,6 @@ public class MessageController implements Initializable {
         checkForMessageAccess();
         lblChatName.setText(user.getUsername());
         setGroupButtonsVisibility(false);
-        MessageStore.getInstance().updateData();
         ArrayList<Message> messages = MessageStore.getInstance().getByUser(user);
         showMessages(messages);
     }
@@ -140,7 +139,6 @@ public class MessageController implements Initializable {
         checkForMessageAccess();
         lblChatName.setText(group.getName());
         setGroupButtonsVisibility(true);
-        MessageStore.getInstance().updateData();
         ArrayList<Message> messages = MessageStore.getInstance().getByGroup(group);
         showMessages(messages);
     }
@@ -224,7 +222,6 @@ public class MessageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MessageStore.getInstance().updateData();
         sendMessagePane.setVisible(false);
         lblChatName.setText("-");
         setGroupButtonsVisibility(false);

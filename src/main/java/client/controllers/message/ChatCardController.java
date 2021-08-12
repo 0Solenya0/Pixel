@@ -3,9 +3,11 @@ package client.controllers.message;
 import client.store.MessageStore;
 import client.store.MyProfileStore;
 import client.utils.ImageUtils;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import shared.models.Group;
 import shared.models.Message;
@@ -34,8 +36,13 @@ public class ChatCardController {
 
     public void setUser(User user) {
         lblChatGroupName.setText(user.getUsername());
-        if (user.getPhoto() != null)
-            imgAvatar.setImage(ImageUtils.load(user.getPhoto()));
+        if (user.getPhoto() != null) {
+            Thread thread = new Thread(() -> {
+                Image image = ImageUtils.load(user.getPhoto());
+                Platform.runLater(() -> imgAvatar.setImage(image));
+            });
+            thread.start();
+        }
         ArrayList<Message> messages = MessageStore.getInstance().getByUser(user);
         if (messages.size() != 0) {
             User curUser = MyProfileStore.getInstance().getUser();
