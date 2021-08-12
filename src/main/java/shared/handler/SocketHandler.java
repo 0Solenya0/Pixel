@@ -83,4 +83,8 @@ public abstract class SocketHandler implements PacketListener {
         }
         outputStreamLock.unlock();
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
 }

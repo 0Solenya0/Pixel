@@ -1,6 +1,7 @@
 package client.views;
 
 import client.controllers.LayoutController;
+import client.request.SocketHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -147,7 +148,14 @@ public class ViewManager extends Application {
     }
 
     public static void connectionError() {
-        // TO DO
+        if (layoutController == null)
+            return;
+        layoutController.getRefreshButton().setVisible(true);
+        layoutController.getRefreshButton().setOnAction((a) -> {
+            if (SocketHandler.getSocketHandlerWithoutException() != null &&
+                    SocketHandler.getSocketHandlerWithoutException().getSocket() != null)
+                layoutController.getRefreshButton().setVisible(false);
+        });
     }
 
     public static void previousPanel() {

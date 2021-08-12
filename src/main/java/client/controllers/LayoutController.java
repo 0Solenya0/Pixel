@@ -4,6 +4,7 @@ import client.controllers.tweet.TweetListController;
 import client.store.MyProfileStore;
 import client.views.AutoUpdate;
 import client.views.ViewManager;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,7 +27,7 @@ public class LayoutController implements Initializable {
     private BorderPane borderPane;
 
     @FXML
-    private Button btnClose, btnBack;
+    private Button btnClose, btnBack, btnRefresh;
 
     private AutoUpdate updater = new AutoUpdate();
 
@@ -99,8 +100,13 @@ public class LayoutController implements Initializable {
         return btnBack;
     }
 
+    public Button getRefreshButton() {
+        return btnRefresh;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showHomePage();
+        btnRefresh.setVisible(false);
     }
 }

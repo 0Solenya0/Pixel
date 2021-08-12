@@ -93,6 +93,11 @@
                               <FontAwesomeIconView glyphName="GEAR" size="30" />
                            </graphic>
                         </JFXButton>
+                        <JFXButton fx:id="btnRefresh" text="Reconnect">
+                           <graphic>
+                              <FontAwesomeIconView glyphName="REFRESH" />
+                           </graphic>
+                        </JFXButton>
                      </children>
                      <BorderPane.margin>
                         <Insets right="10.0" />
