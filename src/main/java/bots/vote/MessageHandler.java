@@ -120,10 +120,10 @@ public class MessageHandler {
 
     public String getVoteString(Vote vote) {
         StringBuilder builder = new StringBuilder();
-        builder.append("Vote ID: ").append(vote.getVoteId()).append(" | ");
+        builder.append("Vote ID: ").append(vote.getVoteId()).append('\n');
         int i = 1;
         for (String option: vote.getOptions())
-            builder.append(i++).append("- ").append(option).append(" (" + vote.getVoteCount(i - 1) + ")").append(" | ");
+            builder.append(i++).append("-").append(option).append(" (" + vote.getVoteCount(i - 1) + ")").append('\n');
         return builder.toString();
     }
 
@@ -137,7 +137,7 @@ public class MessageHandler {
         Packet packet = new Packet("message-action");
         packet.put("type", "edit");
         packet.put("message-id", messageId);
-        packet.putObject("content", content);
+        packet.put("content", content);
         SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
     }
 }

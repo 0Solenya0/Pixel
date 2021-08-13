@@ -51,6 +51,8 @@ public class MessageCardController {
     private Message message;
 
     private void setContent(String content) {
+        if (content == null)
+            content = " ";
         int ls = 0;
         txtFlowContent.getChildren().clear();
         for (int i = 0; i < content.length(); i++) {
