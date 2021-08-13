@@ -9,15 +9,15 @@ import java.util.*;
 @Entity
 public class Message extends Model {
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private User sender;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private User receiver;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private Group receiverGroup;
 

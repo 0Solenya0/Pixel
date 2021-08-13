@@ -13,7 +13,7 @@ public class Group extends Model {
     @Expose
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "group_users",
             joinColumns = @JoinColumn(name = "group_id"),
@@ -21,6 +21,9 @@ public class Group extends Model {
     )
     @Expose
     private List<User> users = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiverGroup")
+    private List<Message> messages = new ArrayList<>();
 
     public String getName() {
         return name;

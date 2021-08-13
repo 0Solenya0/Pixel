@@ -59,47 +59,65 @@ public class User extends Model {
     @Expose
     private byte[] photo;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "follow_table",
             joinColumns = @JoinColumn(name = "following_id"),
             inverseJoinColumns = @JoinColumn(name="follower_id"))
     public List<User> followers = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "follow_table",
             joinColumns = @JoinColumn(name = "follower_id"),
             inverseJoinColumns = @JoinColumn(name = "following_id"))
     public List<User> followings = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "block_table",
             joinColumns = @JoinColumn(name = "blocker_id"),
             inverseJoinColumns = @JoinColumn(name="blocked_id"))
     public List<User> blocked = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "block_table",
             joinColumns = @JoinColumn(name = "blocked_id"),
             inverseJoinColumns = @JoinColumn(name = "blocker_id"))
     public List<User> blockedBy = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "mute_table",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "muted_id"))
     public List<User> muted = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "mute_table",
             joinColumns = @JoinColumn(name = "muted_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     public List<User> mutedBy = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<UserList> userLists = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    private List<Tweet> tweets = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
+    private List<Notification> sentNotifications = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
+    private List<Notification> receivedNotifications = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
+    private List<Message> sentMessages = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "receiver")
+    private List<Message> receivedMessages = new ArrayList<>();
 
     public AccessLevel getVisibility() {
         return visibility;

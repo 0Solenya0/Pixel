@@ -8,11 +8,11 @@ import javax.persistence.*;
 @Entity
 public class Notification extends Model {
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private User sender;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private User receiver;
 

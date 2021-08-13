@@ -9,32 +9,32 @@ import java.util.List;
 @Entity
 public class Tweet extends Model {
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private Tweet parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Tweet> comments = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private Tweet retweet;
 
-    @OneToMany(mappedBy = "retweet")
+    @OneToMany(mappedBy = "retweet", cascade = CascadeType.ALL)
     private List<Tweet> retweets = new ArrayList<>();
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private User author;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(
             name = "likes_table",
             joinColumns = @JoinColumn(name = "tweet_id"),
             inverseJoinColumns = @JoinColumn(name="user_id"))
     private List<User> likes = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(
             name = "reports_table",
             joinColumns = @JoinColumn(name = "tweet_id"),

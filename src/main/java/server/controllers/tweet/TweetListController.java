@@ -3,6 +3,7 @@ package server.controllers.tweet;
 import org.hibernate.Session;
 import server.controllers.Controller;
 import server.db.HibernateUtil;
+import shared.models.Model;
 import shared.models.Tweet;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
@@ -65,6 +66,7 @@ public class TweetListController extends Controller {
                 ).setParameter("t", req.getInt("tweet-id")).list();
                 break;
         }
+        tweets.sort(Comparator.comparing(Model::getCreatedAt).reversed());
         tweets.removeIf(tweet -> user.getBlocked().contains(tweet.getAuthor()));
         tweets.removeIf(tweet -> tweet.getAuthor().getVisibility().equals(AccessLevel.PRIVATE));
 

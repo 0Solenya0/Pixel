@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class UserList extends Model {
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(
             name = "list_users",
             joinColumns = @JoinColumn(name = "list_id"),
@@ -21,7 +21,7 @@ public class UserList extends Model {
     @Expose
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
     @Expose
     private User owner;
 
