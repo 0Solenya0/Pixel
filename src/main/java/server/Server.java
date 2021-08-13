@@ -5,6 +5,7 @@ import server.handler.SocketHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -27,12 +28,27 @@ public class Server {
         System.out.println("Ready for new connections");
         Thread thread = new Thread(() -> {
             Scanner scanner = new Scanner(System.in);
-            String s = scanner.next();
-            if (s.equals("close")) {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            while (true) {
+                String s = scanner.nextLine();
+                if (s.equals("close")) {
+                    try {
+                        serverSocket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if (s.startsWith("load")) {
+                    String path = s.substring(5);
+                    Thread thread1 = new Thread(() -> {
+                        try {
+                            ProcessBuilder pb = new ProcessBuilder("java", "-jar", path);
+                            pb.directory(new File("."));
+                            Process p = pb.start();
+                        } catch (IOException e) {
+                            logger.error("failed to load bot");
+                            e.printStackTrace();
+                        }
+                    });
+                    thread1.start();
                 }
             }
         });
