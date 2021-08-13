@@ -11,6 +11,7 @@ public class GetGroupController extends Controller {
         Packet packet = new Packet(StatusCode.OK);
         Group group = (Group) session.get(Group.class, req.getInt("group-id"));
         packet.putObject("group", group);
+        session.close();
         return packet;
     }
 }

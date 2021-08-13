@@ -19,6 +19,7 @@ public class ProfileDataController extends Controller {
                 .uniqueResult();
         response.putObject("user", user);
         session.close();
+        this.session.close();
         return response;
     }
 }

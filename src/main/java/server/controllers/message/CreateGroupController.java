@@ -24,6 +24,7 @@ public class CreateGroupController extends Controller {
         session.save(group);
         logger.info("new group " + group.getName() + " was created by " + user.getUsername());
         notifyRefreshMessage(group.getUsers());
+        session.close();
         return new Packet(StatusCode.OK);
     }
 }

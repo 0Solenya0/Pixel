@@ -26,6 +26,7 @@ public class ResetPasswordController extends Controller {
         }
         session.close();
         this.session.save(user);
+        this.session.close();
         return new Packet(StatusCode.OK);
     }
 }

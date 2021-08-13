@@ -34,6 +34,7 @@ public class GroupActionController extends Controller {
         }
         session.save(group);
         notifyRefreshMessage(group.getUsers());
+        session.close();
         return new Packet(StatusCode.OK);
     }
 }

@@ -42,6 +42,7 @@ public class MessageListController extends Controller {
             }
         }
         res.putObject("list", messages);
+        session.close();
         return res;
     }
 }

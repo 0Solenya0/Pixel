@@ -45,6 +45,7 @@ public class ProfileController extends Controller {
         session.close();
         ActionController controller = new ActionController();
         response.put("follow-requested", controller.getRequest(user, target) != null);
+        controller.getSession().close();
         return response;
     }
 }

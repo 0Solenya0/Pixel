@@ -61,6 +61,7 @@ public class ActionController extends Controller {
                 logger.info("report on user " + target.getUsername() + " by " + user.getUsername());
                 break;
         }
+        session.close();
         return res;
     }
 

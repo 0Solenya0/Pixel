@@ -34,6 +34,7 @@ public class SendMessageController extends Controller {
                 notifyRefreshMessage(message.getSender());
             } else
                 notifyRefreshMessage(message.getReceiverGroup().getUsers());
+            session.close();
         });
         thread.start();
         // TO DO validate access

@@ -30,6 +30,7 @@ public class ActionController extends Controller {
                 break;
         }
         session.save(tweet);
+        session.close();
         return new Packet(StatusCode.OK);
     }
 }

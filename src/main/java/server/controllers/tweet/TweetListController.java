@@ -70,7 +70,7 @@ public class TweetListController extends Controller {
 
         response.putObject("tweets", tweets);
         session.close();
-
+        this.session.close();
         return response;
     }
 }

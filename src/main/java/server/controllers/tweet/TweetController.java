@@ -35,6 +35,7 @@ public class TweetController extends Controller {
         }
         session.save(tweet);
         logger.info("new tweet " + tweet.id + " was created");
+        session.close();
         return new Packet(StatusCode.CREATED);
     }
 }

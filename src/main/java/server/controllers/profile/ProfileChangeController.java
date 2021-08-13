@@ -56,6 +56,7 @@ public class ProfileChangeController extends Controller {
         }
         this.session.save(user);
         logger.info("user " + user.getUsername() + " has updated their profile");
+        this.session.close();
         return response;
     }
 }

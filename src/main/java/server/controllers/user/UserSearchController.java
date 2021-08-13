@@ -20,6 +20,7 @@ public class UserSearchController extends Controller {
                 .list();
         res.putObject("users", users);
         session.close();
+        this.session.close();
         return res;
     }
 }

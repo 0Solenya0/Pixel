@@ -41,6 +41,7 @@ public class ActionController extends Controller {
                 logger.info("request " + request.id + " was silently rejected");
                 break;
         }
+        session.close();
         return res;
     }
 

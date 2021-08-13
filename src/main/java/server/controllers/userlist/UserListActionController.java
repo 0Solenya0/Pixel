@@ -44,6 +44,7 @@ public class UserListActionController extends Controller {
                 logger.info("user " + user.getUsername() + " deleted from user list " + list.id);
                 break;
         }
+        session.close();
         return new Packet(StatusCode.OK);
     }
 }

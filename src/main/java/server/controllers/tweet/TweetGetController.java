@@ -28,6 +28,7 @@ public class TweetGetController extends Controller {
         }
         response.putObject("tweet", tweet);
         response.put("liked", tweet.getLikes().contains(user));
+        session.close();
         return response;
     }
 }

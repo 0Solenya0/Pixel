@@ -44,6 +44,7 @@ public class NotificationListController extends Controller {
         }
         notifications.sort(Comparator.comparing(Model::getCreatedAt).reversed());
         res.putObject("notifications", notifications);
+        session.close();
         return res;
     }
 }

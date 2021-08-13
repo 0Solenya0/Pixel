@@ -16,6 +16,7 @@ public class GetUserListController extends Controller {
                 "FROM UserList as list " +
                         "WHERE list.owner.id = :u"
         ).setParameter("u", req.getInt("user-id")).list());
+        session.close();
         return res;
     }
 }

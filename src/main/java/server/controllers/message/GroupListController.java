@@ -21,6 +21,7 @@ public class GroupListController extends Controller {
         ).setParameter("u", user.id).list();
         System.out.println(groups);
         res.putObject("list", groups);
+        session.close();
         return res;
     }
 }

@@ -41,7 +41,7 @@ public class MessageActionController extends Controller {
                 logger.info("message " + message.id + " was seen by " + user.getUsername());
                 break;
         }
-
+        session.close();
         return new Packet(StatusCode.OK);
     }
 

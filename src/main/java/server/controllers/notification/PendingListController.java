@@ -25,6 +25,7 @@ public class PendingListController extends Controller {
         for (FollowRequest request: requests)
             users.add(request.getReceiver());
         res.putObject("users", users);
+        session.close();
         return res;
     }
 }

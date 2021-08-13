@@ -108,7 +108,7 @@ public class MessageStore extends Store {
     public synchronized void refreshData() {
         Packet packet = new Packet("message-list");
         if (lastFetch != LocalDateTime.MIN)
-            packet.putObject("after", lastFetch.minusMinutes(1));
+            packet.putObject("after", lastFetch.minusMinutes(5));
         Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
         if (res.getStatus() != StatusCode.OK)
             return;
