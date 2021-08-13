@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.9'
 }
+mainClassName = 'bots.xo.RunXO'
 
 javafx {
     version = "16"
@@ -28,4 +29,14 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     implementation group: 'org.mariuszgromada.math', name: 'MathParser.org-mXparser', version: '4.0.0'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "bots.xo.RunXO"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

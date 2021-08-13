@@ -2,6 +2,7 @@ package shared.util;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.util.Properties;
@@ -24,8 +25,8 @@ public class Config extends Properties {
     private Config(String address) {
         super();
         try {
-            Reader fileReader = new FileReader(Config.class.getResource(address).getFile());
-            this.load(fileReader);
+            InputStreamReader inputStreamReader = new InputStreamReader(Config.class.getResourceAsStream(address));
+            this.load(inputStreamReader);
         } catch (IOException e) {
             System.err.println(address);
             e.printStackTrace();
