@@ -1,6 +1,7 @@
 package server.config;
 
 import server.controllers.*;
+import server.controllers.auth.DeleteAccountController;
 import server.controllers.auth.LoginController;
 import server.controllers.auth.RegisterController;
 import server.controllers.auth.ResetPasswordController;
@@ -49,6 +50,7 @@ public class Routes {
         routes.add(new Route("user-list-list", GetUserListController.class));
         routes.add(new Route("message-action", MessageActionController.class));
         routes.add(new Route("get-group", GetGroupController.class));
+        routes.add(new Route("delete-account", DeleteAccountController.class));
     }
 
     public static ArrayList<Route> getRoutes() {

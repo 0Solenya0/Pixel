@@ -23,6 +23,7 @@ import shared.exception.ValidationException;
 import shared.models.User;
 import shared.models.fields.AccessLevel;
 import shared.request.Packet;
+import shared.request.StatusCode;
 import shared.util.Config;
 
 import java.io.File;
@@ -92,8 +93,11 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
-    void deleteAcc(ActionEvent event) {
-        // TO DO
+    void deleteAcc() {
+        Packet packet = new Packet("delete-account");
+        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        if (res.getStatus() == StatusCode.OK)
+            logout();
     }
 
     @FXML
@@ -124,7 +128,7 @@ public class SettingsController implements Initializable {
     }
 
     @FXML
-    void logout(ActionEvent event) {
+    void logout() {
         MyProfileStore.reset();
         MessageStore.reset();
         AutoUpdate.getRunning().forEach(AutoUpdate::stop);

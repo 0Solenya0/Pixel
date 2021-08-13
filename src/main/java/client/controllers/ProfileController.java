@@ -251,6 +251,7 @@ public class ProfileController {
             return;
 
         setListsVisibility(true);
+        setBlackListVisibility(false);
         if (user.blocked.size() > 0) {
             setBlackListVisibility(true);
             lblBlackListCnt.setText(String.valueOf(user.blocked.size()));
