@@ -56,6 +56,8 @@ public class HibernateUtil {
         }
 
         public void delete(Model model) {
+            if (model == null)
+                return;
             session.beginTransaction();
             session.delete(model);
             session.getTransaction().commit();

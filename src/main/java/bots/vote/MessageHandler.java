@@ -2,11 +2,7 @@ package bots.vote;
 
 import bots.vote.models.Vote;
 import bots.vote.store.VoteStore;
-import client.request.SocketHandler;
-import client.store.MessageStore;
-import client.store.MyProfileStore;
 import com.google.gson.reflect.TypeToken;
-import org.mariuszgromada.math.mxparser.Expression;
 import shared.models.Message;
 import shared.request.Packet;
 import shared.request.StatusCode;
@@ -21,16 +17,12 @@ import java.util.concurrent.Executors;
 public class MessageHandler {
     ExecutorService pool = Executors.newFixedThreadPool(10);
 
-    public MessageHandler() {
-        MessageStore.getInstance().setOnDataRefreshListener(this::getNewMessages);
-    }
-
-    public void getNewMessages() {
+    public synchronized void getNewMessages() {
         Packet packet = new Packet("message-list");
         LocalDateTime lastFetch = VoteStore.getInstance().getLastFetch();
         if (lastFetch != null)
             packet.putObject("after", lastFetch.minusMinutes(1));
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Packet res = PacketManager.getInstance().sendAndGetResponse(packet);
         if (res.getStatus() != StatusCode.OK)
             return;
 
@@ -41,7 +33,7 @@ public class MessageHandler {
 
     public synchronized void answerMessages(ArrayList<Message> messages) {
         for (Message message: messages) {
-            if (message.getSender().id == MyProfileStore.getInstance().getUser().id)
+            if (message.getSender().id == VoteStore.getInstance().getUser().id)
                 continue;
             if (!message.getContent().startsWith("/vote") || message.getContent().length() <= 6)
                 continue;
@@ -79,7 +71,7 @@ public class MessageHandler {
 
     public void createVote(Message req) {
         Message message = new Message();
-        message.setSender(MyProfileStore.getInstance().getUser());
+        message.setSender(VoteStore.getInstance().getUser());
         if (req.getReceiverGroup() == null)
             message.setReceiver(req.getSender());
         else
@@ -130,7 +122,7 @@ public class MessageHandler {
     private Packet sendMessage(Message message) {
         Packet packet = new Packet("send-message");
         packet.putObject("message", message);
-        return SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        return PacketManager.getInstance().sendAndGetResponse(packet);
     }
 
     private void editMessage(int messageId, String content) {
@@ -138,6 +130,6 @@ public class MessageHandler {
         packet.put("type", "edit");
         packet.put("message-id", messageId);
         packet.put("content", content);
-        SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        PacketManager.getInstance().sendAndGetResponse(packet);
     }
 }

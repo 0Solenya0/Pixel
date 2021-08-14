@@ -1,12 +1,7 @@
 package bots.xo;
 
-import bots.vote.models.Vote;
-import bots.vote.store.VoteStore;
 import bots.xo.models.Game;
 import bots.xo.store.GameStore;
-import client.request.SocketHandler;
-import client.store.MessageStore;
-import client.store.MyProfileStore;
 import com.google.gson.reflect.TypeToken;
 import shared.models.Message;
 import shared.request.Packet;
@@ -22,16 +17,12 @@ import java.util.concurrent.Executors;
 public class MessageHandler {
     ExecutorService pool = Executors.newFixedThreadPool(10);
 
-    public MessageHandler() {
-        MessageStore.getInstance().setOnDataRefreshListener(this::getNewMessages);
-    }
-
     public void getNewMessages() {
         Packet packet = new Packet("message-list");
         LocalDateTime lastFetch = GameStore.getInstance().getLastFetch();
         if (lastFetch != null)
             packet.putObject("after", lastFetch.minusMinutes(1));
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Packet res = PacketManager.getInstance().sendAndGetResponse(packet);
         if (res.getStatus() != StatusCode.OK)
             return;
 
@@ -42,7 +33,7 @@ public class MessageHandler {
 
     public synchronized void answerMessages(ArrayList<Message> messages) {
         for (Message message: messages) {
-            if (message.getSender().id == MyProfileStore.getInstance().getUser().id)
+            if (message.getSender().id == GameStore.getInstance().getUser().id)
                 continue;
             if (!message.getContent().startsWith("/xo") || message.getContent().length() <= 4)
                 continue;
@@ -69,7 +60,7 @@ public class MessageHandler {
 
     public void gameJoin(Message req) {
         Message message = new Message();
-        message.setSender(MyProfileStore.getInstance().getUser());
+        message.setSender(GameStore.getInstance().getUser());
         if (req.getReceiverGroup() == null)
             message.setReceiver(req.getSender());
         else
@@ -101,7 +92,7 @@ public class MessageHandler {
 
     public void gameMove(Message req) {
         Message message = new Message();
-        message.setSender(MyProfileStore.getInstance().getUser());
+        message.setSender(GameStore.getInstance().getUser());
         if (req.getReceiverGroup() == null)
             message.setReceiver(req.getSender());
         else
@@ -139,7 +130,7 @@ public class MessageHandler {
 
     public void createGame(Message req) {
         Message message = new Message();
-        message.setSender(MyProfileStore.getInstance().getUser());
+        message.setSender(GameStore.getInstance().getUser());
         if (req.getReceiverGroup() == null)
             message.setReceiver(req.getSender());
         else
@@ -190,7 +181,7 @@ public class MessageHandler {
     private Packet sendMessage(Message message) {
         Packet packet = new Packet("send-message");
         packet.putObject("message", message);
-        return SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        return PacketManager.getInstance().sendAndGetResponse(packet);
     }
 
     private void editMessage(int messageId, String content) {
@@ -198,6 +189,6 @@ public class MessageHandler {
         packet.put("type", "edit");
         packet.put("message-id", messageId);
         packet.put("content", content);
-        SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        PacketManager.getInstance().sendAndGetResponse(packet);
     }
 }

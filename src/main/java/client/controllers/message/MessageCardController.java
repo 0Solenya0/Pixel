@@ -82,6 +82,12 @@ public class MessageCardController {
             packet.put("message-id", message.id);
             Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
             success = (res.getStatus() == StatusCode.OK);
+            if (success) {
+                if (message.getReceiver() != null)
+                    MessageStore.getInstance().getByUser(message.getReceiver()).removeIf((m) -> m.id == message.id);
+                else
+                    MessageStore.getInstance().getByGroup(message.getReceiverGroup()).removeIf((m) -> m.id == message.id);
+            }
         }
         else {
             MessageStore.getInstance().getPendingMessages().remove(message);
