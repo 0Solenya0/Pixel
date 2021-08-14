@@ -153,6 +153,14 @@ public class MessageStore extends Store {
         return groups;
     }
 
+    public ArrayList<Message> getGroupMessages(Group group) {
+        return groupMessages.get(group);
+    }
+
+    public ArrayList<Message> getUserMessages(User user) {
+        return userMessages.get(user);
+    }
+
     @Override
     protected String getDataSource() {
         return "./db/client/messages/store.json";

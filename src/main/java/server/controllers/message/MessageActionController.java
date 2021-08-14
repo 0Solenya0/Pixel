@@ -23,7 +23,6 @@ public class MessageActionController extends Controller {
         switch (req.get("type")) {
             case "delete":
                 session.delete(message);
-                notifyUser(message);
                 logger.info("message " + message.id + " was deleted");
                 break;
             case "edit":

@@ -84,9 +84,9 @@ public class MessageCardController {
             success = (res.getStatus() == StatusCode.OK);
             if (success) {
                 if (message.getReceiver() != null)
-                    MessageStore.getInstance().getByUser(message.getReceiver()).removeIf((m) -> m.id == message.id);
+                    MessageStore.getInstance().getUserMessages(message.getReceiver()).removeIf((m) -> m.id == message.id);
                 else
-                    MessageStore.getInstance().getByGroup(message.getReceiverGroup()).removeIf((m) -> m.id == message.id);
+                    MessageStore.getInstance().getGroupMessages(message.getReceiverGroup()).removeIf((m) -> m.id == message.id);
             }
         }
         else {
