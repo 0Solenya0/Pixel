@@ -1,4 +1,4 @@
-package bots;
+package bots.bot.store;
 
 import client.store.Store;
 

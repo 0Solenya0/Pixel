@@ -10,15 +10,16 @@ import shared.models.fields.AccessLevel;
 import shared.request.Packet;
 
 public class RunXO {
-    public static void main(String[] args) throws ValidationException, ConnectionException {
-        register();
+    public static String main() throws ValidationException, ConnectionException {
+        return "abbas";
+        /*register();
         login();
         MyProfileStore.getInstance().updateUserProfile();
         MyProfileStore.getInstance().getUser().setVisibility(AccessLevel.PUBLIC);
         MyProfileStore.getInstance().commitChanges();
         MessageStore.getInstance().refreshData();
         GameStore.setInstance((GameStore) GameStore.getInstance().load());
-        MessageHandler messageHandler = new MessageHandler();
+        MessageHandler messageHandler = new MessageHandler();*/
     }
 
     public static void register() {

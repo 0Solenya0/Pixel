@@ -1,6 +1,6 @@
 package bots.xo.store;
 
-import bots.BotStore;
+import bots.bot.store.BotStore;
 import bots.xo.models.Game;
 
 import java.util.HashMap;

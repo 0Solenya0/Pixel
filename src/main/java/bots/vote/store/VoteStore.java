@@ -1,12 +1,9 @@
 package bots.vote.store;
 
-import bots.BotStore;
+import bots.bot.store.BotStore;
 import bots.vote.models.Vote;
-import client.store.Store;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class VoteStore extends BotStore {
     private static VoteStore instance;

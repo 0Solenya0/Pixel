@@ -19,16 +19,12 @@ import java.util.concurrent.Executors;
 public class MessageHandler {
     ExecutorService pool = Executors.newFixedThreadPool(10);
 
-    public MessageHandler() {
-        MessageStore.getInstance().setOnDataRefreshListener(this::getNewMessages);
-    }
-
-    public void getNewMessages() {
+    public synchronized void getNewMessages() {
         Packet packet = new Packet("message-list");
         LocalDateTime lastFetch = CalculatorStore.getInstance().getLastFetch();
         if (lastFetch != null)
             packet.putObject("after", lastFetch.minusMinutes(1));
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Packet res = PacketManager.getInstance().sendAndGetResponse(packet);
         if (res.getStatus() != StatusCode.OK)
             return;
 
@@ -39,7 +35,7 @@ public class MessageHandler {
 
     public synchronized void answerMessages(ArrayList<Message> messages) {
         for (Message message: messages) {
-            if (message.getSender().id == MyProfileStore.getInstance().getUser().id)
+            if (message.getSender().id == CalculatorStore.getInstance().getUser().id)
                 continue;
             if (!message.getContent().startsWith("/calc") || message.getContent().length() <= 6)
                 continue;
@@ -53,7 +49,7 @@ public class MessageHandler {
 
     public void answerMessage(Message req) {
         Message message = new Message();
-        message.setSender(MyProfileStore.getInstance().getUser());
+        message.setSender(CalculatorStore.getInstance().getUser());
         if (req.getReceiverGroup() == null)
             message.setReceiver(req.getSender());
         else
@@ -71,7 +67,7 @@ public class MessageHandler {
 
         Packet packet = new Packet("send-message");
         packet.putObject("message", message);
-        Packet res = SocketHandler.getSocketHandlerWithoutException().sendPacketAndGetResponse(packet);
+        Packet res = PacketManager.getInstance().sendAndGetResponse(packet);
         if (res.getStatus() != StatusCode.CREATED)
             CalculatorStore.getInstance().unAnswer(req.id);
         CalculatorStore.getInstance().save();

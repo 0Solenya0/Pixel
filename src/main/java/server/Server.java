@@ -1,12 +1,15 @@
 package server;
 
 import server.config.Config;
+import server.handler.BotHandler;
 import server.handler.SocketHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -37,18 +40,18 @@ public class Server {
                         e.printStackTrace();
                     }
                 } else if (s.startsWith("load")) {
-                    String path = s.substring(5);
-                    Thread thread1 = new Thread(() -> {
+                    String rest = s.substring(5);
+                    Scanner sc = new Scanner(rest);
+                    String path = sc.next(), claz = sc.next();
+                    pool.execute(() -> {
                         try {
-                            ProcessBuilder pb = new ProcessBuilder("java", "-jar", path);
-                            pb.directory(new File("."));
-                            Process p = pb.start();
-                        } catch (IOException e) {
-                            logger.error("failed to load bot");
+                            new BotHandler(path, claz);
+                        } catch (Exception e) {
                             e.printStackTrace();
+                            logger.error("failed to connect bot");
+                            System.out.println("Bot Failed");
                         }
                     });
-                    thread1.start();
                 }
             }
         });

@@ -1,5 +1,6 @@
 package server.utils;
 
+import server.handler.BotHandler;
 import server.handler.SocketHandler;
 import server.middlewares.Auth;
 import shared.models.User;
@@ -12,9 +13,12 @@ public class Functions {
 
     public static void notifyRefreshMessage(List<User> users) {
         for (User user: users) {
-            for (SocketHandler socketHandler: Auth.getUserSocketHandler(user.id)) {
+            for (Integer hId: Auth.getUserHandlerIds(user.id)) {
                 Packet packet = new Packet("refresh-message");
-                socketHandler.sendPacket(packet);
+                if (hId > 0)
+                    SocketHandler.getSocketHandler(hId).sendPacket(packet);
+                else
+                    BotHandler.getBotHandler(hId).sendPacket(packet);
             }
         }
     }
